@@ -4,6 +4,7 @@ import vue from 'eslint-plugin-vue'
 import { defineConfig } from 'eslint/config'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+import vueParser from 'vue-eslint-parser'
 
 export default defineConfig([
   js.configs.recommended,
@@ -12,12 +13,13 @@ export default defineConfig([
   {
     rules: {
       ...prettier.rules,
+      'vue/multi-word-component-names': 'off',
     },
   },
   {
     files: ['**/*.{js,ts,vue}'],
     languageOptions: {
-      parser: tseslint.parser,
+      parser: vueParser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
