@@ -1,4 +1,3 @@
-<!-- components/buttons/BaseButton.vue -->
 <template>
   <button
     :class="computedClass"
