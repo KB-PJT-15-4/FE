@@ -6,6 +6,8 @@
 </template>
 
 <script>
+const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY;
+
 export default {
   name: 'KakaoMap',
   mounted() {
@@ -14,8 +16,7 @@ export default {
     } else {
       const script = document.createElement('script');
       script.onload = this.initMap;
-      script.src =
-        '//dapi.kakao.com/v2/maps/sdk.js?appkey=9ca00b05c25bfc609e5c9ad6de9602d9&autoload=false';
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&autoload=false`;
       document.head.appendChild(script);
     }
   },
@@ -35,5 +36,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
