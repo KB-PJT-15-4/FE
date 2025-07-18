@@ -2,11 +2,11 @@
   <div>
     <ButtonMain>hello button</ButtonMain>
     <ButtonRoundMain>hello button</ButtonRoundMain>
-    <ButtonSmallMain>hello button</ButtonSmallMain>
     <ButtonSub>hello button</ButtonSub>
+    <ButtonSmallMain>hello button</ButtonSmallMain>
     <ButtonSmallSub>hello button</ButtonSmallSub>
     <ButtonMain disabled>
-      hello button
+      hello disabled button
     </ButtonMain>
   </div>
 </template>
