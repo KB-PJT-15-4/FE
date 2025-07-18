@@ -28,7 +28,23 @@ export default {
           center: new window.kakao.maps.LatLng(33.450701, 126.570667),
           level: 3,
         };
-        new window.kakao.maps.Map(container, options);
+
+        // 지도 생성
+        const map = new window.kakao.maps.Map(container, options);
+
+        // 마커 위치 지정
+        const markerPosition = new window.kakao.maps.LatLng(33.450701, 126.570667);
+
+        // 마커 생성
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+        });
+
+        // 마커를 지도에 표시
+        marker.setMap(map);
+
+        // 필요 시 마커 제거는 아래처럼 사용 가능
+        // marker.setMap(null);
       });
     },
   },
