@@ -41,13 +41,15 @@ const shapeClasses = {
 
 const computedClass = computed(() => {
   const base =
-    'box-border border border-gray-200 flex items-center justify-center gap-2  outline-none'
-  const variant = variantClasses[props.variant || 'main']
+    'box-border border border-gray-200 flex items-center justify-center gap-2 outline-none disabled:opacity-50 disabled:cursor-not-allowed'
   const size = sizeClasses[props.size || 'default']
   const shape = shapeClasses[props.shape || 'rounded']
-  const disabledClass = props.disabled ? 'bg-otl-disabled text-white' : ''
 
-  return `${base} ${variant} ${size} ${shape} ${disabledClass}`
+  const finalVariant = props.disabled
+    ? 'bg-moa-disabled text-white cursor-not-allowed'
+    : variantClasses[props.variant || 'main']
+
+  return `${base} ${size} ${shape} ${finalVariant}`
 })
 
 const typographyComponent = computed(() => {
