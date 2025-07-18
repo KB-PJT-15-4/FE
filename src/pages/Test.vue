@@ -8,6 +8,8 @@
     <ButtonMain disabled>
       hello button
     </ButtonMain>
+
+    <Map />
   </div>
 </template>
 <script setup>
@@ -16,4 +18,6 @@ import ButtonRoundMain from '@/shared/components/atoms/buttons/ButtonRoundMain.v
 import ButtonSmallMain from '@/shared/components/atoms/buttons/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/buttons/ButtonSmallSub.vue'
 import ButtonSub from '@/shared/components/atoms/buttons/ButtonSub.vue'
+
+import Map from '@/shared/components/atoms/map/Map.vue'
 </script>
