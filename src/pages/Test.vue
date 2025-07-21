@@ -83,6 +83,11 @@
         {{ item.label }}
       </Option>
     </SelectSmall>
+    <DateTab
+      v-model="selected"
+      start-date="2025-07-27"
+      end-date="2025-08-03"
+    />
 
     <TypographyHead2>Tag</TypographyHead2>
     <Tag color="pink">
@@ -121,7 +126,9 @@ import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
+import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 const selected = ref('')
+const selectedDate = ref('2025-07-30')
 
 const options = [
   { value: 'apple', label: '사과' },
