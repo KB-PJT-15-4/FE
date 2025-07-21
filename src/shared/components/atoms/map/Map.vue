@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import { mockData } from '@/entities/map/map.mock';
+import { mockData } from '@/entities/map/map.mock'; // mock 데이터 가져오기
+import { formatFullDateToKorean } from '@/shared/utils/format'; // 포맷팅
 
 const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY;
 
@@ -34,7 +35,6 @@ export default {
 
         const map = new window.kakao.maps.Map(container, options);
 
-        // 지도 컨트롤 추가
         const mapTypeControl = new window.kakao.maps.MapTypeControl();
         map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
 
@@ -48,6 +48,8 @@ export default {
           const position = new window.kakao.maps.LatLng(item.latitude, item.longitude);
           const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize);
 
+          const formattedDate = formatFullDateToKorean(new Date(item.date));
+
           const marker = new window.kakao.maps.Marker({
             map,
             position,
@@ -58,7 +60,7 @@ export default {
           const overlayContent = `
             <div class="bg-white border border-gray-300 rounded-lg shadow-md text-center p-3 min-w-[160px]">
               <div class="font-semibold text-gray-800 mb-1">${item.name}</div>
-              <div class="text-sm text-gray-600">${item.date}</div>
+              <div class="text-sm text-gray-600">${formattedDate}</div>
             </div>
           `;
 
@@ -80,6 +82,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
