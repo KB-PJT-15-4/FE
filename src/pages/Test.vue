@@ -107,6 +107,11 @@
     <Tag color="yellow">
       Tag1
     </Tag>
+    <Card>
+      <div>
+        <TypographyHead1>hello world</TypographyHead1>
+      </div>
+    </Card>
   </div>
 </template>
 <script setup>
@@ -119,6 +124,7 @@ import ButtonRoundMain from '@/shared/components/atoms/button/ButtonRoundMain.vu
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import ButtonSub from '@/shared/components/atoms/button/ButtonSub.vue'
+import Card from '@/shared/components/atoms/card/Card.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import InputMedium from '@/shared/components/atoms/input/InputMedium.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
@@ -137,7 +143,6 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
-
 const toggleOptions = ['option1', 'option2']
 const segmentedOptions = ['option1', 'option2', 'option3', 'option4']
 const options = [
