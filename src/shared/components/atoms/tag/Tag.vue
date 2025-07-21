@@ -20,7 +20,7 @@ const colorClasses = {
 }
 const computedClass = computed(() => {
   const base =
-    'box-border border flex items-center justify-center gap-2 outline-none px-3 rounded-[5px] text-white'
+    'box-border border flex items-center justify-center w-[60px] gap-2 outline-none px-3 rounded-[5px] text-white'
   const color = colorClasses[props.color || 'main']
 
   return `${base} ${color}`
