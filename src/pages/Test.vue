@@ -83,6 +83,17 @@
         {{ item.label }}
       </Option>
     </SelectSmall>
+
+    <TypographyHead2>Tag</TypographyHead2>
+    <Tag color="pink">
+      Tag1
+    </Tag>
+    <Tag color="main">
+      Tag1
+    </Tag>
+    <Tag color="yellow">
+      Tag1
+    </Tag>
   </div>
 </template>
 <script setup>
@@ -101,6 +112,7 @@ import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import SelectSmall from '@/shared/components/atoms/input/SelectSmall.vue'
+import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
