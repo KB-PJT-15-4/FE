@@ -30,8 +30,8 @@ const variantClasses = {
 }
 
 const sizeClasses = {
-  default: 'w-[300px] h-[50px]',
-  small: 'w-[115px] h-[40px]',
+  default: 'w-[355px] h-[50px]',
+  small: 'w-[115px] h-[50px]',
 }
 
 const shapeClasses = {

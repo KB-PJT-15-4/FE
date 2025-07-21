@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col gap-3">
-    <div>
+  <div class="flex flex-col gap-3 p-2 justify-center items-center w-full">
+    <div class="w-full">
       <TypographyHead2 class="mb-4">
         Typography
       </TypographyHead2>
@@ -20,7 +20,7 @@
         TypographySuccess
       </TypographyCaption>
     </div>
-    <div>
+    <div class="w-full">
       <TypographyHead2 class="mb-4">
         Button
       </TypographyHead2>
@@ -34,7 +34,7 @@
         hello disabled button
       </ButtonMain>
     </div>
-    <div>
+    <div class="w-full">
       <TypographyHead2 class="mb-4">
         Input
       </TypographyHead2>
