@@ -25,7 +25,7 @@ const onChange = (e: Event) => {
 </script>
 
 <template>
-  <div class="relative w-full max-w-[335px]">
+  <div class="relative w-full">
     <select
       :class="computedClass"
       :value="modelValue"

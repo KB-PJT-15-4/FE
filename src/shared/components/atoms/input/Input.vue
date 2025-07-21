@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <span
       v-if="icon"
       class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
