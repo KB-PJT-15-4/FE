@@ -39,7 +39,8 @@
     <ButtonMain disabled>
       hello disabled button
     </ButtonMain>
-
+    <Map />
+    
     <TypographyHead2 class="mb-4">
       Input
     </TypographyHead2>
@@ -117,6 +118,12 @@
 <script setup>
 import { ref } from 'vue'
 
+import ButtonMain from '@/shared/components/atoms/buttons/ButtonMain.vue'
+import ButtonRoundMain from '@/shared/components/atoms/buttons/ButtonRoundMain.vue'
+import ButtonSmallMain from '@/shared/components/atoms/buttons/ButtonSmallMain.vue'
+import ButtonSmallSub from '@/shared/components/atoms/buttons/ButtonSmallSub.vue'
+import ButtonSub from '@/shared/components/atoms/buttons/ButtonSub.vue'
+import Map from '@/shared/components/atoms/map/Map.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
