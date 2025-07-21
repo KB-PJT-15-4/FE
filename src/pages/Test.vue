@@ -107,6 +107,11 @@
     <Tag color="yellow">
       Tag1
     </Tag>
+    <Card>
+      <div>
+        <TypographyHead1>hello world</TypographyHead1>
+      </div>
+    </Card>
   </div>
 </template>
 <script setup>
@@ -119,6 +124,7 @@ import ButtonRoundMain from '@/shared/components/atoms/button/ButtonRoundMain.vu
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import ButtonSub from '@/shared/components/atoms/button/ButtonSub.vue'
+import Card from '@/shared/components/atoms/card/Card.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import InputMedium from '@/shared/components/atoms/input/InputMedium.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
