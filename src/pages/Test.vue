@@ -39,16 +39,32 @@
         Input
       </TypographyHead2>
       <Input placeholder="hello input" />
+      <Select
+        v-model="selected"
+        placeholder="선택하세요"
+      >
+        <Option
+          v-for="item in options"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </Option>
+      </Select>
     </div>
   </div>
 </template>
 <script setup>
+import { ref } from 'vue'
+
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import ButtonRoundMain from '@/shared/components/atoms/button/ButtonRoundMain.vue'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import ButtonSub from '@/shared/components/atoms/button/ButtonSub.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
+import Option from '@/shared/components/atoms/input/Option.vue'
+import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
@@ -57,4 +73,12 @@ import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
+
+const selected = ref('')
+
+const options = [
+  { value: 'apple', label: '사과' },
+  { value: 'banana', label: '바나나' },
+  { value: 'grape', label: '포도' },
+]
 </script>
