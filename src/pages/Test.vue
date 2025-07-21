@@ -143,7 +143,6 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
-
 const toggleOptions = ['option1', 'option2']
 const segmentedOptions = ['option1', 'option2', 'option3', 'option4']
 const options = [
