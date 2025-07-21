@@ -13,7 +13,7 @@ const emit = defineEmits<{
 
 const computedClass = computed(() => {
   return [
-    'box-border h-[50px] w-[355px] appearance-none rounded-md border pl-5 pr-10 text-sm focus:border-moa-main focus:border-2 focus:outline-none',
+    'box-border h-[50px] w-[355px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
     props.class,
   ]
 })
@@ -25,7 +25,7 @@ const onChange = (e: Event) => {
 </script>
 
 <template>
-  <div class="relative w-[300px]">
+  <div class="relative w-[335px]">
     <select
       :class="computedClass"
       :value="modelValue"
@@ -43,7 +43,7 @@ const onChange = (e: Event) => {
       </option>
       <slot />
     </select>
-    <div class="pointer-events-none right-[-35px] absolute top-1/2 -translate-y-1/2">
+    <div class="pointer-events-none right-0 absolute top-1/2 -translate-y-1/2">
       <i class="bi bi-chevron-down text-gray-500 text-lg" />
     </div>
   </div>

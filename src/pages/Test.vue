@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-3 p-2 justify-center items-center w-full">
+  <div class="flex flex-col gap-3 p-2 justify-center items-center w-full max-w-[390px] m-auto">
     <div class="w-full">
       <TypographyHead2 class="mb-4">
         Typography
@@ -28,8 +28,10 @@
       <ButtonMain>hello button</ButtonMain>
       <ButtonRoundMain>hello button</ButtonRoundMain>
       <ButtonSub>hello button</ButtonSub>
+
       <ButtonSmallMain>hello button</ButtonSmallMain>
       <ButtonSmallSub>hello button</ButtonSmallSub>
+
       <ButtonMain disabled>
         hello disabled button
       </ButtonMain>
