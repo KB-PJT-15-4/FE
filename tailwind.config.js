@@ -11,6 +11,7 @@ export default {
       colors: {
         'moa-main': '#87BFFF',
         'moa-disabled': '#CCCCCC',
+        'moa-gray': '#EEEEEE',
         'moa-error': '#DB0000',
         'moa-success': '#009F2C',
         'moa-main-text': '#3E3E3E',
