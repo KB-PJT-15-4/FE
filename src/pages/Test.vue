@@ -38,7 +38,7 @@
       hello disabled button
     </ButtonMain>
     <Map />
-    
+
     <TypographyHead2 class="mb-4">
       Input
     </TypographyHead2>
@@ -114,14 +114,6 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-
-import ButtonMain from '@/shared/components/atoms/buttons/ButtonMain.vue'
-import ButtonRoundMain from '@/shared/components/atoms/buttons/ButtonRoundMain.vue'
-import ButtonSmallMain from '@/shared/components/atoms/buttons/ButtonSmallMain.vue'
-import ButtonSmallSub from '@/shared/components/atoms/buttons/ButtonSmallSub.vue'
-import ButtonSub from '@/shared/components/atoms/buttons/ButtonSub.vue'
-import Map from '@/shared/components/atoms/map/Map.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
@@ -130,7 +122,6 @@ import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vu
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import ButtonSub from '@/shared/components/atoms/button/ButtonSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
-import Input from '@/shared/components/atoms/input/Input.vue'
 import InputMedium from '@/shared/components/atoms/input/InputMedium.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
@@ -148,6 +139,8 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
+import { ref } from 'vue'
+
 const toggleOptions = ['option1', 'option2']
 const segmentedOptions = ['option1', 'option2', 'option3', 'option4']
 const options = [
