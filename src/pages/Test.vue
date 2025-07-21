@@ -1,7 +1,7 @@
 <template>
-  <div className="flex flex-col gap-3">
+  <div class="flex flex-col gap-3">
     <div>
-      <TypographyHead2 class-name="mb-4">
+      <TypographyHead2 class="mb-4">
         Typography
       </TypographyHead2>
 
@@ -13,15 +13,15 @@
       <TypographyP1>TypographyP1</TypographyP1>
       <TypographyP2>TypographyP2</TypographyP2>
       <TypographyCaption>TypographyCaption</TypographyCaption>
-      <TypographyCaption class-name="text-moa-error">
+      <TypographyCaption class="text-moa-error">
         TypographyError
       </TypographyCaption>
-      <TypographyCaption class-name="text-moa-success">
+      <TypographyCaption class="text-moa-success">
         TypographySuccess
       </TypographyCaption>
     </div>
     <div>
-      <TypographyHead2 class-name="mb-4">
+      <TypographyHead2 class="mb-4">
         Button
       </TypographyHead2>
 
@@ -35,7 +35,7 @@
       </ButtonMain>
     </div>
     <div>
-      <TypographyHead2 class-name="mb-4">
+      <TypographyHead2 class="mb-4">
         Input
       </TypographyHead2>
       <InputDefault placeholder="hello input" />
