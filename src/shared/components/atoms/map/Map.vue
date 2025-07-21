@@ -6,10 +6,10 @@
 </template>
 
 <script>
-const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY; // 카카오맵 API값 입력 후 변수로 선언
+const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY; // 카카오맵 API 키
 
 export default {
-  name: 'KakaoMap', 
+  name: 'KakaoMap',
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -25,13 +25,21 @@ export default {
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(36.9705, 127.9522), // 지도 중심 좌표값 (현재 충주시)
-          level: 9, // 지도 확대 비율
+          center: new window.kakao.maps.LatLng(36.9705, 127.9522), // 충주시
+          level: 9,
         };
 
         const map = new window.kakao.maps.Map(container, options);
 
-        // 마커를 표시할 위치와 title 객체 배열
+        // 지도 타입 컨트롤 생성 및 추가 (일반/스카이뷰 전환용)
+        const mapTypeControl = new window.kakao.maps.MapTypeControl();
+        map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT);
+
+        // 줌 컨트롤 생성 및 추가 (확대/축소 버튼)
+        const zoomControl = new window.kakao.maps.ZoomControl();
+        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
+        // 마커 정보
         const positions = [
           {
             title: '부산 해운대구',
@@ -47,15 +55,14 @@ export default {
           },
         ];
 
-        // 마커 이미지 설정
         const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
         const imageSize = new window.kakao.maps.Size(24, 35);
 
-        // positions 배열을 순회하며 마커 생성
+        // 마커 생성
         positions.forEach(position => {
           const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize);
-          const marker = new window.kakao.maps.Marker({
-            map: map,
+          new window.kakao.maps.Marker({
+            map,
             position: position.latlng,
             title: position.title,
             image: markerImage,
