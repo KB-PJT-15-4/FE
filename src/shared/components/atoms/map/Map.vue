@@ -1,7 +1,7 @@
 <template>
   <div
     id="map"
-    style="width: 100%; height: 350px;"
+    style="width: 390px; height: 350px;"
   />
 </template>
 
@@ -9,7 +9,7 @@
 const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY; // 카카오맵 API값 입력 후 변수로 선언
 
 export default {
-  name: 'KakaoMap',
+  name: 'KakaoMap', 
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
