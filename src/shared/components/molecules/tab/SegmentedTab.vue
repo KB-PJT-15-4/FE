@@ -4,12 +4,14 @@
       v-for="option in options"
       :key="option"
       :class="[
-        'w-[70px] h-[30px] px-10 py-4 rounded-full flex items-center justify-center transition text-moa-main-text font-semibold',
+        'w-[70px] h-[35px] px-10 py-4 rounded-full flex items-center justify-center transition text-moa-main-text font-semibold',
         modelValue === option && 'bg-moa-gray',
       ]"
       @click="selectOption(option)"
     >
-      <TypographyP1>{{ option }}</TypographyP1>
+      <TypographyP1 class="whitespace-nowrap">
+        {{ option }}
+      </TypographyP1>
     </button>
   </div>
 </template>
