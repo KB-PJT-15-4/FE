@@ -38,7 +38,7 @@
       <TypographyHead2 class="mb-4">
         Input
       </TypographyHead2>
-      <InputDefault placeholder="hello input" />
+      <Input placeholder="hello input" />
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@ import ButtonRoundMain from '@/shared/components/atoms/button/ButtonRoundMain.vu
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import ButtonSub from '@/shared/components/atoms/button/ButtonSub.vue'
-import InputDefault from '@/shared/components/atoms/input/InputDefault.vue'
+import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
