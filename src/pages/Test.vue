@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col gap-3 justify-center items-center max-w-[390px] w-full m-auto px-[16px]"
-  >
+  <div class="">
     <TypographyHead2 class="mb-4">
       Typography
     </TypographyHead2>

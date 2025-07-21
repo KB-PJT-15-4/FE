@@ -23,6 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import URL from '@/shared/constants/URL'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 defineProps<{
   modelValue: string
 }>()
@@ -32,12 +37,16 @@ const emit = defineEmits<{
 }>()
 
 const tabs = [
-  { icon: 'bi-airplane', value: 'trip' },
-  { icon: 'bi-house', value: 'home' },
-  { icon: 'bi-pin-map', value: 'record' },
+  { icon: 'bi-airplane', value: 'trip', location: URL.PAGE.TRIP },
+  { icon: 'bi-house', value: 'home', location: URL.PAGE.HOME },
+  { icon: 'bi-pin-map', value: 'record', location: URL.PAGE.MAP },
 ]
 
 const selectTab = (tab: string) => {
+  const selected = tabs.find((t) => t.value === tab)
+  if (!selected) return
+
   emit('update:modelValue', tab)
+  router.push(selected.location)
 }
 </script>
