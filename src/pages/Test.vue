@@ -84,9 +84,17 @@
       </Option>
     </SelectSmall>
     <DateTab
-      v-model="selected"
+      v-model="selectedDate"
       start-date="2025-07-27"
       end-date="2025-08-03"
+    />
+    <ToggleTab
+      v-model="selectedOption"
+      :options="toggleOptions"
+    />
+    <SegmentedTab
+      v-model="selectedSegmentOption"
+      :options="segmentedOptions"
     />
 
     <TypographyHead2>Tag</TypographyHead2>
@@ -127,12 +135,19 @@ import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
-const selected = ref('')
-const selectedDate = ref('2025-07-30')
+import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
+import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 
+const toggleOptions = ['option1', 'option2']
+const segmentedOptions = ['option1', 'option2', 'option3', 'option4']
 const options = [
   { value: 'apple', label: '사과' },
   { value: 'banana', label: '바나나' },
   { value: 'grape', label: '포도' },
 ]
+
+const selected = ref('')
+const selectedDate = ref('2025-07-30')
+const selectedOption = ref(toggleOptions[0])
+const selectedSegmentOption = ref(segmentedOptions[0])
 </script>
