@@ -14,7 +14,7 @@
 import { computed } from 'vue'
 
 type Variant = 'main' | 'sub'
-type Size = 'default' | 'small'
+type Size = 'default' | 'medium' | 'small'
 type Shape = 'rounded' | 'round'
 
 const props = defineProps<{
@@ -31,6 +31,7 @@ const variantClasses = {
 
 const sizeClasses = {
   default: 'w-full max-w-[355px] h-[50px]',
+  medium: 'w-full max-w-[165px] h-[50px]',
   small: 'w-full max-w-[115px] h-[50px]',
 }
 
