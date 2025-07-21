@@ -43,6 +43,7 @@ export default {
         map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
         // 개별 마커, 오버레이
+        // title, desc, 페이지 링크 백엔드에서 데이터 값 받아서 사용할 수 있도록 변경예정
         const positions = [
           {
             title: '부산 해운대구',
