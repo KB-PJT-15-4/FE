@@ -6,7 +6,7 @@
         :key="tab.value"
         :class="[
           'flex flex-col items-center justify-center',
-          modelValue === tab.value && 'text-moa-main',
+          isActive(tab.value) && 'text-moa-main',
         ]"
         @click="selectTab(tab.value)"
       >
@@ -14,7 +14,7 @@
           :class="[
             'bi text-2xl transition',
             tab.icon,
-            modelValue === tab.value ? 'text-moa-primary' : 'text-black',
+            isActive(tab.value) ? 'text-moa-main' : 'text-black',
           ]"
         />
       </button>
@@ -24,9 +24,10 @@
 
 <script setup lang="ts">
 import URL from '@/shared/constants/URL'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 
 defineProps<{
   modelValue: string
@@ -42,6 +43,14 @@ const tabs = [
   { icon: 'bi-pin-map', value: 'record', location: URL.PAGE.MAP },
 ]
 
+const isActive = (tabValue: string): boolean => {
+  const path = route.path
+  console.log(path)
+  if (tabValue === 'trip') return path.startsWith('/trip')
+  if (tabValue === 'home') return path === URL.PAGE.HOME
+  if (tabValue === 'record') return path.startsWith('/record')
+  return false
+}
 const selectTab = (tab: string) => {
   const selected = tabs.find((t) => t.value === tab)
   if (!selected) return
