@@ -8,6 +8,7 @@ import TripDetail from '@/pages/TripDetail.vue'
 import TripList from '@/pages/TripList.vue'
 import URL from '@/shared/constants/URL'
 import { createRouter, createWebHistory } from 'vue-router'
+import Map from '@/pages/Map.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,11 @@ const router = createRouter({
       name: 'create_trip',
       component: CreateTrip,
     },
+    {
+      path: URL.PAGE.MAP,
+      name: 'map',
+      component: Map,
+    }
   ],
 })
 

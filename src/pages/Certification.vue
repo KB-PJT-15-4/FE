@@ -39,7 +39,7 @@
     </div>
 
     <div class="w-full flex justify-between gap-4">
-      <ButtonMain class="w-1/2 bg-white text-[#626262]">
+      <ButtonMain class="w-1/2 bg-white !text-[#000000]">
         취소
       </ButtonMain>
       <ButtonMain class="w-1/2">
