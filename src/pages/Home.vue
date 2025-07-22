@@ -1,7 +1,14 @@
 <template>
   <div class="w-full flex flex-col gap-5">
+    <IdCard
+      v-if="showIdCard"
+      @close="showIdCard = false"
+    />
     <TypographyHead1>강민재님의 전자지갑</TypographyHead1>
-    <Card class="flex justify-center items-center">
+    <Card
+      class="flex justify-center items-center cursor-pointer"
+      @click="showIdCard = true"
+    >
       <TypographyHead3>주민등록증 조회</TypographyHead3>
     </Card>
     <Card class="flex justify-center items-center">
@@ -57,6 +64,9 @@
 import { ref } from 'vue'
 
 import { userReservationListMockData, userTripListMockData } from '@/entities/trip/trip.mock'
+import { formatFullDateToKorean } from '@/shared/utils/format'
+
+import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
@@ -66,8 +76,9 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
-import { formatFullDateToKorean } from '@/shared/utils/format'
+
 const selected = ref('')
+const showIdCard = ref(false)
 
 const tripList = userTripListMockData
 const tripOptions = tripList.map((trip) => ({
