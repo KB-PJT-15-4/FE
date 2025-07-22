@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen flex flex-col justify-center items-center gap-8 px-6">
+  <div class="w-full h-screen flex flex-col justify-center items-center gap-8">
     <img
       :src="logo"
       alt="moa logo"
@@ -37,4 +37,3 @@ import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
 import logo from '@/assets/moa_logo.jpg'
 </script>
-

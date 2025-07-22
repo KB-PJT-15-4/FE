@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen flex flex-col justify-center items-center gap-8 px-6">
+  <div class="w-full h-screen flex flex-col justify-center items-center gap-8">
     <img
       :src="logo"
       alt="moa logo"
@@ -14,25 +14,32 @@
     <div class="w-full flex flex-col gap-4">
       <Input placeholder="이름을 입력해주세요" />
 
-      <!-- input 크기 조절 필요하고, input 사이에 - 추가 필요 -->
-      <div class="flex gap-1">
-        <InputSmall placeholder="주민등록번호" />
-        <InputSmall
-          type="password"
-          placeholder="*******"
-        />
+      <div class="w-full flex items-center">
+        <div class="w-[45%]">
+          <InputSmall placeholder="주민등록번호 앞자리" />
+        </div>
+        <div class="w-[10%] text-center text-lg text-[#999999]">
+          -
+        </div>
+        <div class="w-[45%]">
+          <InputSmall
+            type="password"
+            placeholder="*******"
+          />
+        </div>
       </div>
 
       <Input placeholder="계좌번호를 입력해주세요" />
 
       <Input
+        class="w-[65%]"
         type="password"
         placeholder="계좌 비밀번호를 입력해주세요"
       />
     </div>
 
-    <div class="w-full flex justify-between gap-4 mt-2">
-      <ButtonMain class="w-1/2 bg-white text-[#000000]">
+    <div class="w-full flex justify-between gap-4">
+      <ButtonMain class="w-1/2 bg-white text-[#626262]">
         취소
       </ButtonMain>
       <ButtonMain class="w-1/2">
@@ -44,10 +51,9 @@
 
 <script setup>
 import Input from '@/shared/components/atoms/input/Input.vue'
+import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
-
 import logo from '@/assets/moa_logo.jpg'
-
-import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 </script>
+

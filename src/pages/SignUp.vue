@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen flex flex-col justify-center items-center gap-8 px-6">
+  <div class="w-full h-screen flex flex-col justify-center items-center gap-8">
     <img
       :src="logo"
       alt="moa logo"
@@ -23,8 +23,8 @@
       />
     </div>
 
-    <div class="w-full flex justify-between gap-4 mt-2">
-      <ButtonMain class="w-1/2 bg-white text-[#000000]">
+    <div class="w-full flex justify-between gap-4">
+      <ButtonMain class="w-1/2 bg-white text-[#626262]">
         취소
       </ButtonMain>
       <ButtonMain class="w-1/2">
