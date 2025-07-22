@@ -1,4 +1,5 @@
 import Certification from '@/pages/Certification.vue'
+import CreateTrip from '@/pages/CreateTrip.vue'
 import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
 import SignUp from '@/pages/SignUp.vue'
@@ -42,6 +43,11 @@ const router = createRouter({
       path: URL.PAGE.TRIP.TRIP_LIST,
       name: 'trip_list',
       component: TripList,
+    },
+    {
+      path: URL.PAGE.TRIP.CREATE,
+      name: 'create_trip',
+      component: CreateTrip,
     },
   ],
 })
