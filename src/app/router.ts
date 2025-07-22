@@ -32,7 +32,7 @@ const router = createRouter({
       component: Test,
     },
     {
-      path: '/certification',
+      path: URL.PAGE.CERTIFICATION,
       name: 'certification',
       component: Certification,
       meta: {layout: false},
