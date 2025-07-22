@@ -4,10 +4,15 @@ const URL = {
     HOME: '/home',
     SIGNUP: '/signup',
     NOTIFICATION: '/notification',
-    TRIP: '/trip',
     MAP: '/map',
     TEST: '/test',
     CERTIFICATION: '/certification',
+    TRIP: {
+      TRIP_LIST: '/trip/trip_list',
+      DETAIL: `/trip/:tripId`,
+      CREATE: '/trip/create',
+      RESERVATION: `/trip/:tripId/reservation`,
+    },
   },
 }
 
