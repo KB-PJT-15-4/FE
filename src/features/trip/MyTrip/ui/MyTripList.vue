@@ -1,27 +1,32 @@
 <template>
-  <Card
+  <div
     v-for="(trip, index) in tripList"
     :key="index"
-    class="w-full flex flex-col gap-3 my-2"
   >
-    <div class="flex justify-between">
-      <TypographyHead2>{{ trip.title }}</TypographyHead2>
-      <TypographyCaption class="font-semibold">
-        {{ trip.status }}
-      </TypographyCaption>
-    </div>
-    <div class="flex justify-between">
-      <TypographySubTitle2 class="text-moa-sub-text">
-        {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
-        {{ formatFullDateToKorean(new Date(trip.endDate)) }}
-      </TypographySubTitle2>
-      <TypographyP1 class="font-semibold">
-        {{ trip.location }}
-      </TypographyP1>
-    </div>
-  </Card>
+    <Card
+      class="w-full flex flex-col gap-3 my-2"
+      @click="router.push({ name: 'trip_detail', params: { tripId: trip.id } })"
+    >
+      <div class="flex justify-between">
+        <TypographyHead2>{{ trip.title }}</TypographyHead2>
+        <TypographyCaption class="font-semibold">
+          {{ trip.status }}
+        </TypographyCaption>
+      </div>
+      <div class="flex justify-between">
+        <TypographySubTitle2 class="text-moa-sub-text">
+          {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
+          {{ formatFullDateToKorean(new Date(trip.endDate)) }}
+        </TypographySubTitle2>
+        <TypographyP1 class="font-semibold">
+          {{ trip.location }}
+        </TypographyP1>
+      </div>
+    </Card>
+  </div>
 </template>
 <script setup>
+import router from '@/app/router'
 import { userTripListMockData } from '@/entities/trip/trip.mock'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'

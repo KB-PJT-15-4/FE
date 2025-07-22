@@ -4,6 +4,7 @@ import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
 import SignUp from '@/pages/SignUp.vue'
 import Test from '@/pages/Test.vue'
+import TripDetail from '@/pages/TripDetail.vue'
 import TripList from '@/pages/TripList.vue'
 import URL from '@/shared/constants/URL'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -43,6 +44,11 @@ const router = createRouter({
       path: URL.PAGE.TRIP.TRIP_LIST,
       name: 'trip_list',
       component: TripList,
+    },
+    {
+      path: URL.PAGE.TRIP.DETAIL,
+      name: 'trip_detail',
+      component: TripDetail,
     },
     {
       path: URL.PAGE.TRIP.CREATE,

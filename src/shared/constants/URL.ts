@@ -9,8 +9,9 @@ const URL = {
     CERTIFICATION: '/certification',
     TRIP: {
       TRIP_LIST: '/trip/trip_list',
+      DETAIL: `/trip/:tripId`,
       CREATE: '/trip/create',
-      RESERVATION: (tripId: string) => `/trip/${tripId}/reservation`,
+      RESERVATION: `/trip/:tripId/reservation`,
     },
   },
 }

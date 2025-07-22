@@ -29,16 +29,17 @@
       </div>
     </div>
     <div class="flex justify-between">
-      <ButtonMediumSub>
+      <ButtonMediumSub @click="router.push(URL.PAGE.TRIP.TRIP_LIST)">
         <TypographyHead3>취소</TypographyHead3>
       </ButtonMediumSub>
-      <ButtonMediumMain>
+      <ButtonMediumMain @click="router.push({ name: 'trip_detail', params: { tripId: '1' } })">
         <TypographyHead3>생성하기</TypographyHead3>
       </ButtonMediumMain>
     </div>
   </div>
 </template>
 <script setup>
+import router from '@/app/router'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
@@ -50,4 +51,5 @@ import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
+import URL from '@/shared/constants/URL'
 </script>
