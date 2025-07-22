@@ -37,7 +37,7 @@ const emit = defineEmits<{
 }>()
 
 const tabs = [
-  { icon: 'bi-airplane', value: 'trip', location: URL.PAGE.TRIP },
+  { icon: 'bi-airplane', value: 'trip', location: URL.PAGE.TRIP.TRIP_LIST },
   { icon: 'bi-house', value: 'home', location: URL.PAGE.HOME },
   { icon: 'bi-pin-map', value: 'record', location: URL.PAGE.MAP },
 ]
