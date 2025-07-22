@@ -2,7 +2,7 @@
   <div
     class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-50 flex justify-center items-center"
   >
-    <Card class="bg-white">
+    <Card class="bg-white h-[500px]">
       <div class="w-full flex justify-end">
         <button @click="emit('close')">
           <i class="bi bi-x text-[30px]" />
@@ -22,9 +22,7 @@
           >
           <div class="flex flex-col">
             <TypographyHead2 class="font-semibold">
-              {{
-                formatDriversLicenseCardNumber(idCard.licenseNumber)
-              }}
+              {{ formatDriversLicenseCardNumber(idCard.licenseNumber) }}
             </TypographyHead2>
             <TypographyHead3 class="font-medium">
               {{ idCard.name }}

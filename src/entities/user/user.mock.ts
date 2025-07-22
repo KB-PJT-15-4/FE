@@ -7,7 +7,7 @@ export const userIdCardMockData: UserIDCard = {
   imageUrl:
     'https://i.namu.wiki/i/IuEKJpaTpoEz0R6t3q1mNy4gyXJzILTISJmRNyQ6ohtEF6ouOshVTNDpkxbs64ZitDjo4KSOkJ8YtP3B8V5cNg.webp',
   issueDate: '2019-09-10',
-  address: '서울특별시 송파구',
+  address: '서울특별시 송파구 올림픽로 300 ',
   qrUrl: 'https://m.site.naver.com/1N9zx',
 }
 

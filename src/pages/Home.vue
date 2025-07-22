@@ -87,7 +87,7 @@ import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 
 const selected = ref('')
 const showIdCard = ref(false)
-const showDriversLicenseCard = ref(true)
+const showDriversLicenseCard = ref(false)
 
 const tripList = userTripListMockData
 const tripOptions = tripList.map((trip) => ({
