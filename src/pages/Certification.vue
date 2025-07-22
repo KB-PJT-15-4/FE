@@ -12,14 +12,22 @@
     </TypographyHead3>
 
     <div class="w-full flex flex-col gap-4">
-      <Input placeholder="이메일을 입력해주세요" />
+      <Input placeholder="이름을 입력해주세요" />
+
+      <!-- input 크기 조절 필요하고, input 사이에 - 추가 필요 -->
+      <div class="flex gap-1">
+        <InputSmall placeholder="주민등록번호" />
+        <InputSmall
+          type="password"
+          placeholder="*******"
+        />
+      </div>
+
+      <Input placeholder="계좌번호를 입력해주세요" />
+
       <Input
         type="password"
-        placeholder="비밀번호를 입력해주세요"
-      />
-      <Input
-        type="password"
-        placeholder="비밀번호를 한번 더 입력해주세요"
+        placeholder="계좌 비밀번호를 입력해주세요"
       />
     </div>
 
@@ -28,7 +36,7 @@
         취소
       </ButtonMain>
       <ButtonMain class="w-1/2">
-        회원가입
+        본인인증
       </ButtonMain>
     </div>
   </div>
@@ -40,4 +48,6 @@ import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
 import logo from '@/assets/moa_logo.jpg'
+
+import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 </script>
