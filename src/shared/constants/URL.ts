@@ -4,10 +4,13 @@ const URL = {
     HOME: '/home',
     SIGNUP: '/signup',
     NOTIFICATION: '/notification',
-    TRIP: '/trip',
     MAP: '/map',
     TEST: '/test',
     CERTIFICATION: '/certification',
+    TRIP: {
+      TRIP_LIST: '/trip/trip_list',
+      RESERVATION: (tripId: string) => `/trip/${tripId}/reservation`,
+    },
   },
 }
 
