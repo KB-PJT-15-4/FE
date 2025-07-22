@@ -4,7 +4,7 @@ export interface UserTripList {
   title: string
   startDate: string
   endDate: string
-  status: 'Planned' | 'Active' | 'Closed'
+  status: '여행 예정' | '여행 중' | '여행 종료'
   location: string
 }
 

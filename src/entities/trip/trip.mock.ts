@@ -7,7 +7,7 @@ export const userTripListMockData: UserTripList[] = [
     title: '즐거운 부산여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
-    status: 'Active',
+    status: '여행 중',
     location: '부산',
   },
   {
@@ -15,7 +15,7 @@ export const userTripListMockData: UserTripList[] = [
     title: '춘식이보러 제주도여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
-    status: 'Planned',
+    status: '여행 예정',
     location: '서울',
   },
   {
@@ -23,7 +23,7 @@ export const userTripListMockData: UserTripList[] = [
     title: '프랑스로 와인마시러가자',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
-    status: 'Closed',
+    status: '여행 종료',
     location: '제주도',
   },
 ]
