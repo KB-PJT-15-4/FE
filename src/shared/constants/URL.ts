@@ -7,6 +7,7 @@ const URL = {
     TRIP: '/trip',
     MAP: '/map',
     TEST: '/test',
+    CERTIFICATION: '/certification',
   },
 }
 
