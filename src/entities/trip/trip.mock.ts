@@ -1,10 +1,31 @@
 import type { UserReservationList, UserTripList } from './trip.entity'
 
-// [메인페이지] 예매내역 여행 리스트
+// 여행 리스트
 export const userTripListMockData: UserTripList[] = [
-  { id: '1', title: '즐거운 부산여행' },
-  { id: '2', title: '춘식이보러 제주도여행' },
-  { id: '3', title: '프랑스로 와인마시러가자' },
+  {
+    id: '1',
+    title: '즐거운 부산여행',
+    startDate: '2024-10-30',
+    endDate: '2024-11-03',
+    status: 'Active',
+    location: '부산',
+  },
+  {
+    id: '2',
+    title: '춘식이보러 제주도여행',
+    startDate: '2024-10-30',
+    endDate: '2024-11-03',
+    status: 'Planned',
+    location: '서울',
+  },
+  {
+    id: '3',
+    title: '프랑스로 와인마시러가자',
+    startDate: '2024-10-30',
+    endDate: '2024-11-03',
+    status: 'Closed',
+    location: '제주도',
+  },
 ]
 
 // [메인페이지] 예매내역 여행 당 예약내역 리스트
