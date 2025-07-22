@@ -45,7 +45,7 @@ const tabs = [
 
 const isActive = (tabValue: string): boolean => {
   const path = route.path
-  console.log(path)
+
   if (tabValue === 'trip') return path.startsWith('/trip')
   if (tabValue === 'home') return path === URL.PAGE.HOME
   if (tabValue === 'record') return path.startsWith('/record')
