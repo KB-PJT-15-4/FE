@@ -5,81 +5,57 @@
   />
 </template>
 
-<script>
-import { mockData } from '@/entities/map/map.mock' // mock 데이터 가져오기
-import { formatFullDateToKorean } from '@/shared/utils/format' // 포맷팅
+<script setup>
+import { onMounted } from 'vue'
+import { mockData } from '@/entities/map/map.mock'
 
 const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY
+const emit = defineEmits(['selectLocation'])
 
-export default {
-  name: 'KakaoMap',
-  mounted() {
-    if (window.kakao && window.kakao.maps) {
-      this.initMap()
-    } else {
-      const script = document.createElement('script')
-      script.onload = this.initMap
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&autoload=false`
-      document.head.appendChild(script)
+onMounted(() => {
+  if (window.kakao && window.kakao.maps) {
+    initMap()
+  } else {
+    const script = document.createElement('script')
+    script.onload = initMap
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&autoload=false`
+    document.head.appendChild(script)
+  }
+})
+
+function initMap() {
+  window.kakao.maps.load(() => {
+    const container = document.getElementById('map')
+
+    const options = {
+      center: new window.kakao.maps.LatLng(36.5, 127.9), // 중앙 좌표
+      level: 9,
     }
-  },
-  methods: {
-    initMap() {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById('map')
 
-        const options = {
-          center: new window.kakao.maps.LatLng(36.9705, 127.9522),
-          level: 9,
-        }
+    const map = new window.kakao.maps.Map(container, options)
 
-        const map = new window.kakao.maps.Map(container, options)
+    // ✅ 줌 컨트롤만 추가
+    const zoomControl = new window.kakao.maps.ZoomControl()
+    map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT)
 
-        const mapTypeControl = new window.kakao.maps.MapTypeControl()
-        map.addControl(mapTypeControl, window.kakao.maps.ControlPosition.TOPRIGHT)
+    const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
+    const imageSize = new window.kakao.maps.Size(24, 35)
 
-        const zoomControl = new window.kakao.maps.ZoomControl()
-        map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT)
+    mockData.forEach((item) => {
+      const position = new window.kakao.maps.LatLng(item.latitude, item.longitude)
+      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize)
 
-        const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
-        const imageSize = new window.kakao.maps.Size(24, 35)
-
-        mockData.forEach((item) => {
-          const position = new window.kakao.maps.LatLng(item.latitude, item.longitude)
-          const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize)
-
-          const formattedDate = formatFullDateToKorean(new Date(item.date))
-
-          const marker = new window.kakao.maps.Marker({
-            map,
-            position,
-            title: item.name,
-            image: markerImage,
-          })
-
-          const overlayContent = `
-            <div class="bg-white border border-gray-300 rounded-lg shadow-md text-center p-3 min-w-[160px]">
-              <div class="font-semibold text-gray-800 mb-1">${item.name}</div>
-              <div class="text-sm text-gray-600">${formattedDate}</div>
-            </div>
-          `
-
-          const customOverlay = new window.kakao.maps.CustomOverlay({
-            content: overlayContent,
-            position,
-            yAnchor: 1.4,
-          })
-
-          window.kakao.maps.event.addListener(marker, 'click', () => {
-            customOverlay.setMap(map)
-          })
-        })
-
-        map.relayout()
+      const marker = new window.kakao.maps.Marker({
+        map,
+        position,
+        title: item.title,
+        image: markerImage,
       })
-    },
-  },
+
+      window.kakao.maps.event.addListener(marker, 'click', () => {
+        emit('selectLocation', item.location)
+      })
+    })
+  })
 }
 </script>
-
-<style scoped></style>
