@@ -20,7 +20,7 @@ export interface UserReservationList {
 
 // [여행 페이지] 예매 가능 항목
 export interface AvailableReservation {
-  tripId: string // 예매 항목 id
+  itemId: string // 예매 항목 id
   type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 항공, 식당
   title: string // 예매 항목 장소 이름
   description?: string // 설명(optional)

@@ -19,6 +19,7 @@ const URL = {
       TRIP_LIST: '/trip/trip_list',
       DETAIL: `/trip/:tripId`,
       CREATE: '/trip/create',
+      // RESERVATION: `/trip/:tripId/reservation/:itemId`,
       RESERVATION: `/trip/:tripId/reservation`,
     },
     TEST: '/test',

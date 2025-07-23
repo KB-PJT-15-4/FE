@@ -3,6 +3,7 @@ import CreateTrip from '@/pages/CreateTrip.vue'
 import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
 import Map from '@/pages/Map.vue'
+import Reservation from '@/pages/Reservation.vue'
 import SignUp from '@/pages/SignUp.vue'
 import Test from '@/pages/Test.vue'
 import TripDetail from '@/pages/TripDetail.vue'
@@ -46,6 +47,11 @@ const router = createRouter({
       path: URL.PAGE.TRIP.DETAIL,
       name: 'trip_detail',
       component: TripDetail,
+    },
+    {
+      path: URL.PAGE.TRIP.RESERVATION,
+      name: 'reservation',
+      component: Reservation,
     },
     {
       path: URL.PAGE.TRIP.CREATE,

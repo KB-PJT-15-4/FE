@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="flex items-center">
-      <TypographyP1 class="w-[80px]">
+      <TypographyP1 class="w-[80px] pl-1">
         인원
       </TypographyP1>
       <PersonnelTab

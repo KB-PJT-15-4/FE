@@ -21,16 +21,30 @@
           </TypographyP2>
         </div>
       </div>
-      <ButtonSmallMain>예약하기</ButtonSmallMain>
+      <ButtonSmallMain
+        @click="
+          router.push({
+            name: 'reservation',
+            params: { tripId },
+            query: { type: item.type, itemId: item.itemId },
+          })
+        "
+      >
+        예약하기
+      </ButtonSmallMain>
     </Card>
   </div>
 </template>
 <script setup lang="ts">
+import router from '@/app/router'
 import type { AvailableReservation } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import { useRoute } from 'vue-router'
 
 defineProps<{ availableReservationList: AvailableReservation[] }>()
+const route = useRoute()
+const tripId = route.params.tripId
 </script>
