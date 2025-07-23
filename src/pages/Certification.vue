@@ -39,10 +39,16 @@
     </div>
 
     <div class="w-full flex justify-between gap-4">
-      <ButtonMain class="w-1/2 bg-white !text-[#000000]">
+      <ButtonMain
+        class="w-1/2 bg-white !text-[#000000]"
+        @click="goToLogin"
+      >
         취소
       </ButtonMain>
-      <ButtonMain class="w-1/2">
+      <ButtonMain
+        class="w-1/2"
+        @click="goToSignup"
+      >
         본인인증
       </ButtonMain>
     </div>
@@ -50,10 +56,23 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
 import Input from '@/shared/components/atoms/input/Input.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import logo from '@/assets/moa_logo.jpg'
+
+const router = useRouter();
+
+const goToLogin = () => {
+  router.push('/');
+};
+
+const goToSignup = () => {
+  router.push('/signup');
+};
+
 </script>
 
