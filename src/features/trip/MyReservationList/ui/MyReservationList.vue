@@ -1,5 +1,7 @@
 <template>
-  <TypographyHead3>나의 예매내역</TypographyHead3>
+  <TypographyHead3 class="pl-1">
+    나의 예매내역
+  </TypographyHead3>
   <SegmentedTab
     v-model="selectedSegmentOption"
     :options="segmentOptions"

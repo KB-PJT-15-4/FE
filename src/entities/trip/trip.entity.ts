@@ -12,8 +12,17 @@ export interface TripInfo {
 export interface UserReservationList {
   id: string // 예매 id
   tripId: string // 여행 id
-  type: string // 숙박, 항공, 식당
+  type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 항공, 식당
   title: string // 예매 장소 이름
   date: string // 예매 날짜
   imageUrl: string // 예매 사진
+}
+
+// [여행 페이지] 예매 가능 항목
+export interface AvailableReservation {
+  tripId: string // 예매 항목 id
+  type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 항공, 식당
+  title: string // 예매 항목 장소 이름
+  description?: string // 설명(optional)
+  imageUrl: string // 예매 항목 사진
 }

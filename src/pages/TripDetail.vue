@@ -4,6 +4,7 @@
     <ToggleTab
       v-model="selectedOption"
       :options="toggleOptions"
+      class="mb-2"
     />
     <div class="flex flex-col gap-3">
       <MyReservationList />

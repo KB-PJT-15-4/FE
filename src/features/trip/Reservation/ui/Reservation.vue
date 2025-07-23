@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col mt-4 gap-2">
-    <TypographyHead3>예매하기</TypographyHead3>
+    <TypographyHead3 class="pl-1">
+      예매하기
+    </TypographyHead3>
     <SegmentedTab
       v-model="selectedSegmentOption"
       :options="segmentOptions"
