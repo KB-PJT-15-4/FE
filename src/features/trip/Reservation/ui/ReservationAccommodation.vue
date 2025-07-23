@@ -1,13 +1,13 @@
 <template>
-  <div class="h-[180px] flex flex-col gap-5">
+  <div class="h-[190px] flex flex-col gap-5">
     <div class="flex w-full justify-between">
-      <div class="flex flex-col gap-1 w-full">
+      <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
           입실 날짜
         </TypographyP1>
         <InputSmall type="date" />
       </div>
-      <div class="flex flex-col gap-1 w-full">
+      <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
           퇴실 날짜
         </TypographyP1>

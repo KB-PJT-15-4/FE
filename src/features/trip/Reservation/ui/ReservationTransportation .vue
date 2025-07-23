@@ -1,7 +1,7 @@
 <template>
-  <div class="h-[180px] flex flex-col gap-5">
+  <div class="h-[190px] flex flex-col gap-2">
     <div class="flex w-full justify-between">
-      <div class="flex flex-col gap-1 w-full">
+      <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
           출발지
         </TypographyP1>
@@ -9,7 +9,7 @@
           <Option />
         </SelectSmall>
       </div>
-      <div class="flex flex-col gap-1 w-full">
+      <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
           도착지
         </TypographyP1>
@@ -18,8 +18,7 @@
         </SelectSmall>
       </div>
     </div>
-
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2">
       <TypographyP1 class="pl-1">
         출발 날짜
       </TypographyP1>

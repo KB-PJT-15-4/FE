@@ -6,6 +6,7 @@
     <SegmentedTab
       v-model="selectedSegmentOption"
       :options="segmentOptions"
+      class="mb-2"
     />
     <ReservationAccommodation v-if="selectedSegmentOption === segmentOptions[0]" />
     <ReservationRestaurant v-if="selectedSegmentOption === segmentOptions[2]" />
