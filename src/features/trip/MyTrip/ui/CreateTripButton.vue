@@ -14,7 +14,7 @@
     <i class="bi bi-arrow-right-circle text-white text-[30px]" />
   </Card>
 </template>
-<script setup>
+<script setup lang="ts">
 import router from '@/app/router'
 import trip_image from '@/assets/trip_image.png'
 import Card from '@/shared/components/atoms/card/Card.vue'

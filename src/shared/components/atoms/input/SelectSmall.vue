@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-
 const props = defineProps<{
   modelValue?: string
   placeholder?: string
@@ -13,7 +12,7 @@ const emit = defineEmits<{
 
 const computedClass = computed(() => {
   return [
-    'box-border h-[50px] w-[158px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
+    'box-border h-[50px] w-[170px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
     props.class,
   ]
 })
@@ -43,7 +42,7 @@ const onChange = (e: Event) => {
       </option>
       <slot />
     </select>
-    <div class="pointer-events-none right-4 absolute top-1/2 -translate-y-1/2">
+    <div class="pointer-events-none right-1 absolute top-1/2 -translate-y-1/2">
       <i class="bi bi-chevron-down text-gray-500 text-lg" />
     </div>
   </div>

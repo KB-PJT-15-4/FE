@@ -1,5 +1,5 @@
 // 여행 리스트
-export interface UserTripList {
+export interface TripInfo {
   id: string
   title: string
   startDate: string
@@ -8,11 +8,27 @@ export interface UserTripList {
   location: string
 }
 
-// [메인페이지] 예매내역 여행 당 예약내역 리스트
+// [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트
 export interface UserReservationList {
-  id: string
-  type: string
-  title: string
-  date: string
-  imageUrl: string
+  id: string // 예매 id
+  tripId: string // 여행 id
+  type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 항공, 식당
+  title: string // 예매 장소 이름
+  date: string // 예매 날짜
+  imageUrl: string // 예매 사진
+}
+
+// [여행 페이지] 예매 가능 항목
+export interface AvailableReservation {
+  itemId: string // 예매 항목 id
+  type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 항공, 식당
+  title: string // 예매 항목 장소 이름
+  imageUrl: string // 예매 항목 사진
+
+  description?: string // 예매 가능 항목 설명(optional)
+
+  address?: string // restaurant, accommodation 주소(optional)
+  startDate?: Date // transportation 출발일자(optional)
+  origin?: string // transportation 출발지(optional)
+  destination?: string // transportation 도착지(optional)
 }

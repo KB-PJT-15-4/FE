@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-between gap-2">
+  <div class="flex justify-start gap-2">
     <button
       v-for="option in options"
       :key="option"
       :class="[
-        'w-[70px] h-[35px] px-10 py-4 rounded-full flex items-center justify-center transition text-moa-main-text font-semibold',
+        'w-[70px] h-[35px] px-10 py-4 rounded-full flex items-center justify-center transition text-moa-main-text font-semibold border-[1px] border-moa-gray',
         modelValue === option && 'bg-moa-gray',
       ]"
       @click="selectOption(option)"
