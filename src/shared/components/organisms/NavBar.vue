@@ -39,15 +39,15 @@ const emit = defineEmits<{
 
 const tabs = [
   { icon: 'bi-airplane', value: 'trip', location: URL.PAGE.TRIP.TRIP_LIST },
-  { icon: 'bi-house', value: 'home', location: URL.PAGE.HOME },
-  { icon: 'bi-pin-map', value: 'record', location: URL.PAGE.MAP },
+  { icon: 'bi-house', value: 'home', location: URL.PAGE.MAIN.HOME },
+  { icon: 'bi-pin-map', value: 'record', location: URL.PAGE.RECORD.MAP },
 ]
 
 const isActive = (tabValue: string): boolean => {
   const path = route.path
 
   if (tabValue === 'trip') return path.startsWith('/trip')
-  if (tabValue === 'home') return path === URL.PAGE.HOME
+  if (tabValue === 'home') return path === URL.PAGE.MAIN.HOME
   if (tabValue === 'record') return path.startsWith('/record')
   return false
 }

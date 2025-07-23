@@ -1,18 +1,27 @@
 const URL = {
   PAGE: {
-    LOGIN: '/',
-    HOME: '/home',
-    SIGNUP: '/signup',
-    NOTIFICATION: '/notification',
-    MAP: '/map',
-    TEST: '/test',
-    CERTIFICATION: '/certification',
+    AUTH: {
+      LOGIN: '/',
+      SIGNUP: '/signup',
+      CERTIFICATION: '/certification',
+    },
+    MAIN: {
+      HOME: '/main/home',
+      NOTIFICATION: '/main/notification',
+    },
+    RECORD: {
+      MAP: '/record/map',
+      DETAIL: '/record/:tripId/detail',
+      CREATE: '/record/:tripId/create/',
+      MODIFY: '/record/:tripId/modify/:postId',
+    },
     TRIP: {
       TRIP_LIST: '/trip/trip_list',
       DETAIL: `/trip/:tripId`,
       CREATE: '/trip/create',
       RESERVATION: `/trip/:tripId/reservation`,
     },
+    TEST: '/test',
   },
 }
 
