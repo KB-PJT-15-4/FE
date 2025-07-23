@@ -1,7 +1,7 @@
-import type { UserReservationList, UserTripList } from './trip.entity'
+import type { TripInfo, UserReservationList } from './trip.entity'
 
 // 여행 리스트
-export const userTripListMockData: UserTripList[] = [
+export const userTripListMockData: TripInfo[] = [
   {
     id: '1',
     title: '즐거운 부산여행',
@@ -28,10 +28,11 @@ export const userTripListMockData: UserTripList[] = [
   },
 ]
 
-// [메인페이지] 예매내역 여행 당 예약내역 리스트
+// [메인페이지, 여행페이지] 예매내역 여행 당 예약내역 리스트
 export const userReservationListMockData: UserReservationList[] = [
   {
     id: '1',
+    tripId: '1',
     type: 'accommodation',
     title: '모아 호텔',
     date: '2025-10-23 10:23:42',
@@ -40,6 +41,7 @@ export const userReservationListMockData: UserReservationList[] = [
   },
   {
     id: '2',
+    tripId: '1',
     type: 'restaurant',
     title: '철구네 술집',
     date: '2025-10-24 10:23:42',
@@ -47,6 +49,7 @@ export const userReservationListMockData: UserReservationList[] = [
   },
   {
     id: '3',
+    tripId: '1',
     title: 'KTX 35',
     type: 'transportation',
     date: '2025-10-22 02:03:10',
@@ -54,3 +57,13 @@ export const userReservationListMockData: UserReservationList[] = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg',
   },
 ]
+
+// [여헹 페이지] 여행 기본 정보
+export const tripInformationMockData = {
+  id: '1',
+  title: '즐거운 부산여행',
+  startDate: '2024-10-30',
+  endDate: '2024-11-03',
+  status: '여행 중',
+  location: '부산',
+}
