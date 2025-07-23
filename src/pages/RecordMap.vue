@@ -4,20 +4,19 @@
       나의 여행지도
     </TypographyHead3>
 
-    <!-- 카카오맵 API 연동 지도 -->
     <Map @select-location="onSelectLocation" />
 
-    <!-- 핀 클릭 시 해당 지역 여행 리스트 카드로 출력 -->
     <div
       v-if="filteredTrips.length > 0"
       class="mt-4 space-y-3"
     >
       <Card
         v-for="trip in filteredTrips"
-        :key="trip.trip_id"
+        :key="trip.tripId"
+        class="cursor-pointer"
+        @click="goToDetail(trip.tripId)"
       >
         <div class="p-2 space-y-1">
-          <!-- 제목 + 상태 -->
           <div class="flex justify-between items-start">
             <div class="font-bold text-lg">
               {{ trip.title }}
@@ -26,8 +25,6 @@
               {{ trip.status }}
             </div>
           </div>
-
-          <!-- 날짜 + 지역 -->
           <div class="flex justify-between items-end">
             <div class="text-sm text-[#949494]">
               {{ formatFullDateToKorean(new Date(trip.startDate)) }} - {{ formatFullDateToKorean(new Date(trip.endDate)) }}
@@ -43,15 +40,17 @@
 </template>
 
 <script setup>
-import Map from '@/shared/components/atoms/map/Map.vue'
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
-import Card from '@/shared/components/atoms/card/Card.vue'
+import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import { mockData } from '@/entities/map/map.mock'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 
-// 핀을 누르면 mock 데이터의 location 속성값이 동일한 여행 리스트 출력
+import Map from '@/shared/components/atoms/map/Map.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import Card from '@/shared/components/atoms/card/Card.vue'
+
 const selectedLocation = ref('')
+const router = useRouter()
 
 const onSelectLocation = (location) => {
   selectedLocation.value = location
@@ -60,5 +59,8 @@ const onSelectLocation = (location) => {
 const filteredTrips = computed(() =>
   mockData.filter(trip => trip.location === selectedLocation.value)
 )
-//
+
+const goToDetail = (tripId) => {
+  router.push(`/record/${tripId}/detail`)
+}
 </script>
