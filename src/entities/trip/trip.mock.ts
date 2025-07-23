@@ -59,7 +59,7 @@ export const userReservationListMockData: UserReservationList[] = [
 ]
 
 // [여헹 페이지] 여행 기본 정보
-export const tripInformationMockData = {
+export const tripInformationMockData: TripInfo = {
   id: '1',
   title: '즐거운 부산여행',
   startDate: '2024-10-30',

@@ -43,46 +43,29 @@
       v-model="selectedFilter"
       :options="filterTabOptions"
     />
-    <Card
+    <div
       v-for="reservation in userReservationListMockData"
       :key="reservation.id"
       :value="reservation"
-      class="flex justify-between"
     >
-      <div class="flex gap-4">
-        <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
-        >
-          <img
-            :src="reservation.imageUrl"
-            class="h-[40px] w-[40px]"
-          >
-        </div>
-        <div>
-          <TypographySubTitle1>{{ reservation.title }}</TypographySubTitle1>
-          <TypographyP2>{{ formatFullDateToKorean(new Date(reservation.date)) }}</TypographyP2>
-        </div>
-      </div>
-      <ButtonSmallMain>QR 보기</ButtonSmallMain>
-    </Card>
+      <ReservationInfo :reservation="reservation" />
+    </div>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue'
 
 import { userReservationListMockData, userTripListMockData } from '@/entities/trip/trip.mock'
-import { formatFullDateToKorean } from '@/shared/utils/format'
 
+import ReservationInfo from '@/features/trip/MyReservationList/ui/ReservationInfo.vue'
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
 import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
-import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 
 const selected = ref('')
