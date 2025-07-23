@@ -2,12 +2,14 @@ import Certification from '@/pages/Certification.vue'
 import CreateTrip from '@/pages/CreateTrip.vue'
 import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
-import Map from '@/pages/Map.vue'
 import Reservation from '@/pages/Reservation.vue'
+import Map from '@/pages/RecordMap.vue'
 import SignUp from '@/pages/SignUp.vue'
 import Test from '@/pages/Test.vue'
 import TripDetail from '@/pages/TripDetail.vue'
 import TripList from '@/pages/TripList.vue'
+import RecordDetail from '@/pages/RecordDetail.vue'
+import RecordCreate from '@/pages/RecordCreate.vue'
 import URL from '@/shared/constants/URL'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -62,6 +64,16 @@ const router = createRouter({
       path: URL.PAGE.RECORD.MAP,
       name: 'map',
       component: Map,
+    },
+    {
+      path: URL.PAGE.RECORD.DETAIL,
+      name: 'record_detail',
+      component: RecordDetail,
+    },
+    {
+      path: URL.PAGE.RECORD.CREATE,
+      name: 'record_create',
+      component: RecordCreate,
     },
     {
       path: URL.PAGE.TEST,

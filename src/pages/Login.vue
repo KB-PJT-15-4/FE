@@ -23,9 +23,14 @@
       />
     </div>
 
-    <ButtonMain>로그인</ButtonMain>
+    <ButtonMain @click="goToHome">
+      로그인
+    </ButtonMain>
 
-    <TypographyP2 class="text-center text-[#000000]">
+    <TypographyP2
+      class="text-center text-[#000000]"
+      @click="goToSignup"
+    >
       회원이 아니신가요?
     </TypographyP2>
   </div>
@@ -33,7 +38,7 @@
 
 <script setup>
 import { ref } from 'vue'
-// import axios from 'axios'
+import { useRouter } from 'vue-router';
 
 import Input from '@/shared/components/atoms/input/Input.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
@@ -42,26 +47,44 @@ import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
 import logo from '@/assets/moa_logo.jpg'
 
+const router = useRouter();
 
-// const email = ref('')
-// const password = ref('')
+// 로그인 버튼 누르면 전자지갑 페이지로 이동
+const goToHome = () => {
+  router.push('/main/home');
+};
 
-// const handleLogin = async () => {
-//   try {
-//     const response = await axios.post('보낼 백엔드 API 주소 들어갈 자리', {
-//       email: email.value,
-//       password: password.value,
-//     })
+// 회원이 아니신가요 누르면 본인인증 페이지로 이동
+const goToSignup = () => {
+  router.push('/certification');
+};
 
-//     const accessToken = response.data.accessToken
-//     // accessToken 저장 (로컬 또는 쿠키)
-//     localStorage.setItem('accessToken', accessToken)
 
-//     alert('로그인 성공!')
+
+/* 추후 데이터 작업할 코드
+
+import axios from 'axios'
+
+const email = ref('')
+const password = ref('')
+
+const handleLogin = async () => {
+  try {
+    const response = await axios.post('보낼 백엔드 API 주소 들어갈 자리', {
+      email: email.value,
+      password: password.value,
+    })
+
+    const accessToken = response.data.accessToken
+    // accessToken 저장 (로컬 또는 쿠키)
+    localStorage.setItem('accessToken', accessToken)
+
+    alert('로그인 성공!')
   
-//   } catch (error) {
-//     console.error('로그인 실패:', error)
-//     alert('로그인에 실패했습니다. 정보를 확인해주세요.')
-//   }
-// }
-// </script>
+  } catch (error) {
+    console.error('로그인 실패:', error)
+    alert('로그인에 실패했습니다. 정보를 확인해주세요.')
+  }
+}
+*/
+</script>
