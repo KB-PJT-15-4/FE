@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-
 const props = defineProps<{
   modelValue?: string
   placeholder?: string
@@ -13,7 +12,7 @@ const emit = defineEmits<{
 
 const computedClass = computed(() => {
   return [
-    'box-border h-[50px] w-[158px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
+    'box-border h-[50px] w-[170px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
     props.class,
   ]
 })

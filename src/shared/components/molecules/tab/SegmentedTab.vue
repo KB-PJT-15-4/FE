@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between gap-2">
+  <div class="flex justify-start gap-2">
     <button
       v-for="option in options"
       :key="option"
