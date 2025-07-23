@@ -23,6 +23,12 @@ export interface AvailableReservation {
   itemId: string // 예매 항목 id
   type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 항공, 식당
   title: string // 예매 항목 장소 이름
-  description?: string // 설명(optional)
   imageUrl: string // 예매 항목 사진
+
+  description?: string // 예매 가능 항목 설명(optional)
+
+  address?: string // restaurant, accommodation 주소(optional)
+  startDate?: Date // transportation 출발일자(optional)
+  origin?: string // transportation 출발지(optional)
+  destination?: string // transportation 도착지(optional)
 }

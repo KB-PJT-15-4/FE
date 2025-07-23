@@ -95,3 +95,14 @@ export const availableReservationListMockData: AvailableReservation[] = [
       'https://i.namu.wiki/i/_VdL80a6q8YfJ3ob0cH0g6M4C4u3eafyHQV8oHFnZetT7yEjHPC8hybEh7-Xwfz6H6S4EkwBn6mkLvhb7rGscQ.webp', // 예매 항목 사진
   },
 ]
+
+// [예약 페이지] 예약 아이템 정보
+export const reservationItemInfoMockData: AvailableReservation = {
+  itemId: '1',
+  type: 'accommodation', // 숙박, 항공, 식당
+  title: '모아 호텔', // 예매 항목 장소 이름
+  description: '아늑한 모아호텔입니다', // 설명(optional)
+  imageUrl:
+    'https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp', // 예매 항목 사진
+  address: '서울특별시 송파구 올림픽로 300',
+}
