@@ -28,13 +28,13 @@ function initMap() {
     const container = document.getElementById('map')
 
     const options = {
-      center: new window.kakao.maps.LatLng(36.5, 127.9), // 중앙 좌표
+      center: new window.kakao.maps.LatLng(37.4979, 126.9828), // 중앙 좌표
       level: 9,
     }
 
     const map = new window.kakao.maps.Map(container, options)
 
-    // ✅ 줌 컨트롤만 추가
+    // 줌 컨트롤만 추가
     const zoomControl = new window.kakao.maps.ZoomControl()
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT)
 

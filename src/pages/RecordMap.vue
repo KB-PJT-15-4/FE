@@ -1,7 +1,7 @@
 <template>
   <div class="w-full text-left py-4">
-    <TypographyHead3>
-      우리 여행지도
+    <TypographyHead3 class="mb-4">
+      나의 여행지도
     </TypographyHead3>
 
     <!-- 카카오맵 API 연동 지도 -->
@@ -14,20 +14,27 @@
     >
       <Card
         v-for="trip in filteredTrips"
-        :key="trip.tripId"
+        :key="trip.trip_id"
       >
-        <div class="p-3">
-          <div class="font-bold text-lg">
-            {{ trip.title }}
+        <div class="p-2 space-y-1">
+          <!-- 제목 + 상태 -->
+          <div class="flex justify-between items-start">
+            <div class="font-bold text-lg">
+              {{ trip.title }}
+            </div>
+            <div class="text-sm text-black">
+              {{ trip.status }}
+            </div>
           </div>
-          <div class="text-sm text-[#949494]">
-            {{ trip.startDate }} - {{ trip.endDate }}
-          </div>
-          <div class="text-sm text-black">
-            {{ trip.status }}
-          </div>
-          <div class="text-sm">
-            {{ trip.location }}
+
+          <!-- 날짜 + 지역 -->
+          <div class="flex justify-between items-end">
+            <div class="text-sm text-[#949494]">
+              {{ formatFullDateToKorean(new Date(trip.startDate)) }} - {{ formatFullDateToKorean(new Date(trip.endDate)) }}
+            </div>
+            <div class="text-sm text-black">
+              {{ trip.location }}
+            </div>
           </div>
         </div>
       </Card>
@@ -41,6 +48,7 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 import Card from '@/shared/components/atoms/card/Card.vue'
 import { ref, computed } from 'vue'
 import { mockData } from '@/entities/map/map.mock'
+import { formatFullDateToKorean } from '@/shared/utils/format'
 
 // 핀을 누르면 mock 데이터의 location 속성값이 동일한 여행 리스트 출력
 const selectedLocation = ref('')
