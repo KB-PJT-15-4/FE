@@ -8,7 +8,7 @@
       >
       <button
         class="w-[30px] h-[30px] flex justify-center items-center"
-        @click="router.push(URL.PAGE.NOTIFICATION)"
+        @click="router.push(URL.PAGE.MAIN.NOTIFICATION)"
       >
         <i class="bi bi-bell text-[20px]" />
       </button>
