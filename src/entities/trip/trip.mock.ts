@@ -1,9 +1,12 @@
 import {
   ItemType,
+  SettlementDirection,
+  SettlementStatus,
   StatusType,
   type ReservationItem,
   type TripInfo,
   type UserReservationList,
+  type UserSettlement,
 } from './trip.entity'
 
 // 여행 리스트
@@ -167,3 +170,42 @@ export const reservationItemInfoMockData: ReservationItem = {
   address: '서울특별시 송파구 올림픽로 300',
   price: 300000,
 }
+
+// [여행 페이지] 정산 내역 리스트
+export const userSettlementList: UserSettlement[] = [
+  {
+    id: '1',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.SENT, // 보낸 요청
+    status: SettlementStatus.PENDING, // 보낸 요청 정산 진행중
+  },
+  {
+    id: '2',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.SENT, // 보낸 요청
+    status: SettlementStatus.COMPLETED, // 정산 완료
+  },
+  {
+    id: '3',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.RECEIVED, // 받은 요청
+    status: SettlementStatus.COMPLETED, // 정산 완료
+  },
+  {
+    id: '4',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.RECEIVED, // 받은 요청
+    status: SettlementStatus.WAITING, // 받은 요청 정산 미완료
+  },
+  {
+    id: '5',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.RECEIVED, // 받은 요청
+    status: SettlementStatus.PENDING, // 받은 요청 정산 진행중 (나는 보냈는데 다른 사람이 안보낸경우)
+  },
+]
