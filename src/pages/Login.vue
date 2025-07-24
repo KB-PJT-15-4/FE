@@ -86,6 +86,7 @@ const handleLogin = async () => {
   } catch (error) {
     console.error('로그인 실패:', error.message)
     alert('로그인에 실패했습니다. 정보를 확인해주세요.')
+    router.push('/certification')
   }
 }
 

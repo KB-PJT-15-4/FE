@@ -72,12 +72,39 @@
       </p>
     </Card>
 
+    <!-- 기록 추가 버튼 -->
     <Tag
       color="main"
-      @click="getToCreate"
+      @click="$router.push(`/record/${tripId}/create`)"
     >
       추가
     </Tag>
+
+    <!-- 사용자 작성 기록 -->
+    <div
+      v-for="(record, index) in recordList"
+      :key="index"
+      class="p-4 bg-white rounded shadow border"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="font-bold text-base">
+          {{ record.title }}
+        </h3>
+        <span class="text-sm text-gray-500">{{ record.date }}</span>
+      </div>
+      <div
+        v-if="record.imageUrl"
+        class="mt-2"
+      >
+        <img
+          :src="record.imageUrl"
+          class="w-full rounded"
+        >
+      </div>
+      <p class="mt-2 text-sm text-gray-700 whitespace-pre-line">
+        {{ record.content }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -103,4 +130,15 @@ const tripData = computed(() => mockData.find(trip => trip.tripId === tripId))
 function formatCurrency(amount) {
   return `${amount.toLocaleString()}원`
 }
+
+import { onMounted } from 'vue'
+
+const recordList = ref([])
+
+onMounted(() => {
+  const saved = localStorage.getItem(`trip-${tripId}-records`)
+  if (saved) {
+    recordList.value = JSON.parse(saved)
+  }
+})
 </script>

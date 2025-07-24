@@ -48,7 +48,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 
 import Input from '@/shared/components/atoms/input/Input.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
@@ -61,16 +60,16 @@ const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 
-// 본인인증 데이터
+// 본인인증 정보 가져오기
 const name = ref('')
-const rrn = ref('')
+const idCardNumber = ref('')
 const accountNumber = ref('')
 const accountPassword = ref('')
 
 onMounted(() => {
   const certData = JSON.parse(localStorage.getItem('certData') || '{}')
   name.value = certData.name || ''
-  rrn.value = certData.rrn || ''
+  idCardNumber.value = certData.idCardNumber || ''
   accountNumber.value = certData.accountNumber || ''
   accountPassword.value = certData.accountPassword || ''
 })
@@ -80,28 +79,47 @@ const goToLogin = () => {
 }
 
 const handleSignup = async () => {
+
+  // 한번더 입력한 비밀번호가 일치하지 않을 때 실행
   if (password.value !== confirmPassword.value) {
     alert('비밀번호가 일치하지 않습니다.')
     return
   }
 
+  const signupData = {
+    email: email.value,
+    password: password.value,
+    name: name.value,
+    idCardNumber: idCardNumber.value,
+    accountNumber: accountNumber.value,
+    accountPassword: accountPassword.value,
+  }
+
   try {
-    // api 수정
-    await axios.post('http://localhost:8080/', {
-      email: email.value,
-      password: password.value,
-      name: name.value,
-      rrn: rrn.value,
-      accountNumber: accountNumber.value,
-      accountPassword: accountPassword.value,
+    const response = await fetch('http://localhost:8080/api/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // 세션 유지
+      body: JSON.stringify(signupData),
     })
 
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw new Error(`회원가입 실패: ${response.status} - ${errorText}`)
+    }
+
     alert('회원가입 성공!')
+    localStorage.removeItem('certData') // 본인인증 데이터 제거
+
     router.push('/')
+
   } catch (error) {
     console.error('회원가입 실패:', error)
-    alert('회원가입에 실패했습니다.')
+    alert('회원가입에 실패했습니다. 정보를 확인해주세요.')
   }
 }
 </script>
+
 

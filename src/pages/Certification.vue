@@ -68,7 +68,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 
 import Input from '@/shared/components/atoms/input/Input.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
@@ -79,8 +78,8 @@ import logo from '@/assets/moa_logo.jpg'
 const router = useRouter()
 
 const name = ref('')
-const rrnFront = ref('') // 주민등록번호 앞자리
-const rrnBack = ref('') // 주민등록번호 뒷자리
+const rrnFront = ref('')
+const rrnBack = ref('')
 const accountNumber = ref('')
 const accountPassword = ref('')
 
@@ -89,20 +88,35 @@ const goToLogin = () => {
 }
 
 const goToSignup = async () => {
+  // 주민등록번호 합치기
+  const idCardNumber = `${rrnFront.value}${rrnBack.value}`
+
   const authData = {
     name: name.value,
-    rrn: `${rrnFront.value}-${rrnBack.value}`,
+    idCardNumber,
     accountNumber: accountNumber.value,
     accountPassword: accountPassword.value,
   }
 
   try {
-    // api 수정
-    await axios.post('http://localhost:8080/', authData)
+    const response = await fetch('http://localhost:8080/api/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // 쿠키 세션 인증
+      body: JSON.stringify(authData),
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw new Error(`본인인증 실패: ${response.status} - ${errorText}`)
+    }
 
     localStorage.setItem('certData', JSON.stringify(authData))
-
+    
     router.push('/signup')
+
   } catch (error) {
     console.error('본인인증 실패:', error)
     alert('본인인증에 실패했습니다. 정보를 확인해주세요.')
