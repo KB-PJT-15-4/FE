@@ -69,7 +69,7 @@ export const tripInformationMockData: TripInfo = {
 }
 
 // [여행 페이지] 예약 가능 내역 리스트
-export const availableReservationListMockData: AvailableReservation[] = [
+export const availableAccommodationReservationListMockData: AvailableReservation[] = [
   {
     itemId: '1',
     type: 'accommodation', // 숙박, 교통, 식당
@@ -90,6 +90,60 @@ export const availableReservationListMockData: AvailableReservation[] = [
     itemId: '3',
     type: 'accommodation', // 숙박, 교통, 식당
     title: '신라호텔', // 예매 항목 장소 이름
+    description: '3성급 신라호텔입니다', // 설명(optional)
+    imageUrl:
+      'https://i.namu.wiki/i/_VdL80a6q8YfJ3ob0cH0g6M4C4u3eafyHQV8oHFnZetT7yEjHPC8hybEh7-Xwfz6H6S4EkwBn6mkLvhb7rGscQ.webp', // 예매 항목 사진
+  },
+]
+
+export const availableTransportationReservationListMockData: AvailableReservation[] = [
+  {
+    itemId: '1',
+    type: 'transportation', // 숙박, 교통, 식당
+    title: 'KTX 30', // 예매 항목 장소 이름
+    description: '아늑한 모아호텔입니다', // 설명(optional)
+    imageUrl:
+      'https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp', // 예매 항목 사진
+  },
+  {
+    itemId: '2',
+    type: 'transportation', // 숙박, 교통, 식당
+    title: 'KTX 32', // 예매 항목 장소 이름
+    description: '잠실의 명물', // 설명(optional)
+    imageUrl:
+      'https://i.namu.wiki/i/Jvvw-ykN0duT7SbML188jyr6JMASSkCnlaPMEx6EwQsWaUys5yKkWeEbheELtYCQKUj2XazRPc5Sh0EpVGJEkw.webp', // 예매 항목 사진
+  },
+  {
+    itemId: '3',
+    type: 'transportation', // 숙박, 교통, 식당
+    title: 'KTX 33', // 예매 항목 장소 이름
+    description: '3성급 신라호텔입니다', // 설명(optional)
+    imageUrl:
+      'https://i.namu.wiki/i/_VdL80a6q8YfJ3ob0cH0g6M4C4u3eafyHQV8oHFnZetT7yEjHPC8hybEh7-Xwfz6H6S4EkwBn6mkLvhb7rGscQ.webp', // 예매 항목 사진
+  },
+]
+
+export const availableRestaurantReservationListMockData: AvailableReservation[] = [
+  {
+    itemId: '1',
+    type: 'restaurant', // 숙박, 교통, 식당
+    title: '빕스', // 예매 항목 장소 이름
+    description: '아늑한 모아호텔입니다', // 설명(optional)
+    imageUrl:
+      'https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp', // 예매 항목 사진
+  },
+  {
+    itemId: '2',
+    type: 'restaurant', // 숙박, 교통, 식당
+    title: '다모아 수산시장', // 예매 항목 장소 이름
+    description: '잠실의 명물', // 설명(optional)
+    imageUrl:
+      'https://i.namu.wiki/i/Jvvw-ykN0duT7SbML188jyr6JMASSkCnlaPMEx6EwQsWaUys5yKkWeEbheELtYCQKUj2XazRPc5Sh0EpVGJEkw.webp', // 예매 항목 사진
+  },
+  {
+    itemId: '3',
+    type: 'restaurant', // 숙박, 교통, 식당
+    title: '행복한그릇', // 예매 항목 장소 이름
     description: '3성급 신라호텔입니다', // 설명(optional)
     imageUrl:
       'https://i.namu.wiki/i/_VdL80a6q8YfJ3ob0cH0g6M4C4u3eafyHQV8oHFnZetT7yEjHPC8hybEh7-Xwfz6H6S4EkwBn6mkLvhb7rGscQ.webp', // 예매 항목 사진

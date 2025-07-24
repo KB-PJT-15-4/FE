@@ -27,19 +27,22 @@
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
-import { availableReservationListMockData } from '@/entities/trip/trip.mock'
+import { availableRestaurantReservationListMockData } from '@/entities/trip/trip.mock'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import { restaurantTypeList } from '@/shared/constants/ReservationValue'
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 import FilteredList from './FilteredList.vue'
 
-const availableReservationList = availableReservationListMockData
+const availableReservationList = availableRestaurantReservationListMockData
 const selectedCategory = ref(restaurantTypeList[0])
 
 const today = new Date()
 const selectedDate = ref(today.toISOString().split('T')[0])
+
+provide('selectedStartDate', selectedDate)
+provide('selectedCategory', selectedCategory)
 </script>
