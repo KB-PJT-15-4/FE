@@ -104,6 +104,8 @@ export enum SettlementStatus {
   COMPLETED = 'completed', // 정산 완료
   WAITING = 'waiting', // 정산 미완료
 }
+
+// 정산내역 리스트
 export interface UserSettlement {
   id: string // 정산 id
   date: string
