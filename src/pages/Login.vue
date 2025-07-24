@@ -60,7 +60,6 @@ const handleLogin = async () => {
       }
       console.log(context)
   try {
-    // const response = await axios.post('http://localhost:8080/api/public/login', context)
     const result = await fetch(`http://localhost:8080/api/public/login`, {
       method:"POST",
       headers: {
