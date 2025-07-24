@@ -17,24 +17,22 @@
         placeholder="이름을 입력해주세요"
       />
 
-      <!-- 배열 다시 해야함 -->
-      <div class="w-full flex items-center">
-        <div class="w-[45%]">
-          <InputSmall
-            v-model="rrnFront"
-            placeholder="주민등록번호 앞자리"
-          />
-        </div>
-        <div class="w-[10%] text-center text-lg text-[#999999]">
+      <!-- 주민등록번호 입력 -->
+      <div class="w-full flex gap-1">
+        <InputSmall
+          v-model="rrnFront"
+          class="flex-1"
+          placeholder="주민등록번호 앞자리"
+        />
+        <div class="flex items-center text-lg text-[#999999]">
           -
         </div>
-        <div class="w-[45%]">
-          <InputSmall
-            v-model="rrnBack"
-            type="password"
-            placeholder="*******"
-          />
-        </div>
+        <InputSmall
+          v-model="rrnBack"
+          class="flex-1"
+          type="password"
+          placeholder="*******"
+        />
       </div>
 
       <Input
