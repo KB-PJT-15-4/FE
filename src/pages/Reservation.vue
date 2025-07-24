@@ -1,12 +1,12 @@
 <template>
   <div class="flex w-full flex-col gap-3">
-    <TypographyHead3>예매하기</TypographyHead3>
+    <TypographyHead3>예약하기</TypographyHead3>
     <ItemInfo
       :item="item"
       class="mb-3"
     />
 
-    <div class="h-[450px]">
+    <div class="h-[430px]">
       <!-- 숙박 -->
       <div
         v-if="type === ItemType.Accommodation"
@@ -30,7 +30,9 @@
           </TypographySubTitle2>
           <TypographyP1>
             {{
-              formatFullDateToKorean(new Date((reservationInfo as AccommodationReservation).endDate))
+              formatFullDateToKorean(
+                new Date((reservationInfo as AccommodationReservation).endDate)
+              )
             }}
           </TypographyP1>
         </div>
@@ -83,9 +85,7 @@
             예약 일자
           </TypographySubTitle2>
           <TypographyP1>
-            {{
-              formatFullDateToKorean(new Date((reservationInfo as RestaurantReservation).date))
-            }}
+            {{ formatFullDateToKorean(new Date((reservationInfo as RestaurantReservation).date)) }}
           </TypographyP1>
         </div>
       </div>
