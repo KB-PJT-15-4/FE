@@ -62,12 +62,13 @@ export interface ReservationItem {
 
   description?: string // 예매 가능 항목 설명(optional)
   address?: string // restaurant, accommodation 주소(optional)
+
+  price?: number // 예매 페이지에서 띄울 인당 가격
 }
 
 // [예매 페이지] 예매하기
 interface BaseReservationInfo {
   itemId: string
-  people: number
 }
 
 export interface AccommodationReservation extends BaseReservationInfo {

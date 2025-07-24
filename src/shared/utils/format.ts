@@ -24,3 +24,7 @@ export function formatIdCardNumber(idCardNumber: string): string {
 export function formatDriversLicenseCardNumber(licenseNumber: string): string {
   return `${licenseNumber.slice(0, 2)}-${licenseNumber.slice(2, 4)}-${licenseNumber.slice(4, 10)}-${licenseNumber.slice(10, 12)}`
 }
+
+// 숫자 포맷 (3자리 콤마)
+export const formatNumber = (value: number) =>
+  value.toLocaleString('ko-KR', { maximumFractionDigits: 0 })

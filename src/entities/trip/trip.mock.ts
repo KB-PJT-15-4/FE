@@ -165,4 +165,5 @@ export const reservationItemInfoMockData: ReservationItem = {
   imageUrl:
     'https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp', // 예매 항목 사진
   address: '서울특별시 송파구 올림픽로 300',
+  price: 300000,
 }
