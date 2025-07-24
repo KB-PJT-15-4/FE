@@ -6,9 +6,19 @@
       :options="toggleOptions"
       class="mb-2"
     />
-    <div class="flex flex-col gap-3">
+    <div
+      v-if="selectedOption == toggleOptions[0]"
+      class="flex flex-col gap-3"
+    >
       <MyReservationList />
       <Reservation />
+    </div>
+    <div
+      v-if="selectedOption == toggleOptions[1]"
+      class="flex flex-col gap-3"
+    >
+      <SettlementHistory />
+      <RequestSettlement />
     </div>
   </div>
 </template>
@@ -19,6 +29,8 @@ import { tripInformationMockData } from '@/entities/trip/trip.mock'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
 import TripInfo from '@/features/trip/MyTrip/ui/TripInfo.vue'
 import Reservation from '@/features/trip/Reservation/ui/Reservation.vue'
+import RequestSettlement from '@/features/trip/Settlement/ui/RequestSettlement.vue'
+import SettlementHistory from '@/features/trip/Settlement/ui/SettlementHistory.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 const trip = tripInformationMockData
 
