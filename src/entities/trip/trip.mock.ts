@@ -72,7 +72,7 @@ export const tripInformationMockData: TripInfo = {
 export const availableReservationListMockData: AvailableReservation[] = [
   {
     itemId: '1',
-    type: 'accommodation', // 숙박, 항공, 식당
+    type: 'accommodation', // 숙박, 교통, 식당
     title: '모아 호텔', // 예매 항목 장소 이름
     description: '아늑한 모아호텔입니다', // 설명(optional)
     imageUrl:
@@ -80,7 +80,7 @@ export const availableReservationListMockData: AvailableReservation[] = [
   },
   {
     itemId: '2',
-    type: 'accommodation', // 숙박, 항공, 식당
+    type: 'accommodation', // 숙박, 교통, 식당
     title: '시그니엘', // 예매 항목 장소 이름
     description: '잠실의 명물', // 설명(optional)
     imageUrl:
@@ -88,7 +88,7 @@ export const availableReservationListMockData: AvailableReservation[] = [
   },
   {
     itemId: '3',
-    type: 'accommodation', // 숙박, 항공, 식당
+    type: 'accommodation', // 숙박, 교통, 식당
     title: '신라호텔', // 예매 항목 장소 이름
     description: '3성급 신라호텔입니다', // 설명(optional)
     imageUrl:
@@ -99,7 +99,7 @@ export const availableReservationListMockData: AvailableReservation[] = [
 // [예약 페이지] 예약 아이템 정보
 export const reservationItemInfoMockData: AvailableReservation = {
   itemId: '1',
-  type: 'accommodation', // 숙박, 항공, 식당
+  type: 'accommodation', // 숙박, 교통, 식당
   title: '모아 호텔', // 예매 항목 장소 이름
   description: '아늑한 모아호텔입니다', // 설명(optional)
   imageUrl:

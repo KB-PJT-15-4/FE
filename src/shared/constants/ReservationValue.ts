@@ -1,4 +1,4 @@
-export const filterTabOptions = ['전체', '항공', '숙박', '식당']
+export const filterTabOptions = ['전체', '교통', '숙박', '식당']
 export const locationList = ['서울', '부산', '대구', '인천', '광주', '대전', '울산']
 export const restaurantTypeList = [
   '한식',
