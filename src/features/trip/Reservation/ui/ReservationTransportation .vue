@@ -14,9 +14,7 @@
             :key="index"
             :value="location"
           >
-            {{
-              location
-            }}
+            {{ location }}
           </Option>
         </SelectSmall>
       </div>
@@ -33,9 +31,7 @@
             :key="index"
             :value="location"
           >
-            {{
-              location
-            }}
+            {{ location }}
           </Option>
         </SelectSmall>
       </div>
@@ -44,7 +40,10 @@
       <TypographyP1 class="pl-1">
         출발 날짜
       </TypographyP1>
-      <Input type="date" />
+      <Input
+        v-model="selectedStartDate"
+        type="date"
+      />
     </div>
   </div>
   <ButtonMain>검색하기</ButtonMain>
@@ -65,5 +64,7 @@ const availableReservationList = availableReservationListMockData
 
 const selectedOrigin = ref(locationList[0])
 const selectedDestination = ref(locationList[0])
-console.log(locationList)
+
+const today = new Date()
+const selectedStartDate = ref(today.toISOString().split('T')[0])
 </script>

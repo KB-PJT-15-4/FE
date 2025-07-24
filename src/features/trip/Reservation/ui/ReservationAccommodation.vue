@@ -5,13 +5,19 @@
         <TypographyP1 class="pl-1">
           입실 날짜
         </TypographyP1>
-        <InputSmall type="date" />
+        <InputSmall
+          v-model="selectedStartDate"
+          type="date"
+        />
       </div>
       <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
           퇴실 날짜
         </TypographyP1>
-        <InputSmall type="date" />
+        <InputSmall
+          v-model="selectedEndDate"
+          type="date"
+        />
       </div>
     </div>
     <div class="flex items-center">
@@ -39,4 +45,8 @@ import FilteredList from './FilteredList.vue'
 
 const selectedN = ref(1)
 const availableReservationList = availableReservationListMockData
+
+const today = new Date()
+const selectedStartDate = ref(today.toISOString().split('T')[0])
+const selectedEndDate = ref(today.toISOString().split('T')[0])
 </script>

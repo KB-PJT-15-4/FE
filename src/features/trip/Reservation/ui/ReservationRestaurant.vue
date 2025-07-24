@@ -12,15 +12,16 @@
         :key="index"
         :value="type"
       >
-        {{
-          type
-        }}
+        {{ type }}
       </Option>
     </Select>
     <TypographyP1 class="pl-1">
       예약 날짜
     </TypographyP1>
-    <Input type="date" />
+    <Input
+      v-model="selectedDate"
+      type="date"
+    />
   </div>
   <ButtonMain>검색하기</ButtonMain>
   <FilteredList :available-reservation-list="availableReservationList" />
@@ -38,4 +39,7 @@ import FilteredList from './FilteredList.vue'
 
 const availableReservationList = availableReservationListMockData
 const selectedCategory = ref(restaurantTypeList[0])
+
+const today = new Date()
+const selectedDate = ref(today.toISOString().split('T')[0])
 </script>
