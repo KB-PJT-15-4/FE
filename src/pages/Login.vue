@@ -70,14 +70,6 @@ const handleLogin = async () => {
     const accessToken = result.data.token
     localStorage.setItem('accessToken', accessToken)
 
-    const userInfo = await axios.get('http://localhost:8080/api/public/login', { 
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-
-    console.log('사용자 정보:', userInfo.data)
-
     alert('로그인 성공!')
     router.push('/main/home')
   } catch (error) {

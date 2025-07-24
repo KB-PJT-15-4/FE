@@ -87,7 +87,7 @@ const handleSignup = async () => {
 
   try {
     // api 수정
-    await axios.post('https://your-api-domain.com/api/auth/signup', {
+    await axios.post('http://localhost:8080/', {
       email: email.value,
       password: password.value,
       name: name.value,

@@ -98,7 +98,7 @@ const goToSignup = async () => {
 
   try {
     // api 수정
-    await axios.post('https://your-api-domain.com/api/auth/certification', authData)
+    await axios.post('http://localhost:8080/', authData)
 
     localStorage.setItem('certData', JSON.stringify(authData))
 

@@ -71,6 +71,13 @@
         {{ formatCurrency(payment.cost) }}
       </p>
     </Card>
+
+    <Tag
+      color="main"
+      @click="getToCreate"
+    >
+      추가
+    </Tag>
   </div>
 </template>
 
@@ -81,6 +88,7 @@ import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
+import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
 
@@ -96,4 +104,3 @@ function formatCurrency(amount) {
   return `${amount.toLocaleString()}원`
 }
 </script>
-
