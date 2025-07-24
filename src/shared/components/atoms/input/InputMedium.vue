@@ -1,26 +1,16 @@
-<template>
-  <div class="relative">
-    <span
-      v-if="icon"
-      class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-    >
-      <component :is="icon" />
-    </span>
-    <input
-      v-bind="inputAttrs"
-      :class="inputClass"
-    >
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { Component } from 'vue'
 import { computed, useAttrs } from 'vue'
 
 const props = defineProps<{
+  modelValue?: string
   class?: string
   name?: string
   icon?: Component | string
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void
 }>()
 
 const attrs = useAttrs()
@@ -33,8 +23,24 @@ const inputClass = computed(() => {
   ]
 })
 
-const inputAttrs = computed(() => ({
-  name: props.name,
-  ...attrs,
-}))
+const onInput = (e: Event) => {
+  emit('update:modelValue', (e.target as HTMLInputElement).value)
+}
 </script>
+
+<template>
+  <div class="relative w-full">
+    <span
+      v-if="icon"
+      class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+    >
+      <component :is="icon" />
+    </span>
+    <input
+      v-bind="attrs"
+      :value="modelValue"
+      :class="inputClass"
+      @input="onInput"
+    >
+  </div>
+</template>

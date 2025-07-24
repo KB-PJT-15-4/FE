@@ -17,10 +17,10 @@
   </Card>
 </template>
 <script setup lang="ts">
-import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
+import type { ReservationItem } from '@/entities/trip/trip.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
-const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정
+defineProps<{ item: ReservationItem }>()
 </script>

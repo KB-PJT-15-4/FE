@@ -57,6 +57,7 @@ import { ref } from 'vue'
 
 import { userReservationListMockData, userTripListMockData } from '@/entities/trip/trip.mock'
 
+import { filterTabOptions } from '@/entities/trip/trip.entity'
 import ReservationInfo from '@/features/trip/MyReservationList/ui/ReservationInfo.vue'
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
 import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
@@ -78,6 +79,5 @@ const tripOptions = tripList.map((trip) => ({
   value: trip.id,
 }))
 
-const filterTabOptions = ['전체', '항공', '숙박', '식당']
 const selectedFilter = ref(filterTabOptions[0])
 </script>
