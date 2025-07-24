@@ -4,6 +4,7 @@ import {
   SettlementStatus,
   StatusType,
   type ReservationItem,
+  type SettlementProgressStatus,
   type TripInfo,
   type TripMember,
   type UserReservationList,
@@ -244,3 +245,15 @@ export const userSettlementListMockData: UserSettlement[] = [
     status: SettlementStatus.PENDING, // 받은 요청 정산 진행중 (나는 보냈는데 다른 사람이 안보낸경우)
   },
 ]
+
+export const settlementProgressStatusMockData: SettlementProgressStatus = {
+  title: '점심 돼지국밥',
+  date: '2025-08-03',
+  amount: 108000,
+  progresses: [
+    { name: '카리나', status: '정산 진행중' },
+    { name: '윈터', status: '정산 진행중' },
+    { name: '닝닝', status: '정산 완료' },
+    { name: '지젤', status: '정산 완료' },
+  ],
+}

@@ -3,7 +3,7 @@
   <Card
     v-for="(settlement, index) in userSettlementListMockData"
     :key="index"
-    class="flex justify-between items-center"
+    class="flex justify-between items-center my-1"
   >
     <div>
       <div class="flex gap-2">
@@ -21,7 +21,10 @@
     >
       정산하기
     </ButtonSmallMain>
-    <ButtonSmallSub v-else>
+    <ButtonSmallSub
+      v-else
+      @click="router.push(`/trip/${tripId}/settle/${settlement.id}/status`)"
+    >
       {{ settlement.status === SettlementStatus.COMPLETED ? '정산 완료' : '정산 진행중' }}
     </ButtonSmallSub>
   </Card>

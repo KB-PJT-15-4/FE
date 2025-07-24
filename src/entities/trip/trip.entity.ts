@@ -113,3 +113,11 @@ export interface UserSettlement {
   direction: SettlementDirection
   status: SettlementStatus
 }
+
+// 정산 현황
+export interface SettlementProgressStatus {
+  title: string
+  date: string
+  amount: number
+  progresses: { name: string; status: string }[]
+}

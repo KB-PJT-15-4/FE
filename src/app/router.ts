@@ -3,6 +3,7 @@ import CreateTrip from '@/pages/CreateTrip.vue'
 import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
 import PaySettle from '@/pages/PaySettle.vue'
+import PaySettleStatus from '@/pages/PaySettleStatus.vue'
 import RecordCreate from '@/pages/RecordCreate.vue'
 import RecordDetail from '@/pages/RecordDetail.vue'
 import Map from '@/pages/RecordMap.vue'
@@ -65,6 +66,11 @@ const router = createRouter({
       path: URL.PAGE.TRIP.SETTLE,
       name: 'settle',
       component: PaySettle,
+    },
+    {
+      path: URL.PAGE.TRIP.SETTLE_STATUS,
+      name: 'settle_status',
+      component: PaySettleStatus,
     },
     {
       path: URL.PAGE.RECORD.MAP,

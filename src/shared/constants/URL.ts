@@ -21,6 +21,7 @@ const URL = {
       CREATE: '/trip/create',
       RESERVATION: `/trip/:tripId/reservation`,
       SETTLE: '/trip/:tripId/settle/:settleId',
+      SETTLE_STATUS: '/trip/:tripId/settle/:settleId/status',
     },
     TEST: '/test',
   },
