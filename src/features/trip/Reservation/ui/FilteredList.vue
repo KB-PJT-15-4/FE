@@ -23,11 +23,37 @@
       </div>
       <ButtonSmallMain
         @click="
-          router.push({
-            name: 'reservation',
-            params: { tripId },
-            query: { type: item.type, itemId: item.itemId },
-          })
+          () => {
+            const query: Record<string, string | number> = {
+              type: item.type,
+              itemId: item.itemId,
+            }
+
+            if (item.type === ItemType.Accommodation) {
+              query.startDate = selectedStartDate
+              query.endDate = selectedEndDate
+              query.people = selectedN
+            }
+
+            if (item.type === ItemType.Transportation) {
+              query.startDate = selectedStartDate
+              query.origin = selectedOrigin
+              query.destination = selectedDestination
+              query.people = selectedN
+            }
+
+            if (item.type === ItemType.Restaurant) {
+              query.date = selectedStartDate
+              query.people = selectedN
+              query.category = selectedCategory
+            }
+
+            router.push({
+              name: 'reservation',
+              params: { tripId },
+              query,
+            })
+          }
         "
       >
         예약하기
@@ -37,14 +63,22 @@
 </template>
 <script setup lang="ts">
 import router from '@/app/router'
-import type { AvailableReservation } from '@/entities/trip/trip.entity'
+import { ItemType, type ReservationItem } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import { inject, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-defineProps<{ availableReservationList: AvailableReservation[] }>()
+defineProps<{ availableReservationList: ReservationItem[] }>()
 const route = useRoute()
 const tripId = route.params.tripId
+
+const selectedStartDate = inject<Ref<string>>('selectedStartDate', ref(''))
+const selectedEndDate = inject<Ref<string>>('selectedEndDate', ref(''))
+const selectedN = inject<Ref<number>>('selectedN', ref(1))
+const selectedOrigin = inject<Ref<string>>('selectedOrigin', ref(''))
+const selectedDestination = inject<Ref<string>>('selectedDestination', ref(''))
+const selectedCategory = inject<Ref<string>>('selectedCategory', ref(''))
 </script>
