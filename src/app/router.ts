@@ -2,14 +2,16 @@ import Certification from '@/pages/Certification.vue'
 import CreateTrip from '@/pages/CreateTrip.vue'
 import Home from '@/pages/Home.vue'
 import Login from '@/pages/Login.vue'
-import Reservation from '@/pages/Reservation.vue'
+import PaySettle from '@/pages/PaySettle.vue'
+import PaySettleStatus from '@/pages/PaySettleStatus.vue'
+import RecordCreate from '@/pages/RecordCreate.vue'
+import RecordDetail from '@/pages/RecordDetail.vue'
 import Map from '@/pages/RecordMap.vue'
+import Reservation from '@/pages/Reservation.vue'
 import SignUp from '@/pages/SignUp.vue'
 import Test from '@/pages/Test.vue'
 import TripDetail from '@/pages/TripDetail.vue'
 import TripList from '@/pages/TripList.vue'
-import RecordDetail from '@/pages/RecordDetail.vue'
-import RecordCreate from '@/pages/RecordCreate.vue'
 import URL from '@/shared/constants/URL'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -59,6 +61,16 @@ const router = createRouter({
       path: URL.PAGE.TRIP.CREATE,
       name: 'create_trip',
       component: CreateTrip,
+    },
+    {
+      path: URL.PAGE.TRIP.SETTLE,
+      name: 'settle',
+      component: PaySettle,
+    },
+    {
+      path: URL.PAGE.TRIP.SETTLE_STATUS,
+      name: 'settle_status',
+      component: PaySettleStatus,
     },
     {
       path: URL.PAGE.RECORD.MAP,

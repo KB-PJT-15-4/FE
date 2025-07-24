@@ -1,0 +1,44 @@
+<template>
+  <div class="w-full">
+    <TypographyHead2>{{ data.title }}</TypographyHead2>
+    <TypographySubTitle2 class="text-moa-sub-text">
+      {{
+        formatFullDateToKorean(new Date(data.date))
+      }}
+    </TypographySubTitle2>
+
+    <TypographyHead1>총 {{ formatNumber(data.amount) }} 원</TypographyHead1>
+    <TypographySubTitle2 class="text-moa-sub-text">
+      1인당 {{ formatNumber(data.amount / data.progresses.length) }} 원
+    </TypographySubTitle2>
+
+    <TypographyHead2>정산 현황</TypographyHead2>
+
+    <Card
+      v-for="(item, index) in data.progresses"
+      :key="index"
+      class="flex justify-between items-center"
+    >
+      <TypographyHead3>{{ item.name }}</TypographyHead3>
+      <div>
+        <div v-if="item.status == '정산 진행중'">
+          <TypographyCaption>정산진행중</TypographyCaption>
+        </div>
+        <div v-if="item.status == '정산 완료'">
+          <TypographyCaption>정산완료</TypographyCaption>
+        </div>
+      </div>
+    </Card>
+  </div>
+</template>
+<script setup lang="ts">
+import { settlementProgressStatusMockData } from '@/entities/trip/trip.mock'
+import Card from '@/shared/components/atoms/card/Card.vue'
+import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
+import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
+import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
+import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
+const data = settlementProgressStatusMockData
+</script>

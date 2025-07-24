@@ -43,6 +43,13 @@ export interface TripInfo {
   location: string
 }
 
+// [여행 페이지] 여행 멤버
+export interface TripMember {
+  id: string
+  name: string
+  email?: string
+}
+
 // [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트
 export interface UserReservationList {
   id: string // 예매 id
@@ -62,12 +69,13 @@ export interface ReservationItem {
 
   description?: string // 예매 가능 항목 설명(optional)
   address?: string // restaurant, accommodation 주소(optional)
+
+  price?: number // 예매 페이지에서 띄울 인당 가격
 }
 
 // [예매 페이지] 예매하기
 interface BaseReservationInfo {
   itemId: string
-  people: number
 }
 
 export interface AccommodationReservation extends BaseReservationInfo {
@@ -84,4 +92,32 @@ export interface TransportationReservation extends BaseReservationInfo {
 export interface RestaurantReservation extends BaseReservationInfo {
   category: string
   date: string
+}
+
+// [여행 페이지] 정산 내역
+export enum SettlementDirection {
+  SENT = 'sent', // 보낸 요청
+  RECEIVED = 'received', // 받은 요청
+}
+export enum SettlementStatus {
+  PENDING = 'pending', // 정산 진행중
+  COMPLETED = 'completed', // 정산 완료
+  WAITING = 'waiting', // 정산 미완료
+}
+
+// 정산내역 리스트
+export interface UserSettlement {
+  id: string // 정산 id
+  date: string
+  amount: number
+  direction: SettlementDirection
+  status: SettlementStatus
+}
+
+// 정산 현황
+export interface SettlementProgressStatus {
+  title: string
+  date: string
+  amount: number
+  progresses: { name: string; status: string }[]
 }

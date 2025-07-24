@@ -32,19 +32,17 @@
             if (item.type === ItemType.Accommodation) {
               query.startDate = selectedStartDate
               query.endDate = selectedEndDate
-              query.people = selectedN
             }
 
             if (item.type === ItemType.Transportation) {
               query.startDate = selectedStartDate
               query.origin = selectedOrigin
               query.destination = selectedDestination
-              query.people = selectedN
             }
 
             if (item.type === ItemType.Restaurant) {
               query.date = selectedStartDate
-              query.people = selectedN
+
               query.category = selectedCategory
             }
 
@@ -77,7 +75,6 @@ const tripId = route.params.tripId
 
 const selectedStartDate = inject<Ref<string>>('selectedStartDate', ref(''))
 const selectedEndDate = inject<Ref<string>>('selectedEndDate', ref(''))
-const selectedN = inject<Ref<number>>('selectedN', ref(1))
 const selectedOrigin = inject<Ref<string>>('selectedOrigin', ref(''))
 const selectedDestination = inject<Ref<string>>('selectedDestination', ref(''))
 const selectedCategory = inject<Ref<string>>('selectedCategory', ref(''))

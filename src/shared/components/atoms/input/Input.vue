@@ -3,7 +3,7 @@ import type { Component } from 'vue'
 import { computed, useAttrs } from 'vue'
 
 const props = defineProps<{
-  modelValue?: string
+  modelValue?: string | number
   class?: string
   name?: string
   icon?: Component | string

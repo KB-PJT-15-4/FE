@@ -1,9 +1,14 @@
 import {
   ItemType,
+  SettlementDirection,
+  SettlementStatus,
   StatusType,
   type ReservationItem,
+  type SettlementProgressStatus,
   type TripInfo,
+  type TripMember,
   type UserReservationList,
+  type UserSettlement,
 } from './trip.entity'
 
 // 여행 리스트
@@ -73,6 +78,40 @@ export const tripInformationMockData: TripInfo = {
   status: StatusType.Progress,
   location: '부산',
 }
+
+// [여행 페이지] 여행 멤버
+export const tripMemberListMockData: TripMember[] = [
+  {
+    id: '1',
+    name: '강민재',
+    email: 'minijae011030@gmail.com',
+  },
+  {
+    id: '2',
+    name: '곽효재',
+    email: 'hyo@gmail.com',
+  },
+  {
+    id: '3',
+    name: '김동연',
+    email: 'dong@gmail.com',
+  },
+  {
+    id: '4',
+    name: '김미정',
+    email: 'mijeong@gmail.com',
+  },
+  {
+    id: '5',
+    name: '이호진',
+    email: 'hojin@gmail.com',
+  },
+  {
+    id: '6',
+    name: '정다현',
+    email: 'dahyun@gmail.com',
+  },
+]
 
 // [여행 페이지] 예약 가능 내역 리스트
 export const availableAccommodationReservationListMockData: ReservationItem[] = [
@@ -165,4 +204,56 @@ export const reservationItemInfoMockData: ReservationItem = {
   imageUrl:
     'https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp', // 예매 항목 사진
   address: '서울특별시 송파구 올림픽로 300',
+  price: 300000,
+}
+
+// [여행 페이지] 정산 내역 리스트
+export const userSettlementListMockData: UserSettlement[] = [
+  {
+    id: '1',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.SENT, // 보낸 요청
+    status: SettlementStatus.PENDING, // 보낸 요청 정산 진행중
+  },
+  {
+    id: '2',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.SENT, // 보낸 요청
+    status: SettlementStatus.COMPLETED, // 정산 완료
+  },
+  {
+    id: '3',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.RECEIVED, // 받은 요청
+    status: SettlementStatus.COMPLETED, // 정산 완료
+  },
+  {
+    id: '4',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.RECEIVED, // 받은 요청
+    status: SettlementStatus.WAITING, // 받은 요청 정산 미완료
+  },
+  {
+    id: '5',
+    date: '2025-10-30T00:00:00',
+    amount: 10000,
+    direction: SettlementDirection.RECEIVED, // 받은 요청
+    status: SettlementStatus.PENDING, // 받은 요청 정산 진행중 (나는 보냈는데 다른 사람이 안보낸경우)
+  },
+]
+
+export const settlementProgressStatusMockData: SettlementProgressStatus = {
+  title: '점심 돼지국밥',
+  date: '2025-08-03',
+  amount: 108000,
+  progresses: [
+    { name: '카리나', status: '정산 진행중' },
+    { name: '윈터', status: '정산 진행중' },
+    { name: '닝닝', status: '정산 완료' },
+    { name: '지젤', status: '정산 완료' },
+  ],
 }
