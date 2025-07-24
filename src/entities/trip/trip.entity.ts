@@ -1,3 +1,32 @@
+export const filterTabOptions = ['전체', '교통', '숙박', '식당']
+export const locationList = ['서울', '부산', '대구', '인천', '광주', '대전', '울산']
+export const restaurantTypeList = [
+  '한식',
+  '중식',
+  '일식',
+  '양식',
+  '분식',
+  '패스트푸드',
+  '치킨',
+  '피자',
+  '족발/보쌈',
+  '고기구이',
+  '회/해산물',
+  '뷔페',
+  '샤브샤브/훠궈',
+  '베이커리/디저트',
+  '카페',
+  '술집/포차',
+  '건강식/채식',
+  '기타',
+]
+
+export enum ReservationType {
+  Accommodation = 'accommodation',
+  Transportation = 'transportation',
+  Restaurant = 'restaurant',
+}
+
 // 여행 리스트
 export interface TripInfo {
   id: string
@@ -19,7 +48,7 @@ export interface UserReservationList {
 }
 
 // [여행 페이지] 예매 가능 항목
-export interface AvailableReservation {
+export interface ReservationItem {
   itemId: string // 예매 항목 id
   type: 'accommodation' | 'transportation' | 'restaurant' // 숙박, 교통, 식당
   title: string // 예매 항목 장소 이름
@@ -33,7 +62,6 @@ export interface AvailableReservation {
 interface BaseReservationInfo {
   itemId: string
   people: number
-  tile: string
 }
 
 export interface AccommodationReservation extends BaseReservationInfo {

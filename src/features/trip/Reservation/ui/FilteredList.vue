@@ -29,20 +29,20 @@
               itemId: item.itemId,
             }
 
-            if (item.type === 'accommodation') {
+            if (item.type === ReservationType.Accommodation) {
               query.startDate = selectedStartDate
               query.endDate = selectedEndDate
               query.people = selectedN
             }
 
-            if (item.type === 'transportation') {
+            if (item.type === ReservationType.Transportation) {
               query.startDate = selectedStartDate
               query.origin = selectedOrigin
               query.destination = selectedDestination
               query.people = selectedN
             }
 
-            if (item.type === 'restaurant') {
+            if (item.type === ReservationType.Restaurant) {
               query.date = selectedStartDate
               query.people = selectedN
               query.category = selectedCategory
@@ -63,7 +63,7 @@
 </template>
 <script setup lang="ts">
 import router from '@/app/router'
-import type { AvailableReservation } from '@/entities/trip/trip.entity'
+import { ReservationType, type ReservationItem } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
@@ -71,7 +71,7 @@ import TypographySubTitle1 from '@/shared/components/atoms/typography/Typography
 import { inject, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-defineProps<{ availableReservationList: AvailableReservation[] }>()
+defineProps<{ availableReservationList: ReservationItem[] }>()
 const route = useRoute()
 const tripId = route.params.tripId
 

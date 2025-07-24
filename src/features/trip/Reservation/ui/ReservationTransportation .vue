@@ -50,13 +50,13 @@
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
+import { locationList } from '@/entities/trip/trip.entity'
 import { availableTransportationReservationListMockData } from '@/entities/trip/trip.mock'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import SelectSmall from '@/shared/components/atoms/input/SelectSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
-import { locationList } from '@/shared/constants/ReservationValue'
 import { provide, ref } from 'vue'
 import FilteredList from './FilteredList.vue'
 

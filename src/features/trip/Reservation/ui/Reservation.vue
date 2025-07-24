@@ -17,9 +17,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import { filterTabOptions } from '@/entities/trip/trip.entity'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
-import { filterTabOptions } from '@/shared/constants/ReservationValue'
 import ReservationAccommodation from './ReservationAccommodation.vue'
 import ReservationRestaurant from './ReservationRestaurant.vue'
 import ReservationTransportation from './ReservationTransportation .vue'

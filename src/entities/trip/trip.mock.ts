@@ -1,4 +1,4 @@
-import type { AvailableReservation, TripInfo, UserReservationList } from './trip.entity'
+import type { ReservationItem, TripInfo, UserReservationList } from './trip.entity'
 
 // 여행 리스트
 export const userTripListMockData: TripInfo[] = [
@@ -69,7 +69,7 @@ export const tripInformationMockData: TripInfo = {
 }
 
 // [여행 페이지] 예약 가능 내역 리스트
-export const availableAccommodationReservationListMockData: AvailableReservation[] = [
+export const availableAccommodationReservationListMockData: ReservationItem[] = [
   {
     itemId: '1',
     type: 'accommodation', // 숙박, 교통, 식당
@@ -96,7 +96,7 @@ export const availableAccommodationReservationListMockData: AvailableReservation
   },
 ]
 
-export const availableTransportationReservationListMockData: AvailableReservation[] = [
+export const availableTransportationReservationListMockData: ReservationItem[] = [
   {
     itemId: '1',
     type: 'transportation', // 숙박, 교통, 식당
@@ -123,7 +123,7 @@ export const availableTransportationReservationListMockData: AvailableReservatio
   },
 ]
 
-export const availableRestaurantReservationListMockData: AvailableReservation[] = [
+export const availableRestaurantReservationListMockData: ReservationItem[] = [
   {
     itemId: '1',
     type: 'restaurant', // 숙박, 교통, 식당
@@ -151,7 +151,7 @@ export const availableRestaurantReservationListMockData: AvailableReservation[] 
 ]
 
 // [예약 페이지] 예약 아이템 정보
-export const reservationItemInfoMockData: AvailableReservation = {
+export const reservationItemInfoMockData: ReservationItem = {
   itemId: '1',
   type: 'accommodation', // 숙박, 교통, 식당
   title: '모아 호텔', // 예매 항목 장소 이름

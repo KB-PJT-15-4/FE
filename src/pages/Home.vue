@@ -57,6 +57,7 @@ import { ref } from 'vue'
 
 import { userReservationListMockData, userTripListMockData } from '@/entities/trip/trip.mock'
 
+import { filterTabOptions } from '@/entities/trip/trip.entity'
 import ReservationInfo from '@/features/trip/MyReservationList/ui/ReservationInfo.vue'
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
 import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
@@ -67,7 +68,6 @@ import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
-import { filterTabOptions } from '@/shared/constants/ReservationValue'
 
 const selected = ref('')
 const showIdCard = ref(false)

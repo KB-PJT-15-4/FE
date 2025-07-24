@@ -15,10 +15,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import { filterTabOptions } from '@/entities/trip/trip.entity'
 import { userReservationListMockData } from '@/entities/trip/trip.mock'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
-import { filterTabOptions } from '@/shared/constants/ReservationValue'
 import { ref } from 'vue'
 import ReservationInfo from './ReservationInfo.vue'
 
