@@ -5,6 +5,7 @@ import {
   StatusType,
   type ReservationItem,
   type TripInfo,
+  type TripMember,
   type UserReservationList,
   type UserSettlement,
 } from './trip.entity'
@@ -76,6 +77,40 @@ export const tripInformationMockData: TripInfo = {
   status: StatusType.Progress,
   location: '부산',
 }
+
+// [여행 페이지] 여행 멤버
+export const tripMemberListMockData: TripMember[] = [
+  {
+    id: '1',
+    name: '강민재',
+    email: 'minijae011030@gmail.com',
+  },
+  {
+    id: '2',
+    name: '곽효재',
+    email: 'hyo@gmail.com',
+  },
+  {
+    id: '3',
+    name: '김동연',
+    email: 'dong@gmail.com',
+  },
+  {
+    id: '4',
+    name: '김미정',
+    email: 'mijeong@gmail.com',
+  },
+  {
+    id: '5',
+    name: '이호진',
+    email: 'hojin@gmail.com',
+  },
+  {
+    id: '6',
+    name: '정다현',
+    email: 'dahyun@gmail.com',
+  },
+]
 
 // [여행 페이지] 예약 가능 내역 리스트
 export const availableAccommodationReservationListMockData: ReservationItem[] = [

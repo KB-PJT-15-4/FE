@@ -43,6 +43,13 @@ export interface TripInfo {
   location: string
 }
 
+// [여행 페이지] 여행 멤버
+export interface TripMember {
+  id: string
+  name: string
+  email?: string
+}
+
 // [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트
 export interface UserReservationList {
   id: string // 예매 id
