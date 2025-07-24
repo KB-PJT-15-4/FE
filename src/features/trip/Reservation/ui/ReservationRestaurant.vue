@@ -3,8 +3,19 @@
     <TypographyP1 class="pl-1">
       카테고리
     </TypographyP1>
-    <Select placeholder="카테고리를 선택해주세요">
-      <Option />
+    <Select
+      v-model="selectedCategory"
+      placeholder="카테고리를 선택해주세요"
+    >
+      <Option
+        v-for="(type, index) in restaurantTypeList"
+        :key="index"
+        :value="type"
+      >
+        {{
+          type
+        }}
+      </Option>
     </Select>
     <TypographyP1 class="pl-1">
       예약 날짜
@@ -21,7 +32,10 @@ import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import { restaurantTypeList } from '@/shared/constants/ReservationValue'
+import { ref } from 'vue'
 import FilteredList from './FilteredList.vue'
 
 const availableReservationList = availableReservationListMockData
+const selectedCategory = ref(restaurantTypeList[0])
 </script>

@@ -67,6 +67,7 @@ import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
+import { filterTabOptions } from '@/shared/constants/ReservationValue'
 
 const selected = ref('')
 const showIdCard = ref(false)
@@ -78,6 +79,5 @@ const tripOptions = tripList.map((trip) => ({
   value: trip.id,
 }))
 
-const filterTabOptions = ['전체', '항공', '숙박', '식당']
 const selectedFilter = ref(filterTabOptions[0])
 </script>
