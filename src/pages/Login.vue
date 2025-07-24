@@ -55,25 +55,36 @@ const password = ref('')
 
 const handleLogin = async () => {
   const context = {
-        email: email.value,
-        password: password.value,
-      }
-      console.log(context)
+    email: email.value,
+    password: password.value,
+  }
+  console.log('요청 데이터:', context)
+
   try {
-    const result = await fetch(`http://localhost:8080/api/public/login`, {
-      method:"POST",
+    const response = await fetch(`http://localhost:8080/api/public/login`, {
+      method: 'POST',
       headers: {
-        "Content-Type" : "application/json"
-      }, body: JSON.stringify(context)
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // 쿠키 포함
+      body: JSON.stringify(context),
     })
 
-    const accessToken = result.data.token
+    if (!response.ok) {
+      const errorBody = await response.text()
+      throw new Error(`HTTP ${response.status} - ${errorBody}`)
+    }
+
+    const data = await response.json()
+    console.log('서버 응답:', data)
+
+    const accessToken = data.token
     localStorage.setItem('accessToken', accessToken)
 
     alert('로그인 성공!')
     router.push('/main/home')
   } catch (error) {
-    console.error('로그인 실패:', error)
+    console.error('로그인 실패:', error.message)
     alert('로그인에 실패했습니다. 정보를 확인해주세요.')
   }
 }
