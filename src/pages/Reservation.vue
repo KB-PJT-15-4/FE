@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import {
-  ReservationType,
+  ItemType,
   type AccommodationReservation,
   type RestaurantReservation,
   type TransportationReservation,
@@ -27,7 +27,7 @@ const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아
 
 let reservationInfo: AccommodationReservation | TransportationReservation | RestaurantReservation
 
-if (type === ReservationType.Accommodation) {
+if (type === ItemType.Accommodation) {
   reservationInfo = {
     itemId,
     people: Number(route.query.people),
@@ -36,7 +36,7 @@ if (type === ReservationType.Accommodation) {
   }
 }
 
-if (type === ReservationType.Transportation) {
+if (type === ItemType.Transportation) {
   reservationInfo = {
     itemId,
     people: Number(route.query.people),
@@ -46,7 +46,7 @@ if (type === ReservationType.Transportation) {
   }
 }
 
-if (type === ReservationType.Transportation) {
+if (type === ItemType.Transportation) {
   reservationInfo = {
     itemId,
     people: Number(route.query.people),

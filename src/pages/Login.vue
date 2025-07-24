@@ -58,10 +58,17 @@ const handleLogin = async () => {
         email: email.value,
         password: password.value,
       }
+      console.log(context)
   try {
-    const response = await axios.post('http://localhost:8080/api/public/login', context)
+    // const response = await axios.post('http://localhost:8080/api/public/login', context)
+    const result = await fetch(`http://localhost:8080/api/public/login`, {
+      method:"POST",
+      headers: {
+        "Content-Type" : "application/json"
+      }, body: JSON.stringify(context)
+    })
 
-    const accessToken = response.data.token
+    const accessToken = result.data.token
     localStorage.setItem('accessToken', accessToken)
 
     const userInfo = await axios.get('http://localhost:8080/api/public/login', { 

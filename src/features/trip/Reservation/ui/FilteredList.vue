@@ -29,20 +29,20 @@
               itemId: item.itemId,
             }
 
-            if (item.type === ReservationType.Accommodation) {
+            if (item.type === ItemType.Accommodation) {
               query.startDate = selectedStartDate
               query.endDate = selectedEndDate
               query.people = selectedN
             }
 
-            if (item.type === ReservationType.Transportation) {
+            if (item.type === ItemType.Transportation) {
               query.startDate = selectedStartDate
               query.origin = selectedOrigin
               query.destination = selectedDestination
               query.people = selectedN
             }
 
-            if (item.type === ReservationType.Restaurant) {
+            if (item.type === ItemType.Restaurant) {
               query.date = selectedStartDate
               query.people = selectedN
               query.category = selectedCategory
@@ -63,7 +63,7 @@
 </template>
 <script setup lang="ts">
 import router from '@/app/router'
-import { ReservationType, type ReservationItem } from '@/entities/trip/trip.entity'
+import { ItemType, type ReservationItem } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
