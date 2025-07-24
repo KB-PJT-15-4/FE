@@ -172,7 +172,7 @@ export const reservationItemInfoMockData: ReservationItem = {
 }
 
 // [여행 페이지] 정산 내역 리스트
-export const userSettlementList: UserSettlement[] = [
+export const userSettlementListMockData: UserSettlement[] = [
   {
     id: '1',
     date: '2025-10-30T00:00:00',
