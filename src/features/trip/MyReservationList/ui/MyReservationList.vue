@@ -5,13 +5,17 @@
   <SegmentedTab
     v-model="selectedSegmentOption"
     :options="filterTabOptions"
+    class="mt-2"
   />
   <div
     v-for="reservation in userReservationListMockData"
     :key="reservation.id"
     :value="reservation"
   >
-    <ReservationInfo :reservation="reservation" />
+    <ReservationInfo
+      :reservation="reservation"
+      class="my-3"
+    />
   </div>
 </template>
 <script setup lang="ts">
