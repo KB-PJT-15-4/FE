@@ -54,16 +54,17 @@ const email = ref('')
 const password = ref('')
 
 const handleLogin = async () => {
+  const context = {
+        email: email.value,
+        password: password.value,
+      }
   try {
-    const response = await axios.post('/api/public/login', { // api 수정 
-      email: email.value,
-      password: password.value,
-    })
+    const response = await axios.post('http://localhost:8080/api/public/login', context)
 
-    const accessToken = response.data.accessToken
+    const accessToken = response.data.token
     localStorage.setItem('accessToken', accessToken)
 
-    const userInfo = await axios.get('/api/public/login', { // api 수정
+    const userInfo = await axios.get('http://localhost:8080/api/public/login', { 
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
