@@ -22,7 +22,7 @@
         <InputSmall
           ref="rrnFrontRef"
           v-model="rrnFront"
-          class="flex-1"
+          class="flex-1 border-[2px]"
           placeholder="주민등록번호 앞자리"
           maxlength="6"
           @input="handleRrnFrontInput"
@@ -33,7 +33,7 @@
         <InputSmall
           ref="rrnBackRef"
           v-model="rrnBack"
-          class="flex-1"
+          class="flex-1 border-[2px]"
           type="password"
           placeholder="*******"
           maxlength="7"
