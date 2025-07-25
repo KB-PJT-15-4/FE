@@ -1,3 +1,9 @@
+<!-- 1. Date 포맷팅 -->
+<!-- 2. 수정, 삭제 기능 추가 -->
+<!-- 3. 기록 카드 배치 CSS 수정 -->
+<!-- 4. Record 탭 주석 처리 -->
+<!-- 5. 날짜 유효성 처리 -->
+
 <template>
   <div class="w-full flex flex-col gap-4">
     <!-- 여행 정보 카드 -->
@@ -34,7 +40,6 @@
     <Card
       v-for="reservation in userReservationListMockData"
       :key="reservation.id"
-      :value="reservation"
       class="flex justify-between"
     >
       <div class="flex gap-4">
@@ -84,24 +89,37 @@
     <div
       v-for="(record, index) in recordList"
       :key="index"
-      class="p-4 bg-white rounded shadow border"
+      class="p-4 bg-white rounded-md shadow border space-y-2"
     >
       <div class="flex justify-between items-center">
-        <h3 class="font-bold text-base">
+        <div class="font-bold text-base">
           {{ record.title }}
-        </h3>
-        <span class="text-sm text-gray-500">{{ record.date }}</span>
+        </div>
+        <div class="flex gap-2">
+          <Tag
+            color="main"
+            @click="editRecord(index)"
+          >
+            수정
+          </Tag>
+          <Tag
+            color="main"
+            @click="deleteRecord(index)"
+          >
+            삭제
+          </Tag>
+        </div>
       </div>
-      <div
-        v-if="record.imageUrl"
-        class="mt-2"
-      >
+      <div class="text-sm text-[#626262]">
+        {{ formatFullDateToKorean(new Date(record.date)) }}
+      </div>
+      <div v-if="record.imageUrl">
         <img
           :src="record.imageUrl"
           class="w-full rounded"
         >
       </div>
-      <p class="mt-2 text-sm text-gray-700 whitespace-pre-line">
+      <p class="text-sm text-[#626262] whitespace-pre-line">
         {{ record.content }}
       </p>
     </div>
@@ -109,29 +127,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { formatFullDateToKorean } from '@/shared/utils/format'
+import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
+
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import Tag from '@/shared/components/atoms/tag/Tag.vue'
-import { formatFullDateToKorean } from '@/shared/utils/format'
-import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
 
 const route = useRoute()
-const selectedDate = ref('2025-03-24')
+const router = useRouter()
+const selectedDate = ref('2025-03-24') // 날짜 탭 날짜 선택
 
 const tripId = Number(route.params.tripId)
-
 const tripData = computed(() => mockData.find(trip => trip.tripId === tripId))
 
-// 금액 포맷 함수
+// 금액 포맷팅 (추후 format.ts 로 이동)
 function formatCurrency(amount) {
   return `${amount.toLocaleString()}원`
 }
-
-import { onMounted } from 'vue'
 
 const recordList = ref([])
 
@@ -141,4 +158,20 @@ onMounted(() => {
     recordList.value = JSON.parse(saved)
   }
 })
+
+// 기록 수정 기능 함수 (추후 features로 이동)
+const editRecord = (index) => {
+  router.push({
+    path: `/record/${tripId}/create`,
+    query: { editIndex: index }
+  })
+}
+
+// 기록 삭제 기능 함수 (추후 feature로 이동)
+const deleteRecord = (index) => {
+  if (confirm('정말 삭제하시겠습니까?')) {
+    recordList.value.splice(index, 1)
+    localStorage.setItem(`trip-${tripId}-records`, JSON.stringify(recordList.value))
+  }
+}
 </script>

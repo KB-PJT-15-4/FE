@@ -4,8 +4,10 @@
       나의 여행지도
     </TypographyHead3>
 
+    <!-- 카카오맵 API -->
     <Map @select-location="onSelectLocation" />
 
+    <!-- 여행 지역 마커 클릭시 해당 여행 지역 여행 기록 카드 불러오기 -->
     <div
       v-if="filteredTrips.length > 0"
       class="mt-4 space-y-3"
