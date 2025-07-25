@@ -99,7 +99,7 @@ const goToSignup = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/public/verify/Join', {
+    const response = await fetch('http://localhost:8080/api/public/verifyJoin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -112,6 +112,9 @@ const goToSignup = async () => {
       const errorText = await response.text()
       throw new Error(`본인인증 실패: ${response.status} - ${errorText}`)
     }
+
+    const data = await response.json()
+    console.log('서버 응답:', data)
 
     localStorage.setItem('certData', JSON.stringify(authData))
     

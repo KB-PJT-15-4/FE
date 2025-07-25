@@ -110,6 +110,9 @@ const handleSignup = async () => {
       throw new Error(`회원가입 실패: ${response.status} - ${errorText}`)
     }
 
+    const data = await response.json()
+    console.log('서버 응답:', data)
+
     alert('회원가입 성공!')
     localStorage.removeItem('certData') // 본인인증 데이터 제거
 
