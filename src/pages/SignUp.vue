@@ -113,8 +113,11 @@ const handleSignup = async () => {
     const data = await response.json()
     console.log('서버 응답:', data)
 
-    alert('회원가입 성공!')
+    localStorage.setItem('signData', JSON.stringify(signupData))
+
     localStorage.removeItem('certData') // 본인인증 데이터 제거
+    
+    alert('회원가입 성공!')
 
     router.push('/')
 

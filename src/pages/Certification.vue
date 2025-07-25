@@ -20,18 +20,23 @@
       <!-- 주민등록번호 입력 -->
       <div class="w-full flex gap-1">
         <InputSmall
+          ref="rrnFrontRef"
           v-model="rrnFront"
           class="flex-1"
           placeholder="주민등록번호 앞자리"
+          maxlength="6"
+          @input="handleRrnFrontInput"
         />
         <div class="flex items-center text-lg text-[#999999]">
           -
         </div>
         <InputSmall
+          ref="rrnBackRef"
           v-model="rrnBack"
           class="flex-1"
           type="password"
           placeholder="*******"
+          maxlength="7"
         />
       </div>
 
@@ -66,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
 import Input from '@/shared/components/atoms/input/Input.vue'
@@ -82,6 +87,16 @@ const rrnFront = ref('')
 const rrnBack = ref('')
 const accountNumber = ref('')
 const accountPassword = ref('')
+
+const rrnFrontRef = ref(null)
+const rrnBackRef = ref(null)
+
+const handleRrnFrontInput = () => {
+  // 6자리 초과 입력 제한
+  if (rrnFront.value.length > 6) {
+    rrnFront.value = rrnFront.value.slice(0, 6)
+  }
+}
 
 const goToLogin = () => {
   router.push('/')
@@ -104,7 +119,7 @@ const goToSignup = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // 쿠키 세션 인증
+      credentials: 'include',
       body: JSON.stringify(authData),
     })
 
