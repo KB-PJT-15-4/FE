@@ -93,6 +93,7 @@ const handleSignup = async () => {
     idCardNumber: idCardNumber.value,
     accountNumber: accountNumber.value,
     accountPassword: accountPassword.value,
+    role: "ROLE_USER",
   }
 
   try {
@@ -116,7 +117,7 @@ const handleSignup = async () => {
     localStorage.setItem('signData', JSON.stringify(signupData))
 
     localStorage.removeItem('certData') // 본인인증 데이터 제거
-    
+
     alert('회원가입 성공!')
 
     router.push('/')
