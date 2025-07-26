@@ -92,11 +92,8 @@
         <div class="font-bold text-base">
           {{ record.title }}
         </div>
-        <div class="flex gap-2">
-          <ButtonExtraSmallMain
-            class="w-[60px]"
-            @click="editRecord(index)"
-          >
+        <div class="flex gap-2 w-[120px]">
+          <ButtonExtraSmallMain @click="editRecord(index)">
             수정
           </ButtonExtraSmallMain>
           <ButtonExtraSmallMain @click="deleteRecord(index)">
