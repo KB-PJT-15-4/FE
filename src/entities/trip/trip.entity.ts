@@ -95,22 +95,19 @@ export interface RestaurantReservation extends BaseReservationInfo {
 }
 
 // [여행 페이지] 정산 내역
-export enum SettlementDirection {
-  SENT = 'sent', // 보낸 요청
-  RECEIVED = 'received', // 받은 요청
-}
+
 export enum SettlementStatus {
-  PENDING = 'pending', // 정산 진행중
-  COMPLETED = 'completed', // 정산 완료
-  WAITING = 'waiting', // 정산 미완료
+  PENDING = '정산 진행중',
+  COMPLETED = '정산 완료',
+  WAITING = '정산 하기',
 }
 
 // 정산내역 리스트
 export interface UserSettlement {
-  id: string // 정산 id
-  date: string
-  amount: number
-  direction: SettlementDirection
+  expenseId: string // 정산 id
+  expenseDate: string
+  shareAmount: number
+  received: boolean
   status: SettlementStatus
 }
 

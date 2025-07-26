@@ -8,17 +8,24 @@
     <div>
       <div class="flex gap-2">
         <TypographyCaption>
-          {{ settlement.direction === SettlementDirection.RECEIVED ? '받은 요청' : '보낸 요청' }}
+          {{ settlement.received ? '받은 요청' : '보낸 요청' }}
         </TypographyCaption>
-        <TypographyCaption>{{ formatDateTime(settlement.date) }}</TypographyCaption>
+        <TypographyCaption>
+          {{
+            formatFullDateToKorean(new Date(settlement.expenseDate))
+          }}
+        </TypographyCaption>
       </div>
 
-      <TypographyHead3>{{ formatNumber(settlement.amount) }}원</TypographyHead3>
+      <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
     </div>
     <ButtonSmallMain
       v-if="settlement.status === SettlementStatus.WAITING"
       @click="
-        router.push({ name: 'settle', params: { tripId: tripId, settlementId: settlement.id } })
+        router.push({
+          name: 'settle',
+          params: { tripId: tripId, settlementId: settlement.expenseId },
+        })
       "
     >
       정산하기
@@ -28,23 +35,23 @@
       @click="
         router.push({
           name: 'settle_status',
-          params: { tripId: tripId, settlementId: settlement.id },
+          params: { tripId: tripId, settlementId: settlement.expenseId },
         })
       "
     >
-      {{ settlement.status === SettlementStatus.COMPLETED ? '정산 완료' : '정산 진행중' }}
+      {{ settlement.status }}
     </ButtonSmallSub>
   </Card>
 </template>
 <script setup lang="ts">
-import { SettlementDirection, SettlementStatus } from '@/entities/trip/trip.entity'
+import { SettlementStatus } from '@/entities/trip/trip.entity'
 import { userSettlementListMockData } from '@/entities/trip/trip.mock'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
-import { formatDateTime, formatNumber } from '@/shared/utils/format'
+import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
