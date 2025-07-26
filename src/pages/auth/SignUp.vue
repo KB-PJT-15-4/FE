@@ -46,13 +46,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import Input from '@/shared/components/atoms/input/Input.vue'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import logo from '@/assets/moa_logo.jpg'
+import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import Input from '@/shared/components/atoms/input/Input.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
 const router = useRouter()
 
@@ -75,11 +75,10 @@ onMounted(() => {
 })
 
 const goToLogin = () => {
-  router.push('/')
+  router.push({ name: 'login' })
 }
 
 const handleSignup = async () => {
-
   // 한번더 입력한 비밀번호가 일치하지 않을 때 실행
   if (password.value !== confirmPassword.value) {
     alert('비밀번호가 일치하지 않습니다.')
@@ -93,7 +92,7 @@ const handleSignup = async () => {
     idCardNumber: idCardNumber.value,
     accountNumber: accountNumber.value,
     accountPassword: accountPassword.value,
-    role: "ROLE_USER",
+    role: 'ROLE_USER',
   }
 
   try {
@@ -120,13 +119,10 @@ const handleSignup = async () => {
 
     alert('회원가입 성공!')
 
-    router.push('/')
-
+    router.push({ name: 'login' })
   } catch (error) {
     console.error('회원가입 실패:', error)
     alert('회원가입에 실패했습니다. 정보를 확인해주세요.')
   }
 }
 </script>
-
-

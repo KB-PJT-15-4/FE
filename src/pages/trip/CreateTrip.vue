@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="flex justify-between">
-      <ButtonMediumSub @click="router.push(URL.PAGE.TRIP.TRIP_LIST)">
+      <ButtonMediumSub @click="router.push({ name: 'trip_list' })">
         <TypographyHead3>취소</TypographyHead3>
       </ButtonMediumSub>
       <ButtonMediumMain @click="router.push({ name: 'trip_detail', params: { tripId: '1' } })">
@@ -51,5 +51,4 @@ import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
-import URL from '@/shared/constants/URL'
 </script>

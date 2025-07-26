@@ -29,7 +29,8 @@
           </div>
           <div class="flex justify-between items-end">
             <div class="text-sm text-[#949494]">
-              {{ formatFullDateToKorean(new Date(trip.startDate)) }} - {{ formatFullDateToKorean(new Date(trip.endDate)) }}
+              {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
+              {{ formatFullDateToKorean(new Date(trip.endDate)) }}
             </div>
             <div class="text-sm text-black">
               {{ trip.location }}
@@ -42,14 +43,14 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
 import { mockData } from '@/entities/map/map.mock'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+import Card from '@/shared/components/atoms/card/Card.vue'
 import Map from '@/shared/components/atoms/map/Map.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
-import Card from '@/shared/components/atoms/card/Card.vue'
 
 const selectedLocation = ref('')
 const router = useRouter()
@@ -59,10 +60,10 @@ const onSelectLocation = (location) => {
 }
 
 const filteredTrips = computed(() =>
-  mockData.filter(trip => trip.location === selectedLocation.value)
+  mockData.filter((trip) => trip.location === selectedLocation.value)
 )
 
 const goToDetail = (tripId) => {
-  router.push(`/record/${tripId}/detail`)
+  router.push({ name: 'record_detail', params: { tripId: tripId } })
 }
 </script>

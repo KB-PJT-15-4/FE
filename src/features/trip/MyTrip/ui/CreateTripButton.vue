@@ -6,7 +6,7 @@
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }"
-    @click="router.push(URL.PAGE.TRIP.CREATE)"
+    @click="router.push({ name: 'create_trip' })"
   >
     <TypographyHead1 class="text-white">
       여행 생성하기
@@ -19,5 +19,4 @@ import router from '@/app/router'
 import trip_image from '@/assets/trip_image.png'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
-import URL from '@/shared/constants/URL'
 </script>
