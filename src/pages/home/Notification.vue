@@ -14,43 +14,42 @@
       :key="index"
       class="my-4"
     >
-      <div class="flex gap-3">
-        <i
-          v-if="item.type === 'settle'"
-          class="bi bi-wallet2"
-        />
-        <i
-          v-if="item.type === 'trip'"
-          class="bi bi-airplane"
-        />
-        <TypographySubTitle2> {{ item.message }}</TypographySubTitle2>
-      </div>
-      <div
-        v-if="item.type === 'settle'"
-        class="flex justify-end"
-      >
-        <ButtonExtraSmallMain><TypographyP2>이동</TypographyP2></ButtonExtraSmallMain>
+      <div v-if="item.type === NotificationTye.SETTLE">
+        <div class="flex gap-3">
+          <i class="bi bi-wallet" />
+          <TypographyP1>
+            {{ item.sender }} 님이 {{ item.tripName }} 여행의 정산을 요청하였습니다.
+          </TypographyP1>
+        </div>
+        <div class="flex w-full justify-end gap-2">
+          <ButtonExtraSmallMain>이동</ButtonExtraSmallMain>
+        </div>
       </div>
 
-      <div
-        v-if="item.type === 'trip'"
-        class="flex justify-end gap-2"
-      >
-        <ButtonExtraSmallMain><TypographyP2>수락</TypographyP2></ButtonExtraSmallMain>
-        <ButtonExtraSmallSub><TypographyP2>거절</TypographyP2></ButtonExtraSmallSub>
+      <div v-if="item.type === NotificationTye.TRIP">
+        <div class="flex gap-3">
+          <i class="bi bi-airplane" />
+          <TypographyP1>
+            {{ item.sender }} 님이 {{ item.tripName }} 여행에 초대하였습니다.
+          </TypographyP1>
+        </div>
+        <div class="flex w-full justify-end gap-2">
+          <ButtonExtraSmallMain>수락</ButtonExtraSmallMain>
+          <ButtonExtraSmallSub>거절</ButtonExtraSmallSub>
+        </div>
       </div>
     </Card>
   </div>
 </template>
 <script setup lang="ts">
+import { NotificationTye } from '@/entities/user/user.entity'
 import { userNotificationMockData } from '@/entities/user/user.mock'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import ButtonExtraSmallSub from '@/shared/components/atoms/button/ButtonExtraSmallSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import SelectSmall from '@/shared/components/atoms/input/SelectSmall.vue'
-import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
+import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import { ref } from 'vue'
 
 const options = ['전체', '정산요청', '여행초대']

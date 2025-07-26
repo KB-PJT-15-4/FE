@@ -1,3 +1,7 @@
+export enum NotificationTye {
+  TRIP = 'trip',
+  SETTLE = 'settle',
+}
 // [메인페이지] 주민등록증 엔티티
 export interface UserIDCard {
   idCardId: string // pk
@@ -24,6 +28,8 @@ export interface UserDriversLicenseCard {
 // [알림페이지] 알림 엔티티
 export interface UserNotification {
   id: string
-  type: string // 정산요청, 여행초대
-  message: string
+  tripId: string
+  type: NotificationTye
+  sender: string // 알림 보낸 사람
+  tripName: string // 여행 이름
 }
