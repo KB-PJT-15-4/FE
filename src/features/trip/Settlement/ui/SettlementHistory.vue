@@ -3,7 +3,7 @@
   <Card
     v-for="(settlement, index) in userSettlementListMockData"
     :key="index"
-    class="flex justify-between items-center my-1"
+    class="flex justify-between items-center my-3"
   >
     <div>
       <div class="flex gap-2">
@@ -11,9 +11,7 @@
           {{ settlement.received ? '받은 요청' : '보낸 요청' }}
         </TypographyCaption>
         <TypographyCaption>
-          {{
-            formatFullDateToKorean(new Date(settlement.expenseDate))
-          }}
+          {{ formatFullDateToKorean(new Date(settlement.expenseDate)) }}
         </TypographyCaption>
       </div>
 

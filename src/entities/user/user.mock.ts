@@ -1,4 +1,9 @@
-import type { UserDriversLicenseCard, UserIDCard } from './user.entity'
+import {
+  NotificationTye,
+  type UserDriversLicenseCard,
+  type UserIDCard,
+  type UserNotification,
+} from './user.entity'
 
 export const userIdCardMockData: UserIDCard = {
   idCardId: '1',
@@ -22,3 +27,20 @@ export const userDriversLicenseMockData: UserDriversLicenseCard = {
   issueDate: '2019-09-10',
   expiryDate: '2026-09-09',
 }
+
+export const userNotificationMockData: UserNotification[] = [
+  {
+    id: '1',
+    tripId: '2',
+    type: NotificationTye.SETTLE,
+    sender: '강민재',
+    tripName: '즐거운 부산여행',
+  },
+  {
+    id: '2',
+    tripId: '2',
+    type: NotificationTye.TRIP,
+    sender: '강민재',
+    tripName: '즐거운 부산여행',
+  },
+]

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full mt-4 flex flex-col gap-2">
+  <div class="w-full mt-7 flex flex-col gap-2">
     <TypographyHead3>정산 요청하기</TypographyHead3>
     <Input
       v-model="settlementMemo"
