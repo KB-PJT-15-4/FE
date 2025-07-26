@@ -1,94 +1,106 @@
-import Certification from '@/pages/Certification.vue'
-import CreateTrip from '@/pages/CreateTrip.vue'
-import Home from '@/pages/Home.vue'
-import Login from '@/pages/Login.vue'
-import PaySettle from '@/pages/PaySettle.vue'
-import PaySettleStatus from '@/pages/PaySettleStatus.vue'
-import RecordCreate from '@/pages/RecordCreate.vue'
-import RecordDetail from '@/pages/RecordDetail.vue'
-import Map from '@/pages/RecordMap.vue'
-import Reservation from '@/pages/Reservation.vue'
-import SignUp from '@/pages/SignUp.vue'
+import Certification from '@/pages/auth/Certification.vue'
+import Login from '@/pages/auth/Login.vue'
+import SignUp from '@/pages/auth/SignUp.vue'
+import Home from '@/pages/home/Home.vue'
+import Notification from '@/pages/home/Notification.vue'
+import RecordCreate from '@/pages/record/RecordCreate.vue'
+import RecordDetail from '@/pages/record/RecordDetail.vue'
+import Map from '@/pages/record/RecordMap.vue'
+import RecordModify from '@/pages/record/RecordModify.vue'
 import Test from '@/pages/Test.vue'
-import TripDetail from '@/pages/TripDetail.vue'
-import TripList from '@/pages/TripList.vue'
-import URL from '@/shared/constants/URL'
+import CreateTrip from '@/pages/trip/CreateTrip.vue'
+import PaySettle from '@/pages/trip/PaySettle.vue'
+import PaySettleStatus from '@/pages/trip/PaySettleStatus.vue'
+import Reservation from '@/pages/trip/Reservation.vue'
+import TripDetail from '@/pages/trip/TripDetail.vue'
+import TripList from '@/pages/trip/TripList.vue'
+
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: URL.PAGE.MAIN.HOME,
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: URL.PAGE.AUTH.LOGIN,
+      path: '/',
       name: 'login',
       component: Login,
       meta: { layout: false },
     },
     {
-      path: URL.PAGE.AUTH.SIGNUP,
+      path: '/signup',
       name: 'signup',
       component: SignUp,
       meta: { layout: false },
     },
-
     {
-      path: URL.PAGE.AUTH.CERTIFICATION,
+      path: '/certification',
       name: 'certification',
       component: Certification,
       meta: { layout: false },
     },
     {
-      path: URL.PAGE.TRIP.TRIP_LIST,
+      path: '/main/home',
+      name: 'home',
+      component: Home,
+    },
+    {
+      path: '/main/notification',
+      name: 'notification',
+      component: Notification,
+    },
+
+    {
+      path: '/trip/trip_list',
       name: 'trip_list',
       component: TripList,
     },
     {
-      path: URL.PAGE.TRIP.DETAIL,
+      path: '/trip/:tripId',
       name: 'trip_detail',
       component: TripDetail,
     },
     {
-      path: URL.PAGE.TRIP.RESERVATION,
+      path: '/trip/:tripId/reservation',
       name: 'reservation',
       component: Reservation,
     },
     {
-      path: URL.PAGE.TRIP.CREATE,
+      path: '/trip/create',
       name: 'create_trip',
       component: CreateTrip,
     },
     {
-      path: URL.PAGE.TRIP.SETTLE,
+      path: '/trip/:tripId/settle/:settleId',
       name: 'settle',
       component: PaySettle,
     },
     {
-      path: URL.PAGE.TRIP.SETTLE_STATUS,
+      path: '/trip/:tripId/settle/:settleId/status',
       name: 'settle_status',
       component: PaySettleStatus,
     },
     {
-      path: URL.PAGE.RECORD.MAP,
+      path: '/record/map',
       name: 'map',
       component: Map,
     },
     {
-      path: URL.PAGE.RECORD.DETAIL,
+      path: '/record/:tripId/detail',
       name: 'record_detail',
       component: RecordDetail,
     },
     {
-      path: URL.PAGE.RECORD.CREATE,
+      path: '/record/:tripId/create',
       name: 'record_create',
       component: RecordCreate,
     },
     {
-      path: URL.PAGE.TEST,
+      path: '/record/:tripId/modify/:postId',
+      name: 'record_modify',
+      component: RecordModify,
+    },
+    {
+      path: '/test',
       name: 'test',
       component: Test,
     },

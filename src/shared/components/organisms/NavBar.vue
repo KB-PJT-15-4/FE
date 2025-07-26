@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import URL from '@/shared/constants/URL'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -38,9 +37,9 @@ const emit = defineEmits<{
 }>()
 
 const tabs = [
-  { icon: 'bi-airplane', value: 'trip', location: URL.PAGE.TRIP.TRIP_LIST },
-  { icon: 'bi-house', value: 'home', location: URL.PAGE.MAIN.HOME },
-  { icon: 'bi-pin-map', value: 'record', location: URL.PAGE.RECORD.MAP },
+  { icon: 'bi-airplane', value: 'trip', location: '/trip/trip_list' },
+  { icon: 'bi-house', value: 'home', location: '/main/home' },
+  { icon: 'bi-pin-map', value: 'record', location: '/record/map' },
 ]
 
 const isActive = (tabValue: string): boolean => {

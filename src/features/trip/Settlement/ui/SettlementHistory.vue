@@ -17,13 +17,20 @@
     </div>
     <ButtonSmallMain
       v-if="settlement.status === SettlementStatus.WAITING"
-      @click="router.push(`/trip/${tripId}/settle/${settlement.id}`)"
+      @click="
+        router.push({ name: 'settle', params: { tripId: tripId, settlementId: settlement.id } })
+      "
     >
       정산하기
     </ButtonSmallMain>
     <ButtonSmallSub
       v-else
-      @click="router.push(`/trip/${tripId}/settle/${settlement.id}/status`)"
+      @click="
+        router.push({
+          name: 'settle_status',
+          params: { tripId: tripId, settlementId: settlement.id },
+        })
+      "
     >
       {{ settlement.status === SettlementStatus.COMPLETED ? '정산 완료' : '정산 진행중' }}
     </ButtonSmallSub>

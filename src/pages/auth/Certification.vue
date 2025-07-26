@@ -71,14 +71,14 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import logo from '@/assets/moa_logo.jpg'
+import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
-import logo from '@/assets/moa_logo.jpg'
 
 const router = useRouter()
 
@@ -99,7 +99,7 @@ const handleRrnFrontInput = () => {
 }
 
 const goToLogin = () => {
-  router.push('/')
+  router.push({ name: 'login' })
 }
 
 const goToSignup = async () => {
@@ -132,9 +132,8 @@ const goToSignup = async () => {
     console.log('서버 응답:', data)
 
     localStorage.setItem('certData', JSON.stringify(authData))
-    
-    router.push('/signup')
 
+    router.push({ name: 'signup' })
   } catch (error) {
     console.error('본인인증 실패:', error)
     alert('본인인증에 실패했습니다. 정보를 확인해주세요.')

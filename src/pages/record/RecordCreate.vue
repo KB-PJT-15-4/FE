@@ -24,7 +24,7 @@
 
     <!-- 이미지 업로드 버튼 -->
     <div class="image-upload-container">
-      <button 
+      <button
         type="button"
         class="image-upload-btn"
         @click="triggerFileInput"
@@ -32,13 +32,13 @@
         <i class="bi bi-plus-circle" />
         <span>사진 추가</span>
       </button>
-      
+
       <!-- 숨겨진 파일 input -->
       <input
         ref="fileInput"
         type="file"
         accept="image/*"
-        style="display: none;"
+        style="display: none"
         @change="handleImageUpload"
       >
     </div>
@@ -53,7 +53,7 @@
         class="uploaded-image"
         alt="업로드된 이미지"
       >
-      <button 
+      <button
         type="button"
         class="remove-image-btn"
         @click="removeImage"
@@ -81,14 +81,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { mockData } from '@/entities/map/map.mock'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -148,17 +147,17 @@ const saveRecord = () => {
     imageUrl: imagePreview.value,
   }
 
-const existing = JSON.parse(localStorage.getItem(`trip-${tripId}-records`) || '[]')
+  const existing = JSON.parse(localStorage.getItem(`trip-${tripId}-records`) || '[]')
 
-if (isEditMode) {
-  existing[editIndex] = newRecord
-} else {
-  existing.push(newRecord)
-}
+  if (isEditMode) {
+    existing[editIndex] = newRecord
+  } else {
+    existing.push(newRecord)
+  }
 
-localStorage.setItem(`trip-${tripId}-records`, JSON.stringify(existing))
+  localStorage.setItem(`trip-${tripId}-records`, JSON.stringify(existing))
 
-router.push(`/record/${tripId}/detail`)
+  router.push({ name: 'trip_detail', params: { tripId: tripId } })
 }
 
 const goBack = () => {
@@ -183,7 +182,7 @@ const goBack = () => {
   height: 70px;
   border: none;
   border-radius: 16px;
-  background-color: #87BFFF;
+  background-color: #87bfff;
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;

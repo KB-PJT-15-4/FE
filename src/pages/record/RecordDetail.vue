@@ -15,7 +15,8 @@
       </div>
       <div class="flex justify-between items-end">
         <div class="text-sm text-[#626262]">
-          {{ formatFullDateToKorean(new Date(tripData.startDate)) }} - {{ formatFullDateToKorean(new Date(tripData.endDate)) }}
+          {{ formatFullDateToKorean(new Date(tripData.startDate)) }} -
+          {{ formatFullDateToKorean(new Date(tripData.endDate)) }}
         </div>
         <div class="text-sm text-black">
           {{ tripData.location }}
@@ -37,7 +38,9 @@
       class="flex justify-between"
     >
       <div class="flex gap-4">
-        <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center">
+        <div
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
+        >
           <img
             :src="reservation.imageUrl"
             class="h-[40px] w-[40px]"
@@ -74,7 +77,7 @@
     <!-- 기록 추가 버튼 -->
     <Tag
       color="main"
-      @click="$router.push(`/record/${tripId}/create`)"
+      @click="$router.push({ name: 'record_create', params: { tripId: tripId } })"
     >
       추가
     </Tag>
@@ -121,23 +124,23 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { creditMockData, mockData, userReservationListMockData } from '@/entities/map/map.mock'
 import { formatFullDateToKorean } from '@/shared/utils/format'
-import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import Card from '@/shared/components/atoms/card/Card.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import Tag from '@/shared/components/atoms/tag/Tag.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 
 const route = useRoute()
 const router = useRouter()
 const selectedDate = ref('2025-03-24') // 날짜 탭 날짜 선택
 
 const tripId = Number(route.params.tripId)
-const tripData = computed(() => mockData.find(trip => trip.tripId === tripId))
+const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId))
 
 // 금액 포맷팅 (추후 format.ts 로 이동)
 function formatCurrency(amount) {
@@ -157,7 +160,7 @@ onMounted(() => {
 const editRecord = (index) => {
   router.push({
     path: `/record/${tripId}/create`,
-    query: { editIndex: index }
+    query: { editIndex: index },
   })
 }
 

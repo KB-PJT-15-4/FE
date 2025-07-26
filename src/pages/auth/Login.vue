@@ -12,14 +12,14 @@
     </TypographyHead3>
 
     <div class="w-full flex flex-col gap-4">
-      <Input 
-        v-model="email" 
+      <Input
+        v-model="email"
         placeholder="이메일/사업자번호를 입력해주세요"
       />
 
       <Input
-        v-model="password" 
-        type="password" 
+        v-model="password"
+        type="password"
         placeholder="비밀번호를 입력해주세요"
       />
     </div>
@@ -40,13 +40,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios';
 
-import Input from '@/shared/components/atoms/input/Input.vue'
+import logo from '@/assets/moa_logo.jpg'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import logo from '@/assets/moa_logo.jpg'
 
 const router = useRouter()
 
@@ -82,7 +81,7 @@ const handleLogin = async () => {
     localStorage.setItem('accessToken', accessToken)
 
     alert('로그인 성공!')
-    router.push('/main/home')
+    router.push({ name: 'home' })
   } catch (error) {
     console.error('로그인 실패:', error.message)
     alert('로그인에 실패했습니다. 정보를 확인해주세요.')
@@ -91,6 +90,6 @@ const handleLogin = async () => {
 
 // 본인인증 페이지로 이동
 const goToSignup = () => {
-  router.push('/certification')
+  router.push({ name: 'certification' })
 }
 </script>
