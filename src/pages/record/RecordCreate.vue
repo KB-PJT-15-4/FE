@@ -157,7 +157,7 @@ const saveRecord = () => {
 
   localStorage.setItem(`trip-${tripId}-records`, JSON.stringify(existing))
 
-  router.push({ name: 'trip_detail', params: { tripId: tripId } })
+  router.push({ name: 'record_detail', params: { tripId: tripId } }) // name 수정
 }
 
 const goBack = () => {
