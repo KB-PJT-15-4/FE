@@ -75,12 +75,12 @@
     </Card>
 
     <!-- 기록 추가 버튼 -->
-    <Tag
-      color="main"
+    <ButtonExtraSmallMain
+      class="w-[60px]"
       @click="$router.push({ name: 'record_create', params: { tripId: tripId } })"
     >
       추가
-    </Tag>
+    </ButtonExtraSmallMain>
 
     <!-- 사용자 작성 기록 -->
     <div
@@ -93,18 +93,15 @@
           {{ record.title }}
         </div>
         <div class="flex gap-2">
-          <Tag
-            color="main"
+          <ButtonExtraSmallMain
+            class="w-[60px]"
             @click="editRecord(index)"
           >
             수정
-          </Tag>
-          <Tag
-            color="main"
-            @click="deleteRecord(index)"
-          >
+          </ButtonExtraSmallMain>
+          <ButtonExtraSmallMain @click="deleteRecord(index)">
             삭제
-          </Tag>
+          </ButtonExtraSmallMain>
         </div>
       </div>
       <div class="text-sm text-[#626262]">
@@ -129,8 +126,8 @@ import { formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
-import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
