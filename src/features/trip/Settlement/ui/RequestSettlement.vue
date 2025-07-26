@@ -1,15 +1,16 @@
 <template>
   <div class="w-full mt-4 flex flex-col gap-2">
     <TypographyHead3>정산 요청하기</TypographyHead3>
+    <Input
+      v-model="settlementMemo"
+      placeholder="정산 제목을 입력해주세요 (최대 30자)"
+    />
     <TypographyP2> 정산 요청 금액</TypographyP2>
     <Input
       v-model="settlementAmount"
       type="number"
     />
-    <Input
-      v-model="settlementMemo"
-      placeholder="간단한 메모를 입력해주세요 (최대 30자)"
-    />
+
     <TypographySubTitle2
       v-if="settlementMemberList.length == 0"
       class="text-moa-main-text w-full text-center py-4"
@@ -58,7 +59,10 @@
         <i class="bi bi-plus text-[25px]" />
       </button>
     </div>
-    <ButtonMain :disabled="settlementMemberList.length == 0">
+    <ButtonMain
+      :disabled="settlementMemberList.length == 0"
+      @click="onClickRequestButton"
+    >
       정산 요청 보내기
     </ButtonMain>
   </div>
@@ -72,12 +76,16 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatNumber } from '@/shared/utils/format'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const settlementAmount = ref(0)
 const settlementMemo = ref('')
 
 const settlementMemberList = ref<TripMember[]>(tripMemberListMockData)
 const unSettlementMemberList = ref<TripMember[]>([])
+
+const route = useRoute()
+const tripId = route.params.tripId
 
 function removeMember(id: string) {
   const index = settlementMemberList.value.findIndex((member) => member.id === id)
@@ -95,13 +103,20 @@ function addMember(id: string) {
   }
 }
 
-/**
- * 처음에 여행 멤버 정보를 불러오고
- *
- * settlementMemberList에 넣어준다
- * unSettlementMemberList는 빈 배열
- *
- * settlementAmount / settlementMemberList.length -> 1인당 정산 금액
- * settlementMemberList에 사람을 제거하면 unSettlementMemberList에 넣어준다
- */
+function onClickRequestButton() {
+  const expenses = settlementMemberList.value.map(
+    (item: TripMember) => ({
+      memberId: item.id,
+      amount: settlementAmount.value,
+    }),
+    []
+  )
+  const payload = {
+    tripId: tripId,
+    amount: settlementAmount.value,
+    expenseName: settlementMemo.value,
+    expenses,
+  }
+  console.log(payload)
+}
 </script>
