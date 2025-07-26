@@ -3,7 +3,7 @@
   <Card
     v-for="(settlement, index) in userSettlementListMockData"
     :key="index"
-    class="flex justify-between items-center my-1"
+    class="flex justify-between items-center my-3"
   >
     <div>
       <div class="flex gap-2">
@@ -17,9 +17,7 @@
     </div>
     <ButtonSmallMain
       v-if="settlement.status === SettlementStatus.WAITING"
-      @click="
-        router.push({ name: 'settle', params: { tripId: tripId, settlementId: settlement.id } })
-      "
+      @click="router.push({ name: 'settle', params: { tripId: tripId, settleId: settlement.id } })"
     >
       정산하기
     </ButtonSmallMain>
@@ -28,7 +26,7 @@
       @click="
         router.push({
           name: 'settle_status',
-          params: { tripId: tripId, settlementId: settlement.id },
+          params: { tripId: tripId, settleId: settlement.id },
         })
       "
     >
