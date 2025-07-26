@@ -1,28 +1,24 @@
-import Certification from '@/pages/Certification.vue'
-import CreateTrip from '@/pages/CreateTrip.vue'
-import Home from '@/pages/Home.vue'
-import Login from '@/pages/Login.vue'
-import PaySettle from '@/pages/PaySettle.vue'
-import PaySettleStatus from '@/pages/PaySettleStatus.vue'
-import RecordCreate from '@/pages/RecordCreate.vue'
-import RecordDetail from '@/pages/RecordDetail.vue'
-import Map from '@/pages/RecordMap.vue'
-import Reservation from '@/pages/Reservation.vue'
-import SignUp from '@/pages/SignUp.vue'
+import Certification from '@/pages/auth/Certification.vue'
+import Login from '@/pages/auth/Login.vue'
+import SignUp from '@/pages/auth/SignUp.vue'
+import Home from '@/pages/home/Home.vue'
+import Notification from '@/pages/home/Notification.vue'
+import RecordCreate from '@/pages/record/RecordCreate.vue'
+import RecordDetail from '@/pages/record/RecordDetail.vue'
+import Map from '@/pages/record/RecordMap.vue'
 import Test from '@/pages/Test.vue'
-import TripDetail from '@/pages/TripDetail.vue'
-import TripList from '@/pages/TripList.vue'
+import CreateTrip from '@/pages/trip/CreateTrip.vue'
+import PaySettle from '@/pages/trip/PaySettle.vue'
+import PaySettleStatus from '@/pages/trip/PaySettleStatus.vue'
+import Reservation from '@/pages/trip/Reservation.vue'
+import TripDetail from '@/pages/trip/TripDetail.vue'
+import TripList from '@/pages/trip/TripList.vue'
 import URL from '@/shared/constants/URL'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: URL.PAGE.MAIN.HOME,
-      name: 'home',
-      component: Home,
-    },
     {
       path: URL.PAGE.AUTH.LOGIN,
       name: 'login',
@@ -35,13 +31,23 @@ const router = createRouter({
       component: SignUp,
       meta: { layout: false },
     },
-
     {
       path: URL.PAGE.AUTH.CERTIFICATION,
       name: 'certification',
       component: Certification,
       meta: { layout: false },
     },
+    {
+      path: URL.PAGE.MAIN.HOME,
+      name: 'home',
+      component: Home,
+    },
+    {
+      path: URL.PAGE.MAIN.NOTIFICATION,
+      name: 'notification',
+      component: Notification,
+    },
+
     {
       path: URL.PAGE.TRIP.TRIP_LIST,
       name: 'trip_list',
