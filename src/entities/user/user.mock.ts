@@ -31,12 +31,14 @@ export const userDriversLicenseMockData: UserDriversLicenseCard = {
 export const userNotificationMockData: UserNotification[] = [
   {
     id: '1',
+    tripId: '2',
     type: NotificationTye.SETTLE,
     sender: '강민재',
     tripName: '즐거운 부산여행',
   },
   {
     id: '2',
+    tripId: '2',
     type: NotificationTye.TRIP,
     sender: '강민재',
     tripName: '즐거운 부산여행',
