@@ -22,7 +22,7 @@
       @click="
         router.push({
           name: 'settle',
-          params: { tripId: tripId, settlementId: settlement.expenseId },
+          params: { tripId: tripId, settleId: settlement.expenseId },
         })
       "
     >
@@ -33,7 +33,7 @@
       @click="
         router.push({
           name: 'settle_status',
-          params: { tripId: tripId, settlementId: settlement.expenseId },
+          params: { tripId: tripId, settleId: settlement.expenseId },
         })
       "
     >
