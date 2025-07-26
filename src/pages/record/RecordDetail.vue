@@ -92,11 +92,8 @@
         <div class="font-bold text-base">
           {{ record.title }}
         </div>
-        <div class="flex gap-2">
-          <ButtonExtraSmallMain
-            class="w-[60px]"
-            @click="editRecord(index)"
-          >
+        <div class="flex gap-2 w-[120px]">
+          <ButtonExtraSmallMain @click="editRecord(index)">
             수정
           </ButtonExtraSmallMain>
           <ButtonExtraSmallMain @click="deleteRecord(index)">
@@ -122,7 +119,7 @@
 
 <script setup>
 import { creditMockData, mockData, userReservationListMockData } from '@/entities/map/map.mock'
-import { formatFullDateToKorean } from '@/shared/utils/format'
+import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -138,11 +135,6 @@ const selectedDate = ref('2025-03-24') // 날짜 탭 날짜 선택
 
 const tripId = Number(route.params.tripId)
 const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId))
-
-// 금액 포맷팅 (추후 format.ts 로 이동)
-function formatCurrency(amount) {
-  return `${amount.toLocaleString()}원`
-}
 
 const recordList = ref([])
 

@@ -42,3 +42,7 @@ export function formatDriversLicenseCardNumber(licenseNumber: string): string {
 // 숫자 포맷 (3자리 콤마)
 export const formatNumber = (value: number) =>
   value.toLocaleString('ko-KR', { maximumFractionDigits: 0 })
+
+// 숫자 포맷에 끝에 '원' 을 추가해서 포맷
+export const formatCurrency = (value: number): string =>
+  `${formatNumber(value)}원`
