@@ -20,3 +20,10 @@ export interface UserDriversLicenseCard {
   issueDate: string // 발급일자
   expiryDate: string // 만료일자
 }
+
+// [알림페이지] 알림 엔티티
+export interface UserNotification {
+  id: string
+  type: string // 정산요청, 여행초대
+  message: string
+}

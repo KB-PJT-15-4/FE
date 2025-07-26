@@ -1,4 +1,4 @@
-import type { UserDriversLicenseCard, UserIDCard } from './user.entity'
+import type { UserDriversLicenseCard, UserIDCard, UserNotification } from './user.entity'
 
 export const userIdCardMockData: UserIDCard = {
   idCardId: '1',
@@ -22,3 +22,16 @@ export const userDriversLicenseMockData: UserDriversLicenseCard = {
   issueDate: '2019-09-10',
   expiryDate: '2026-09-09',
 }
+
+export const userNotificationMockData: UserNotification[] = [
+  {
+    id: '1',
+    type: 'settle',
+    message: '000 님이 "즐거운 부산여행" 여행의 정산을 요청하였습니다.',
+  },
+  {
+    id: '2',
+    type: 'trip',
+    message: '000 님이 "즐거운 부산여행" 여행에 초대하였습니다.',
+  },
+]
