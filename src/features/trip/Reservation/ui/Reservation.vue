@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col mt-4 gap-2">
+  <div class="flex flex-col mt-7 gap-2">
     <TypographyHead3 class="pl-1">
       예매하기
     </TypographyHead3>
