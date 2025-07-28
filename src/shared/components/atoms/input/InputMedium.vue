@@ -14,15 +14,18 @@ const emit = defineEmits<{
 }>()
 
 const attrs = useAttrs()
+const isDateType = computed(() => attrs.type === 'date')
 
 const inputClass = computed(() => {
   return [
-    'max-w-[230px] w-full h-[50px] rounded-md border-2 border-gray-200 bg-white p-3 text-[16px] font-semibold text-black focus:border-moa-main focus:border-2 focus:outline-none',
+    'max-w-[230px] w-full h-[50px] rounded-md border-2 p-3 text-[16px] font-semibold focus:border-moa-main focus:border-2 focus:outline-none',
+    isDateType.value
+      ? 'bg-white text-black appearance-none'
+      : 'bg-white text-black border-gray-200',
     props.icon && 'pl-10',
     props.class,
   ]
 })
-
 const onInput = (e: Event) => {
   emit('update:modelValue', (e.target as HTMLInputElement).value)
 }
