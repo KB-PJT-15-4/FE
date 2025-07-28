@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden">
+  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden fixed inset-0">
     <img
       :src="logo"
       alt="moa logo"
@@ -11,7 +11,7 @@
       <span class="text-[#87BFFF] font-inter">MOA</span>
     </TypographyHead3>
 
-    <div class="w-full flex flex-col gap-4">
+    <div class="w-full flex flex-col gap-4 px-4">
       <Input
         v-model="email"
         placeholder="이메일을 입력해주세요"
@@ -28,7 +28,7 @@
       />
     </div>
 
-    <div class="w-full flex justify-between gap-4">
+    <div class="w-full flex justify-between gap-4 px-4">
       <ButtonMain
         class="w-1/2 bg-white !text-[#000000]"
         @click="goToLogin"
