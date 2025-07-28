@@ -8,12 +8,18 @@
       placeholder="제목을 입력해주세요"
       class="border p-2 rounded"
     />
-    <InputSmall
-      v-model="date"
-      placeholder="hello input"
-      type="date"
-      class="border-[2px]"
-    />
+    
+    <!-- 날짜 선택 -->
+    <div class="flex flex-col gap-2">
+      <TypographyP1 class="pl-1">
+        날짜 선택
+      </TypographyP1>
+      <Input
+        v-model="selectedDate"
+        type="date"
+        class="border p-2 rounded"
+      />
+    </div>
 
     <!-- 글자수 제한 textarea -->
     <textarea
@@ -82,12 +88,12 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, provide } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
-import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
+import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
 const router = useRouter()
@@ -98,8 +104,12 @@ const editIndex = Number(route.query.editIndex)
 const isEditMode = !isNaN(editIndex)
 
 const title = ref('')
-const date = ref('')
 const content = ref('')
+
+// 날짜 초기값
+const today = new Date()
+const selectedDate = ref(today.toISOString().split('T')[0])
+provide('selectedDate', selectedDate)
 
 const imagePreview = ref('')
 const fileInput = ref(null)
@@ -110,7 +120,7 @@ onMounted(() => {
   if (isEditMode && saved[editIndex]) {
     const record = saved[editIndex]
     title.value = record.title
-    date.value = record.date
+    selectedDate.value = record.date || selectedDate.value
     content.value = record.content
     imagePreview.value = record.imageUrl || ''
   }
@@ -143,7 +153,7 @@ const removeImage = () => {
 const saveRecord = () => {
   const newRecord = {
     title: title.value,
-    date: date.value,
+    date: selectedDate.value,
     content: content.value,
     imageUrl: imagePreview.value,
   }
