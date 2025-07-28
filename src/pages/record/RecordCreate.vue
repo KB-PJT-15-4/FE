@@ -12,26 +12,26 @@
       v-model="date"
       placeholder="hello input"
       type="date"
+      class="border-[2px]"
     />
 
-    <!-- 컴포넌트화 어떻게 해야할지 생각 -->
-    <!-- 박스 크기 안늘어나게 lock 걸기, 글자수 제한 추가-->
+    <!-- 글자수 제한 textarea -->
     <textarea
       v-model="content"
       placeholder="기록을 자유롭게 작성해주세요 (최대 800자)"
-      class="border p-2 rounded-md"
+      maxlength="800"
+      class="border p-2 rounded-md resize-none border-[2px]"
       rows="5"
     />
 
     <!-- 이미지 업로드 버튼 -->
-    <div class="image-upload-container">
+    <div class="flex justify-start my-1">
       <button
         type="button"
-        class="image-upload-btn"
+        class="flex items-center justify-center w-[70px] h-[70px] rounded-[16px] bg-[#87BFFF] text-white transition-all"
         @click="triggerFileInput"
       >
-        <i class="bi bi-plus-circle" />
-        <span>사진 추가</span>
+        <i class="bi bi-plus-circle text-[24px] font-bold" />
       </button>
 
       <!-- 숨겨진 파일 input -->
@@ -39,7 +39,7 @@
         ref="fileInput"
         type="file"
         accept="image/*"
-        style="display: none"
+        class="hidden"
         @change="handleImageUpload"
       >
     </div>
@@ -47,16 +47,16 @@
     <!-- 업로드된 이미지 미리보기 -->
     <div
       v-if="imagePreview"
-      class="image-preview-container"
+      class="relative inline-block max-w-1/2 mt-4"
     >
       <img
         :src="imagePreview"
-        class="uploaded-image"
+        class="w-full max-w-[400px] h-auto rounded-[12px] shadow"
         alt="업로드된 이미지"
       >
       <button
         type="button"
-        class="remove-image-btn"
+        class="absolute top-2 right-2 bg-black/60 rounded-full w-7 h-7 flex items-center justify-center text-white text-sm hover:scale-105 transition"
         @click="removeImage"
       >
         <i class="bi bi-x-circle" />
@@ -66,7 +66,7 @@
     <!-- 기록 취소, 완료 버튼 -->
     <div class="w-full flex justify-between gap-4">
       <ButtonMain
-        class="w-1/2 bg-white !text-[#000000]"
+        class="w-1/2 bg-white !text-black"
         @click="goBack"
       >
         취소
@@ -158,91 +158,10 @@ const saveRecord = () => {
 
   localStorage.setItem(`trip-${tripId}-records`, JSON.stringify(existing))
 
-  router.push({ name: 'record_detail', params: { tripId: tripId } }) // name 수정
+  router.push({ name: 'record_detail', params: { tripId: tripId } })
 }
 
 const goBack = () => {
   router.back()
 }
 </script>
-
-<!-- CSS Tailwind 로 리팩토링 -->
-<style scoped>
-/* 이미지 업로드 컨테이너 */
-.image-upload-container {
-  display: flex;
-  justify-content: flex-start;
-  margin: 2px 0;
-}
-
-/* 이미지 업로드 버튼 스타일 */
-.image-upload-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 70px;
-  border: none;
-  border-radius: 16px;
-  background-color: #87bfff;
-  color: white;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-}
-
-.image-upload-btn:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.image-upload-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.image-upload-btn i {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.image-upload-btn span {
-  display: none;
-}
-
-/* 이미지 미리보기 컨테이너 */
-.image-preview-container {
-  position: relative;
-  display: inline-block;
-  max-width: 50%;
-  margin-top: 16px;
-}
-
-.uploaded-image {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 이미지 제거 버튼 */
-.remove-image-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-</style>
