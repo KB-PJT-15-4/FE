@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden fixed inset-0">
+  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden">
     <img
       :src="logo"
       alt="moa logo"
@@ -14,33 +14,33 @@
     <div class="w-full flex flex-col gap-4 px-4">
       <Input
         v-model="email"
+        name="email"
+        autocomplete="email"
         placeholder="이메일을 입력해주세요"
       />
       <Input
         v-model="password"
+        name="password"
+        autocomplete="new-password"
         type="password"
         placeholder="비밀번호를 입력해주세요"
       />
       <Input
         v-model="confirmPassword"
+        name="confirm-password"
+        autocomplete="new-password"
         type="password"
         placeholder="비밀번호를 한번 더 입력해주세요"
       />
     </div>
 
     <div class="w-full flex justify-between gap-4 px-4">
-      <ButtonMain
-        class="w-1/2 bg-white !text-[#000000]"
-        @click="goToLogin"
-      >
+      <ButtonMediumSub @click="goToLogin">
         취소
-      </ButtonMain>
-      <ButtonMain
-        class="w-1/2"
-        @click="handleSignup"
-      >
+      </ButtonMediumSub>
+      <ButtonMediumMain @click="handleSignup">
         회원가입
-      </ButtonMain>
+      </ButtonMediumMain>
     </div>
   </div>
 </template>
@@ -50,7 +50,8 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import logo from '@/assets/moa_logo.jpg'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
+import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 

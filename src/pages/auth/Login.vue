@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden fixed inset-0">
+  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden">
     <img
       :src="logo"
       alt="moa logo"
@@ -11,18 +11,19 @@
       <span class="text-[#87BFFF] font-inter">MOA</span>
     </TypographyHead3>
 
-    <div class="w-full flex flex-col gap-4 px-4">
-      <Input
-        v-model="email"
-        placeholder="이메일/사업자번호를 입력해주세요"
-      />
-
-      <Input
-        v-model="password"
-        type="password"
-        placeholder="비밀번호를 입력해주세요"
-      />
-    </div>
+    <Input
+      v-model="email"
+      name="email"
+      autocomplete="email"
+      placeholder="이메일/사업자번호를 입력해주세요"
+    />
+    <Input
+      v-model="password"
+      name="password"
+      autocomplete="current-password"
+      type="password"
+      placeholder="비밀번호를 입력해주세요"
+    />
 
     <ButtonMain @click="handleLogin">
       로그인
