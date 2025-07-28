@@ -13,7 +13,7 @@ const emit = defineEmits<{
 
 const computedClass = computed(() => {
   return [
-    'box-border h-[50px] w-full max-w-[355px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
+    'bg-white box-border h-[50px] w-full max-w-[355px] appearance-none rounded-md border text-sm focus:border-moa-main focus:border-2 focus:outline-none',
     props.class,
   ]
 })

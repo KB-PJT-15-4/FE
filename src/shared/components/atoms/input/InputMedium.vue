@@ -17,7 +17,7 @@ const attrs = useAttrs()
 
 const inputClass = computed(() => {
   return [
-    'max-w-[230px] w-full h-[50px] rounded-md border-2 border-gray-200 bg-white p-3 text-[16px] font-semibold text-black focus:border-moa-main focus:border-2 focus:outline-none',
+    'bg-white max-w-[230px] w-full h-[50px] rounded-md border-2 border-gray-200 bg-white p-3 text-[16px] font-semibold text-black focus:border-moa-main focus:border-2 focus:outline-none',
     props.icon && 'pl-10',
     props.class,
   ]
