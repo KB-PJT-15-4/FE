@@ -8,7 +8,7 @@
     <Map @select-location="onSelectLocation" />
 
     <!-- 해당 지역 여행 목록 카드 -->
-    <TripRecordCard
+    <RecordTripCard
       v-if="selectedLocation"
       :location="selectedLocation"
     />
@@ -20,7 +20,7 @@ import { ref } from 'vue'
 
 import Map from '@/shared/components/atoms/map/Map.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
-import TripRecordCard from '@/features/record/Map/ui/TripRecordCard.vue'
+import RecordTripCard from '@/features/record/Map/ui/RecordTripCard.vue'
 
 const selectedLocation = ref('')
 
