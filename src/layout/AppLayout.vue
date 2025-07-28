@@ -3,7 +3,7 @@
     <!-- 헤더 -->
     <header
       v-if="!shouldHideLayout"
-      class="fixed top-0 left-0 w-full z-50 max-w-[390px]"
+      class="fixed top-0 left-0 w-full z-50 flex justify-center"
     >
       <Header />
     </header>
