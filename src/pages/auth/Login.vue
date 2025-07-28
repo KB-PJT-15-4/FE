@@ -63,7 +63,6 @@ const handleLogin = async () => {
     email: email.value,
     password: password.value,
   }
-  console.log('요청 데이터:', context)
 
   try {
     const response = await fetch(`http://localhost:8080/api/public/login`, {
@@ -81,15 +80,12 @@ const handleLogin = async () => {
     }
 
     const data = await response.json()
-    console.log('서버 응답:', data)
 
     const accessToken = data.token
     localStorage.setItem('accessToken', accessToken)
 
-    alert('로그인 성공!')
     router.push({ name: 'home' })
   } catch (error) {
-    console.error('로그인 실패:', error.message)
     alert('로그인에 실패했습니다. 정보를 확인해주세요.')
   }
 }
