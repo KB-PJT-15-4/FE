@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[190px] flex flex-col gap-5">
+  <div class="flex flex-col gap-5 mb-3">
     <div class="flex w-full justify-between">
       <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">

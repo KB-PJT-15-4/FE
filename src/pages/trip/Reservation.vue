@@ -36,6 +36,28 @@
             }}
           </TypographyP1>
         </div>
+        <div class="flex flex-col gap-3 mt-10">
+          <div class="flex w-full items-center justify-start">
+            <TypographySubTitle2 class="w-[50px]">
+              인원
+            </TypographySubTitle2>
+            <PersonnelTab
+              v-model="selectedN"
+              :personnel="6"
+            />
+          </div>
+          <div class="flex w-full items-center justify-start">
+            <TypographySubTitle2 class="w-[50px]">
+              시간
+            </TypographySubTitle2>
+            <div class="max-w-[310px] overflow-scroll">
+              <SegmentedTab
+                v-model="selectedTime"
+                :options="options"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 교통 -->
@@ -43,6 +65,17 @@
         v-if="type === ItemType.Transportation"
         class="flex flex-col gap-3"
       >
+        <div class="flex">
+          <TypographySubTitle1 class="w-[80px]">
+            출발 일자
+          </TypographySubTitle1>
+          <TypographyP1>
+            {{
+              formatFullDateToKorean(new Date((reservationInfo as TransportationReservation).date))
+            }}
+            {{ (reservationInfo as TransportationReservation).time }}
+          </TypographyP1>
+        </div>
         <div class="flex">
           <TypographySubTitle2 class="w-[80px]">
             출발지
@@ -57,14 +90,17 @@
             {{ (reservationInfo as TransportationReservation).destination }}
           </TypographyP1>
         </div>
+
         <div class="flex">
-          <TypographySubTitle1 class="w-[80px]">
-            출발 일자
-          </TypographySubTitle1>
-          <TypographyP1>
-            {{
-              formatFullDateToKorean(new Date((reservationInfo as TransportationReservation).date))
-            }}
+          <TypographySubTitle2 class="w-[80px]">
+            선택 좌석
+          </TypographySubTitle2>
+          <TypographyP1
+            v-for="(seat, index) in (reservationInfo as TransportationReservation).seat"
+            :key="index"
+            class="pr-3"
+          >
+            {{ seat }}
           </TypographyP1>
         </div>
       </div>
@@ -88,26 +124,26 @@
             {{ formatFullDateToKorean(new Date((reservationInfo as RestaurantReservation).date)) }}
           </TypographyP1>
         </div>
-      </div>
-      <div class="flex flex-col gap-3 mt-10">
-        <div class="flex w-full items-center justify-start">
-          <TypographySubTitle2 class="w-[50px]">
-            인원
-          </TypographySubTitle2>
-          <PersonnelTab
-            v-model="selectedN"
-            :personnel="6"
-          />
-        </div>
-        <div class="flex w-full items-center justify-start">
-          <TypographySubTitle2 class="w-[50px]">
-            시간
-          </TypographySubTitle2>
-          <div class="max-w-[310px] overflow-scroll">
-            <SegmentedTab
-              v-model="selectedTime"
-              :options="options"
+        <div class="flex flex-col gap-3 mt-10">
+          <div class="flex w-full items-center justify-start">
+            <TypographySubTitle2 class="w-[50px]">
+              인원
+            </TypographySubTitle2>
+            <PersonnelTab
+              v-model="selectedN"
+              :personnel="6"
             />
+          </div>
+          <div class="flex w-full items-center justify-start">
+            <TypographySubTitle2 class="w-[50px]">
+              시간
+            </TypographySubTitle2>
+            <div class="max-w-[310px] overflow-scroll">
+              <SegmentedTab
+                v-model="selectedTime"
+                :options="options"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -192,8 +228,8 @@ let reservationInfo: AccommodationReservation | TransportationReservation | Rest
 if (type === ItemType.Accommodation) {
   reservationInfo = {
     itemId,
-    startDate: route.query.startDate as string,
-    endDate: route.query.endDate as string,
+    startDate: route.query.start_date as string,
+    endDate: route.query.end_date as string,
   }
 }
 
@@ -202,7 +238,9 @@ if (type === ItemType.Transportation) {
     itemId,
     origin: route.query.origin as string,
     destination: route.query.destination as string,
-    date: route.query.startDate as string,
+    date: route.query.start_date as string,
+    seat: route.query.seat as string[],
+    time: route.query.start_time as string,
   }
 }
 

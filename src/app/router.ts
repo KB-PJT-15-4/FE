@@ -12,6 +12,7 @@ import CreateTrip from '@/pages/trip/CreateTrip.vue'
 import PaySettle from '@/pages/trip/PaySettle.vue'
 import PaySettleStatus from '@/pages/trip/PaySettleStatus.vue'
 import Reservation from '@/pages/trip/Reservation.vue'
+import SelectSeat from '@/pages/trip/SelectSeat.vue'
 import TripDetail from '@/pages/trip/TripDetail.vue'
 import TripList from '@/pages/trip/TripList.vue'
 
@@ -63,6 +64,11 @@ const router = createRouter({
       path: '/trip/:tripId/reservation',
       name: 'reservation',
       component: Reservation,
+    },
+    {
+      path: '/trip/:tripId/reservation/select_seat',
+      name: 'select_seat',
+      component: SelectSeat,
     },
     {
       path: '/trip/create',

@@ -87,6 +87,8 @@ export interface TransportationReservation extends BaseReservationInfo {
   origin: string
   destination: string
   date: string
+  seat: string[]
+  time: string
 }
 
 export interface RestaurantReservation extends BaseReservationInfo {

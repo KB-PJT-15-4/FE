@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-2 h-[190px]">
+  <div class="flex flex-col gap-2 mb-3">
     <TypographyP1 class="pl-1">
       카테고리
     </TypographyP1>
