@@ -43,6 +43,7 @@ const onInput = (e: Event) => {
       <component :is="icon" />
     </span>
     <input
+      :name="name"
       v-bind="attrs"
       :value="modelValue"
       :class="inputClass"
