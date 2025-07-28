@@ -5,7 +5,7 @@
       v-model="settlementMemo"
       placeholder="정산 제목을 입력해주세요 (최대 30자)"
     />
-    <TypographyP2> 정산 요청 금액</TypographyP2>
+    <TypographySubTitle2> 정산 요청 금액</TypographySubTitle2>
     <Input
       v-model="settlementAmount"
       type="number"
