@@ -15,6 +15,7 @@
     />
 
     <!-- 컴포넌트화 어떻게 해야할지 생각 -->
+    <!-- 박스 크기 안늘어나게 lock 걸기, 글자수 제한 추가-->
     <textarea
       v-model="content"
       placeholder="기록을 자유롭게 작성해주세요 (최대 800자)"
@@ -165,6 +166,7 @@ const goBack = () => {
 }
 </script>
 
+<!-- CSS Tailwind 로 리팩토링 -->
 <style scoped>
 /* 이미지 업로드 컨테이너 */
 .image-upload-container {

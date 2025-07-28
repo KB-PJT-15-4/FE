@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen flex flex-col justify-center items-center gap-8">
+  <div class="w-full h-dvh flex flex-col pt-20 items-center gap-8 overflow-hidden">
     <img
       :src="logo"
       alt="moa logo"
