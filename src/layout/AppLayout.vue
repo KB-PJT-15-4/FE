@@ -1,24 +1,28 @@
 <template>
-  <div class="flex flex-col h-screen overflow-hidden">
+  <div class="relative w-full max-w-[390px] mx-auto bg-white">
+    <!-- 헤더 -->
     <header
       v-if="!shouldHideLayout"
-      class="fixed top-0 left-0 w-full z-50"
+      class="fixed top-0 left-0 w-full z-50 max-w-[390px]"
     >
       <Header />
     </header>
 
+    <!-- 메인 콘텐츠 -->
     <main
       :class="[
-        'flex-1 overflow-y-auto flex flex-col gap-3 justify-start items-center max-w-[390px] w-full m-auto px-[16px]',
+        'overflow-y-auto px-[16px] flex flex-col gap-3 justify-start items-center',
         !shouldHideLayout && 'pt-[80px] pb-[100px]',
       ]"
+      :style="mainStyle"
     >
       <slot />
     </main>
 
+    <!-- 푸터 -->
     <footer
       v-if="!shouldHideLayout"
-      class="fixed bottom-0 left-0 w-full z-50"
+      class="fixed bottom-0 left-0 w-full z-50 max-w-[390px]"
     >
       <NavBar v-model="currentTab" />
     </footer>
@@ -32,9 +36,15 @@ import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-
 const shouldHideLayout = computed(() => route.meta.layout === false)
 
 const tab = ['home', 'map', 'trip']
 const currentTab = ref(tab[0])
+
+const mainStyle = computed(() => {
+  return {
+    height: '100dvh',
+    overflow: 'auto',
+  }
+})
 </script>

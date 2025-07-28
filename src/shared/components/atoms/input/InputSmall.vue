@@ -15,9 +15,12 @@ const emit = defineEmits<{
 
 const attrs = useAttrs()
 
+const isDateType = computed(() => attrs.type === 'date')
+
 const inputClass = computed(() => {
   return [
-    'w-[170px] h-[50px] rounded-md border-[1px] border-gray-200 bg-white p-3 text-[16px] font-semibold text-black focus:border-moa-main focus:border-2 focus:outline-none',
+    'bg-white max-w-[170px] w-full h-[50px] rounded-md border-[1px] p-3 text-[16px] font-semibold focus:border-moa-main focus:border-2 focus:outline-none',
+    isDateType.value && 'appearance-none',
     props.icon && 'pl-10',
     props.class,
   ]
