@@ -49,10 +49,7 @@
       <TypographyP1 class="pl-1">
         출발 시간
       </TypographyP1>
-      <Select
-        v-model="selectedStartTime"
-        type="date"
-      >
+      <Select v-model="selectedStartTime">
         <Option
           v-for="(item, index) in timeOptions"
           :key="index"
@@ -62,18 +59,19 @@
       </Select>
     </div>
   </div>
-  <ButtonMain>검색하기</ButtonMain>
+  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
 import { locationList } from '@/entities/trip/trip.entity'
 import { availableTransportationReservationListMockData } from '@/entities/trip/trip.mock'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import SelectSmall from '@/shared/components/atoms/input/SelectSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { provide, ref } from 'vue'
 import FilteredList from './FilteredList.vue'
 

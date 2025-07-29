@@ -23,17 +23,18 @@
       type="date"
     />
   </div>
-  <ButtonMain>검색하기</ButtonMain>
+  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
 import { restaurantTypeList } from '@/entities/trip/trip.entity'
 import { availableRestaurantReservationListMockData } from '@/entities/trip/trip.mock'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { provide, ref } from 'vue'
 import FilteredList from './FilteredList.vue'
 

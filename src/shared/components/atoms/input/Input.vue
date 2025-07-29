@@ -19,7 +19,7 @@ const isDateType = computed(() => attrs.type === 'date')
 
 const inputClass = computed(() => {
   return [
-    'w-full max-w-[355px] flex flex-col rounded-md border-2 p-3 text-[16px] font-semibold focus:border-moa-main focus:border-2 focus:outline-none',
+    'w-full max-w-[355px] flex flex-col rounded-md border-[1px] p-3 text-[14px] font-medium focus:border-moa-main focus:border-2 focus:outline-none',
     props.icon && 'pl-10',
     props.class,
 

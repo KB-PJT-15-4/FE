@@ -13,20 +13,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-type Variant = 'main' | 'sub'
-type Size = 'default' | 'medium' | 'small' | 'xs'
-type Shape = 'rounded' | 'round'
-
-const props = defineProps<{
-  variant?: Variant
-  size?: Size
-  shape?: Shape
-  disabled?: boolean
-}>()
-
 const variantClasses = {
   main: 'bg-moa-main text-white',
   sub: 'bg-moa-sub text-otl-gray',
+  ghost: 'bg-white border-moa-main border-2 text-moa-main',
 }
 
 const sizeClasses = {
@@ -40,6 +30,17 @@ const shapeClasses = {
   rounded: 'rounded-md',
   round: 'rounded-full',
 }
+
+type Variant = keyof typeof variantClasses
+type Size = keyof typeof sizeClasses
+type Shape = keyof typeof shapeClasses
+
+const props = defineProps<{
+  variant?: Variant
+  size?: Size
+  shape?: Shape
+  disabled?: boolean
+}>()
 
 const computedClass = computed(() => {
   const base =
