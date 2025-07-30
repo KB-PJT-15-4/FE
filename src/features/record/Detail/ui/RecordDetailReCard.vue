@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { formatFullDateToKorean } from '@/shared/utils/format'
+
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'

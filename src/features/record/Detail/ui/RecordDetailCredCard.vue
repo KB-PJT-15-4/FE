@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
+
 import Card from '@/shared/components/atoms/card/Card.vue'
 
 const { creditList } = defineProps<{

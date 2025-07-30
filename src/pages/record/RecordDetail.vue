@@ -36,7 +36,8 @@ import RecordDetailCustom from '@/features/record/Detail/ui/RecordDetailCustom.v
 const route = useRoute()
 const tripId = Number(route.params.tripId)
 
-const selectedDate = ref('2025-03-24') // 날짜 선택 (추후 api 연동)
+const selectedDate = ref('2025-03-24') // 날짜 선택 ( 추후 api 연동 )
 
+// 여행 정보 카드에 필요한 변수 ( 추후 api 연동 )
 const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId) ?? null)
 </script>

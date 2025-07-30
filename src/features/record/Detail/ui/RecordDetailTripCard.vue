@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
 import { formatFullDateToKorean } from '@/shared/utils/format'
+
 import Card from '@/shared/components/atoms/card/Card.vue'
 
 const { trip } = defineProps<{
