@@ -21,6 +21,7 @@ export const restaurantTypeList = [
   '기타',
 ]
 export const timeOptions = ['07:30', '10:00', '12:30', '14:00', '15:30', '18:00', '19:30', '21:00']
+export const containers = ['1칸', '2칸', '3칸', '4칸', '5칸', '6칸', '7칸', '8칸', '9칸', '10칸']
 
 export enum ItemType {
   Accommodation = 'accommodation',

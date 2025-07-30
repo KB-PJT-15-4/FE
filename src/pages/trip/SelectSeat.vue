@@ -4,11 +4,21 @@
       :item="item"
       class="mb-3"
     />
-    <div class="w-full h-[450px] overflow-y-scroll">
+    <div class="w-full overflow-y-scroll">
+      <Select v-model="selectedContainer">
+        <Option
+          v-for="(container, index) in containers"
+          :key="index"
+        >
+          {{ container }}
+        </Option>
+      </Select>
       <SelectSeatBox
-        v-for="container in containers"
-        :key="container"
-        :container="container"
+        :key="selectedContainer"
+        :container="selectedContainer"
+        :selected-seat="selectedSeat"
+        :disabled-seat="disabledSeat"
+        :on-toggle-seat="toggleSeat"
       />
     </div>
 
@@ -19,9 +29,7 @@
           v-for="(seat, index) in selectedSeat"
           :key="index"
         >
-          {{
-            seat
-          }}
+          {{ seat }}
         </TypographySubTitle1>
       </div>
     </div>
@@ -52,12 +60,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ItemType, type TransportationReservation } from '@/entities/trip/trip.entity'
+import { containers, ItemType, type TransportationReservation } from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
+import Option from '@/shared/components/atoms/input/Option.vue'
+import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -76,10 +86,12 @@ const selectedDestination = route.query.destination as string
 
 const itemId = route.query.itemId as string
 const item = reservationItemInfoMockData
-const selectedSeat = ref(['A1', 'A2'])
+const selectedSeat = ref<string[]>([])
+const disabledSeat = ref<string[]>(['A1', 'A2'])
+
+const selectedContainer = ref<string>(containers[0])
 
 let reservationInfo: TransportationReservation
-const containers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 reservationInfo = {
   itemId,
   origin: route.query.origin as string,
@@ -87,5 +99,14 @@ reservationInfo = {
   date: route.query.start_date as string,
   seat: selectedSeat.value,
   time: selectedStartTime,
+}
+
+const toggleSeat = (seat: string) => {
+  const exists = selectedSeat.value.includes(seat)
+  if (exists) {
+    selectedSeat.value = selectedSeat.value.filter((s) => s !== seat)
+  } else {
+    selectedSeat.value = [...selectedSeat.value, seat]
+  }
 }
 </script>

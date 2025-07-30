@@ -75,15 +75,6 @@ export const userReservationListMockData: UserReservationList[] = [
     date: '2025-10-24 10:23:42',
     imageUrl: 'https://media-cdn.tripadvisor.com/media/photo-s/19/19/45/ad/140.jpg',
   },
-  {
-    id: '5',
-    tripId: '1',
-    title: 'KTX 35',
-    type: ItemType.Transportation,
-    date: '2025-10-22 02:03:10',
-    imageUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg',
-  },
 ]
 
 // [여헹 페이지] 여행 기본 정보
