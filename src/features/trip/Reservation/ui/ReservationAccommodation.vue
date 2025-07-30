@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[190px] flex flex-col gap-5">
+  <div class="flex flex-col gap-5 mb-3">
     <div class="flex w-full justify-between">
       <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
@@ -21,16 +21,17 @@
       </div>
     </div>
   </div>
-  <ButtonMain>검색하기</ButtonMain>
+  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
 import { provide, ref } from 'vue'
 
 import { availableAccommodationReservationListMockData } from '@/entities/trip/trip.mock'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import FilteredList from './FilteredList.vue'
 
 const availableReservationList = availableAccommodationReservationListMockData

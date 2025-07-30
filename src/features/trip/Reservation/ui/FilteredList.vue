@@ -30,24 +30,24 @@
             }
 
             if (item.type === ItemType.Accommodation) {
-              query.startDate = selectedStartDate
-              query.endDate = selectedEndDate
+              query.start_date = selectedStartDate
+              query.end_date = selectedEndDate
             }
 
             if (item.type === ItemType.Transportation) {
-              query.startDate = selectedStartDate
+              query.start_date = selectedStartDate
               query.origin = selectedOrigin
               query.destination = selectedDestination
+              query.start_time = selectedStartTime
             }
 
             if (item.type === ItemType.Restaurant) {
               query.date = selectedStartDate
-
               query.category = selectedCategory
             }
 
             router.push({
-              name: 'reservation',
+              name: item.type === ItemType.Transportation ? 'select_seat' : 'reservation',
               params: { tripId },
               query,
             })
@@ -78,4 +78,5 @@ const selectedEndDate = inject<Ref<string>>('selectedEndDate', ref(''))
 const selectedOrigin = inject<Ref<string>>('selectedOrigin', ref(''))
 const selectedDestination = inject<Ref<string>>('selectedDestination', ref(''))
 const selectedCategory = inject<Ref<string>>('selectedCategory', ref(''))
+const selectedStartTime = inject<Ref<string>>('selectedStartTime', ref(''))
 </script>

@@ -1,0 +1,8 @@
+import { Method } from '@/shared/utils/fetcher'
+
+export const user = {
+  getIdByEmail: (email: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/search-by-email?email=${email}`,
+    method: Method.GET,
+  }),
+}

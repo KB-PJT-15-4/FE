@@ -5,8 +5,13 @@
       v-model="currentLabel"
       :options="toggleOptions"
     />
+    <div v-if="selectedOption === 'reservationList'">
+      <MyReservationList
+        :page="page"
+        :total-page="totalCount"
+      />
+    </div>
     <div v-if="selectedOption === 'reservation'">
-      <MyReservationList />
       <Reservation />
     </div>
     <div v-else-if="selectedOption === 'settle'">
@@ -28,15 +33,17 @@ import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import { useRoute, useRouter } from 'vue-router'
 const trip = tripInformationMockData
 
-type TabValue = 'reservation' | 'settle'
+type TabValue = 'reservationList' | 'reservation' | 'settle'
 
 const labelForTab: Record<TabValue, string> = {
-  reservation: '예매',
+  reservationList: '예매내역',
+  reservation: '예매하기',
   settle: '정산',
 }
 
 const valueForLabel: Record<string, TabValue> = {
-  예매: 'reservation',
+  예매내역: 'reservationList',
+  예매하기: 'reservation',
   정산: 'settle',
 }
 
@@ -46,6 +53,9 @@ const route = useRoute()
 const router = useRouter()
 
 const selectedOption = ref<TabValue>((route.query.tab as TabValue) || 'reservation')
+
+const page = computed(() => Number(route.query.page ?? 1))
+const totalCount = ref(10)
 
 const currentLabel = computed({
   get: () => labelForTab[selectedOption.value],

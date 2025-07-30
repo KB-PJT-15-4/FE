@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full max-w-[250px]">
+  <div class="flex justify-start w-ful gap-3 max-w-[300px]">
     <button
       v-for="option in options"
       :key="option"

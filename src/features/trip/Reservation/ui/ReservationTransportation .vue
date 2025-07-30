@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[190px] flex flex-col gap-2">
+  <div class="flex flex-col gap-2 mb-3">
     <div class="flex w-full justify-between">
       <div class="flex flex-col gap-2 w-full">
         <TypographyP1 class="pl-1">
@@ -45,30 +45,47 @@
         type="date"
       />
     </div>
+    <div class="flex flex-col gap-2">
+      <TypographyP1 class="pl-1">
+        출발 시간
+      </TypographyP1>
+      <Select v-model="selectedStartTime">
+        <Option
+          v-for="(item, index) in timeOptions"
+          :key="index"
+        >
+          {{ item }}
+        </Option>
+      </Select>
+    </div>
   </div>
-  <ButtonMain>검색하기</ButtonMain>
+  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
-import { locationList } from '@/entities/trip/trip.entity'
+import { locationList, timeOptions } from '@/entities/trip/trip.entity'
 import { availableTransportationReservationListMockData } from '@/entities/trip/trip.mock'
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
+import Select from '@/shared/components/atoms/input/Select.vue'
 import SelectSmall from '@/shared/components/atoms/input/SelectSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { provide, ref } from 'vue'
 import FilteredList from './FilteredList.vue'
 
 const availableReservationList = availableTransportationReservationListMockData
 
 const selectedOrigin = ref(locationList[0])
-const selectedDestination = ref(locationList[0])
+const selectedDestination = ref(locationList[1])
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])
 
+const selectedStartTime = ref(timeOptions[0])
 provide('selectedStartDate', selectedStartDate)
+provide('selectedStartTime', selectedStartTime)
 provide('selectedOrigin', selectedOrigin)
 provide('selectedDestination', selectedDestination)
 </script>

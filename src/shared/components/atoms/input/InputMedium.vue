@@ -18,7 +18,7 @@ const isDateType = computed(() => attrs.type === 'date')
 
 const inputClass = computed(() => {
   return [
-    'max-w-[230px] w-full h-[50px] rounded-md border-2 p-3 text-[16px] font-semibold focus:border-moa-main focus:border-2 focus:outline-none',
+    'max-w-[230px] w-full h-[50px] rounded-md border-[1px] p-3 text-[14px] font-medium focus:border-moa-main focus:border-2 focus:outline-none',
     isDateType.value
       ? 'bg-white text-black appearance-none'
       : 'bg-white text-black border-gray-200',

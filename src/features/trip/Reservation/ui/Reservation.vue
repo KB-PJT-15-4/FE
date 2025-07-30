@@ -1,12 +1,9 @@
 <template>
-  <div class="flex flex-col mt-7 gap-2">
-    <TypographyHead3 class="pl-1">
-      예매하기
-    </TypographyHead3>
+  <div class="flex flex-col gap-2">
     <SegmentedTab
       v-model="selectedSegmentOption"
       :options="segmentOptions"
-      class="mb-2"
+      class="my-2"
     />
 
     <ReservationTransportation v-if="selectedSegmentOption === segmentOptions[0]" />
@@ -18,7 +15,6 @@
 import { ref } from 'vue'
 
 import { filterTabOptions } from '@/entities/trip/trip.entity'
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import ReservationAccommodation from './ReservationAccommodation.vue'
 import ReservationRestaurant from './ReservationRestaurant.vue'
