@@ -1,80 +1,22 @@
 <template>
   <div class="w-full flex flex-col gap-4">
     <!-- 여행 정보 카드 -->
-    <Card
-      v-if="tripData"
-      class="p-2 space-y-1"
-    >
-      <div class="flex justify-between items-start">
-        <div class="font-bold text-lg">
-          {{ tripData.title }}
-        </div>
-        <div class="text-sm text-black">
-          {{ tripData.status }}
-        </div>
-      </div>
-      <div class="flex justify-between items-end">
-        <div class="text-sm text-[#626262]">
-          {{ formatFullDateToKorean(new Date(tripData.startDate)) }} -
-          {{ formatFullDateToKorean(new Date(tripData.endDate)) }}
-        </div>
-        <div class="text-sm text-black">
-          {{ tripData.location }}
-        </div>
-      </div>
-    </Card>
+    <RecordDetailTripCard :trip="tripData" />
 
-    <!-- 날짜 선택 -->
+    <!-- 날짜 탭 -->
     <DateTab
       v-model="selectedDate"
       start-date="2025-03-24"
       end-date="2025-03-30"
     />
 
-    <!-- 예매내역 카드 -->
-    <Card
-      v-for="reservation in userReservationListMockData"
-      :key="reservation.id"
-      class="flex justify-between"
-    >
-      <div class="flex gap-4">
-        <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
-        >
-          <img
-            :src="reservation.imageUrl"
-            class="h-[40px] w-[40px]"
-          >
-        </div>
-        <div>
-          <TypographySubTitle1>{{ reservation.title }}</TypographySubTitle1>
-          <TypographyP2 class="text-[#626262]">
-            {{ formatFullDateToKorean(new Date(reservation.date)) }}
-          </TypographyP2>
-        </div>
-      </div>
-    </Card>
+    <!-- 예매 내역 카드 -->
+    <RecordDetailReCard :reservation-list="userReservationListMockData" />
+    
+    <!-- 결제 내역 카드 -->
+    <RecordDetailCredCard :credit-list="creditMockData" />
 
-    <!-- 결제내역 카드 -->
-    <Card
-      v-for="(payment, index) in creditMockData"
-      :key="index"
-      class="flex justify-between items-center p-4"
-    >
-      <div>
-        <p class="text-sm text-[#626262]">
-          {{ formatFullDateToKorean(new Date(payment.date)) }}
-        </p>
-        <p class="font-semibold text-base">
-          {{ payment.title }}
-        </p>
-      </div>
-      <p class="font-bold text-lg">
-        {{ formatCurrency(payment.cost) }}
-      </p>
-    </Card>
-
-    <!-- 기록 추가 버튼 -->
+    <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px]"
       @click="$router.push({ name: 'record_create', params: { tripId: tripId } })"
@@ -117,26 +59,32 @@
   </div>
 </template>
 
-<script setup>
-import { creditMockData, mockData, userReservationListMockData } from '@/entities/map/map.mock'
-import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
-import { computed, onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
+import { formatFullDateToKorean } from '@/shared/utils/format'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
-import Card from '@/shared/components/atoms/card/Card.vue'
-import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
+
+import RecordDetailTripCard from '@/features/record/Detail/ui/RecordDetailTripCard.vue'
+import RecordDetailReCard from '@/features/record/Detail/ui/RecordDetailReCard.vue'
+import RecordDetailCredCard from '@/features/record/Detail/ui/RecordDetailCredCard.vue'
 
 const route = useRoute()
 const router = useRouter()
-const selectedDate = ref('2025-03-24') // 날짜 탭 날짜 선택
+const selectedDate = ref('2025-03-24')
 
 const tripId = Number(route.params.tripId)
-const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId))
+const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId) ?? null)
 
-const recordList = ref([])
+const recordList = ref<Array<{
+  title: string
+  date: string
+  imageUrl?: string
+  content: string
+}>>([])
 
 onMounted(() => {
   const saved = localStorage.getItem(`trip-${tripId}-records`)
@@ -145,16 +93,11 @@ onMounted(() => {
   }
 })
 
-// 기록 수정 기능 함수 (추후 features로 이동)
-const editRecord = (index) => {
-  router.push({
-    path: `/record/${tripId}/create`,
-    query: { editIndex: index },
-  })
+const editRecord = (index: number) => {
+  router.push({ path: `/record/${tripId}/create`, query: { editIndex: index } })
 }
 
-// 기록 삭제 기능 함수 (추후 feature로 이동)
-const deleteRecord = (index) => {
+const deleteRecord = (index: number) => {
   if (confirm('정말 삭제하시겠습니까?')) {
     recordList.value.splice(index, 1)
     localStorage.setItem(`trip-${tripId}-records`, JSON.stringify(recordList.value))
