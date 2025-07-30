@@ -63,7 +63,7 @@
   <FilteredList :available-reservation-list="availableReservationList" />
 </template>
 <script setup lang="ts">
-import { locationList } from '@/entities/trip/trip.entity'
+import { locationList, timeOptions } from '@/entities/trip/trip.entity'
 import { availableTransportationReservationListMockData } from '@/entities/trip/trip.mock'
 import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
@@ -78,12 +78,11 @@ import FilteredList from './FilteredList.vue'
 const availableReservationList = availableTransportationReservationListMockData
 
 const selectedOrigin = ref(locationList[0])
-const selectedDestination = ref(locationList[0])
+const selectedDestination = ref(locationList[1])
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])
 
-const timeOptions = ['07:30', '10:00', '12:30', '14:00', '15:30', '18:00', '19:30', '21:00']
 const selectedStartTime = ref(timeOptions[0])
 provide('selectedStartDate', selectedStartDate)
 provide('selectedStartTime', selectedStartTime)

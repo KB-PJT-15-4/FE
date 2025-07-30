@@ -24,9 +24,11 @@ const sizeClasses = {
   medium: 'w-full max-w-[165px] h-[50px]',
   small: 'w-full max-w-[115px] h-[50px]',
   xs: 'w-full max-w-[80px] h-[30px]',
+  square: 'w-[40px] h-[40px]',
 }
 
 const shapeClasses = {
+  semi: 'rounded-sm',
   rounded: 'rounded-md',
   round: 'rounded-full',
 }

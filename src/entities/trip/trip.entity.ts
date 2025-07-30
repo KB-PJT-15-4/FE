@@ -20,6 +20,7 @@ export const restaurantTypeList = [
   '건강식/채식',
   '기타',
 ]
+export const timeOptions = ['07:30', '10:00', '12:30', '14:00', '15:30', '18:00', '19:30', '21:00']
 
 export enum ItemType {
   Accommodation = 'accommodation',
