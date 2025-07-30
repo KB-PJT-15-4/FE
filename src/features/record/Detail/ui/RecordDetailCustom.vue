@@ -33,7 +33,7 @@
       <div v-if="record.imageUrl">
         <img
           :src="record.imageUrl"
-          class="w-full rounded"
+          class="w-full h-[300px] rounded"
         >
       </div>
       <p class="text-sm text-[#626262] whitespace-pre-line">
