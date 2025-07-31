@@ -50,9 +50,9 @@ export interface TripInfo {
 
 // [여행 페이지] 여행 멤버
 export interface TripMember {
-  id: string
-  name: string
-  email?: string
+  memberId: string
+  memberName: string
+  memberEmail: string
 }
 
 // [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트

@@ -18,17 +18,17 @@
     </TypographySubTitle2>
     <div
       v-for="member in settlementMemberList"
-      :key="member.id"
+      :key="member.memberId"
       class="flex justify-between items-center"
     >
-      <TypographySubTitle2>{{ member.name }}</TypographySubTitle2>
+      <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
       <div class="flex justify-between items-center gap-2">
         <TypographySubTitle2>
           {{ formatNumber(settlementAmount / settlementMemberList.length) }}원
         </TypographySubTitle2>
         <button
           class="flex items-center"
-          @click="removeMember(member.id)"
+          @click="removeMember(member.memberId)"
         >
           <i class="bi bi-x text-[25px]" />
         </button>
@@ -46,14 +46,14 @@
     </TypographySubTitle2>
     <div
       v-for="member in unSettlementMemberList"
-      :key="member.id"
+      :key="member.memberId"
       class="flex justify-between items-center"
     >
-      <TypographySubTitle2>{{ member.name }}</TypographySubTitle2>
+      <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
 
       <button
         class="flex items-center"
-        @click="addMember(member.id)"
+        @click="addMember(member.memberId)"
       >
         <i class="bi bi-plus text-[25px]" />
       </button>
@@ -65,23 +65,27 @@
 </template>
 <script setup lang="ts">
 import type { TripMember } from '@/entities/trip/trip.entity'
-import { tripMemberListMockData } from '@/entities/trip/trip.mock'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatNumber } from '@/shared/utils/format'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { getMemberList } from '../services/settlement.service'
 
 const settlementAmount = ref(0)
 const settlementMemo = ref('')
 
-const settlementMemberList = ref<TripMember[]>(tripMemberListMockData)
+const settlementMemberList = ref<TripMember[]>([])
 const unSettlementMemberList = ref<TripMember[]>([])
 
+const route = useRoute()
+const tripId = route.params.tripId as string
+
 function removeMember(id: string) {
-  const index = settlementMemberList.value.findIndex((member) => member.id === id)
+  const index = settlementMemberList.value.findIndex((member) => member.memberId === id)
   if (index !== -1) {
     const [removed] = settlementMemberList.value.splice(index, 1)
     unSettlementMemberList.value.push(removed)
@@ -89,20 +93,24 @@ function removeMember(id: string) {
 }
 
 function addMember(id: string) {
-  const index = unSettlementMemberList.value.findIndex((member) => member.id === id)
+  const index = unSettlementMemberList.value.findIndex((member) => member.memberId === id)
   if (index !== -1) {
     const [restored] = unSettlementMemberList.value.splice(index, 1)
     settlementMemberList.value.push(restored)
   }
 }
 
-/**
- * 처음에 여행 멤버 정보를 불러오고
- *
- * settlementMemberList에 넣어준다
- * unSettlementMemberList는 빈 배열
- *
- * settlementAmount / settlementMemberList.length -> 1인당 정산 금액
- * settlementMemberList에 사람을 제거하면 unSettlementMemberList에 넣어준다
- */
+async function getMemberListFunction() {
+  try {
+    const result = await getMemberList(localStorage.getItem('accessToken')!, tripId)
+    settlementMemberList.value = await result
+  } catch (e) {
+    console.error(e)
+    alert('멤버를 불러오는데 실패하였습니다.')
+  }
+}
+
+onMounted(() => {
+  getMemberListFunction()
+})
 </script>

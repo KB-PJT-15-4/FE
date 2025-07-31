@@ -90,34 +90,34 @@ export const tripInformationMockData: TripInfo = {
 // [여행 페이지] 여행 멤버
 export const tripMemberListMockData: TripMember[] = [
   {
-    id: '1',
-    name: '강민재',
-    email: 'minijae011030@gmail.com',
+    memberId: '1',
+    memberName: '강민재',
+    memberEmail: 'minijae011030@gmail.com',
   },
   {
-    id: '2',
-    name: '곽효재',
-    email: 'hyo@gmail.com',
+    memberId: '2',
+    memberName: '곽효재',
+    memberEmail: 'hyo@gmail.com',
   },
   {
-    id: '3',
-    name: '김동연',
-    email: 'dong@gmail.com',
+    memberId: '3',
+    memberName: '김동연',
+    memberEmail: 'dong@gmail.com',
   },
   {
-    id: '4',
-    name: '김미정',
-    email: 'mijeong@gmail.com',
+    memberId: '4',
+    memberName: '김미정',
+    memberEmail: 'mijeong@gmail.com',
   },
   {
-    id: '5',
-    name: '이호진',
-    email: 'hojin@gmail.com',
+    memberId: '5',
+    memberName: '이호진',
+    memberEmail: 'hojin@gmail.com',
   },
   {
-    id: '6',
-    name: '정다현',
-    email: 'dahyun@gmail.com',
+    memberId: '6',
+    memberName: '정다현',
+    memberEmail: 'dahyun@gmail.com',
   },
 ]
 
