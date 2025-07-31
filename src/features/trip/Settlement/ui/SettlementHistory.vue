@@ -1,7 +1,7 @@
 <template>
   <TypographyHead3>나의 정산내역</TypographyHead3>
   <Card
-    v-for="(settlement, index) in userSettlementListMockData"
+    v-for="(settlement, index) in settleList"
     :key="index"
     class="flex justify-between items-center my-3"
   >
@@ -35,17 +35,37 @@
   </Card>
 </template>
 <script setup lang="ts">
-import { SettlementDirection, SettlementStatus } from '@/entities/trip/trip.entity'
-import { userSettlementListMockData } from '@/entities/trip/trip.mock'
+import {
+  SettlementDirection,
+  SettlementStatus,
+  type UserSettlement,
+} from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import { formatDateTime, formatNumber } from '@/shared/utils/format'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { getSettleList } from '../services/settlement.service'
 
 const router = useRouter()
 const route = useRoute()
-const tripId = route.params.tripId
+const tripId = route.params.tripId as string
+const settleList = ref<UserSettlement[]>([])
+
+async function getSettleListFunction() {
+  try {
+    const result = await getSettleList(localStorage.getItem('accessToken')!, tripId)
+    settleList.value = await result
+  } catch (e) {
+    console.error(e)
+    alert('정산 내역을 불러오는데 실패하였습니다.')
+  }
+}
+
+onMounted(() => {
+  getSettleListFunction()
+})
 </script>

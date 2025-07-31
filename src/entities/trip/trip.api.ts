@@ -33,4 +33,12 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/trip-members?tripId=${tripId}`,
     method: Method.GET,
   }),
+  getSettleList: (tripId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/expense?tripId=${tripId}`,
+    method: Method.GET,
+  }),
+  makeSettlement: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/expense`,
+    method: Method.POST,
+  }),
 }
