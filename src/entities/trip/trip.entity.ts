@@ -134,9 +134,9 @@ export enum SettlementDirection {
   RECEIVED = 'received', // 받은 요청
 }
 export enum SettlementStatus {
-  PENDING = '정산 진행중', //
-  COMPLETED = '정산 완료', //
-  WAITING = '정산 미완료', //
+  PENDING = '정산 진행중',
+  COMPLETED = '정산 완료',
+  WAITING = '정산 하기',
 }
 
 // 정산내역 리스트

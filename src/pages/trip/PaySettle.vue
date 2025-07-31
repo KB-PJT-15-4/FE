@@ -3,7 +3,7 @@
     <TypographyHead1>정산하기</TypographyHead1>
     <div class="mt-3 h-[65vh]">
       <div class="flex gap-1">
-        <TypographyHead2>{{ member.name }} </TypographyHead2>
+        <TypographyHead2>{{ member.memberName }} </TypographyHead2>
         <TypographyHead2 class="text-moa-sub-text">
           님에게
         </TypographyHead2>

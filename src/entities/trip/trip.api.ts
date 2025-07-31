@@ -34,7 +34,7 @@ export const trip = {
     method: Method.GET,
   }),
   getSettleList: (tripId: string) => ({
-    url: `${import.meta.env.VITE_APP_API_URL}/api/expense?tripId=${tripId}&memberId=1`,
+    url: `${import.meta.env.VITE_APP_API_URL}/api/expense?tripId=${tripId}`,
     method: Method.GET,
   }),
   makeSettlement: () => ({
