@@ -111,6 +111,10 @@
         <TypographyHead1>hello world</TypographyHead1>
       </div>
     </Card>
+    <Pagination
+      :total-page="totalCount"
+      :active-page="currentPage"
+    />
   </div>
 </template>
 <script setup>
@@ -139,9 +143,11 @@ import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
-import { ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const toggleOptions = ['option1', 'option2']
 const segmentedOptions = ['option1', 'option2', 'option3', 'option4']
@@ -154,5 +160,29 @@ const options = [
 const selected = ref('')
 const selectedDate = ref('2025-07-30')
 const selectedOption = ref(toggleOptions[0])
+
 const selectedSegmentOption = ref(segmentedOptions[0])
+
+const route = useRoute()
+const router = useRouter()
+
+const currentPage = computed(() => Number(route.query.page ?? 1))
+const totalCount = ref(10)
+
+watch(currentPage, async (newPage) => {
+  // 여기에 API 호출 함수 호출 (ex: fetchReservationList())
+  getList()
+})
+
+async function getList() {
+  /*
+   * 리스트 불러오는 api 실행시 백엔드 응답에 totalPages 가 나옵니다
+   * 거기서 뽑아서 pagination에 파라미터로 넣어주면 됨
+   */
+  console.log('page:', currentPage.value, 'size: 1 -> 사용자가 임의로 정한 사이즈')
+}
+
+onMounted(() => {
+  getList()
+})
 </script>
