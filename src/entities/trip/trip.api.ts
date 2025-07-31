@@ -17,4 +17,16 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport?departureName=${origin}&destinationName=${destination}&departureDateTime=${startDateTime}`,
     method: Method.GET,
   }),
+  getAccommodationList: (tripId: string, startDate: string, endDate: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation?tripId=${tripId}&checkinDay=${startDate}&checkoutDay=${endDate}`,
+    method: Method.GET,
+  }),
+  getRestaurantList: (tripId: string, date: string, category: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/available?tripId=${tripId}&date=${date}&category=${category}`,
+    method: Method.GET,
+  }),
+  getRestaurantCategoryList: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/reservation/restaurant/category`,
+    method: Method.GET,
+  }),
 }

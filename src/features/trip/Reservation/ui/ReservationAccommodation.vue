@@ -21,25 +21,53 @@
       </div>
     </div>
   </div>
-  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
-  <FilteredList :available-reservation-list="availableReservationList" />
+  <ButtonGhost @click="getAvailableAccommodationList">
+    <TypographySubTitle1>검색하기</TypographySubTitle1>
+  </ButtonGhost>
+  <FilteredAccommodationList
+    v-if="availableReservationList.length >= 1"
+    :available-reservation-list="availableReservationList"
+  />
+  <div
+    v-else
+    class="w-full h-[100px] flex justify-center items-center"
+  >
+    <TypographySubTitle1 class="text-moa-main-text">
+      예약 가능한 교통편이 없습니다.
+    </TypographySubTitle1>
+  </div>
 </template>
 <script setup lang="ts">
 import { provide, ref } from 'vue'
 
-import { availableAccommodationReservationListMockData } from '@/entities/trip/trip.mock'
+import type { AccommodationItem } from '@/entities/trip/trip.entity'
 import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import FilteredList from './FilteredList.vue'
+import { useRoute } from 'vue-router'
+import { getAccommodationList } from '../services/reservation.service'
+import FilteredAccommodationList from './FilteredAccommodationList.vue'
 
-const availableReservationList = availableAccommodationReservationListMockData
+const availableReservationList = ref<AccommodationItem[]>([])
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])
 const selectedEndDate = ref(today.toISOString().split('T')[0])
 
+const route = useRoute()
+const tripId = route.params.tripId as string
+
 provide('selectedStartDate', selectedStartDate)
 provide('selectedEndDate', selectedEndDate)
+
+async function getAvailableAccommodationList() {
+  const result = await getAccommodationList(
+    localStorage.getItem('accessToken')!,
+    tripId,
+    selectedStartDate.value,
+    selectedEndDate.value
+  )
+  availableReservationList.value = await result.content
+}
 </script>

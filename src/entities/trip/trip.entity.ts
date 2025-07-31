@@ -1,25 +1,6 @@
 export const filterTabOptions = ['전체', '교통', '숙박', '식당']
 export const locationList = ['서울역', '부산역', '대구역', '인천역', '광주역', '대전역', '울산역']
-export const restaurantTypeList = [
-  '한식',
-  '중식',
-  '일식',
-  '양식',
-  '분식',
-  '패스트푸드',
-  '치킨',
-  '피자',
-  '족발/보쌈',
-  '고기구이',
-  '회/해산물',
-  '뷔페',
-  '샤브샤브/훠궈',
-  '베이커리/디저트',
-  '카페',
-  '술집/포차',
-  '건강식/채식',
-  '기타',
-]
+
 export const timeOptions = ['07:30', '10:00', '12:30', '14:00', '15:30', '18:00', '19:30', '21:00']
 export const containers = ['1칸', '2칸', '3칸', '4칸', '5칸', '6칸', '7칸', '8칸', '9칸', '10칸']
 export const reservationTime = [
@@ -124,6 +105,27 @@ export interface TransportationItem {
   transportId: number
   departureName: string
   trainNo: string
+}
+
+export interface AccommodationItem {
+  accomId: number
+  hotelName: string
+  address: string
+  location: string
+  hotelImageUrl: string
+}
+
+export interface RestaurantItem {
+  restId: number
+  restName: string
+  restImageUrl: string
+  restDescription: string
+}
+
+export interface RestaurantCategory {
+  categoryId: number
+  categoryName: string
+  categoryCode: string
 }
 
 // [여행 페이지] 정산 내역
