@@ -2,15 +2,42 @@
   <div
     v-for="(trip, index) in tripList"
     :key="index"
-    @click="router.push({ name: 'trip_detail', params: { tripId: trip.id } })"
+    class="h-[500px]"
+    @click="router.push({ name: 'trip_detail', params: { tripId: trip.tripId } })"
   >
-    <TripInfo :trip="trip" />
+    <TripInfoBox :trip="trip" />
   </div>
+  <Pagination
+    :total-page="totalPage"
+    :active-page="currentPage"
+  />
 </template>
 <script setup lang="ts">
-import router from '@/app/router'
-import { userTripListMockData } from '@/entities/trip/trip.mock'
-import TripInfo from './TripInfo.vue'
+import { type TripInfo } from '@/entities/trip/trip.entity'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getTripList } from '../services/myTrip.service'
+import TripInfoBox from './TripInfoBox.vue'
 
-const tripList = userTripListMockData
+const route = useRoute()
+const router = useRouter()
+
+const tripList = ref<TripInfo[]>([])
+const totalPage = ref<number>(0)
+const currentPage = computed(() => Number(route.query.page ?? 1))
+
+async function getTripListFunction(page: number) {
+  const result = await getTripList(localStorage.getItem('accessToken')!, page, 4)
+  tripList.value = result.content
+  totalPage.value = result.totalPages
+}
+
+watch(currentPage, async (newPage) => {
+  getTripListFunction(newPage)
+})
+
+onMounted(() => {
+  getTripListFunction(0)
+})
 </script>

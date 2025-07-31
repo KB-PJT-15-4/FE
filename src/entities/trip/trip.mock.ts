@@ -14,28 +14,28 @@ import {
 // 여행 리스트
 export const userTripListMockData: TripInfo[] = [
   {
-    id: '1',
-    title: '즐거운 부산여행',
+    tripId: '1',
+    tripName: '즐거운 부산여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
     status: StatusType.Progress,
-    location: '부산',
+    locationName: '부산',
   },
   {
-    id: '2',
-    title: '춘식이보러 제주도여행',
+    tripId: '2',
+    tripName: '춘식이보러 제주도여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
     status: StatusType.Scheduled,
-    location: '서울',
+    locationName: '서울',
   },
   {
-    id: '3',
-    title: '프랑스로 와인마시러가자',
+    tripId: '3',
+    tripName: '프랑스로 와인마시러가자',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
     status: StatusType.Finished,
-    location: '제주도',
+    locationName: '제주도',
   },
 ]
 
@@ -79,12 +79,12 @@ export const userReservationListMockData: UserReservationList[] = [
 
 // [여헹 페이지] 여행 기본 정보
 export const tripInformationMockData: TripInfo = {
-  id: '1',
-  title: '즐거운 부산여행',
+  tripId: '1',
+  tripName: '즐거운 부산여행',
   startDate: '2024-10-30',
   endDate: '2024-11-03',
   status: StatusType.Progress,
-  location: '부산',
+  locationName: '부산',
 }
 
 // [여행 페이지] 여행 멤버

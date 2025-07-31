@@ -1,7 +1,7 @@
 <template>
   <Card class="w-full flex flex-col gap-3 my-2">
     <div class="flex justify-between">
-      <TypographyHead2>{{ trip.title }}</TypographyHead2>
+      <TypographyHead2>{{ trip.tripName }}</TypographyHead2>
       <TypographyCaption class="font-semibold">
         {{ trip.status }}
       </TypographyCaption>
@@ -12,7 +12,7 @@
         {{ formatFullDateToKorean(new Date(trip.endDate)) }}
       </TypographySubTitle2>
       <TypographyP1 class="font-semibold">
-        {{ trip.location }}
+        {{ trip.locationName }}
       </TypographyP1>
     </div>
   </Card>

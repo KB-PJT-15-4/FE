@@ -9,4 +9,8 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/trip-members?tripId=${tripId}`,
     method: Method.GET,
   }),
+  getTripList: (page: number, size: number) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trips?page=${page}&size=${size}`,
+    method: Method.GET,
+  }),
 }
