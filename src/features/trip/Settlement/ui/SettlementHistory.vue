@@ -8,16 +8,18 @@
     <div>
       <div class="flex gap-2">
         <TypographyCaption>
-          {{ settlement.direction === SettlementDirection.RECEIVED ? '받은 요청' : '보낸 요청' }}
+          {{ settlement.received ? '받은 요청' : '보낸 요청' }}
         </TypographyCaption>
-        <TypographyCaption>{{ formatDateTime(settlement.date) }}</TypographyCaption>
+        <TypographyCaption>{{ formatDateTime(settlement.expenseDate) }}</TypographyCaption>
       </div>
 
-      <TypographyHead3>{{ formatNumber(settlement.amount) }}원</TypographyHead3>
+      <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
     </div>
     <ButtonSmallMain
       v-if="settlement.status === SettlementStatus.WAITING"
-      @click="router.push({ name: 'settle', params: { tripId: tripId, settleId: settlement.id } })"
+      @click="
+        router.push({ name: 'settle', params: { tripId: tripId, settleId: settlement.expenseId } })
+      "
     >
       정산하기
     </ButtonSmallMain>
@@ -26,20 +28,16 @@
       @click="
         router.push({
           name: 'settle_status',
-          params: { tripId: tripId, settleId: settlement.id },
+          params: { tripId: tripId, settleId: settlement.expenseId },
         })
       "
     >
-      {{ settlement.status === SettlementStatus.COMPLETED ? '정산 완료' : '정산 진행중' }}
+      {{ settlement.status }}
     </ButtonSmallSub>
   </Card>
 </template>
 <script setup lang="ts">
-import {
-  SettlementDirection,
-  SettlementStatus,
-  type UserSettlement,
-} from '@/entities/trip/trip.entity'
+import { SettlementStatus, type UserSettlement } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'

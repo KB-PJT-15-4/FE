@@ -1,6 +1,5 @@
 import {
   ItemType,
-  SettlementDirection,
   SettlementStatus,
   StatusType,
   type ReservationItem,
@@ -90,32 +89,32 @@ export const tripInformationMockData: TripInfo = {
 // [여행 페이지] 여행 멤버
 export const tripMemberListMockData: TripMember[] = [
   {
-    memberId: '1',
+    memberId: 1,
     memberName: '강민재',
     memberEmail: 'minijae011030@gmail.com',
   },
   {
-    memberId: '2',
+    memberId: 2,
     memberName: '곽효재',
     memberEmail: 'hyo@gmail.com',
   },
   {
-    memberId: '3',
+    memberId: 3,
     memberName: '김동연',
     memberEmail: 'dong@gmail.com',
   },
   {
-    memberId: '4',
+    memberId: 4,
     memberName: '김미정',
     memberEmail: 'mijeong@gmail.com',
   },
   {
-    memberId: '5',
+    memberId: 5,
     memberName: '이호진',
     memberEmail: 'hojin@gmail.com',
   },
   {
-    memberId: '6',
+    memberId: 6,
     memberName: '정다현',
     memberEmail: 'dahyun@gmail.com',
   },
@@ -218,38 +217,38 @@ export const reservationItemInfoMockData: ReservationItem = {
 // [여행 페이지] 정산 내역 리스트
 export const userSettlementListMockData: UserSettlement[] = [
   {
-    id: '1',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.SENT, // 보낸 요청
+    expenseId: '1',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: false, // 보낸 요청
     status: SettlementStatus.PENDING, // 보낸 요청 정산 진행중
   },
   {
-    id: '2',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.SENT, // 보낸 요청
+    expenseId: '2',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: false, // 보낸 요청
     status: SettlementStatus.COMPLETED, // 정산 완료
   },
   {
-    id: '3',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.RECEIVED, // 받은 요청
+    expenseId: '3',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: true, // 받은 요청
     status: SettlementStatus.COMPLETED, // 정산 완료
   },
   {
-    id: '4',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.RECEIVED, // 받은 요청
+    expenseId: '4',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: true, // 받은 요청
     status: SettlementStatus.WAITING, // 받은 요청 정산 미완료
   },
   {
-    id: '5',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.RECEIVED, // 받은 요청
+    expenseId: '5',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: true, // 받은 요청
     status: SettlementStatus.PENDING, // 받은 요청 정산 진행중 (나는 보냈는데 다른 사람이 안보낸경우)
   },
 ]

@@ -50,7 +50,7 @@ export interface TripInfo {
 
 // [여행 페이지] 여행 멤버
 export interface TripMember {
-  memberId: string
+  memberId: number
   memberName: string
   memberEmail: string
 }
@@ -134,17 +134,17 @@ export enum SettlementDirection {
   RECEIVED = 'received', // 받은 요청
 }
 export enum SettlementStatus {
-  PENDING = 'pending', // 정산 진행중
-  COMPLETED = 'completed', // 정산 완료
-  WAITING = 'waiting', // 정산 미완료
+  PENDING = '정산 진행중', //
+  COMPLETED = '정산 완료', //
+  WAITING = '정산 미완료', //
 }
 
 // 정산내역 리스트
 export interface UserSettlement {
-  id: string // 정산 id
-  date: string
-  amount: number
-  direction: SettlementDirection
+  expenseId: string // 정산 id
+  expenseDate: string
+  shareAmount: number
+  received: boolean
   status: SettlementStatus
 }
 
@@ -154,4 +154,10 @@ export interface SettlementProgressStatus {
   date: string
   amount: number
   progresses: { name: string; status: string }[]
+}
+
+// 정산 요청 멤버 내역
+export interface SettleExpenses {
+  memberId: number
+  amount: number
 }

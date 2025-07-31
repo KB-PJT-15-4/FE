@@ -58,13 +58,16 @@
         <i class="bi bi-plus text-[25px]" />
       </button>
     </div>
-    <ButtonMain :disabled="settlementMemberList.length == 0">
+    <ButtonMain
+      :disabled="settlementMemberList.length == 0"
+      @click="makeSettlementFunction"
+    >
       정산 요청 보내기
     </ButtonMain>
   </div>
 </template>
 <script setup lang="ts">
-import type { TripMember } from '@/entities/trip/trip.entity'
+import type { SettleExpenses, TripMember } from '@/entities/trip/trip.entity'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
@@ -73,7 +76,7 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import { formatNumber } from '@/shared/utils/format'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getMemberList } from '../services/settlement.service'
+import { getMemberList, makeSettlement } from '../services/settlement.service'
 
 const settlementAmount = ref(0)
 const settlementMemo = ref('')
@@ -84,7 +87,7 @@ const unSettlementMemberList = ref<TripMember[]>([])
 const route = useRoute()
 const tripId = route.params.tripId as string
 
-function removeMember(id: string) {
+function removeMember(id: number) {
   const index = settlementMemberList.value.findIndex((member) => member.memberId === id)
   if (index !== -1) {
     const [removed] = settlementMemberList.value.splice(index, 1)
@@ -92,7 +95,7 @@ function removeMember(id: string) {
   }
 }
 
-function addMember(id: string) {
+function addMember(id: number) {
   const index = unSettlementMemberList.value.findIndex((member) => member.memberId === id)
   if (index !== -1) {
     const [restored] = unSettlementMemberList.value.splice(index, 1)
@@ -107,6 +110,30 @@ async function getMemberListFunction() {
   } catch (e) {
     console.error(e)
     alert('멤버를 불러오는데 실패하였습니다.')
+  }
+}
+
+async function makeSettlementFunction() {
+  try {
+    const expenses: SettleExpenses[] = settlementMemberList.value.map((member) => ({
+      memberId: member.memberId,
+      amount: settlementAmount.value / settlementMemberList.value.length,
+    }))
+
+    await makeSettlement(
+      localStorage.getItem('accessToken')!,
+      tripId,
+      settlementAmount.value.toString(),
+      settlementMemo.value,
+      expenses
+    )
+    settlementAmount.value = 0
+    settlementMemo.value = ''
+
+    alert('정산 요청이 완료되었습니다.')
+  } catch (e) {
+    console.error(e)
+    alert('정산 요청을 실패하였습니다.')
   }
 }
 
