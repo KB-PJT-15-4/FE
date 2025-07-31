@@ -1,5 +1,5 @@
 export const filterTabOptions = ['전체', '교통', '숙박', '식당']
-export const locationList = ['서울', '부산', '대구', '인천', '광주', '대전', '울산']
+export const locationList = ['서울역', '부산역', '대구역', '인천역', '광주역', '대전역', '울산역']
 export const restaurantTypeList = [
   '한식',
   '중식',
@@ -118,6 +118,12 @@ export interface TransportationReservation extends BaseReservationInfo {
 export interface RestaurantReservation extends BaseReservationInfo {
   category: string
   date: string
+}
+
+export interface TransportationItem {
+  transportId: number
+  departureName: string
+  trainNo: string
 }
 
 // [여행 페이지] 정산 내역

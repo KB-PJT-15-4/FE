@@ -13,4 +13,8 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/trips?page=${page}&size=${size}`,
     method: Method.GET,
   }),
+  getTransportList: (origin: string, destination: string, startDateTime: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport?departureName=${origin}&destinationName=${destination}&departureDateTime=${startDateTime}`,
+    method: Method.GET,
+  }),
 }

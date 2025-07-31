@@ -59,12 +59,24 @@
       </Select>
     </div>
   </div>
-  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
-  <FilteredList :available-reservation-list="availableReservationList" />
+  <ButtonGhost @click="getAvailableTransportList">
+    <TypographySubTitle1>검색하기</TypographySubTitle1>
+  </ButtonGhost>
+  <FilteredTransportationList
+    v-if="availableReservationList.length >= 1"
+    :available-reservation-list="availableReservationList"
+  />
+  <div
+    v-else
+    class="w-full h-[100px] flex justify-center items-center"
+  >
+    <TypographySubTitle1 class="text-moa-main-text">
+      예약 가능한 교통편이 없습니다.
+    </TypographySubTitle1>
+  </div>
 </template>
 <script setup lang="ts">
-import { locationList, timeOptions } from '@/entities/trip/trip.entity'
-import { availableTransportationReservationListMockData } from '@/entities/trip/trip.mock'
+import { locationList, timeOptions, type TransportationItem } from '@/entities/trip/trip.entity'
 import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
@@ -73,9 +85,10 @@ import SelectSmall from '@/shared/components/atoms/input/SelectSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { provide, ref } from 'vue'
-import FilteredList from './FilteredList.vue'
+import { getTransportList } from '../services/reservation.service'
+import FilteredTransportationList from './FilteredTransportationList.vue'
 
-const availableReservationList = availableTransportationReservationListMockData
+const availableReservationList = ref<TransportationItem[]>([])
 
 const selectedOrigin = ref(locationList[0])
 const selectedDestination = ref(locationList[1])
@@ -88,4 +101,15 @@ provide('selectedStartDate', selectedStartDate)
 provide('selectedStartTime', selectedStartTime)
 provide('selectedOrigin', selectedOrigin)
 provide('selectedDestination', selectedDestination)
+
+async function getAvailableTransportList() {
+  const result = await getTransportList(
+    localStorage.getItem('accessToken')!,
+    selectedOrigin.value,
+    selectedDestination.value,
+    selectedStartDate.value,
+    selectedStartTime.value
+  )
+  availableReservationList.value = await result.content
+}
 </script>
