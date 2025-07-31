@@ -52,3 +52,16 @@ export async function makeSettlement(
   const res = await result.json()
   return res.data
 }
+
+export async function getSettlementStatus(token: string, expenseId: string) {
+  const { url, method } = API_END_POINT.trip.getSettlementStatus(expenseId)
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const res = await result.json()
+  return res.data
+}
