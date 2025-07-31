@@ -53,7 +53,7 @@
             <div class="max-w-[310px] overflow-scroll">
               <SegmentedTab
                 v-model="selectedTime"
-                :options="options"
+                :options="reservationTime"
               />
             </div>
           </div>
@@ -141,7 +141,7 @@
             <div class="max-w-[310px] overflow-scroll">
               <SegmentedTab
                 v-model="selectedTime"
-                :options="options"
+                :options="reservationTime"
               />
             </div>
           </div>
@@ -165,12 +165,17 @@
   </div>
   <div class="w-full flex justify-between">
     <ButtonMediumSub>취소하기</ButtonMediumSub>
-    <ButtonMediumMain>예약하기</ButtonMediumMain>
+    <ButtonMediumMain
+      @click="router.push({ name: 'pay', params: { tripId }, query: getReservationQuery() })"
+    >
+      예약하기
+    </ButtonMediumMain>
   </div>
 </template>
 <script setup lang="ts">
 import {
   ItemType,
+  reservationTime,
   type AccommodationReservation,
   type RestaurantReservation,
   type TransportationReservation,
@@ -187,9 +192,10 @@ import PersonnelTab from '@/shared/components/molecules/tab/PersonnelTab.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 
 const tripId = route.params.tripId as string
 console.log(tripId)
@@ -200,33 +206,12 @@ const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아
 
 const selectedN = ref(1)
 const selectedTime = ref('10:00')
-const options = [
-  '10:00',
-  '10:30',
-  '11:00',
-  '11:30',
-  '12:00',
-  '12:30',
-  '13:00',
-  '13:30',
-  '14:00',
-  '14:30',
-  '15:00',
-  '15:30',
-  '16:00',
-  '16:30',
-  '17:00',
-  '17:30',
-  '18:00',
-  '18:30',
-  '19:00',
-  '19:30',
-]
-
-let reservationInfo: AccommodationReservation | TransportationReservation | RestaurantReservation
+const reservationInfo = ref<
+  AccommodationReservation | TransportationReservation | RestaurantReservation | null
+>(null)
 
 if (type === ItemType.Accommodation) {
-  reservationInfo = {
+  reservationInfo.value = {
     itemId,
     startDate: route.query.start_date as string,
     endDate: route.query.end_date as string,
@@ -234,7 +219,7 @@ if (type === ItemType.Accommodation) {
 }
 
 if (type === ItemType.Transportation) {
-  reservationInfo = {
+  reservationInfo.value = {
     itemId,
     origin: route.query.origin as string,
     destination: route.query.destination as string,
@@ -245,10 +230,47 @@ if (type === ItemType.Transportation) {
 }
 
 if (type === ItemType.Restaurant) {
-  reservationInfo = {
+  reservationInfo.value = {
     itemId,
     category: route.query.category as string,
     date: route.query.date as string,
+  }
+}
+
+function getReservationQuery(): Record<string, string | number | string[]> {
+  const base = {
+    type,
+    itemId,
+  }
+
+  if (type === ItemType.Accommodation) {
+    const r = reservationInfo.value as AccommodationReservation
+    return {
+      ...base,
+      start_date: r.startDate,
+      end_date: r.endDate,
+      price: item.price! * selectedN.value, // 추후 방 타입에 따라 차등 요금제 적용 필요
+    }
+  }
+
+  if (type === ItemType.Transportation) {
+    const r = reservationInfo.value as TransportationReservation
+    return {
+      ...base,
+      origin: r.origin,
+      destination: r.destination,
+      start_date: r.date,
+      start_time: r.time,
+      seat: r.seat,
+      price: item.price! * selectedN.value,
+    }
+  }
+
+  const r = reservationInfo.value as RestaurantReservation
+  return {
+    ...base,
+    date: r.date,
+    category: r.category,
   }
 }
 </script>
