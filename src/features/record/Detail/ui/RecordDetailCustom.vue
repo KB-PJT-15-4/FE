@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-4">
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
-      class="w-[60px]"
+      class="w-[60px] text-sm"
       @click="goToCreate"
     >
       추가
