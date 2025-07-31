@@ -1,11 +1,13 @@
 <template>
-  <div
-    v-for="(trip, index) in tripList"
-    :key="index"
-    class="h-[500px]"
-    @click="router.push({ name: 'trip_detail', params: { tripId: trip.tripId } })"
-  >
-    <TripInfoBox :trip="trip" />
+  <div class="h-[500px]">
+    <div
+      v-for="(trip, index) in tripList"
+      :key="index"
+      class=""
+      @click="router.push({ name: 'trip_detail', params: { tripId: trip.tripId } })"
+    >
+      <TripInfoBox :trip="trip" />
+    </div>
   </div>
   <Pagination
     :total-page="totalPage"
