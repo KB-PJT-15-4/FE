@@ -36,7 +36,7 @@
           class="w-full rounded"
         >
       </div>
-      <p class="text-sm text-[#626262] whitespace-pre-line">
+      <p class="text-sm text-[#626262] whitespace-pre-line line-clamp-2">
         {{ record.content }}
       </p>
     </div>
