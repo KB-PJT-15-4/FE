@@ -103,13 +103,18 @@ provide('selectedOrigin', selectedOrigin)
 provide('selectedDestination', selectedDestination)
 
 async function getAvailableTransportList() {
-  const result = await getTransportList(
-    localStorage.getItem('accessToken')!,
-    selectedOrigin.value,
-    selectedDestination.value,
-    selectedStartDate.value,
-    selectedStartTime.value
-  )
-  availableReservationList.value = await result.content
+  try {
+    const result = await getTransportList(
+      localStorage.getItem('accessToken')!,
+      selectedOrigin.value,
+      selectedDestination.value,
+      selectedStartDate.value,
+      selectedStartTime.value
+    )
+    availableReservationList.value = await result.content
+  } catch (e) {
+    console.error(e)
+    alert('예약 가능 리스트를 불러오는데 실패하였습니다.')
+  }
 }
 </script>

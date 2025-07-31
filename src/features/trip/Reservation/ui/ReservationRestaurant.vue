@@ -76,13 +76,18 @@ async function getAvailableRestaurantList() {
     return
   }
 
-  const result = await getRestaurantList(
-    localStorage.getItem('accessToken')!,
-    tripId,
-    selectedDate.value,
-    selectedCategory.value?.categoryCode
-  )
-  availableReservationList.value = await result.content
+  try {
+    const result = await getRestaurantList(
+      localStorage.getItem('accessToken')!,
+      tripId,
+      selectedDate.value,
+      selectedCategory.value?.categoryCode
+    )
+    availableReservationList.value = await result.content
+  } catch (e) {
+    console.error(e)
+    alert('예약 가능 리스트를 불러오는데 실패하였습니다.')
+  }
 }
 
 async function getRestaurantCategoryListFunction() {

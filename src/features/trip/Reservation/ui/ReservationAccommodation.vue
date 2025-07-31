@@ -62,12 +62,17 @@ provide('selectedStartDate', selectedStartDate)
 provide('selectedEndDate', selectedEndDate)
 
 async function getAvailableAccommodationList() {
-  const result = await getAccommodationList(
-    localStorage.getItem('accessToken')!,
-    tripId,
-    selectedStartDate.value,
-    selectedEndDate.value
-  )
-  availableReservationList.value = await result.content
+  try {
+    const result = await getAccommodationList(
+      localStorage.getItem('accessToken')!,
+      tripId,
+      selectedStartDate.value,
+      selectedEndDate.value
+    )
+    availableReservationList.value = await result.content
+  } catch (e) {
+    console.error(e)
+    alert('예약 가능 리스트를 불러오는데 실패하였습니다.')
+  }
 }
 </script>
