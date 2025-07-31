@@ -1,6 +1,5 @@
 import {
   ItemType,
-  SettlementDirection,
   SettlementStatus,
   StatusType,
   type ReservationItem,
@@ -14,28 +13,28 @@ import {
 // 여행 리스트
 export const userTripListMockData: TripInfo[] = [
   {
-    id: '1',
-    title: '즐거운 부산여행',
+    tripId: '1',
+    tripName: '즐거운 부산여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
     status: StatusType.Progress,
-    location: '부산',
+    locationName: '부산',
   },
   {
-    id: '2',
-    title: '춘식이보러 제주도여행',
+    tripId: '2',
+    tripName: '춘식이보러 제주도여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
     status: StatusType.Scheduled,
-    location: '서울',
+    locationName: '서울',
   },
   {
-    id: '3',
-    title: '프랑스로 와인마시러가자',
+    tripId: '3',
+    tripName: '프랑스로 와인마시러가자',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
     status: StatusType.Finished,
-    location: '제주도',
+    locationName: '제주도',
   },
 ]
 
@@ -79,45 +78,45 @@ export const userReservationListMockData: UserReservationList[] = [
 
 // [여헹 페이지] 여행 기본 정보
 export const tripInformationMockData: TripInfo = {
-  id: '1',
-  title: '즐거운 부산여행',
+  tripId: '1',
+  tripName: '즐거운 부산여행',
   startDate: '2024-10-30',
   endDate: '2024-11-03',
   status: StatusType.Progress,
-  location: '부산',
+  locationName: '부산',
 }
 
 // [여행 페이지] 여행 멤버
 export const tripMemberListMockData: TripMember[] = [
   {
-    id: '1',
-    name: '강민재',
-    email: 'minijae011030@gmail.com',
+    memberId: 1,
+    memberName: '강민재',
+    memberEmail: 'minijae011030@gmail.com',
   },
   {
-    id: '2',
-    name: '곽효재',
-    email: 'hyo@gmail.com',
+    memberId: 2,
+    memberName: '곽효재',
+    memberEmail: 'hyo@gmail.com',
   },
   {
-    id: '3',
-    name: '김동연',
-    email: 'dong@gmail.com',
+    memberId: 3,
+    memberName: '김동연',
+    memberEmail: 'dong@gmail.com',
   },
   {
-    id: '4',
-    name: '김미정',
-    email: 'mijeong@gmail.com',
+    memberId: 4,
+    memberName: '김미정',
+    memberEmail: 'mijeong@gmail.com',
   },
   {
-    id: '5',
-    name: '이호진',
-    email: 'hojin@gmail.com',
+    memberId: 5,
+    memberName: '이호진',
+    memberEmail: 'hojin@gmail.com',
   },
   {
-    id: '6',
-    name: '정다현',
-    email: 'dahyun@gmail.com',
+    memberId: 6,
+    memberName: '정다현',
+    memberEmail: 'dahyun@gmail.com',
   },
 ]
 
@@ -218,38 +217,38 @@ export const reservationItemInfoMockData: ReservationItem = {
 // [여행 페이지] 정산 내역 리스트
 export const userSettlementListMockData: UserSettlement[] = [
   {
-    id: '1',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.SENT, // 보낸 요청
+    expenseId: '1',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: false, // 보낸 요청
     status: SettlementStatus.PENDING, // 보낸 요청 정산 진행중
   },
   {
-    id: '2',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.SENT, // 보낸 요청
+    expenseId: '2',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: false, // 보낸 요청
     status: SettlementStatus.COMPLETED, // 정산 완료
   },
   {
-    id: '3',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.RECEIVED, // 받은 요청
+    expenseId: '3',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: true, // 받은 요청
     status: SettlementStatus.COMPLETED, // 정산 완료
   },
   {
-    id: '4',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.RECEIVED, // 받은 요청
+    expenseId: '4',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: true, // 받은 요청
     status: SettlementStatus.WAITING, // 받은 요청 정산 미완료
   },
   {
-    id: '5',
-    date: '2025-10-30T00:00:00',
-    amount: 10000,
-    direction: SettlementDirection.RECEIVED, // 받은 요청
+    expenseId: '5',
+    expenseDate: '2025-10-30T00:00:00',
+    shareAmount: 10000,
+    received: true, // 받은 요청
     status: SettlementStatus.PENDING, // 받은 요청 정산 진행중 (나는 보냈는데 다른 사람이 안보낸경우)
   },
 ]

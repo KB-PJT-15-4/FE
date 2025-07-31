@@ -79,6 +79,5 @@ const tripOptions = tripList.map((trip) => ({
   value: trip.id,
 }))
 
-console.log(showIdCard)
 const selectedFilter = ref(filterTabOptions[0])
 </script>

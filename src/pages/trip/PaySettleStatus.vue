@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full flex flex-col gap-3">
+  <div
+    v-if="data"
+    class="w-full flex flex-col gap-3"
+  >
     <div>
       <TypographyHead2>{{ data.title }}</TypographyHead2>
       <TypographySubTitle2 class="text-moa-sub-text">
@@ -37,7 +40,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { settlementProgressStatusMockData } from '@/entities/trip/trip.mock'
+import type { SettlementProgressStatus } from '@/entities/trip/trip.entity'
+import { getSettlementStatus } from '@/features/trip/Settlement/services/settlement.service'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
@@ -46,5 +50,23 @@ import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
-const data = settlementProgressStatusMockData
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+const data = ref<SettlementProgressStatus>()
+
+const route = useRoute()
+const settleId = route.params.settleId as string
+
+async function getSettlementStateFunction() {
+  try {
+    const result = await getSettlementStatus(localStorage.getItem('accessToken')!, settleId)
+    data.value = await result
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+onMounted(() => {
+  getSettlementStateFunction()
+})
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex flex-col gap-3">
-    <TripInfo :trip="trip" />
+    <TripInfoBox :trip="trip" />
     <ToggleTab
       v-model="currentLabel"
       :options="toggleOptions"
@@ -25,7 +25,7 @@ import { computed, ref, watch } from 'vue'
 
 import { tripInformationMockData } from '@/entities/trip/trip.mock'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
-import TripInfo from '@/features/trip/MyTrip/ui/TripInfo.vue'
+import TripInfoBox from '@/features/trip/MyTrip/ui/TripInfoBox.vue'
 import Reservation from '@/features/trip/Reservation/ui/Reservation.vue'
 import RequestSettlement from '@/features/trip/Settlement/ui/RequestSettlement.vue'
 import SettlementHistory from '@/features/trip/Settlement/ui/SettlementHistory.vue'
