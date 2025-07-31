@@ -18,7 +18,7 @@
         <div class="font-bold text-base">
           {{ record.title }}
         </div>
-        <div class="flex gap-2 w-[120px]">
+        <div class="flex gap-2 w-[120px] text-sm">
           <ButtonExtraSmallMain @click="editRecord(getGlobalIndex(index))">
             수정
           </ButtonExtraSmallMain>
@@ -134,4 +134,3 @@ const deleteRecord = (index: number) => {
   }
 }
 </script>
-

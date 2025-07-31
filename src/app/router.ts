@@ -6,7 +6,7 @@ import Notification from '@/pages/home/Notification.vue'
 import RecordCreate from '@/pages/record/RecordCreate.vue'
 import RecordDetail from '@/pages/record/RecordDetail.vue'
 import Map from '@/pages/record/RecordMap.vue'
-import RecordModify from '@/pages/record/RecordModify.vue'
+import RecordReport from '@/pages/record/RecordReport.vue'
 import Reservation from '@/pages/reservation/Reservation.vue'
 import ReservationStatus from '@/pages/reservation/ReservationStatus.vue'
 import SelectSeat from '@/pages/reservation/SelectSeat.vue'
@@ -107,9 +107,9 @@ const router = createRouter({
       component: RecordCreate,
     },
     {
-      path: '/record/:tripId/modify/:postId',
-      name: 'record_modify',
-      component: RecordModify,
+      path: '/record/:tripId/detail/:recordId',
+      name: 'record_report',
+      component: RecordReport,
     },
     {
       path: '/test',
