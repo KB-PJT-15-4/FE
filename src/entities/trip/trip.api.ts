@@ -45,4 +45,12 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/settlement-progress?expenseId=${expenseId}`,
     method: Method.GET,
   }),
+  getSettlementInfo: (expenseId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/settlement?expenseId=${expenseId}`,
+    method: Method.GET,
+  }),
+  postSettle: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/settlement`,
+    method: Method.POST,
+  }),
 }

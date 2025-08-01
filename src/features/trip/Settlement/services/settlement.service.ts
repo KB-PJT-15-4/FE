@@ -10,6 +10,11 @@ export async function getMemberList(token: string, tripId: string) {
     },
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
   const res = await result.json()
   return res.data
 }
@@ -22,6 +27,11 @@ export async function getSettleList(token: string, tripId: string) {
       Authorization: `Bearer ${token}`,
     },
   })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
 
   const res = await result.json()
   return res.data
@@ -49,6 +59,11 @@ export async function makeSettlement(
     }),
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
   const res = await result.json()
   return res.data
 }
@@ -61,6 +76,52 @@ export async function getSettlementStatus(token: string, expenseId: string) {
       Authorization: `Bearer ${token}`,
     },
   })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function getSettlementInfo(token: string, expenseId: string) {
+  const { url, method } = API_END_POINT.trip.getSettlementInfo(expenseId)
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function postSettle(token: string, expenseId: string, amount: number) {
+  const { url, method } = API_END_POINT.trip.postSettle()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      expenseId,
+      amount,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
 
   const res = await result.json()
   return res.data

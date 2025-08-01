@@ -26,6 +26,11 @@ export async function createTrip(
     }),
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
   const res = await result.json()
   return res.data
 }
@@ -41,6 +46,10 @@ export async function getIdByEmail(token: string, email: string) {
     },
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
   const res = await result.json()
   return res.data
 }

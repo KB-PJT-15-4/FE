@@ -9,7 +9,11 @@ export async function getTripList(token: string, page: number, size: number) {
     },
   })
 
-  const res = await result.json()
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
 
+  const res = await result.json()
   return res.data
 }
