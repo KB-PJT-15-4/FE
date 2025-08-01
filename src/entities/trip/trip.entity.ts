@@ -128,6 +128,16 @@ export interface RestaurantCategory {
   categoryCode: string
 }
 
+// 좌석 엔티티
+export interface TransportationSeat {
+  price: number
+  seatNumber: string
+  seatRoomNo: number
+  seatType: string
+  status: string
+  tranResId: number
+}
+
 // [여행 페이지] 정산 내역
 export enum SettlementDirection {
   SENT = 'sent', // 보낸 요청

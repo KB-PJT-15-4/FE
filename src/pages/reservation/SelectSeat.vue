@@ -60,8 +60,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { containers, ItemType, type TransportationReservation } from '@/entities/trip/trip.entity'
+import { containers, ItemType, type TransportationSeat } from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
+import { getTransportationSeatsStatus } from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
@@ -69,14 +70,13 @@ import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vu
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 
 const tripId = route.params.tripId as string
-console.log(tripId)
 
 const type = route.query.type as ItemType
 const selectedStartDate = route.query.start_date as string
@@ -90,16 +90,7 @@ const selectedSeat = ref<string[]>([])
 const disabledSeat = ref<string[]>(['A1', 'A2'])
 
 const selectedContainer = ref<string>(containers[0])
-
-let reservationInfo: TransportationReservation
-reservationInfo = {
-  itemId,
-  origin: route.query.origin as string,
-  destination: route.query.destination as string,
-  date: route.query.start_date as string,
-  seat: selectedSeat.value,
-  time: selectedStartTime,
-}
+const seats = ref<TransportationSeat[]>([])
 
 const toggleSeat = (seat: string) => {
   const exists = selectedSeat.value.includes(seat)
@@ -109,4 +100,13 @@ const toggleSeat = (seat: string) => {
     selectedSeat.value = [...selectedSeat.value, seat]
   }
 }
+
+async function getTransportationSeatStatusFunction() {
+  const result = await getTransportationSeatsStatus(localStorage.getItem('accessToken')!, itemId)
+  seats.value = result['7']
+}
+
+onMounted(() => {
+  getTransportationSeatStatusFunction()
+})
 </script>

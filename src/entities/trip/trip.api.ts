@@ -53,4 +53,8 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/settlement`,
     method: Method.POST,
   }),
+  getSeatsStatus: (transportId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats?transportId=${transportId}`,
+    method: Method.GET,
+  }),
 }
