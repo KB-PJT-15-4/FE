@@ -59,14 +59,15 @@
 </template>
 
 <script setup lang="ts">
+import type { TransportationSeat } from '@/entities/trip/trip.entity'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import SeatButton from './SeatButton.vue'
 
 defineProps<{
-  selectedSeat: string[]
-  disabledSeat: string[]
+  selectedSeat: TransportationSeat[]
+  disabledSeat: TransportationSeat[]
   container: string
-  onToggleSeat: (seat: string) => void
+  onToggleSeat: (seat: TransportationSeat) => void
 }>()
 
 const rows = ['A', 'B', 'C', 'D', 'E', 'F']

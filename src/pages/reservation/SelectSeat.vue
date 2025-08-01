@@ -44,7 +44,7 @@
               itemId: item.itemId,
             }
 
-            query.seat = selectedSeat
+            // query.seat = selectedSeat
             query.start_date = selectedStartDate
             query.origin = selectedOrigin
             query.destination = selectedDestination
@@ -86,13 +86,13 @@ const selectedDestination = route.query.destination as string
 
 const itemId = route.query.itemId as string
 const item = reservationItemInfoMockData
-const selectedSeat = ref<string[]>([])
-const disabledSeat = ref<string[]>(['A1', 'A2'])
+const selectedSeat = ref<TransportationSeat[]>([])
+const disabledSeat = ref<TransportationSeat[]>([])
 
 const selectedContainer = ref<string>(containers[0])
 const seats = ref<TransportationSeat[]>([])
 
-const toggleSeat = (seat: string) => {
+const toggleSeat = (seat: TransportationSeat) => {
   const exists = selectedSeat.value.includes(seat)
   if (exists) {
     selectedSeat.value = selectedSeat.value.filter((s) => s !== seat)
