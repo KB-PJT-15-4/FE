@@ -23,13 +23,18 @@
     </div>
     <div class="flex w-full justify-between">
       <ButtonMediumSub>취소</ButtonMediumSub>
-      <ButtonMediumMain>보내기</ButtonMediumMain>
+      <ButtonMediumMain @click="postSettleFunction">
+        보내기
+      </ButtonMediumMain>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { SettleInfo } from '@/entities/trip/trip.entity'
-import { getSettlementInfo } from '@/features/trip/Settlement/services/settlement.service'
+import {
+  getSettlementInfo,
+  postSettle,
+} from '@/features/trip/Settlement/services/settlement.service'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
@@ -48,6 +53,28 @@ async function getSettlementInfoFunction() {
     settlementInfo.value = await getSettlementInfo(localStorage.getItem('accessToken')!, settleId)
   } catch (e) {
     alert('정산 정보를 불러오지 못하였습니다.')
+  }
+}
+
+async function postSettleFunction() {
+  if (settlementInfo.value) {
+    if (
+      window.confirm(
+        `${settlementInfo.value!.receiverName}님에게 ${formatNumber(settlementInfo.value!.shareAmount)}원을 송금하시겠습니까?`
+      )
+    ) {
+      try {
+        await postSettle(
+          localStorage.getItem('accessToken')!,
+          settleId,
+          settlementInfo.value!.shareAmount
+        )
+        alert('송금이 완료되었습니다.')
+      } catch (e) {
+        console.error(e)
+        alert('송금을 완료하지 못했습니다.')
+      }
+    }
   }
 }
 

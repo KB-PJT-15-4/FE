@@ -16,6 +16,11 @@ export async function getTransportList(
     },
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
   const res = await result.json()
   return res.data
 }
@@ -33,6 +38,11 @@ export async function getAccommodationList(
       Authorization: `Bearer ${token}`,
     },
   })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
 
   const res = await result.json()
   return res.data
@@ -52,6 +62,11 @@ export async function getRestaurantList(
     },
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
   const res = await result.json()
   return res.data
 }
@@ -64,6 +79,11 @@ export async function getRestaurantCategoryList(token: string) {
       Authorization: `Bearer ${token}`,
     },
   })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
 
   const res = await result.json()
   return res.data
