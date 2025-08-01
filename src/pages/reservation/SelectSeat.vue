@@ -19,6 +19,7 @@
         :selected-seat="selectedSeat"
         :disabled-seat="disabledSeat"
         :on-toggle-seat="toggleSeat"
+        :all-seats="seats"
       />
     </div>
 
@@ -29,7 +30,7 @@
           v-for="(seat, index) in selectedSeat"
           :key="index"
         >
-          {{ seat }}
+          {{ seat.seatNumber }}
         </TypographySubTitle1>
       </div>
     </div>
