@@ -4,9 +4,9 @@
     class="w-full flex flex-col gap-3"
   >
     <div>
-      <TypographyHead2>{{ data.title }}</TypographyHead2>
+      <TypographyHead2>{{ data.expenseName }}</TypographyHead2>
       <TypographySubTitle2 class="text-moa-sub-text">
-        {{ formatFullDateToKorean(new Date(data.date)) }}
+        {{ formatFullDateToKorean(new Date(data.expenseDate)) }}
       </TypographySubTitle2>
     </div>
 

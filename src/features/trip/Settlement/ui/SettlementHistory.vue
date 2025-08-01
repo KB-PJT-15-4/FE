@@ -55,8 +55,7 @@ const settleList = ref<UserSettlement[]>([])
 
 async function getSettleListFunction() {
   try {
-    const result = await getSettleList(localStorage.getItem('accessToken')!, tripId)
-    settleList.value = await result
+    settleList.value = await getSettleList(localStorage.getItem('accessToken')!, tripId)
   } catch (e) {
     console.error(e)
     alert('정산 내역을 불러오는데 실패하였습니다.')

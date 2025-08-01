@@ -254,8 +254,8 @@ export const userSettlementListMockData: UserSettlement[] = [
 ]
 
 export const settlementProgressStatusMockData: SettlementProgressStatus = {
-  title: '점심 돼지국밥',
-  date: '2025-08-03',
+  expenseName: '점심 돼지국밥',
+  expenseDate: '2025-08-03',
   amount: 108000,
   progresses: [
     { name: '카리나', status: '정산 진행중' },

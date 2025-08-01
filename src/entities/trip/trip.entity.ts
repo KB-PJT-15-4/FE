@@ -150,8 +150,8 @@ export interface UserSettlement {
 
 // 정산 현황
 export interface SettlementProgressStatus {
-  title: string
-  date: string
+  expenseName: string
+  expenseDate: string
   amount: number
   progresses: { name: string; status: string }[]
 }
