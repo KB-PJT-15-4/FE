@@ -22,7 +22,9 @@
       </TypographyP1>
     </div>
     <div class="flex w-full justify-between">
-      <ButtonMediumSub>취소</ButtonMediumSub>
+      <ButtonMediumSub @click="handleClickCancelButton">
+        취소
+      </ButtonMediumSub>
       <ButtonMediumMain @click="postSettleFunction">
         보내기
       </ButtonMediumMain>
@@ -42,10 +44,13 @@ import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import { formatNumber } from '@/shared/utils/format'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
 
 const settlementInfo = ref<SettleInfo>()
-const route = useRoute()
+const tripId = route.params.tripId as string
 const settleId = route.params.settleId as string
 
 async function getSettlementInfoFunction() {
@@ -53,6 +58,12 @@ async function getSettlementInfoFunction() {
     settlementInfo.value = await getSettlementInfo(localStorage.getItem('accessToken')!, settleId)
   } catch (e) {
     alert('정산 정보를 불러오지 못하였습니다.')
+  }
+}
+
+function handleClickCancelButton() {
+  if (window.confirm('송금을 취소하시겠습니까?')) {
+    router.replace({ name: 'trip_detail', params: { tripId: tripId }, query: { tab: 'settle' } })
   }
 }
 
@@ -70,6 +81,7 @@ async function postSettleFunction() {
           settlementInfo.value!.shareAmount
         )
         alert('송금이 완료되었습니다.')
+        router.replace({ name: 'settle_status', params: { tripId: tripId, settleId: settleId } })
       } catch (e) {
         console.error(e)
         alert('송금을 완료하지 못했습니다.')
