@@ -65,3 +65,17 @@ export async function getSettlementStatus(token: string, expenseId: string) {
   const res = await result.json()
   return res.data
 }
+
+export async function getSettlementInfo(token: string, expenseId: string) {
+  const { url, method } = API_END_POINT.trip.getSettlementInfo(expenseId)
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const res = await result.json()
+  console.log(res.data)
+  return res.data
+}

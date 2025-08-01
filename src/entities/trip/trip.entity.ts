@@ -161,3 +161,10 @@ export interface SettleExpenses {
   memberId: number
   amount: number
 }
+
+// 정산 정보
+export interface SettleInfo {
+  receiverName: string // 보낼사람 이름
+  shareAmount: number // 보낼 금액
+  balance: number // 현재 잔액
+}
