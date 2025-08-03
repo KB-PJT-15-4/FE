@@ -106,3 +106,34 @@ export async function getTransportationSeatsStatus(token: string, transportId: s
   const res = await result.json()
   return res.data
 }
+
+export async function selectSeat(
+  token: string,
+  tripId: string,
+  tranResIds: number[],
+  reservationDate: string,
+  reservationTime: string
+) {
+  const reservationDateTime = reservationDate + 'T' + reservationTime
+  const { url, method } = API_END_POINT.trip.selectSeat()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      tripId,
+      tranResIds,
+      departureDateTime: reservationDateTime,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}

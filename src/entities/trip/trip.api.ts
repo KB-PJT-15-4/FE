@@ -57,4 +57,8 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats?transportId=${transportId}`,
     method: Method.GET,
   }),
+  selectSeat: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats`,
+    method: Method.POST,
+  }),
 }

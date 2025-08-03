@@ -36,7 +36,7 @@
     </div>
     <div class="flex w-full justify-between">
       <ButtonMediumSub>취소</ButtonMediumSub>
-      <ButtonMediumMain
+      <!-- <ButtonMediumMain
         @click="
           // 좌석에 락 거는 api 호출 필요
           () => {
@@ -45,7 +45,7 @@
               itemId: item.itemId,
             }
 
-            // query.seat = selectedSeat
+            query.seat = selectedSeat
             query.start_date = selectedStartDate
             query.origin = selectedOrigin
             query.destination = selectedDestination
@@ -56,6 +56,9 @@
         "
       >
         예약하기
+      </ButtonMediumMain> -->
+      <ButtonMediumMain @click="selectSeatFunction">
+        예약하기
       </ButtonMediumMain>
     </div>
   </div>
@@ -63,7 +66,10 @@
 <script setup lang="ts">
 import { containers, ItemType, type TransportationSeat } from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
-import { getTransportationSeatsStatus } from '@/features/trip/Reservation/services/reservation.service'
+import {
+  getTransportationSeatsStatus,
+  selectSeat,
+} from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
@@ -120,4 +126,20 @@ onMounted(() => {
     getTransportationSeatStatusFunction()
   }
 })
+
+async function selectSeatFunction() {
+  const tranResIds = selectedSeat.value.map((seat) => seat.tranResId)
+  try {
+    const result = await selectSeat(
+      localStorage.getItem('accessToken')!,
+      tripId,
+      tranResIds,
+      selectedStartDate,
+      selectedStartTime
+    )
+    console.log(result)
+  } catch (e) {
+    console.error(e)
+  }
+}
 </script>

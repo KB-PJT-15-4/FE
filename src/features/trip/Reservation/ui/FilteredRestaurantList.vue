@@ -7,14 +7,14 @@
     <Card class="flex justify-between">
       <div class="flex gap-4 pr-5">
         <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center my-auto"
         >
           <img
             :src="item.restImageUrl"
-            class="h-[40px] w-[40px]"
+            class="h-[40px] w-[40px] object-cover"
           >
         </div>
-        <div>
+        <div class="w-[140px]">
           <TypographySubTitle1>{{ item.restName }}</TypographySubTitle1>
           <TypographyP2 class="text-moa-sub-text">
             {{ item.restDescription }}
