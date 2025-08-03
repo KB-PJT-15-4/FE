@@ -24,18 +24,27 @@
   <ButtonGhost @click="getAvailableAccommodationList">
     <TypographySubTitle1>검색하기</TypographySubTitle1>
   </ButtonGhost>
-  <FilteredAccommodationList
-    v-if="availableReservationList.length >= 1"
-    :available-reservation-list="availableReservationList"
-  />
+
   <div
-    v-else
+    v-if="!availableReservationList"
     class="w-full h-[100px] flex justify-center items-center"
   >
     <TypographySubTitle1 class="text-moa-main-text">
-      예약 가능한 교통편이 없습니다.
+      숙박시설을 검색해보세요!
     </TypographySubTitle1>
   </div>
+  <div
+    v-else-if="availableReservationList.length === 0"
+    class="w-full h-[100px] flex justify-center items-center"
+  >
+    <TypographySubTitle1 class="text-moa-main-text">
+      예약 가능한 숙박시설이 없습니다.
+    </TypographySubTitle1>
+  </div>
+  <FilteredAccommodationList
+    v-else
+    :available-reservation-list="availableReservationList"
+  />
 </template>
 <script setup lang="ts">
 import { provide, ref } from 'vue'
@@ -49,7 +58,7 @@ import { useRoute } from 'vue-router'
 import { getAccommodationList } from '../services/reservation.service'
 import FilteredAccommodationList from './FilteredAccommodationList.vue'
 
-const availableReservationList = ref<AccommodationItem[]>([])
+const availableReservationList = ref<AccommodationItem[] | null>(null)
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])

@@ -30,7 +30,7 @@
           v-for="(seat, index) in selectedSeat"
           :key="index"
         >
-          {{ seat.seatNumber }}
+          {{ seat.seatRoomNo + '-' + seat.seatNumber }}
         </TypographySubTitle1>
       </div>
     </div>
@@ -71,7 +71,7 @@ import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vu
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -107,7 +107,17 @@ async function getTransportationSeatStatusFunction() {
   seats.value = result['7']
 }
 
+watch(selectedContainer, (newVal) => {
+  if (newVal === '7칸') {
+    getTransportationSeatStatusFunction()
+  } else {
+    seats.value = []
+  }
+})
+
 onMounted(() => {
-  getTransportationSeatStatusFunction()
+  if (selectedContainer.value === '7칸') {
+    getTransportationSeatStatusFunction()
+  }
 })
 </script>

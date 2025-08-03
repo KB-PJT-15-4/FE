@@ -5,7 +5,7 @@
     class="mt-3"
   >
     <Card class="flex justify-between">
-      <div class="flex gap-4">
+      <div class="flex gap-4 pr-5">
         <div
           class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
         >
@@ -22,6 +22,7 @@
         </div>
       </div>
       <ButtonSmallMain
+        class="m-auto"
         @click="
           () => {
             const query: Record<string, string | number> = {
