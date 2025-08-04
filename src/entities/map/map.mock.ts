@@ -3,11 +3,11 @@ import type { UserReservationList, OverLay, CreditList } from "@/entities/map/ma
 export const mockData: OverLay[] = [
     {
         tripId: 1,
-        title: "즐거운 부산여행",
+        title: "즐거운 부산여행", // tripName 으로 변경
         startDate: "2025-03-24",
         endDate: "2025-03-26",
         status: "여행 중",
-        location: "부산",
+        location: "부산", // locationName 으로 변경
         latitude: 35.1631,
         longitude: 129.1607,
     },
@@ -34,6 +34,26 @@ export const mockData: OverLay[] = [
     {
         tripId: 4,
         title: "즐거운 서울여행 2",
+        startDate: "2025-03-27",
+        endDate: "2025-03-29",
+        status: "여행 중",
+        location: "서울",
+        latitude: 37.4979,
+        longitude: 126.9828,
+    },
+    {
+        tripId: 5,
+        title: "즐거운 서울여행 3",
+        startDate: "2025-03-27",
+        endDate: "2025-03-29",
+        status: "여행 중",
+        location: "서울",
+        latitude: 37.4979,
+        longitude: 126.9828,
+    },
+    {
+        tripId: 6,
+        title: "즐거운 서울여행 4",
         startDate: "2025-03-27",
         endDate: "2025-03-29",
         status: "여행 중",

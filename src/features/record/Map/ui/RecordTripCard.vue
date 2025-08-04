@@ -1,10 +1,10 @@
 <template>
   <div
-    v-if="filteredTrips.length > 0"
+    v-if="pagedTrips.length > 0"
     class="mt-4 space-y-3"
   >
     <Card
-      v-for="trip in filteredTrips"
+      v-for="trip in pagedTrips"
       :key="trip.tripId"
       class="cursor-pointer"
       @click="goToDetail(trip.tripId)"
@@ -12,7 +12,7 @@
       <div class="p-2 space-y-1">
         <div class="flex justify-between items-start">
           <div class="font-bold text-lg">
-            {{ trip.title }}
+            {{ trip.tripName }}
           </div>
           <div class="text-sm text-black">
             {{ trip.status }}
@@ -24,36 +24,104 @@
             {{ formatFullDateToKorean(new Date(trip.endDate)) }}
           </div>
           <div class="text-sm text-black">
-            {{ trip.location }}
+            {{ trip.locationName }}
           </div>
         </div>
       </div>
     </Card>
+
+    <Pagination
+      :total-page="totalPage"
+      :active-page="currentPage"
+    />
   </div>
 </template>
 
-<script setup>
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
-import { mockData } from '@/entities/map/map.mock'
+import type { Trip } from '@/entities/trip/trip.entity'
 
+import axios from 'axios'
 import Card from '@/shared/components/atoms/card/Card.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 
-const props = defineProps({
-  location: {
-    type: String,
-    required: true,
-  },
-})
-
-const router = useRouter()
-
-const filteredTrips = computed(() =>
-  mockData.filter((trip) => trip.location === props.location)
+const props = withDefaults(
+  defineProps<{
+    page?: number
+    location: string
+  }>(),
+  {
+    page: 1,
+  }
 )
 
-const goToDetail = (tripId) => {
+const router = useRouter()
+const route = useRoute()
+const trips = ref<Trip[]>([])
+
+const ITEMS_PER_PAGE = 3 // 페이지네이션 카드 단위
+const currentPage = ref(Number(route.query.page) || props.page || 1)
+const totalPage = ref(1)
+
+// api 연결
+const fetchTrips = async () => {
+  try {
+    const token = localStorage.getItem('accessToken')
+    if (!token) throw new Error('Access token not found')
+
+    const response = await axios.get('http://localhost:8080/api/trips', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        page: currentPage.value - 1,
+        size: ITEMS_PER_PAGE,
+        locationName: props.location,
+      },
+    })
+
+    const { content, totalPages } = response.data.data
+    trips.value = content
+    totalPage.value = totalPages
+  } catch (error) {
+    console.error('여행 데이터 가져오기 실패:', error)
+  }
+}
+
+// 페이지 query가 바뀌면 currentPage 갱신 + fetch
+watch(
+  () => route.query.page,
+  async (newPage) => {
+    if (!newPage) return
+    currentPage.value = Number(newPage)
+    await fetchTrips()
+  },
+  { immediate: true }
+)
+
+// locationName이 바뀌면 첫 페이지로 리셋 + fetch
+watch(
+  () => props.location,
+  async () => {
+    currentPage.value = 1
+    await fetchTrips()
+  },
+  { immediate: true }
+)
+
+const pagedTrips = computed(() => trips.value)
+
+// RecordDetail.vue 페이지 이동
+const goToDetail = (tripId: number) => {
   router.push({ name: 'record_detail', params: { tripId } })
 }
+
+// location 로그 확인용
+watch(
+  () => props.location,
+  (loc) => console.log('📍 선택된 지역:', loc),
+  { immediate: true }
+)
 </script>

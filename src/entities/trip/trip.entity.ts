@@ -186,3 +186,13 @@ export interface SettleInfo {
   shareAmount: number // 보낼 금액
   balance: number // 현재 잔액
 }
+
+// [Map.vue] 타입 지정
+export interface Trip {
+  tripId: number
+  tripName: string
+  status: string
+  startDate: string
+  endDate: string
+  locationName: string
+}
