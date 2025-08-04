@@ -17,11 +17,12 @@
         <div class="w-[140px]">
           <TypographySubTitle1>{{ item.restName }}</TypographySubTitle1>
           <TypographyP2 class="text-moa-sub-text">
-            {{ item.restDescription }}
+            {{ item.description }}
           </TypographyP2>
         </div>
       </div>
       <ButtonSmallMain
+        class="m-auto"
         @click="
           () => {
             const query: Record<string, string | number> = {

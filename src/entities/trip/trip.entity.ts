@@ -119,7 +119,7 @@ export interface RestaurantItem {
   restId: number
   restName: string
   restImageUrl: string
-  restDescription: string
+  description: string
 }
 
 export interface RestaurantCategory {
