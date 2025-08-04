@@ -169,9 +169,7 @@
   </div>
   <div class="w-full flex justify-between">
     <ButtonMediumSub>취소하기</ButtonMediumSub>
-    <ButtonMediumMain
-      @click="router.push({ name: 'pay', params: { tripId }, query: getReservationQuery() })"
-    >
+    <ButtonMediumMain @click="reservationRestaurantFunction">
       예약하기
     </ButtonMediumMain>
   </div>
@@ -186,7 +184,10 @@ import {
   type TransportationReservation,
 } from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
-import { getAvailableTimeTimeList } from '@/features/trip/Reservation/services/reservation.service'
+import {
+  getAvailableTimeTimeList,
+  reservationRestaurant,
+} from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
@@ -252,42 +253,42 @@ if (type === ItemType.Restaurant) {
   }
 }
 
-function getReservationQuery(): Record<string, string | number | string[]> {
-  const base = {
-    type,
-    itemId,
-  }
+// function getReservationQuery(): Record<string, string | number | string[]> {
+//   const base = {
+//     type,
+//     itemId,
+//   }
 
-  if (type === ItemType.Accommodation) {
-    const r = reservationInfo.value as AccommodationReservation
-    return {
-      ...base,
-      start_date: r.startDate,
-      end_date: r.endDate,
-      price: item.price! * selectedN.value, // 추후 방 타입에 따라 차등 요금제 적용 필요
-    }
-  }
+//   if (type === ItemType.Accommodation) {
+//     const r = reservationInfo.value as AccommodationReservation
+//     return {
+//       ...base,
+//       start_date: r.startDate,
+//       end_date: r.endDate,
+//       price: item.price! * selectedN.value, // 추후 방 타입에 따라 차등 요금제 적용 필요
+//     }
+//   }
 
-  if (type === ItemType.Transportation) {
-    const r = reservationInfo.value as TransportationReservation
-    return {
-      ...base,
-      origin: r.origin,
-      destination: r.destination,
-      start_date: r.date,
-      start_time: r.time,
-      seat: r.seat,
-      price: item.price! * selectedN.value,
-    }
-  }
+//   if (type === ItemType.Transportation) {
+//     const r = reservationInfo.value as TransportationReservation
+//     return {
+//       ...base,
+//       origin: r.origin,
+//       destination: r.destination,
+//       start_date: r.date,
+//       start_time: r.time,
+//       seat: r.seat,
+//       price: item.price! * selectedN.value,
+//     }
+//   }
 
-  const r = reservationInfo.value as RestaurantReservation
-  return {
-    ...base,
-    date: r.date,
-    category: r.category,
-  }
-}
+//   const r = reservationInfo.value as RestaurantReservation
+//   return {
+//     ...base,
+//     date: r.date,
+//     category: r.category,
+//   }
+// }
 
 async function getAvailableTimeListFunction() {
   try {
@@ -302,6 +303,26 @@ async function getAvailableTimeListFunction() {
   } catch (e) {
     console.error(e)
     alert('예약 가능 시간대를 조회하는데 실패하였습니다.')
+  }
+}
+
+async function reservationRestaurantFunction() {
+  try {
+    if (window.confirm('식당을 예약하시겠습니까?')) {
+      await reservationRestaurant(
+        localStorage.getItem('accessToken')!,
+        Number(tripId),
+        Number(itemId),
+        route.query.date as string,
+        selectedTime.value,
+        selectedN.value
+      )
+      alert('예약이 완료되었습니다. \n예매내역페이지로 이동합니다.')
+      router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('예약을 실패하였습니다.')
   }
 }
 

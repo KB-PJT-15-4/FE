@@ -33,6 +33,10 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/${restId}/times?date=${date}`,
     method: Method.GET,
   }),
+  reservationRestaurant: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant`,
+    method: Method.POST,
+  }),
   getMemberList: (tripId: string) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trip-members?tripId=${tripId}`,
     method: Method.GET,

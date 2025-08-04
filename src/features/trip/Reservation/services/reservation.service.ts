@@ -107,6 +107,39 @@ export async function getAvailableTimeTimeList(token: string, restId: string, da
   return res.data
 }
 
+export async function reservationRestaurant(
+  token: string,
+  tripId: number,
+  restId: number,
+  date: string,
+  time: string,
+  resNum: number
+) {
+  const { url, method } = API_END_POINT.trip.reservationRestaurant()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      tripId,
+      restId,
+      date,
+      time,
+      resNum,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
 export async function getTransportationSeatsStatus(token: string, transportId: string) {
   const { url, method } = API_END_POINT.trip.getSeatsStatus(transportId)
   const result = await fetch(url, {
