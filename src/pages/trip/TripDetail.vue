@@ -65,6 +65,6 @@ const currentLabel = computed({
 })
 
 watch(selectedOption, (newTab) => {
-  router.replace({ query: { ...route.query, tab: newTab } })
+  router.replace({ query: { tab: newTab } })
 })
 </script>
