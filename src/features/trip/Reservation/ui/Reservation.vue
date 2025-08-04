@@ -12,9 +12,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
-import { filterTabOptions } from '@/entities/trip/trip.entity'
+import { filterTabOptions, ItemType } from '@/entities/trip/trip.entity'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import { useRoute, useRouter } from 'vue-router'
 import ReservationAccommodation from './ReservationAccommodation.vue'
@@ -28,10 +28,10 @@ const segmentOptions = filterTabOptions.slice(1, 4)
 const selectedSegmentOption = ref(segmentOptions[0])
 
 watch(selectedSegmentOption, (newVal) => {
-  const categoryMap: Record<string, string> = {
-    교통: 'transportation',
-    숙박: 'accommodation',
-    식당: 'restaurant',
+  const categoryMap: Record<string, ItemType> = {
+    교통: ItemType.Transportation,
+    숙박: ItemType.Accommodation,
+    식당: ItemType.Restaurant,
   }
 
   const newCategory = categoryMap[newVal]
@@ -45,5 +45,12 @@ watch(selectedSegmentOption, (newVal) => {
       category: newCategory,
     },
   })
+})
+
+onMounted(() => {
+  const category = route.query.category
+  if (category === ItemType.Transportation) selectedSegmentOption.value = '교통'
+  if (category === ItemType.Accommodation) selectedSegmentOption.value = '숙박'
+  if (category === ItemType.Restaurant) selectedSegmentOption.value = '식당'
 })
 </script>
