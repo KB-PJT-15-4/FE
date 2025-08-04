@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex flex-col gap-4">
     <!-- 여행 정보 카드 -->
-    <RecordDetailTripCard :trip="tripData" />
+    <RecordDetailTripCard :trip-id="tripId" />
 
     <!-- 날짜 탭 -->
     <DateTab
@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
+import { userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
 
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
@@ -47,9 +47,6 @@ const router = useRouter()
 
 const tripId = Number(route.params.tripId)
 const selectedDate = ref('2025-03-24') // 날짜 선택 (추후 API 연동)
-
-// 여행 정보
-const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId) ?? null)
 
 type TabValue = 'reservation' | 'credit'
 
@@ -74,6 +71,7 @@ const currentLabel = computed({
   },
 })
 
+// 탭 변경 시 URL 쿼리 업데이트
 watch(selectedOption, (newTab) => {
   router.replace({
     query: {
