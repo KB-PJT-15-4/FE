@@ -147,3 +147,13 @@ export interface SettlementProgressStatus {
   amount: number
   progresses: { name: string; status: string }[]
 }
+
+// [Map.vue] 타입 지정
+export interface Trip {
+  tripId: number
+  tripName: string
+  status: string
+  startDate: string
+  endDate: string
+  locationName: string
+}

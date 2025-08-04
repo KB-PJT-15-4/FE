@@ -41,7 +41,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
-import type { Trip } from '@/shared/types/trip'
+import type { Trip } from '@/entities/trip/trip.entity'
 
 import axios from 'axios'
 import Card from '@/shared/components/atoms/card/Card.vue'
