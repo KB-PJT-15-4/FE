@@ -136,6 +136,10 @@
               />
             </div>
           </div>
+          <TypographyCaption class="w-full text-right">
+            {{ selectedTime }} 예약 가능 최대 인원: {{ selectedAvailableNum }}명
+          </TypographyCaption>
+
           <div class="flex w-full items-center justify-start">
             <TypographySubTitle2 class="w-[50px]">
               인원
@@ -186,6 +190,7 @@ import { getAvailableTimeTimeList } from '@/features/trip/Reservation/services/r
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
+import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
@@ -193,7 +198,7 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import PersonnelTab from '@/shared/components/molecules/tab/PersonnelTab.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -211,6 +216,10 @@ const availableTimeSlot = ref<RestaurantTimeSlot[]>([])
 
 const availableTime = ref<string[]>([])
 const selectedTime = ref<string>('')
+
+const selectedAvailableNum = computed(() => {
+  return availableTimeSlot.value.find((slot) => slot.time === selectedTime.value)?.availableNum ?? 0
+})
 
 const reservationInfo = ref<
   AccommodationReservation | TransportationReservation | RestaurantReservation | null
