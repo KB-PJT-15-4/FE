@@ -196,3 +196,13 @@ export interface Trip {
   endDate: string
   locationName: string
 }
+
+// [RecordDetail.vue] 타입 지정
+export interface TripData {
+  tripId: number
+  tripName: string
+  startDate: string
+  endDate: string
+  locationName: string
+  status: string
+}

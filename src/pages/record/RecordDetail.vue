@@ -5,13 +5,14 @@
 
     <!-- 날짜 탭 -->
     <DateTab
+      v-if="tripData"
       v-model="selectedDate"
-      start-date="2025-03-24"
-      end-date="2025-03-30"
+      :start-date="tripData.startDate"
+      :end-date="tripData.endDate"
     />
 
     <!-- 예매 / 결제 탭 -->
-    <div class="flex justify-center w-full">
+    <div class="flex w-full">
       <ToggleTab
         v-model="currentLabel"
         :options="toggleOptions"
@@ -30,9 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
+import axios from 'axios'
+import type { TripData } from '@/entities/trip/trip.entity'
 
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
@@ -46,7 +49,12 @@ const route = useRoute()
 const router = useRouter()
 
 const tripId = Number(route.params.tripId)
-const selectedDate = ref('2025-03-24') // 날짜 선택 (추후 API 연동)
+
+// 여행 데이터 상태
+const tripData = ref<TripData | null>(null)
+
+// 선택된 날짜 (쿼리에서 가져오거나 기본값 설정)
+const selectedDate = ref<string>('')
 
 type TabValue = 'reservation' | 'credit'
 
@@ -71,6 +79,63 @@ const currentLabel = computed({
   },
 })
 
+// API에서 여행 데이터 가져오기
+const fetchTripData = async () => {
+  try {
+    const token = localStorage.getItem('accessToken')
+    if (!token) throw new Error('Access token not found')
+
+    const response = await axios.get('http://localhost:8080/api/trips', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    const result = response.data
+
+    // tripId에 해당하는 여행 데이터 찾기
+    const trip = result.data.content.find((trip: TripData) => trip.tripId === tripId)
+
+    if (trip) {
+      tripData.value = trip
+
+      // 쿼리에서 날짜가 있으면 사용, 없으면 여행 시작일로 설정
+      const queryDate = route.query.date as string
+      if (queryDate && isValidDateInRange(queryDate, trip.startDate, trip.endDate)) {
+        selectedDate.value = queryDate
+      } else {
+        selectedDate.value = trip.startDate
+      }
+    } else {
+      console.warn(`tripId ${tripId}에 해당하는 여행을 찾을 수 없습니다.`)
+    }
+  } catch (error) {
+    console.error('여행 데이터를 가져오는데 실패했습니다:', error)
+  }
+}
+
+
+// 날짜가 여행 기간 내에 있는지 확인하는 함수
+const isValidDateInRange = (date: string, startDate: string, endDate: string): boolean => {
+  const targetDate = new Date(date)
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+  
+  return targetDate >= start && targetDate <= end
+}
+
+// 날짜 변경 시 URL 쿼리 업데이트
+watch(selectedDate, (newDate) => {
+  if (newDate) {
+    router.replace({
+      query: {
+        ...route.query,
+        date: newDate,
+      },
+    })
+  }
+})
+
 // 탭 변경 시 URL 쿼리 업데이트
 watch(selectedOption, (newTab) => {
   router.replace({
@@ -79,5 +144,10 @@ watch(selectedOption, (newTab) => {
       tab: newTab,
     },
   })
+})
+
+// 컴포넌트 마운트 시 데이터 가져오기
+onMounted(() => {
+  fetchTripData()
 })
 </script>
