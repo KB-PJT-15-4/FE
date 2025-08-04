@@ -35,7 +35,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
 import axios from 'axios'
-import type { TripData } from '@/entities/trip/trip.entity'
+import type { Trip } from '@/entities/trip/trip.entity'
 
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
@@ -51,7 +51,7 @@ const router = useRouter()
 const tripId = Number(route.params.tripId)
 
 // 여행 데이터 상태
-const tripData = ref<TripData | null>(null)
+const tripData = ref<Trip | null>(null)
 
 // 선택된 날짜 (쿼리에서 가져오거나 기본값 설정)
 const selectedDate = ref<string>('')
@@ -94,7 +94,7 @@ const fetchTripData = async () => {
     const result = response.data
 
     // tripId에 해당하는 여행 데이터 찾기
-    const trip = result.data.content.find((trip: TripData) => trip.tripId === tripId)
+    const trip = result.data.content.find((trip: Trip) => trip.tripId === tripId)
 
     if (trip) {
       tripData.value = trip
