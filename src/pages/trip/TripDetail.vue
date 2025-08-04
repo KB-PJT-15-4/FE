@@ -14,7 +14,7 @@
     <div v-if="selectedOption === 'reservation'">
       <Reservation />
     </div>
-    <div v-else-if="selectedOption === 'settle'">
+    <div v-if="selectedOption === 'settle'">
       <SettlementHistory />
       <RequestSettlement />
     </div>

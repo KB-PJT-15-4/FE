@@ -3,14 +3,14 @@
     <div
       v-for="(trip, index) in tripList"
       :key="index"
-      class=""
+      class="cursor-pointer"
       @click="router.push({ name: 'trip_detail', params: { tripId: trip.tripId } })"
     >
       <TripInfoBox :trip="trip" />
     </div>
   </div>
   <Pagination
-    :total-page="totalPage"
+    :total-page="totalPage - 1"
     :active-page="currentPage"
   />
 </template>
