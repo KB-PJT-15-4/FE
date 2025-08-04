@@ -1,4 +1,10 @@
 <template>
+  <ButtonExtraSmallMain
+    class="w-[60px] mb-2 text-sm"
+  >
+    가져오기
+  </ButtonExtraSmallMain>
+  
   <Card
     v-for="(payment, index) in creditList"
     :key="index"
@@ -22,6 +28,7 @@
 import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
 
 import Card from '@/shared/components/atoms/card/Card.vue'
+import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 
 const { creditList } = defineProps<{
   creditList: {

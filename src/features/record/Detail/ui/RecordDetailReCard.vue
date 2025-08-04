@@ -2,7 +2,7 @@
   <Card
     v-for="reservation in reservationList"
     :key="reservation.id"
-    class="flex justify-between"
+    class="flex justify-between mb-2"
   >
     <div class="flex gap-4">
       <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center">
