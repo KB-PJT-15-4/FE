@@ -43,7 +43,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 import type { Trip } from '@/shared/types/trip'
 
-
 import axios from 'axios'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
@@ -60,13 +59,13 @@ const props = withDefaults(
 
 const router = useRouter()
 const route = useRoute()
-const ITEMS_PER_PAGE = 3
-
-const currentPage = ref(Number(route.query.page) || props.page || 1)
 const trips = ref<Trip[]>([])
 
+const ITEMS_PER_PAGE = 3 // 페이지네이션 카드 단위
+const currentPage = ref(Number(route.query.page) || props.page || 1)
 const totalPage = ref(1)
 
+// api 연결
 const fetchTrips = async () => {
   try {
     const token = localStorage.getItem('accessToken')
@@ -102,7 +101,7 @@ watch(
   { immediate: true }
 )
 
-// 지역(locationName)이 바뀌면 첫 페이지로 리셋 + fetch
+// locationName이 바뀌면 첫 페이지로 리셋 + fetch
 watch(
   () => props.location,
   async () => {
@@ -112,11 +111,12 @@ watch(
   { immediate: true }
 )
 
+const pagedTrips = computed(() => trips.value)
+
+// RecordDetail.vue 페이지 이동
 const goToDetail = (tripId: number) => {
   router.push({ name: 'record_detail', params: { tripId } })
 }
-
-const pagedTrips = computed(() => trips.value)
 
 // location 로그 확인용
 watch(
