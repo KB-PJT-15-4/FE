@@ -76,8 +76,6 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const tripId = route.params.tripId as string
-
 const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
 const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정

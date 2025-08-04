@@ -36,27 +36,6 @@
     </div>
     <div class="flex w-full justify-between">
       <ButtonMediumSub>취소</ButtonMediumSub>
-      <!-- <ButtonMediumMain
-        @click="
-          // 좌석에 락 거는 api 호출 필요
-          () => {
-            const query: Record<string, string | number | string[]> = {
-              type: type,
-              itemId: item.itemId,
-            }
-
-            query.seat = selectedSeat
-            query.start_date = selectedStartDate
-            query.origin = selectedOrigin
-            query.destination = selectedDestination
-            query.start_time = selectedStartTime
-
-            router.push({ name: 'reservation', params: { tripId }, query })
-          }
-        "
-      >
-        예약하기
-      </ButtonMediumMain> -->
       <ButtonMediumMain @click="selectSeatFunction">
         예약하기
       </ButtonMediumMain>
@@ -137,6 +116,19 @@ async function selectSeatFunction() {
       selectedStartDate,
       selectedStartTime
     )
+
+    localStorage.setItem('seat', JSON.stringify(selectedSeat.value))
+    const query: Record<string, string | number | string[]> = {
+      type: type,
+      itemId: item.itemId,
+    }
+    query.start_date = selectedStartDate
+    query.origin = selectedOrigin
+    query.destination = selectedDestination
+    query.start_time = selectedStartTime
+    query.reservation_num = result
+
+    router.push({ name: 'reservation_transportation', params: { tripId }, query })
     console.log(result)
   } catch (e) {
     console.error(e)

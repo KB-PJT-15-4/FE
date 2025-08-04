@@ -42,11 +42,11 @@
             선택 좌석
           </TypographySubTitle2>
           <TypographyP1
-            v-for="(seat, index) in (reservationInfo as TransportationReservation).seat"
+            v-for="(seat, index) in seat"
             :key="index"
             class="pr-3"
           >
-            {{ seat }}
+            {{ seat.seatNumber }}
           </TypographyP1>
         </div>
       </div>
@@ -55,17 +55,29 @@
     <!-- 가격 및 결제 -->
     <div class="w-full flex justify-between">
       <TypographyHead3>결제 금액</TypographyHead3>
-      <TypographyHead3> {{ formatNumber(item.price! * selectedN) }} 원 </TypographyHead3>
+      <TypographyHead3> {{ formatNumber(price) }} 원 </TypographyHead3>
     </div>
     <div class="w-full flex justify-between">
-      <ButtonMediumSub>취소하기</ButtonMediumSub>
-      <ButtonMediumMain> 예약하기 </ButtonMediumMain>
+      <ButtonMediumSub @click="cancelReservationFunction">
+        취소하기
+      </ButtonMediumSub>
+      <ButtonMediumMain @click="reservationTransportationFunction">
+        예약하기
+      </ButtonMediumMain>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ItemType, type TransportationReservation } from '@/entities/trip/trip.entity'
+import {
+  ItemType,
+  type TransportationReservation,
+  type TransportationSeat,
+} from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
+import {
+  cancelTransportationReservation,
+  reservationTransportation,
+} from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
@@ -80,22 +92,55 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const tripId = route.params.tripId as string
-
 const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
+const reservationId = route.query.reservation_num as string
 const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정
 
-const selectedN = ref(1)
-
 const reservationInfo = ref<TransportationReservation | null>(null)
+const seat: TransportationSeat[] = JSON.parse(localStorage.getItem('seat')!)
+const price = seat.reduce((acc, cur) => acc + cur.price, 0)
 
 reservationInfo.value = {
   itemId,
   origin: route.query.origin as string,
   destination: route.query.destination as string,
   date: route.query.start_date as string,
-  seat: route.query.seat as string[],
   time: route.query.start_time as string,
+}
+
+async function reservationTransportationFunction() {
+  try {
+    if (window.confirm('예약하시겠습니까?')) {
+      await reservationTransportation(
+        localStorage.getItem('accessToken')!,
+        Number(reservationId),
+        price
+      )
+
+      alert('예약이 완료되었습니다. \n예매내역페이지로 이동합니다.')
+      localStorage.removeItem('seat')
+      router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('예약에 실패하였습니다.')
+  }
+}
+
+async function cancelReservationFunction() {
+  try {
+    if (window.confirm('선택한 좌석 정보가 사라집니다.\n예약을 취소하시겠습니까?')) {
+      await cancelTransportationReservation(
+        localStorage.getItem('accessToken')!,
+        Number(reservationId)
+      )
+      alert('취소가 완료되었습니다.')
+      router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('취소를 완료하지 못하였습니다.')
+  }
 }
 </script>

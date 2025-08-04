@@ -69,4 +69,12 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats`,
     method: Method.POST,
   }),
+  reservationTransportation: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/pay`,
+    method: Method.POST,
+  }),
+  cancelTransportReservation: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/cancel`,
+    method: Method.POST,
+  }),
 }
