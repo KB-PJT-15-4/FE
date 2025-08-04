@@ -77,4 +77,18 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/cancel`,
     method: Method.POST,
   }),
+  getAccommodationInfo: (accomId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation-detail?accomId=${accomId}`,
+    method: Method.GET,
+  }),
+  getRoomList: (
+    tripId: string,
+    accomId: string,
+    checkinDay: string,
+    checkoutDay: string,
+    guests: number
+  ) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation-rooms?accomId=${accomId}&tripId=${tripId}&checkinDay=${checkinDay}&checkoutDay=${checkoutDay}&guests=${guests}`,
+    method: Method.GET,
+  }),
 }

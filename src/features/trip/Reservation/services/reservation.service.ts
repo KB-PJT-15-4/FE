@@ -237,3 +237,54 @@ export async function cancelTransportationReservation(token: string, reservation
   const res = await result.json()
   return res.data
 }
+
+export async function getAccommodationInfo(token: string, accomId: string) {
+  const { url, method } = API_END_POINT.trip.getAccommodationInfo(accomId)
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function getRoomList(
+  token: string,
+  tripId: string,
+  accomId: string,
+  checkinDay: string,
+  checkoutDay: string,
+  guests: number
+) {
+  const { url, method } = API_END_POINT.trip.getRoomList(
+    tripId,
+    accomId,
+    checkinDay,
+    checkoutDay,
+    guests
+  )
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}

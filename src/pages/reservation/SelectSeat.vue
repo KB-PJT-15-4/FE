@@ -1,9 +1,9 @@
 <template>
   <div class="w-full flex flex-col justify-center">
-    <ItemInfo
+    <!-- <ItemInfo
       :item="item"
       class="mb-3"
-    />
+    /> -->
     <div class="w-full overflow-y-scroll">
       <Select v-model="selectedContainer">
         <Option
@@ -49,7 +49,7 @@ import {
   getTransportationSeatsStatus,
   selectSeat,
 } from '@/features/trip/Reservation/services/reservation.service'
-import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
+// import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'

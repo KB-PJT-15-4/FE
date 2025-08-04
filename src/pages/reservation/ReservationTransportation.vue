@@ -1,10 +1,10 @@
 <template>
   <div class="flex w-full flex-col gap-3">
     <TypographyHead3>예약하기</TypographyHead3>
-    <ItemInfo
+    <!-- <ItemInfoTransportation
       :item="item"
       class="mb-3"
-    />
+    /> -->
 
     <div class="h-[430px]">
       <div
@@ -78,7 +78,6 @@ import {
   cancelTransportationReservation,
   reservationTransportation,
 } from '@/features/trip/Reservation/services/reservation.service'
-import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
