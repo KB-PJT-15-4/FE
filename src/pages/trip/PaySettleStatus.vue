@@ -17,31 +17,44 @@
       </TypographySubTitle2>
     </div>
     <TypographyHead2>정산 현황</TypographyHead2>
-
-    <Card
-      v-for="(item, index) in data.progresses"
-      :key="index"
-      class="flex justify-between items-center py-4"
+    <div class="flex flex-col gap-3 h-[430px]">
+      <Card
+        v-for="(item, index) in data.progresses"
+        :key="index"
+        class="flex justify-between items-center py-4"
+      >
+        <TypographyHead3>{{ item.name }}</TypographyHead3>
+        <div>
+          <div v-if="item.status == '정산 진행중'">
+            <Tag color="main">
+              <TypographyCaption>정산진행중</TypographyCaption>
+            </Tag>
+          </div>
+          <div v-if="item.status == '정산 완료'">
+            <Tag color="pink">
+              <TypographyCaption>정산완료</TypographyCaption>
+            </Tag>
+          </div>
+        </div>
+      </Card>
+    </div>
+    <ButtonMain
+      @click="
+        router.replace({
+          name: 'trip_detail',
+          params: { tripId: tripId },
+          query: { tab: 'settle' },
+        })
+      "
     >
-      <TypographyHead3>{{ item.name }}</TypographyHead3>
-      <div>
-        <div v-if="item.status == '정산 진행중'">
-          <Tag color="main">
-            <TypographyCaption>정산진행중</TypographyCaption>
-          </Tag>
-        </div>
-        <div v-if="item.status == '정산 완료'">
-          <Tag color="pink">
-            <TypographyCaption>정산완료</TypographyCaption>
-          </Tag>
-        </div>
-      </div>
-    </Card>
+      확인
+    </ButtonMain>
   </div>
 </template>
 <script setup lang="ts">
 import type { SettlementProgressStatus } from '@/entities/trip/trip.entity'
 import { getSettlementStatus } from '@/features/trip/Settlement/services/settlement.service'
+import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
@@ -51,10 +64,12 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const data = ref<SettlementProgressStatus>()
 
 const route = useRoute()
+const router = useRouter()
+const tripId = route.params.tripId as string
 const settleId = route.params.settleId as string
 
 async function getSettlementStateFunction() {
