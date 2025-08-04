@@ -26,10 +26,10 @@
         @click="
           () => {
             const query: Record<string, string | number> = {
-              type: ItemType.Accommodation,
+              type: ItemType.Restaurant,
               itemId: item.restId,
-              start_date: selectedStartDate,
-              end_date: selectedEndDate,
+              category: selectedCategory,
+              date: selectedStartDate,
             }
 
             router.push({
@@ -59,6 +59,6 @@ defineProps<{ availableReservationList: RestaurantItem[] }>()
 const route = useRoute()
 const tripId = route.params.tripId
 
+const selectedCategory = inject<Ref<string>>('selectedCategory', ref(''))
 const selectedStartDate = inject<Ref<string>>('selectedStartDate', ref(''))
-const selectedEndDate = inject<Ref<string>>('selectedEndDate', ref(''))
 </script>

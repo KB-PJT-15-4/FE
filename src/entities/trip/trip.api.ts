@@ -29,6 +29,10 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/category`,
     method: Method.GET,
   }),
+  getAvailableTimeList: (restId: string, date: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/${restId}/times?date=${date}`,
+    method: Method.GET,
+  }),
   getMemberList: (tripId: string) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trip-members?tripId=${tripId}`,
     method: Method.GET,

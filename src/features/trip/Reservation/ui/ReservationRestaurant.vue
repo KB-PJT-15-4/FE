@@ -68,6 +68,12 @@ const selectedCategoryCode = ref<string>('')
 const selectedCategory = computed(() =>
   categoryList.value.find((item) => item.categoryCode === selectedCategoryCode.value)
 )
+const selectedCategoryName = computed(() => {
+  return (
+    categoryList.value.find((item) => item.categoryCode === selectedCategoryCode.value)
+      ?.categoryName || ''
+  )
+})
 
 const today = new Date()
 const selectedDate = ref(today.toISOString().split('T')[0])
@@ -76,7 +82,7 @@ const route = useRoute()
 const tripId = route.params.tripId as string
 
 provide('selectedStartDate', selectedDate)
-provide('selectedCategory', selectedCategory)
+provide('selectedCategory', selectedCategoryName)
 
 async function getAvailableRestaurantList() {
   if (!selectedCategory.value) {
