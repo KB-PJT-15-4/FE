@@ -10,6 +10,7 @@
 
     <!-- 메인 콘텐츠 -->
     <main
+      ref="mainRef"
       :class="[
         'overflow-y-auto px-[16px] flex flex-col gap-3 justify-start items-center',
         !shouldHideLayout && 'pt-[80px] pb-[100px]',

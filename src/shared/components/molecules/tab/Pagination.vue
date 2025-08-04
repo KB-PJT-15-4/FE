@@ -49,6 +49,9 @@ const pages = computed(() => {
 
 const goToPage = (page: number) => {
   const query = { ...route.query, page: page.toString() }
-  router.push({ path: route.path, query })
+  router.push({ path: route.path, query }).then(() => {
+    const layoutMain = document.querySelector('main')
+    layoutMain?.scrollTo({ top: 0, behavior: 'smooth' })
+  })
 }
 </script>

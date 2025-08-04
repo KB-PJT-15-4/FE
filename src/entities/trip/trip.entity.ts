@@ -1,25 +1,6 @@
 export const filterTabOptions = ['전체', '교통', '숙박', '식당']
-export const locationList = ['서울', '부산', '대구', '인천', '광주', '대전', '울산']
-export const restaurantTypeList = [
-  '한식',
-  '중식',
-  '일식',
-  '양식',
-  '분식',
-  '패스트푸드',
-  '치킨',
-  '피자',
-  '족발/보쌈',
-  '고기구이',
-  '회/해산물',
-  '뷔페',
-  '샤브샤브/훠궈',
-  '베이커리/디저트',
-  '카페',
-  '술집/포차',
-  '건강식/채식',
-  '기타',
-]
+export const locationList = ['서울역', '부산역', '대구역', '인천역', '광주역', '대전역', '울산역']
+
 export const timeOptions = ['07:30', '10:00', '12:30', '14:00', '15:30', '18:00', '19:30', '21:00']
 export const containers = ['1칸', '2칸', '3칸', '4칸', '5칸', '6칸', '7칸', '8칸', '9칸', '10칸']
 export const reservationTime = [
@@ -59,19 +40,19 @@ export enum StatusType {
 
 // 여행 리스트
 export interface TripInfo {
-  id: string
-  title: string
+  tripId: string
+  tripName: string
   startDate: string
   endDate: string
   status: StatusType
-  location: string
+  locationName: string
 }
 
 // [여행 페이지] 여행 멤버
 export interface TripMember {
-  id: string
-  name: string
-  email?: string
+  memberId: number
+  memberName: string
+  memberEmail: string
 }
 
 // [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트
@@ -120,32 +101,90 @@ export interface RestaurantReservation extends BaseReservationInfo {
   date: string
 }
 
+export interface TransportationItem {
+  transportId: number
+  departureName: string
+  trainNo: string
+}
+
+export interface AccommodationItem {
+  accomId: number
+  hotelName: string
+  address: string
+  location: string
+  hotelImageUrl: string
+}
+
+export interface RestaurantItem {
+  restId: number
+  restName: string
+  restImageUrl: string
+  description: string
+}
+
+export interface RestaurantCategory {
+  categoryId: number
+  categoryName: string
+  categoryCode: string
+}
+
+export interface RestaurantTimeSlot {
+  time: string
+  restTimeId: number
+  maxNum: number
+  reservedNum: number
+  availableNum: number
+}
+
+// 좌석 엔티티
+export interface TransportationSeat {
+  price: number
+  seatNumber: string
+  seatRoomNo: number
+  seatType: string
+  status: string
+  tranResId: number
+}
+
 // [여행 페이지] 정산 내역
 export enum SettlementDirection {
   SENT = 'sent', // 보낸 요청
   RECEIVED = 'received', // 받은 요청
 }
 export enum SettlementStatus {
-  PENDING = 'pending', // 정산 진행중
-  COMPLETED = 'completed', // 정산 완료
-  WAITING = 'waiting', // 정산 미완료
+  PENDING = '정산 진행중',
+  COMPLETED = '정산 완료',
+  WAITING = '정산 하기',
 }
 
 // 정산내역 리스트
 export interface UserSettlement {
-  id: string // 정산 id
-  date: string
-  amount: number
-  direction: SettlementDirection
+  expenseId: string // 정산 id
+  expenseDate: string
+  shareAmount: number
+  received: boolean
   status: SettlementStatus
 }
 
 // 정산 현황
 export interface SettlementProgressStatus {
-  title: string
-  date: string
+  expenseName: string
+  expenseDate: string
   amount: number
   progresses: { name: string; status: string }[]
+}
+
+// 정산 요청 멤버 내역
+export interface SettleExpenses {
+  memberId: number
+  amount: number
+}
+
+// 정산 정보
+export interface SettleInfo {
+  receiverName: string // 보낼사람 이름
+  shareAmount: number // 보낼 금액
+  balance: number // 현재 잔액
 }
 
 // [Map.vue] 타입 지정

@@ -127,15 +127,6 @@
         <div class="flex flex-col gap-3 mt-10">
           <div class="flex w-full items-center justify-start">
             <TypographySubTitle2 class="w-[50px]">
-              인원
-            </TypographySubTitle2>
-            <PersonnelTab
-              v-model="selectedN"
-              :personnel="6"
-            />
-          </div>
-          <div class="flex w-full items-center justify-start">
-            <TypographySubTitle2 class="w-[50px]">
               시간
             </TypographySubTitle2>
             <div class="max-w-[310px] overflow-scroll">
@@ -144,6 +135,15 @@
                 :options="reservationTime"
               />
             </div>
+          </div>
+          <div class="flex w-full items-center justify-start">
+            <TypographySubTitle2 class="w-[50px]">
+              인원
+            </TypographySubTitle2>
+            <PersonnelTab
+              v-model="selectedN"
+              :personnel="6"
+            />
           </div>
         </div>
       </div>
@@ -178,9 +178,11 @@ import {
   reservationTime,
   type AccommodationReservation,
   type RestaurantReservation,
+  type RestaurantTimeSlot,
   type TransportationReservation,
 } from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
+import { getAvailableTimeTimeList } from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
@@ -191,21 +193,22 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import PersonnelTab from '@/shared/components/molecules/tab/PersonnelTab.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 
 const tripId = route.params.tripId as string
-console.log(tripId)
 
 const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
 const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정
 
+console.log(type)
 const selectedN = ref(1)
 const selectedTime = ref('10:00')
+const availableTimeSlot = ref<RestaurantTimeSlot[]>([])
 const reservationInfo = ref<
   AccommodationReservation | TransportationReservation | RestaurantReservation | null
 >(null)
@@ -273,4 +276,21 @@ function getReservationQuery(): Record<string, string | number | string[]> {
     category: r.category,
   }
 }
+
+async function getAvailableTimeListFunction() {
+  try {
+    availableTimeSlot.value = await getAvailableTimeTimeList(
+      localStorage.getItem('accessToken')!,
+      itemId,
+      route.query.start_date as string
+    )
+  } catch (e) {
+    console.error(e)
+    // alert('예약 가능 시간대를 조회하는데 실패하였습니다.')
+  }
+}
+
+onMounted(() => {
+  getAvailableTimeListFunction()
+})
 </script>

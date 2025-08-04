@@ -21,25 +21,67 @@
       </div>
     </div>
   </div>
-  <ButtonGhost><TypographySubTitle1>검색하기</TypographySubTitle1> </ButtonGhost>
-  <FilteredList :available-reservation-list="availableReservationList" />
+  <ButtonGhost @click="getAvailableAccommodationList">
+    <TypographySubTitle1>검색하기</TypographySubTitle1>
+  </ButtonGhost>
+
+  <div
+    v-if="!availableReservationList"
+    class="w-full h-[100px] flex justify-center items-center"
+  >
+    <TypographySubTitle1 class="text-moa-main-text">
+      숙박시설을 검색해보세요!
+    </TypographySubTitle1>
+  </div>
+  <div
+    v-else-if="availableReservationList.length === 0"
+    class="w-full h-[100px] flex justify-center items-center"
+  >
+    <TypographySubTitle1 class="text-moa-main-text">
+      예약 가능한 숙박시설이 없습니다.
+    </TypographySubTitle1>
+  </div>
+  <FilteredAccommodationList
+    v-else
+    :available-reservation-list="availableReservationList"
+  />
 </template>
 <script setup lang="ts">
 import { provide, ref } from 'vue'
 
-import { availableAccommodationReservationListMockData } from '@/entities/trip/trip.mock'
+import type { AccommodationItem } from '@/entities/trip/trip.entity'
 import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import InputSmall from '@/shared/components/atoms/input/InputSmall.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import FilteredList from './FilteredList.vue'
+import { useRoute } from 'vue-router'
+import { getAccommodationList } from '../services/reservation.service'
+import FilteredAccommodationList from './FilteredAccommodationList.vue'
 
-const availableReservationList = availableAccommodationReservationListMockData
+const availableReservationList = ref<AccommodationItem[] | null>(null)
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])
 const selectedEndDate = ref(today.toISOString().split('T')[0])
 
+const route = useRoute()
+const tripId = route.params.tripId as string
+
 provide('selectedStartDate', selectedStartDate)
 provide('selectedEndDate', selectedEndDate)
+
+async function getAvailableAccommodationList() {
+  try {
+    const result = await getAccommodationList(
+      localStorage.getItem('accessToken')!,
+      tripId,
+      selectedStartDate.value,
+      selectedEndDate.value
+    )
+    availableReservationList.value = await result.content
+  } catch (e) {
+    console.error(e)
+    alert('예약 가능 리스트를 불러오는데 실패하였습니다.')
+  }
+}
 </script>

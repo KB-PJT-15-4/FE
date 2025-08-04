@@ -5,6 +5,12 @@ export function formatFullDateToKorean(date: Date): string {
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}.${month}.${day}`
 }
+export function formatFullDateToKorean2(date: Date): string {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}T10:00:00`
+}
 
 // YYYY-MM-DDTHH:mm:ss -> YYYY.MM.DD HH:mm:ss
 export function formatDateTime(dateString: string): string {
@@ -44,5 +50,4 @@ export const formatNumber = (value: number) =>
   value.toLocaleString('ko-KR', { maximumFractionDigits: 0 })
 
 // 숫자 포맷에 끝에 '원' 을 추가해서 포맷
-export const formatCurrency = (value: number): string =>
-  `${formatNumber(value)}원`
+export const formatCurrency = (value: number): string => `${formatNumber(value)}원`

@@ -3,13 +3,13 @@ import { API_END_POINT } from '@/shared/utils/fetcher'
 export async function createTrip(
   token: string,
   tripName: string,
-  startTime: Date,
-  endTime: Date,
+  startTime: string,
+  endTime: string,
   location: string,
   memberIds: number[]
 ) {
   const { url, method } = API_END_POINT.trip.createTrip()
-
+  console.log(tripName, startTime, endTime, location, memberIds)
   const result = await fetch(url, {
     method: method,
     headers: {
@@ -17,6 +17,7 @@ export async function createTrip(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
+      memberId: 1,
       tripName,
       startTime,
       endTime,
@@ -24,6 +25,11 @@ export async function createTrip(
       memberIds,
     }),
   })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
 
   const res = await result.json()
   return res.data
@@ -40,6 +46,10 @@ export async function getIdByEmail(token: string, email: string) {
     },
   })
 
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
   const res = await result.json()
   return res.data
 }

@@ -5,19 +5,19 @@
     class="mt-3"
   >
     <Card class="flex justify-between">
-      <div class="flex gap-4">
+      <div class="flex gap-4 pr-5">
         <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center my-auto"
         >
           <img
-            :src="item.imageUrl"
-            class="h-[40px] w-[40px]"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg"
+            class="h-[40px] w-[40px] object-cover"
           >
         </div>
-        <div>
-          <TypographySubTitle1>{{ item.title }}</TypographySubTitle1>
+        <div class="w-[140px]">
+          <TypographySubTitle1>{{ item.trainNo }}</TypographySubTitle1>
           <TypographyP2 class="text-moa-sub-text">
-            {{ item.description }}
+            {{ item.departureName }}
           </TypographyP2>
         </div>
       </div>
@@ -25,29 +25,16 @@
         @click="
           () => {
             const query: Record<string, string | number> = {
-              type: item.type,
-              itemId: item.itemId,
-            }
-
-            if (item.type === ItemType.Accommodation) {
-              query.start_date = selectedStartDate
-              query.end_date = selectedEndDate
-            }
-
-            if (item.type === ItemType.Transportation) {
-              query.start_date = selectedStartDate
-              query.origin = selectedOrigin
-              query.destination = selectedDestination
-              query.start_time = selectedStartTime
-            }
-
-            if (item.type === ItemType.Restaurant) {
-              query.date = selectedStartDate
-              query.category = selectedCategory
+              type: ItemType.Transportation,
+              itemId: item.transportId,
+              start_date: selectedStartDate,
+              origin: selectedOrigin,
+              destination: selectedDestination,
+              start_time: selectedStartTime,
             }
 
             router.push({
-              name: item.type === ItemType.Transportation ? 'select_seat' : 'reservation',
+              name: 'select_seat',
               params: { tripId },
               query,
             })
@@ -61,7 +48,7 @@
 </template>
 <script setup lang="ts">
 import router from '@/app/router'
-import { ItemType, type ReservationItem } from '@/entities/trip/trip.entity'
+import { ItemType, type TransportationItem } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
@@ -69,14 +56,12 @@ import TypographySubTitle1 from '@/shared/components/atoms/typography/Typography
 import { inject, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 
-defineProps<{ availableReservationList: ReservationItem[] }>()
+defineProps<{ availableReservationList: TransportationItem[] }>()
 const route = useRoute()
 const tripId = route.params.tripId
 
 const selectedStartDate = inject<Ref<string>>('selectedStartDate', ref(''))
-const selectedEndDate = inject<Ref<string>>('selectedEndDate', ref(''))
 const selectedOrigin = inject<Ref<string>>('selectedOrigin', ref(''))
 const selectedDestination = inject<Ref<string>>('selectedDestination', ref(''))
-const selectedCategory = inject<Ref<string>>('selectedCategory', ref(''))
 const selectedStartTime = inject<Ref<string>>('selectedStartTime', ref(''))
 </script>

@@ -55,7 +55,8 @@
           :key="index"
           color="ghost"
         >
-          {{ member.email }} <button @click="removeMember(member.id)">
+          {{ member.email }}
+          <button @click="removeMember(member.id)">
             <i class="bi bi-x" />
           </button>
         </Tag>
@@ -86,6 +87,7 @@ import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
+import { formatFullDateToKorean2 } from '@/shared/utils/format'
 import { ref } from 'vue'
 import { createTrip, getIdByEmail } from '../services/createTrip.service'
 
@@ -125,9 +127,9 @@ async function onClickCreateButton() {
       const result = await createTrip(
         localStorage.getItem('accessToken')!,
         tripName.value,
-        new Date(startTime.value),
-        new Date(endTime.value),
-        location.value,
+        formatFullDateToKorean2(new Date(startTime.value)),
+        formatFullDateToKorean2(new Date(endTime.value)),
+        'BUSAN',
         membersId
       )
 
