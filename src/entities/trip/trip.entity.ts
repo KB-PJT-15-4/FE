@@ -119,13 +119,31 @@ export interface RestaurantItem {
   restId: number
   restName: string
   restImageUrl: string
-  restDescription: string
+  description: string
 }
 
 export interface RestaurantCategory {
   categoryId: number
   categoryName: string
   categoryCode: string
+}
+
+export interface RestaurantTimeSlot {
+  time: string
+  restTimeId: number
+  maxNum: number
+  reservedNum: number
+  availableNum: number
+}
+
+// 좌석 엔티티
+export interface TransportationSeat {
+  price: number
+  seatNumber: string
+  seatRoomNo: number
+  seatType: string
+  status: string
+  tranResId: number
 }
 
 // [여행 페이지] 정산 내역

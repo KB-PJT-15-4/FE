@@ -4,17 +4,17 @@
     :key="index"
     class="mt-3"
   >
-    <Card class="flex justify-between">
-      <div class="flex gap-4">
+    <Card class="flex justify-start">
+      <div class="flex gap-4 pr-5">
         <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center my-auto"
         >
           <img
             :src="item.hotelImageUrl"
-            class="h-[40px] w-[40px]"
+            class="h-[40px] w-[40px] object-cover"
           >
         </div>
-        <div>
+        <div class="w-[140px]">
           <TypographySubTitle1>{{ item.hotelName }}</TypographySubTitle1>
           <TypographyP2 class="text-moa-sub-text">
             {{ item.address }}
@@ -22,6 +22,7 @@
         </div>
       </div>
       <ButtonSmallMain
+        class="m-auto"
         @click="
           () => {
             const query: Record<string, string | number> = {

@@ -19,6 +19,7 @@
         :selected-seat="selectedSeat"
         :disabled-seat="disabledSeat"
         :on-toggle-seat="toggleSeat"
+        :all-seats="seats"
       />
     </div>
 
@@ -29,13 +30,13 @@
           v-for="(seat, index) in selectedSeat"
           :key="index"
         >
-          {{ seat }}
+          {{ seat.seatRoomNo + '-' + seat.seatNumber }}
         </TypographySubTitle1>
       </div>
     </div>
     <div class="flex w-full justify-between">
       <ButtonMediumSub>취소</ButtonMediumSub>
-      <ButtonMediumMain
+      <!-- <ButtonMediumMain
         @click="
           // 좌석에 락 거는 api 호출 필요
           () => {
@@ -55,13 +56,20 @@
         "
       >
         예약하기
+      </ButtonMediumMain> -->
+      <ButtonMediumMain @click="selectSeatFunction">
+        예약하기
       </ButtonMediumMain>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { containers, ItemType, type TransportationReservation } from '@/entities/trip/trip.entity'
+import { containers, ItemType, type TransportationSeat } from '@/entities/trip/trip.entity'
 import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
+import {
+  getTransportationSeatsStatus,
+  selectSeat,
+} from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
@@ -69,14 +77,13 @@ import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vu
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
 
 const tripId = route.params.tripId as string
-console.log(tripId)
 
 const type = route.query.type as ItemType
 const selectedStartDate = route.query.start_date as string
@@ -86,27 +93,53 @@ const selectedDestination = route.query.destination as string
 
 const itemId = route.query.itemId as string
 const item = reservationItemInfoMockData
-const selectedSeat = ref<string[]>([])
-const disabledSeat = ref<string[]>(['A1', 'A2'])
+const selectedSeat = ref<TransportationSeat[]>([])
+const disabledSeat = ref<TransportationSeat[]>([])
 
 const selectedContainer = ref<string>(containers[0])
+const seats = ref<TransportationSeat[]>([])
 
-let reservationInfo: TransportationReservation
-reservationInfo = {
-  itemId,
-  origin: route.query.origin as string,
-  destination: route.query.destination as string,
-  date: route.query.start_date as string,
-  seat: selectedSeat.value,
-  time: selectedStartTime,
-}
-
-const toggleSeat = (seat: string) => {
+const toggleSeat = (seat: TransportationSeat) => {
   const exists = selectedSeat.value.includes(seat)
   if (exists) {
     selectedSeat.value = selectedSeat.value.filter((s) => s !== seat)
   } else {
     selectedSeat.value = [...selectedSeat.value, seat]
+  }
+}
+
+async function getTransportationSeatStatusFunction() {
+  const result = await getTransportationSeatsStatus(localStorage.getItem('accessToken')!, itemId)
+  seats.value = result['7']
+}
+
+watch(selectedContainer, (newVal) => {
+  if (newVal === '7칸') {
+    getTransportationSeatStatusFunction()
+  } else {
+    seats.value = []
+  }
+})
+
+onMounted(() => {
+  if (selectedContainer.value === '7칸') {
+    getTransportationSeatStatusFunction()
+  }
+})
+
+async function selectSeatFunction() {
+  const tranResIds = selectedSeat.value.map((seat) => seat.tranResId)
+  try {
+    const result = await selectSeat(
+      localStorage.getItem('accessToken')!,
+      tripId,
+      tranResIds,
+      selectedStartDate,
+      selectedStartTime
+    )
+    console.log(result)
+  } catch (e) {
+    console.error(e)
   }
 }
 </script>

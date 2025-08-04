@@ -26,7 +26,11 @@ export const trip = {
     method: Method.GET,
   }),
   getRestaurantCategoryList: () => ({
-    url: `${import.meta.env.VITE_APP_API_URL}/api/reservation/restaurant/category`,
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/category`,
+    method: Method.GET,
+  }),
+  getAvailableTimeList: (restId: string, date: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/${restId}/times?date=${date}`,
     method: Method.GET,
   }),
   getMemberList: (tripId: string) => ({
@@ -51,6 +55,14 @@ export const trip = {
   }),
   postSettle: () => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/settlement`,
+    method: Method.POST,
+  }),
+  getSeatsStatus: (transportId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats?transportId=${transportId}`,
+    method: Method.GET,
+  }),
+  selectSeat: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats`,
     method: Method.POST,
   }),
 }

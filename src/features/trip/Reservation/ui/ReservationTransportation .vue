@@ -62,18 +62,27 @@
   <ButtonGhost @click="getAvailableTransportList">
     <TypographySubTitle1>검색하기</TypographySubTitle1>
   </ButtonGhost>
-  <FilteredTransportationList
-    v-if="availableReservationList.length >= 1"
-    :available-reservation-list="availableReservationList"
-  />
+
   <div
-    v-else
+    v-if="!availableReservationList"
+    class="w-full h-[100px] flex justify-center items-center"
+  >
+    <TypographySubTitle1 class="text-moa-main-text">
+      교통편을 검색해보세요!
+    </TypographySubTitle1>
+  </div>
+  <div
+    v-else-if="availableReservationList.length === 0"
     class="w-full h-[100px] flex justify-center items-center"
   >
     <TypographySubTitle1 class="text-moa-main-text">
       예약 가능한 교통편이 없습니다.
     </TypographySubTitle1>
   </div>
+  <FilteredTransportationList
+    v-else
+    :available-reservation-list="availableReservationList"
+  />
 </template>
 <script setup lang="ts">
 import { locationList, timeOptions, type TransportationItem } from '@/entities/trip/trip.entity'
@@ -88,7 +97,7 @@ import { provide, ref } from 'vue'
 import { getTransportList } from '../services/reservation.service'
 import FilteredTransportationList from './FilteredTransportationList.vue'
 
-const availableReservationList = ref<TransportationItem[]>([])
+const availableReservationList = ref<TransportationItem[] | null>(null)
 
 const selectedOrigin = ref(locationList[0])
 const selectedDestination = ref(locationList[1])

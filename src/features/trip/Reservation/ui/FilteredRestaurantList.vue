@@ -5,30 +5,31 @@
     class="mt-3"
   >
     <Card class="flex justify-between">
-      <div class="flex gap-4">
+      <div class="flex gap-4 pr-5">
         <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center my-auto"
         >
           <img
             :src="item.restImageUrl"
-            class="h-[40px] w-[40px]"
+            class="h-[40px] w-[40px] object-cover"
           >
         </div>
-        <div>
+        <div class="w-[140px]">
           <TypographySubTitle1>{{ item.restName }}</TypographySubTitle1>
           <TypographyP2 class="text-moa-sub-text">
-            {{ item.restDescription }}
+            {{ item.description }}
           </TypographyP2>
         </div>
       </div>
       <ButtonSmallMain
+        class="m-auto"
         @click="
           () => {
             const query: Record<string, string | number> = {
-              type: ItemType.Accommodation,
+              type: ItemType.Restaurant,
               itemId: item.restId,
-              start_date: selectedStartDate,
-              end_date: selectedEndDate,
+              category: selectedCategory,
+              date: selectedStartDate,
             }
 
             router.push({
@@ -58,6 +59,6 @@ defineProps<{ availableReservationList: RestaurantItem[] }>()
 const route = useRoute()
 const tripId = route.params.tripId
 
+const selectedCategory = inject<Ref<string>>('selectedCategory', ref(''))
 const selectedStartDate = inject<Ref<string>>('selectedStartDate', ref(''))
-const selectedEndDate = inject<Ref<string>>('selectedEndDate', ref(''))
 </script>

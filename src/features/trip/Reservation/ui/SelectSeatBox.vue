@@ -12,20 +12,30 @@
         <!-- 좌측 좌석 -->
         <div class="flex gap-5">
           <SeatButton
-            :key="row + '1' + (selectedSeat.includes(row + '1') ? 'on' : 'off')"
+            :key="row + '1' + (isSelected(row + '1') ? 'on' : 'off')"
             :label="1"
             :seat-key="row + '1'"
-            :selected="selectedSeat.includes(row + '1')"
-            :disabled="disabledSeat.includes(row + '1')"
-            @click="onToggleSeat(row + '1')"
+            :selected="isSelected(row + '1')"
+            :disabled="isDisabled(row + '1')"
+            @click="
+              () => {
+                const seat = findSeat(row + '1')
+                if (seat) onToggleSeat(seat)
+              }
+            "
           />
           <SeatButton
-            :key="row + '2' + (selectedSeat.includes(row + '2') ? 'on' : 'off')"
+            :key="row + '2' + (isSelected(row + '2') ? 'on' : 'off')"
             :label="2"
             :seat-key="row + '2'"
-            :selected="selectedSeat.includes(row + '2')"
-            :disabled="disabledSeat.includes(row + '2')"
-            @click="onToggleSeat(row + '2')"
+            :selected="isSelected(row + '2')"
+            :disabled="isDisabled(row + '2')"
+            @click="
+              () => {
+                const seat = findSeat(row + '2')
+                if (seat) onToggleSeat(seat)
+              }
+            "
           />
         </div>
 
@@ -37,20 +47,30 @@
         <!-- 우측 좌석 -->
         <div class="flex gap-5">
           <SeatButton
-            :key="row + '4' + (selectedSeat.includes(row + '4') ? 'on' : 'off')"
+            :key="row + '4' + (isSelected(row + '4') ? 'on' : 'off')"
             :label="4"
             :seat-key="row + '4'"
-            :selected="selectedSeat.includes(row + '4')"
-            :disabled="disabledSeat.includes(row + '4')"
-            @click="onToggleSeat(row + '4')"
+            :selected="isSelected(row + '4')"
+            :disabled="isDisabled(row + '4')"
+            @click="
+              () => {
+                const seat = findSeat(row + '4')
+                if (seat) onToggleSeat(seat)
+              }
+            "
           />
           <SeatButton
-            :key="row + '3' + (selectedSeat.includes(row + '3') ? 'on' : 'off')"
+            :key="row + '3' + (isSelected(row + '3') ? 'on' : 'off')"
             :label="3"
             :seat-key="row + '3'"
-            :selected="selectedSeat.includes(row + '3')"
-            :disabled="disabledSeat.includes(row + '3')"
-            @click="onToggleSeat(row + '3')"
+            :selected="isSelected(row + '3')"
+            :disabled="isDisabled(row + '3')"
+            @click="
+              () => {
+                const seat = findSeat(row + '3')
+                if (seat) onToggleSeat(seat)
+              }
+            "
           />
         </div>
       </div>
@@ -59,15 +79,23 @@
 </template>
 
 <script setup lang="ts">
+import type { TransportationSeat } from '@/entities/trip/trip.entity'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import SeatButton from './SeatButton.vue'
-
-defineProps<{
-  selectedSeat: string[]
-  disabledSeat: string[]
+const rows = ['A', 'B', 'C', 'D', 'E', 'F']
+const props = defineProps<{
+  selectedSeat: TransportationSeat[]
+  disabledSeat: TransportationSeat[]
+  allSeats: TransportationSeat[]
   container: string
-  onToggleSeat: (seat: string) => void
+  onToggleSeat: (seat: TransportationSeat) => void
 }>()
 
-const rows = ['A', 'B', 'C', 'D', 'E', 'F']
+const findSeat = (seatNumber: string) => props.allSeats.find((s) => s.seatNumber === seatNumber)
+
+const isSelected = (seatNumber: string) =>
+  props.selectedSeat.some((seat) => seat.seatNumber === seatNumber)
+
+const isDisabled = (seatNumber: string) =>
+  props.disabledSeat.some((seat) => seat.seatNumber === seatNumber)
 </script>

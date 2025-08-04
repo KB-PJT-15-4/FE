@@ -5,16 +5,16 @@
     class="mt-3"
   >
     <Card class="flex justify-between">
-      <div class="flex gap-4">
+      <div class="flex gap-4 pr-5">
         <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center"
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center my-auto"
         >
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg"
-            class="h-[40px] w-[40px]"
+            class="h-[40px] w-[40px] object-cover"
           >
         </div>
-        <div class="flex flex-col">
+        <div class="w-[140px]">
           <TypographySubTitle1>{{ item.trainNo }}</TypographySubTitle1>
           <TypographyP2 class="text-moa-sub-text">
             {{ item.departureName }}
