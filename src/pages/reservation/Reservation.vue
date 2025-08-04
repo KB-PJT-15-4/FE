@@ -132,7 +132,7 @@
             <div class="max-w-[310px] overflow-scroll">
               <SegmentedTab
                 v-model="selectedTime"
-                :options="reservationTime"
+                :options="availableTime"
               />
             </div>
           </div>
@@ -205,10 +205,13 @@ const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
 const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정
 
-console.log(type)
 const selectedN = ref(1)
-const selectedTime = ref('10:00')
+
 const availableTimeSlot = ref<RestaurantTimeSlot[]>([])
+
+const availableTime = ref<string[]>([])
+const selectedTime = ref<string>('')
+
 const reservationInfo = ref<
   AccommodationReservation | TransportationReservation | RestaurantReservation | null
 >(null)
@@ -282,11 +285,14 @@ async function getAvailableTimeListFunction() {
     availableTimeSlot.value = await getAvailableTimeTimeList(
       localStorage.getItem('accessToken')!,
       itemId,
-      route.query.start_date as string
+      route.query.date as string
     )
+
+    availableTime.value = availableTimeSlot.value.map((slot) => slot.time)
+    selectedTime.value = availableTime.value[0]
   } catch (e) {
     console.error(e)
-    // alert('예약 가능 시간대를 조회하는데 실패하였습니다.')
+    alert('예약 가능 시간대를 조회하는데 실패하였습니다.')
   }
 }
 
