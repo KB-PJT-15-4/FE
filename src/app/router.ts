@@ -3,6 +3,7 @@ import Login from '@/pages/auth/Login.vue'
 import SignUp from '@/pages/auth/SignUp.vue'
 import Home from '@/pages/home/Home.vue'
 import Notification from '@/pages/home/Notification.vue'
+import Owner from '@/pages/home/Owner.vue'
 import RecordCreate from '@/pages/record/RecordCreate.vue'
 import RecordDetail from '@/pages/record/RecordDetail.vue'
 import Map from '@/pages/record/RecordMap.vue'
@@ -46,6 +47,12 @@ const router = createRouter({
       path: '/main/home',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/owner',
+      name: 'owner',
+      component: Owner,
+      meta: { layout: false },
     },
     {
       path: '/main/notification',
