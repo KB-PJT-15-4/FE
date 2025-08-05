@@ -3,9 +3,9 @@
     class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-50 flex justify-center items-center"
   >
     <Card class="bg-white max-w-[500px] max-h-[80vh] overflow-y-auto m-4">
-      <div class="w-full flex justify-end mb-4">
+      <div class="w-full flex justify-end">
         <button @click="emit('close')">
-          <i class="bi bi-x text-[30px]" />
+          <i class="bi bi-x text-[20px]" />
         </button>
       </div>
       <div class="flex flex-col gap-4 p-2">
