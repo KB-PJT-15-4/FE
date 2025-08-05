@@ -131,29 +131,24 @@ const router = createRouter({
       name: 'test',
       component: Test,
     },
+
     {
       path: '/owner',
       name: 'owner',
       component: Owner,
-      meta: { layout: false },
-    },
-    {
-      path: '/owner',
-      name: 'owner',
-      component: Owner,
-      meta: { layout: false },
+      meta: { owner: true },
     },
     {
       path: '/owner/camera',
       name: 'camera',
       component: Camera,
-      meta: { layout: false },
+      meta: { owner: true },
     },
     {
       path: '/owner/reservation_info',
       name: 'reservation_info',
       component: ReservationInfo,
-      meta: { layout: false },
+      meta: { owner: true },
     },
   ],
 })

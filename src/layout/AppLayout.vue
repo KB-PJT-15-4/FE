@@ -5,7 +5,8 @@
       v-if="!shouldHideLayout"
       class="fixed top-0 left-0 w-full z-50 flex justify-center"
     >
-      <Header />
+      <Header v-if="!isOwner" />
+      <OwnerHeader v-if="isOwner" />
     </header>
 
     <!-- 메인 콘텐츠 -->
@@ -25,7 +26,11 @@
       v-if="!shouldHideLayout"
       class="fixed bottom-0 left-0 w-full z-50 max-w-[390px]"
     >
-      <NavBar v-model="currentTab" />
+      <OwnerNavBar v-if="isOwner" />
+      <NavBar
+        v-if="!isOwner"
+        v-model="currentTab"
+      />
     </footer>
   </div>
 </template>
@@ -33,12 +38,14 @@
 <script setup lang="ts">
 import Header from '@/shared/components/organisms/Header.vue'
 import NavBar from '@/shared/components/organisms/NavBar.vue'
+import OwnerHeader from '@/shared/components/organisms/OwnerHeader.vue'
+import OwnerNavBar from '@/shared/components/organisms/OwnerNavBar.vue'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const shouldHideLayout = computed(() => route.meta.layout === false)
-
+const isOwner = computed(() => route.meta.owner === true)
 const tab = ['home', 'map', 'trip']
 const currentTab = ref(tab[0])
 

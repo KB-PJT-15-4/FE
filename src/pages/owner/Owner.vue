@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full flex flex-col gap-5 pt-20 justify-center items-center">
     <ButtonMediumMain @click="onClickCameraButton">
       QR 코드 스캔하기
     </ButtonMediumMain>
