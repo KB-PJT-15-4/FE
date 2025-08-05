@@ -44,21 +44,22 @@
       :options="filterTabOptions"
     />
     <div
-      v-for="reservation in userReservationListMockData"
-      :key="reservation.id"
+      v-for="(reservation, index) in userReservationListMockData"
+      :key="index"
       :value="reservation"
     >
       <ReservationInfo :reservation="reservation" />
     </div>
   </div>
 </template>
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 
-import { userReservationListMockData, userTripListMockData } from '@/entities/trip/trip.mock'
+import { userReservationListMockData } from '@/entities/trip/trip.mock'
 
-import { filterTabOptions } from '@/entities/trip/trip.entity'
+import { filterTabOptions, type TripInfo } from '@/entities/trip/trip.entity'
 import ReservationInfo from '@/features/trip/MyReservationList/ui/ReservationInfo.vue'
+import { getTripList } from '@/features/trip/MyTrip/services/myTrip.service'
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
 import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
@@ -73,11 +74,22 @@ const selected = ref('')
 const showIdCard = ref(false)
 const showDriversLicenseCard = ref(false)
 
-const tripList = userTripListMockData
-const tripOptions = tripList.map((trip) => ({
-  label: trip.title,
-  value: trip.id,
-}))
+const tripList = ref<TripInfo[]>([])
 
+const tripOptions = computed(() =>
+  tripList.value.map((trip) => ({
+    label: trip.tripName,
+    value: trip.tripId,
+  }))
+)
 const selectedFilter = ref(filterTabOptions[0])
+
+async function getTripListFunction(page: number) {
+  const result = await getTripList(localStorage.getItem('accessToken')!, page, 10)
+  tripList.value = result.content
+}
+
+onMounted(() => {
+  getTripListFunction(0)
+})
 </script>

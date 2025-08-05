@@ -8,7 +8,7 @@
         >
       </div>
       <div>
-        <TypographySubTitle1>{{ reservation.title }}</TypographySubTitle1>
+        <TypographySubTitle1>{{ reservation.name }}</TypographySubTitle1>
         <TypographyP2>{{ formatFullDateToKorean(new Date(reservation.date)) }}</TypographyP2>
       </div>
     </div>
