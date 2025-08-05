@@ -3,7 +3,11 @@
     <div class="flex gap-4">
       <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center">
         <img
-          :src="reservation.imageUrl"
+          :src="
+            reservation.resKind === 'TRANSPORT'
+              ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'
+              : reservation.imageUrl
+          "
           class="h-[40px] w-[40px]"
         >
       </div>
@@ -23,6 +27,5 @@ import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 
-const props = defineProps<{ reservation: UserReservationList }>()
-console.log('reservation:', props.reservation)
+defineProps<{ reservation: UserReservationList }>()
 </script>

@@ -47,13 +47,10 @@
       v-model="selectedFilter"
       :options="filterTabOptions"
     />
-
-    <div
-      v-for="(reservation, index) in reservationList"
-      :key="index"
-    >
-      <ReservationInfo :reservation="reservation" />
-    </div>
+    <MyReservationList
+      :page="0"
+      :total-page="10"
+    />
   </div>
 </template>
 
@@ -68,10 +65,10 @@ import {
 import { getMyReservationList } from '@/features/trip/MyReservationList/services/myReservationList.service'
 import { getTripList } from '@/features/trip/MyTrip/services/myTrip.service'
 
-import ReservationInfo from '@/features/trip/MyReservationList/ui/ReservationInfo.vue'
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
 import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
 
+import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
@@ -80,7 +77,6 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 
-// 여행 선택 관련
 const selectedTripId = ref<number | null>(null)
 const selectedTrip = ref<TripInfo | undefined>(undefined)
 const tripList = ref<TripInfo[]>([])

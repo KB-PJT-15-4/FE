@@ -6,13 +6,10 @@
   />
   <div
     v-for="reservation in userReservationListMockData"
-    :key="reservation.id"
+    :key="reservation.itemId"
     :value="reservation"
   >
-    <ReservationInfo
-      :reservation="reservation"
-      class="my-3"
-    />
+    <ReservationInfo :reservation="reservation" />
   </div>
   <Pagination
     :total-page="totalPage"
