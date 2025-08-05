@@ -3,7 +3,9 @@ import Login from '@/pages/auth/Login.vue'
 import SignUp from '@/pages/auth/SignUp.vue'
 import Home from '@/pages/home/Home.vue'
 import Notification from '@/pages/home/Notification.vue'
-import Owner from '@/pages/home/Owner.vue'
+import Camera from '@/pages/owner/Camera.vue'
+import Owner from '@/pages/owner/Owner.vue'
+import ReservationInfo from '@/pages/owner/ReservationInfo.vue'
 import RecordCreate from '@/pages/record/RecordCreate.vue'
 import RecordDetail from '@/pages/record/RecordDetail.vue'
 import Map from '@/pages/record/RecordMap.vue'
@@ -47,12 +49,6 @@ const router = createRouter({
       path: '/main/home',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/owner',
-      name: 'owner',
-      component: Owner,
-      meta: { layout: false },
     },
     {
       path: '/main/notification',
@@ -134,6 +130,30 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: Test,
+    },
+    {
+      path: '/owner',
+      name: 'owner',
+      component: Owner,
+      meta: { layout: false },
+    },
+    {
+      path: '/owner',
+      name: 'owner',
+      component: Owner,
+      meta: { layout: false },
+    },
+    {
+      path: '/owner/camera',
+      name: 'camera',
+      component: Camera,
+      meta: { layout: false },
+    },
+    {
+      path: '/owner/reservation_info',
+      name: 'reservation_info',
+      component: ReservationInfo,
+      meta: { layout: false },
     },
   ],
 })

@@ -7,34 +7,30 @@
       playsinline
       class="w-full"
     />
-    <p v-if="qrResult">
-      📦 QR 결과: {{ qrResult }}
-    </p>
-    <button @click="startScan">
-      📷 QR 스캔 시작
-    </button>
-    <button @click="stopScan">
-      🛑 중지
-    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { BrowserCodeReader, BrowserQRCodeReader } from '@zxing/browser'
-import { onBeforeUnmount, ref } from 'vue'
+import { BrowserQRCodeReader, type IScannerControls } from '@zxing/browser'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const videoRef = ref<HTMLVideoElement | null>(null)
 const qrResult = ref('')
-let codeReader: BrowserCodeReader = new BrowserQRCodeReader()
+let codeReader: BrowserQRCodeReader
+let controls: IScannerControls | null = null
+
 const startScan = async () => {
   qrResult.value = ''
   codeReader = new BrowserQRCodeReader()
 
   try {
-    const result = await codeReader.decodeFromVideoDevice(undefined, videoRef.value!, (result) => {
+    controls = await codeReader.decodeFromVideoDevice(undefined, videoRef.value!, (result) => {
       if (result) {
         qrResult.value = result.getText()
         stopScan()
+        router.push({ name: 'reservation_info', query: { result: result.getText() } })
       }
     })
   } catch (error) {
@@ -43,9 +39,15 @@ const startScan = async () => {
 }
 
 const stopScan = () => {
-  const reader = codeReader as unknown as { reset: () => void }
-  reader.reset()
+  if (controls) {
+    controls.stop()
+    controls = null
+  }
 }
+
+onMounted(() => {
+  startScan()
+})
 
 onBeforeUnmount(() => {
   stopScan()
