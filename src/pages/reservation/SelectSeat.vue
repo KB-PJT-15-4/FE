@@ -1,9 +1,13 @@
 <template>
   <div class="w-full flex flex-col justify-center">
-    <!-- <ItemInfo
+    <TypographyHead3 class="mb-3">
+      좌석 선택하기
+    </TypographyHead3>
+    <ItemInfoTransportation
+      v-if="item"
       :item="item"
       class="mb-3"
-    /> -->
+    />
     <div class="w-full overflow-y-scroll">
       <Select v-model="selectedContainer">
         <Option
@@ -43,18 +47,24 @@
   </div>
 </template>
 <script setup lang="ts">
-import { containers, ItemType, type TransportationSeat } from '@/entities/trip/trip.entity'
-import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
+import {
+  containers,
+  ItemType,
+  type TransportationItem,
+  type TransportationSeat,
+} from '@/entities/trip/trip.entity'
 import {
   getTransportationSeatsStatus,
   selectSeat,
 } from '@/features/trip/Reservation/services/reservation.service'
+import ItemInfoTransportation from '@/features/trip/Reservation/ui/ItemInfoTransportation.vue'
 // import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -69,9 +79,10 @@ const selectedStartDate = route.query.start_date as string
 const selectedStartTime = route.query.start_time as string
 const selectedOrigin = route.query.origin as string
 const selectedDestination = route.query.destination as string
+const trainNo = route.query.trainNo as string
 
 const itemId = route.query.itemId as string
-const item = reservationItemInfoMockData
+const item = ref<TransportationItem>()
 const selectedSeat = ref<TransportationSeat[]>([])
 const disabledSeat = ref<TransportationSeat[]>([])
 
@@ -120,18 +131,34 @@ async function selectSeatFunction() {
     localStorage.setItem('seat', JSON.stringify(selectedSeat.value))
     const query: Record<string, string | number | string[]> = {
       type: type,
-      itemId: item.itemId,
+      itemId: itemId,
+      start_date: selectedStartDate,
+      origin: selectedOrigin,
+      destination: selectedDestination,
+      start_time: selectedStartTime,
+      reservation_num: result,
+      trainNo: trainNo,
     }
-    query.start_date = selectedStartDate
-    query.origin = selectedOrigin
-    query.destination = selectedDestination
-    query.start_time = selectedStartTime
-    query.reservation_num = result
 
     router.push({ name: 'reservation_transportation', params: { tripId }, query })
-    console.log(result)
   } catch (e) {
     console.error(e)
   }
 }
+
+function setItemInfo() {
+  item.value = {
+    transportId: Number(route.query.itemId),
+    trainNo: route.query.trainNo as string,
+    departureName: route.query.origin as string,
+    origin: route.query.origin as string,
+    destination: route.query.destination as string,
+    startDate: route.query.start_date as string,
+    startTime: route.query.start_time as string,
+  }
+}
+
+onMounted(() => {
+  setItemInfo()
+})
 </script>

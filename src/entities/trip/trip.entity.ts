@@ -116,6 +116,10 @@ export interface TransportationItem {
   transportId: number
   departureName: string
   trainNo: string
+  origin?: string
+  destination?: string
+  startDate?: string
+  startTime?: string
 }
 
 export interface AccommodationItem {

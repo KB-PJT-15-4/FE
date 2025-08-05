@@ -1,10 +1,11 @@
 <template>
   <div class="flex w-full flex-col gap-3">
     <TypographyHead3>예약하기</TypographyHead3>
-    <!-- <ItemInfoTransportation
+    <ItemInfoTransportation
+      v-if="item"
       :item="item"
       class="mb-3"
-    /> -->
+    />
 
     <div class="h-[430px]">
       <div
@@ -70,14 +71,15 @@
 <script setup lang="ts">
 import {
   ItemType,
+  type TransportationItem,
   type TransportationReservation,
   type TransportationSeat,
 } from '@/entities/trip/trip.entity'
-import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
 import {
   cancelTransportationReservation,
   reservationTransportation,
 } from '@/features/trip/Reservation/services/reservation.service'
+import ItemInfoTransportation from '@/features/trip/Reservation/ui/ItemInfoTransportation.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
@@ -85,7 +87,7 @@ import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatFullDateToKorean, formatNumber } from '@/shared/utils/format'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -94,7 +96,7 @@ const router = useRouter()
 const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
 const reservationId = route.query.reservation_num as string
-const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정
+const item = ref<TransportationItem | null>(null)
 
 const reservationInfo = ref<TransportationReservation | null>(null)
 const seat: TransportationSeat[] = JSON.parse(localStorage.getItem('seat')!)
@@ -142,4 +144,20 @@ async function cancelReservationFunction() {
     alert('취소를 완료하지 못하였습니다.')
   }
 }
+
+function setItemInfo() {
+  item.value = {
+    transportId: Number(route.query.itemId),
+    trainNo: route.query.trainNo as string,
+    departureName: route.query.origin as string,
+    origin: route.query.origin as string,
+    destination: route.query.destination as string,
+    startDate: route.query.start_date as string,
+    startTime: route.query.start_time as string,
+  }
+}
+
+onMounted(() => {
+  setItemInfo()
+})
 </script>
