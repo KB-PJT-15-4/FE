@@ -6,6 +6,13 @@
     />
 
     <div class="h-[260px] flex flex-col gap-3">
+      <TypographySubTitle1
+        v-if="!tripId"
+        class="w-full mt-4 text-center text-moa-sub-text"
+      >
+        여행을 먼저 선택해주세요
+      </TypographySubTitle1>
+
       <div
         v-for="reservation in reservationList"
         :key="reservation.itemId"
@@ -28,6 +35,7 @@ import { filterTabOptions } from '@/entities/trip/trip.entity'
 import { getMyReservationList } from '@/features/trip/MyReservationList/services/myReservationList.service'
 import { computed, ref, watch } from 'vue'
 
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import { useRoute } from 'vue-router'
