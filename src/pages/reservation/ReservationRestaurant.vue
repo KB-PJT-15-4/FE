@@ -69,7 +69,9 @@
     </TypographyHead3>
   </div>
   <div class="w-full flex justify-between">
-    <ButtonMediumSub>취소하기</ButtonMediumSub>
+    <ButtonMediumSub @click="cancelReservationFunction">
+      취소하기
+    </ButtonMediumSub>
     <ButtonMediumMain @click="reservationRestaurantFunction">
       예약하기
     </ButtonMediumMain>
@@ -88,7 +90,6 @@ import {
   reservationRestaurant,
 } from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfoRestaurant from '@/features/trip/Reservation/ui/ItemInfoRestaurant.vue'
-// import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
@@ -108,7 +109,7 @@ const tripId = route.params.tripId as string
 
 const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
-const item = ref<RestaurantItem>() // 추후 itemId, type을 통해 받아올 예정
+const item = ref<RestaurantItem>()
 
 const selectedN = ref(1)
 
@@ -165,6 +166,16 @@ async function reservationRestaurantFunction() {
   }
 }
 
+function cancelReservationFunction() {
+  try {
+    if (window.confirm('선택한 식당 정보가 사라집니다.\n예약을 취소하시겠습니까?')) {
+      router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('취소를 완료하지 못하였습니다.')
+  }
+}
 async function getRestaurantInfoFunction() {
   item.value = await getRestaurantInfo(localStorage.getItem('accessToken')!, itemId)
 }

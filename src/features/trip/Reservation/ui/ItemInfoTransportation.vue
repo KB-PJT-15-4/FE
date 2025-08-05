@@ -30,6 +30,5 @@ import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { formatFullDateToKorean } from '@/shared/utils/format'
-
-const props = defineProps<{ item: TransportationItem }>()
+defineProps<{ item: TransportationItem }>()
 </script>

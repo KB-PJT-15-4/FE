@@ -95,4 +95,8 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/restId?restId=${restId}`,
     method: Method.GET,
   }),
+  reservationAccommodation: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation`,
+    method: Method.POST,
+  }),
 }

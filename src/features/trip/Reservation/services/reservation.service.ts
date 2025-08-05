@@ -307,3 +307,38 @@ export async function getRestaurantInfo(token: string, restId: string) {
   const res = await result.json()
   return res.data
 }
+
+export async function reservationAccommodation(
+  token: string,
+  tripId: number,
+  accomResId: number,
+  checkinday: string,
+  checkoutday: string,
+  guests: number,
+  price: number
+) {
+  const { url, method } = API_END_POINT.trip.reservationAccommodation()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      tripId,
+      accomResId,
+      checkinday,
+      checkoutday,
+      guests,
+      price,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}

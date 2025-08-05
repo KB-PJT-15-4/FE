@@ -94,8 +94,12 @@
     </TypographyHead3>
   </div>
   <div class="w-full flex justify-between">
-    <ButtonMediumSub>취소하기</ButtonMediumSub>
-    <ButtonMediumMain> 예약하기 </ButtonMediumMain>
+    <ButtonMediumSub @click="cancelReservationFunction">
+      취소하기
+    </ButtonMediumSub>
+    <ButtonMediumMain @click="reservationAccommodationFunction">
+      예약하기
+    </ButtonMediumMain>
   </div>
 </template>
 <script setup lang="ts">
@@ -108,6 +112,7 @@ import {
 import {
   getAccommodationInfo,
   getRoomList,
+  reservationAccommodation,
 } from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfoAccommodation from '@/features/trip/Reservation/ui/ItemInfoAccommodation.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
@@ -156,7 +161,37 @@ async function getRoomListFunction() {
   )
 }
 
-async function reservationAccommodationFunction() {}
+async function reservationAccommodationFunction() {
+  try {
+    if (window.confirm('숙박시설을 예약하시겠습니까?')) {
+      await reservationAccommodation(
+        localStorage.getItem('accessToken')!,
+        Number(tripId),
+        Number(itemId),
+        route.query.start_date as string,
+        route.query.end_date as string,
+        selectedN.value,
+        selectedRoom.value!.price
+      )
+      alert('예약이 완료되었습니다. \n예매내역페이지로 이동합니다.')
+      router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('예약을 실패하였습니다.')
+  }
+}
+
+function cancelReservationFunction() {
+  try {
+    if (window.confirm('선택한 숙박 정보가 사라집니다.\n예약을 취소하시겠습니까?')) {
+      router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('취소를 완료하지 못하였습니다.')
+  }
+}
 
 onMounted(() => {
   getAccommodationInfoFunction()
