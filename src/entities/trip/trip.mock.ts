@@ -13,7 +13,7 @@ import {
 // 여행 리스트
 export const userTripListMockData: TripInfo[] = [
   {
-    tripId: '1',
+    tripId: 1,
     tripName: '즐거운 부산여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
@@ -21,7 +21,7 @@ export const userTripListMockData: TripInfo[] = [
     locationName: '부산',
   },
   {
-    tripId: '2',
+    tripId: 2,
     tripName: '춘식이보러 제주도여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
@@ -29,7 +29,7 @@ export const userTripListMockData: TripInfo[] = [
     locationName: '서울',
   },
   {
-    tripId: '3',
+    tripId: 3,
     tripName: '프랑스로 와인마시러가자',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
@@ -75,7 +75,7 @@ export const userReservationListMockData: UserReservationList[] = [
 
 // [여헹 페이지] 여행 기본 정보
 export const tripInformationMockData: TripInfo = {
-  tripId: '1',
+  tripId: 1,
   tripName: '즐거운 부산여행',
   startDate: '2024-10-30',
   endDate: '2024-11-03',

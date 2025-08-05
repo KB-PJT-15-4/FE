@@ -2,7 +2,7 @@ import { API_END_POINT } from '@/shared/utils/fetcher'
 
 export async function getMyReservationList(
   token: string,
-  tripId: string,
+  tripId: number,
   page: number,
   size: number,
   resKind: string | null

@@ -51,7 +51,7 @@ export enum StatusType {
 
 // 여행 리스트
 export interface TripInfo {
-  tripId: string
+  tripId: number
   tripName: string
   startDate: string
   endDate: string
