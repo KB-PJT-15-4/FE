@@ -13,6 +13,13 @@
         여행을 먼저 선택해주세요
       </TypographySubTitle1>
 
+      <TypographySubTitle1
+        v-if="reservationList.length === 0"
+        class="w-full mt-4 text-center text-moa-sub-text"
+      >
+        예매 내역이 존재하지 않습니다.
+      </TypographySubTitle1>
+
       <div
         v-for="reservation in reservationList"
         :key="reservation.itemId"
