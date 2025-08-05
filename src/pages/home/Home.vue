@@ -43,26 +43,17 @@
       </Option>
     </Select>
 
-    <SegmentedTab
-      v-model="selectedFilter"
-      :options="filterTabOptions"
-    />
     <MyReservationList
-      :page="0"
-      :total-page="10"
+      :trip-id="selectedTripId"
+      :filter="selectedFilter"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
-import {
-  filterTabOptions,
-  type TripInfo,
-  type UserReservationList,
-} from '@/entities/trip/trip.entity'
-import { getMyReservationList } from '@/features/trip/MyReservationList/services/myReservationList.service'
+import { filterTabOptions, type TripInfo } from '@/entities/trip/trip.entity'
 import { getTripList } from '@/features/trip/MyTrip/services/myTrip.service'
 
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
@@ -75,15 +66,12 @@ import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 
 const selectedTripId = ref<number | null>(null)
-const selectedTrip = ref<TripInfo | undefined>(undefined)
 const tripList = ref<TripInfo[]>([])
 const selectedFilter = ref(filterTabOptions[0])
 const showIdCard = ref(false)
 const showDriversLicenseCard = ref(false)
-const reservationList = ref<UserReservationList[]>([])
 
 const tripOptions = computed(() =>
   tripList.value.map((trip) => ({
@@ -96,46 +84,6 @@ async function getTripListFunction(page: number) {
   const result = await getTripList(localStorage.getItem('accessToken')!, page, 10)
   tripList.value = result.content
 }
-
-const selectedOption = computed(() => {
-  switch (selectedFilter.value) {
-    case '교통':
-      return 'TRANSPORT'
-    case '숙박':
-      return 'ACCOMMODATION'
-    case '식당':
-      return 'RESTAURANT'
-    default:
-      return null
-  }
-})
-
-async function getMyReservationListFunction() {
-  if (!selectedTrip.value) return
-  const result = await getMyReservationList(
-    localStorage.getItem('accessToken')!,
-    selectedTrip.value.tripId,
-    0,
-    10,
-    selectedOption.value
-  )
-
-  reservationList.value = result.content
-}
-
-watch(selectedTripId, (newTripId) => {
-  selectedTrip.value = tripList.value.find((trip) => trip.tripId === Number(newTripId))
-
-  if (selectedTrip.value) {
-    getMyReservationListFunction()
-  }
-})
-
-watch(selectedFilter, () => {
-  if (selectedTrip.value) {
-    getMyReservationListFunction()
-  }
-})
 
 onMounted(() => {
   getTripListFunction(0)
