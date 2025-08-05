@@ -1,17 +1,16 @@
 <template>
   <div class="w-full flex flex-col gap-4">
     <!-- 여행 정보 카드 -->
-    <RecordDetailTripCard :trip="tripData" />
+    <RecordDetailTripCard :trip-id="tripId" />
 
     <!-- 날짜 탭 -->
-    <DateTab
-      v-model="selectedDate"
-      start-date="2025-03-24"
-      end-date="2025-03-30"
+    <RecordDetailDate
+      v-model:date="selectedDate"
+      :trip-id="tripId"
     />
 
     <!-- 예매 / 결제 탭 -->
-    <div class="flex justify-center w-full">
+    <div class="flex w-full">
       <ToggleTab
         v-model="currentLabel"
         :options="toggleOptions"
@@ -32,24 +31,21 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { mockData, userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
+import { userReservationListMockData, creditMockData } from '@/entities/map/map.mock'
 
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
-import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 
 import RecordDetailTripCard from '@/features/record/Detail/ui/RecordDetailTripCard.vue'
 import RecordDetailReCard from '@/features/record/Detail/ui/RecordDetailReCard.vue'
 import RecordDetailCredCard from '@/features/record/Detail/ui/RecordDetailCredCard.vue'
 import RecordDetailCustom from '@/features/record/Detail/ui/RecordDetailCustom.vue'
+import RecordDetailDate from '@/features/record/Detail/ui/RecordDetailDate.vue'
 
 const route = useRoute()
 const router = useRouter()
 
 const tripId = Number(route.params.tripId)
-const selectedDate = ref('2025-03-24') // 날짜 선택 (추후 API 연동)
-
-// 여행 정보
-const tripData = computed(() => mockData.find((trip) => trip.tripId === tripId) ?? null)
+const selectedDate = ref<string>('')
 
 type TabValue = 'reservation' | 'credit'
 

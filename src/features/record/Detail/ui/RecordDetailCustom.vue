@@ -1,5 +1,12 @@
 <template>
   <div class="flex flex-col gap-4">
+    <!-- 기록 상세보기 모달 -->
+    <RecordDetailView
+      v-if="showRecordDetail"
+      :record="selectedRecord"
+      @close="showRecordDetail = false"
+    />
+
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px] text-sm"
@@ -18,7 +25,10 @@
         <div class="font-bold text-base">
           {{ record.title }}
         </div>
-        <div class="flex gap-2 w-[120px] text-sm">
+        <div class="flex gap-2 w-[200px] text-sm">
+          <ButtonExtraSmallMain @click="showDetail(record)">
+            상세보기
+          </ButtonExtraSmallMain>
           <ButtonExtraSmallMain @click="editRecord(getGlobalIndex(index))">
             수정
           </ButtonExtraSmallMain>
@@ -58,6 +68,7 @@ import { formatFullDateToKorean } from '@/shared/utils/format'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
+import RecordDetailView from '@/features/record/Detail/ui/RecordDetailView.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -72,6 +83,15 @@ const recordList = ref<Array<{
   imageUrl?: string
   content: string
 }>>([])
+
+// 모달 관련 상태관리
+const showRecordDetail = ref(false)
+const selectedRecord = ref<{
+  title: string
+  date: string
+  imageUrl?: string
+  content: string
+} | null>(null)
 
 // 현재 페이지
 const currentPage = ref(Number(route.query.page) || 1)
@@ -108,6 +128,17 @@ onMounted(() => {
     recordList.value = JSON.parse(saved)
   }
 })
+
+// 상세보기 모달 열기
+const showDetail = (record: {
+  title: string
+  date: string
+  imageUrl?: string
+  content: string
+}) => {
+  selectedRecord.value = record
+  showRecordDetail.value = true
+}
 
 // 기록 생성 페이지 이동
 const goToCreate = () => {
