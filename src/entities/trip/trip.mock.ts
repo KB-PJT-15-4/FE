@@ -13,7 +13,7 @@ import {
 // 여행 리스트
 export const userTripListMockData: TripInfo[] = [
   {
-    tripId: '1',
+    tripId: 1,
     tripName: '즐거운 부산여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
@@ -21,7 +21,7 @@ export const userTripListMockData: TripInfo[] = [
     locationName: '부산',
   },
   {
-    tripId: '2',
+    tripId: 2,
     tripName: '춘식이보러 제주도여행',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
@@ -29,7 +29,7 @@ export const userTripListMockData: TripInfo[] = [
     locationName: '서울',
   },
   {
-    tripId: '3',
+    tripId: 3,
     tripName: '프랑스로 와인마시러가자',
     startDate: '2024-10-30',
     endDate: '2024-11-03',
@@ -41,36 +41,33 @@ export const userTripListMockData: TripInfo[] = [
 // [메인페이지, 여행페이지] 예매내역 여행 당 예약내역 리스트
 export const userReservationListMockData: UserReservationList[] = [
   {
-    id: '1',
-    tripId: '1',
-    type: ItemType.Accommodation,
-    title: '모아 호텔',
+    itemId: 1,
+    resKind: ItemType.Accommodation,
+    name: '모아 호텔',
     date: '2025-10-23 10:23:42',
     imageUrl:
       'https://i.namu.wiki/i/kBobJDcw7LXN0tECxpFdEy17p7UEPQglVw7517nfpfA-MA8g06OPoZR4KXRWHpkMxuDA_Yw2KczKWAWfWdnuwg.webp',
   },
   {
-    id: '2',
-    tripId: '1',
-    type: ItemType.Restaurant,
-    title: '철구네 술집',
+    itemId: 2,
+    resKind: ItemType.Restaurant,
+    name: '철구네 술집',
     date: '2025-10-24 10:23:42',
     imageUrl: 'https://media-cdn.tripadvisor.com/media/photo-s/19/19/45/ad/140.jpg',
   },
   {
-    id: '3',
-    tripId: '1',
-    title: 'KTX 35',
-    type: ItemType.Transportation,
+    itemId: 3,
+    name: 'KTX 35',
+    resKind: ItemType.Transportation,
     date: '2025-10-22 02:03:10',
     imageUrl:
       'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg',
   },
   {
-    id: '4',
-    tripId: '1',
-    type: ItemType.Restaurant,
-    title: '철구네 술집',
+    itemId: 4,
+
+    resKind: ItemType.Restaurant,
+    name: '철구네 술집',
     date: '2025-10-24 10:23:42',
     imageUrl: 'https://media-cdn.tripadvisor.com/media/photo-s/19/19/45/ad/140.jpg',
   },
@@ -78,7 +75,7 @@ export const userReservationListMockData: UserReservationList[] = [
 
 // [여헹 페이지] 여행 기본 정보
 export const tripInformationMockData: TripInfo = {
-  tripId: '1',
+  tripId: 1,
   tripName: '즐거운 부산여행',
   startDate: '2024-10-30',
   endDate: '2024-11-03',

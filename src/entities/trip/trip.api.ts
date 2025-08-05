@@ -99,4 +99,10 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation`,
     method: Method.POST,
   }),
+  getReservationList: (tripId: number, resKind: string | null, page: number, size: number) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation?tripId=${tripId}${
+      resKind ? `&resKind=${resKind}` : ''
+    }&page=${page}&size=${size}`,
+    method: Method.GET,
+  }),
 }

@@ -51,7 +51,7 @@ export enum StatusType {
 
 // 여행 리스트
 export interface TripInfo {
-  tripId: string
+  tripId: number
   tripName: string
   startDate: string
   endDate: string
@@ -68,12 +68,11 @@ export interface TripMember {
 
 // [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트
 export interface UserReservationList {
-  id: string // 예매 id
-  tripId: string // 여행 id
-  type: ItemType // 숙박, 교통, 식당
-  title: string // 예매 장소 이름
-  date: string // 예매 날짜
-  imageUrl: string // 예매 사진
+  name: string
+  itemId: number
+  date: string
+  resKind: string
+  imageUrl: string
 }
 
 // [여행 페이지] 예매 가능 항목

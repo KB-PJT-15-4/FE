@@ -3,12 +3,16 @@
     <div class="flex gap-4">
       <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center">
         <img
-          :src="reservation.imageUrl"
+          :src="
+            reservation.resKind === 'TRANSPORT'
+              ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'
+              : reservation.imageUrl
+          "
           class="h-[40px] w-[40px]"
         >
       </div>
       <div>
-        <TypographySubTitle1>{{ reservation.title }}</TypographySubTitle1>
+        <TypographySubTitle1>{{ reservation.name }}</TypographySubTitle1>
         <TypographyP2>{{ formatFullDateToKorean(new Date(reservation.date)) }}</TypographyP2>
       </div>
     </div>

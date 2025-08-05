@@ -6,10 +6,7 @@
       :options="toggleOptions"
     />
     <div v-if="selectedOption === 'reservationList'">
-      <MyReservationList
-        :page="page"
-        :total-page="totalCount"
-      />
+      <MyReservationList :trip-id="Number(tripId)" />
     </div>
     <div v-if="selectedOption === 'reservation'">
       <Reservation />
@@ -53,9 +50,7 @@ const route = useRoute()
 const router = useRouter()
 
 const selectedOption = ref<TabValue>((route.query.tab as TabValue) || 'reservation')
-
-const page = computed(() => Number(route.query.page ?? 1))
-const totalCount = ref(10)
+const tripId = route.params.tripId as string
 
 const currentLabel = computed({
   get: () => labelForTab[selectedOption.value],
