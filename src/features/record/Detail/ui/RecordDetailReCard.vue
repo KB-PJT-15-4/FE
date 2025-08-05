@@ -1,8 +1,8 @@
 <template>
   <div>
     <Card
-      v-for="reservation in reservationList"
-      :key="reservation.itemId"
+      v-for="(reservation, index) in reservationList"
+      :key="`${reservation.itemId || 'item'}-${index}`"
       class="flex justify-between mb-2"
     >
       <div class="flex gap-4">
