@@ -84,6 +84,10 @@ import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 const selectedTripId = ref<number | null>(null)
 const selectedTrip = ref<TripInfo | undefined>(undefined)
 const tripList = ref<TripInfo[]>([])
+const selectedFilter = ref(filterTabOptions[0])
+const showIdCard = ref(false)
+const showDriversLicenseCard = ref(false)
+const reservationList = ref<UserReservationList[]>([])
 
 const tripOptions = computed(() =>
   tripList.value.map((trip) => ({
@@ -92,18 +96,24 @@ const tripOptions = computed(() =>
   }))
 )
 
-const selectedFilter = ref(filterTabOptions[0])
-const showIdCard = ref(false)
-const showDriversLicenseCard = ref(false)
-const reservationList = ref<UserReservationList[]>([])
-
-// 여행 목록 불러오기
 async function getTripListFunction(page: number) {
   const result = await getTripList(localStorage.getItem('accessToken')!, page, 10)
   tripList.value = result.content
 }
 
-// 예매 내역 불러오기
+const selectedOption = computed(() => {
+  switch (selectedFilter.value) {
+    case '교통':
+      return 'TRANSPORT'
+    case '숙박':
+      return 'ACCOMMODATION'
+    case '식당':
+      return 'RESTAURANT'
+    default:
+      return null
+  }
+})
+
 async function getMyReservationListFunction() {
   if (!selectedTrip.value) return
   const result = await getMyReservationList(
@@ -111,7 +121,7 @@ async function getMyReservationListFunction() {
     selectedTrip.value.tripId,
     0,
     10,
-    null
+    selectedOption.value
   )
 
   reservationList.value = result.content
@@ -120,6 +130,12 @@ async function getMyReservationListFunction() {
 watch(selectedTripId, (newTripId) => {
   selectedTrip.value = tripList.value.find((trip) => trip.tripId === Number(newTripId))
 
+  if (selectedTrip.value) {
+    getMyReservationListFunction()
+  }
+})
+
+watch(selectedFilter, () => {
   if (selectedTrip.value) {
     getMyReservationListFunction()
   }
