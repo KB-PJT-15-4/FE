@@ -1,7 +1,18 @@
 export const filterTabOptions = ['전체', '교통', '숙박', '식당']
 export const locationList = ['서울역', '부산역', '대구역', '인천역', '광주역', '대전역', '울산역']
 
-export const timeOptions = ['07:30', '10:00', '12:30', '14:00', '15:30', '18:00', '19:30', '21:00']
+export const timeOptions = [
+  '07:30',
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+  '18:00',
+]
 export const containers = ['1칸', '2칸', '3칸', '4칸', '5칸', '6칸', '7칸', '8칸', '9칸', '10칸']
 export const reservationTime = [
   '10:00',
@@ -92,7 +103,7 @@ export interface TransportationReservation extends BaseReservationInfo {
   origin: string
   destination: string
   date: string
-  seat: string[]
+
   time: string
 }
 
@@ -105,6 +116,10 @@ export interface TransportationItem {
   transportId: number
   departureName: string
   trainNo: string
+  origin?: string
+  destination?: string
+  startDate?: string
+  startTime?: string
 }
 
 export interface AccommodationItem {
@@ -120,6 +135,7 @@ export interface RestaurantItem {
   restName: string
   restImageUrl: string
   description: string
+  address?: string
 }
 
 export interface RestaurantCategory {
@@ -134,6 +150,15 @@ export interface RestaurantTimeSlot {
   maxNum: number
   reservedNum: number
   availableNum: number
+}
+
+export interface RoomType {
+  accomResId: number
+  maxGuests: number
+  hotelName: string
+  price: number
+  roomType: string
+  roomImageUrl: string
 }
 
 // 좌석 엔티티

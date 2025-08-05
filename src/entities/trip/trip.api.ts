@@ -33,6 +33,10 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/${restId}/times?date=${date}`,
     method: Method.GET,
   }),
+  reservationRestaurant: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant`,
+    method: Method.POST,
+  }),
   getMemberList: (tripId: string) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trip-members?tripId=${tripId}`,
     method: Method.GET,
@@ -63,6 +67,36 @@ export const trip = {
   }),
   selectSeat: () => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/seats`,
+    method: Method.POST,
+  }),
+  reservationTransportation: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/pay`,
+    method: Method.POST,
+  }),
+  cancelTransportReservation: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/transport/cancel`,
+    method: Method.POST,
+  }),
+  getAccommodationInfo: (accomId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation-detail?accomId=${accomId}`,
+    method: Method.GET,
+  }),
+  getRoomList: (
+    tripId: string,
+    accomId: string,
+    checkinDay: string,
+    checkoutDay: string,
+    guests: number
+  ) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation-rooms?accomId=${accomId}&tripId=${tripId}&checkinDay=${checkinDay}&checkoutDay=${checkoutDay}&guests=${guests}`,
+    method: Method.GET,
+  }),
+  getRestaurantInfo: (restId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/restaurant/restId?restId=${restId}`,
+    method: Method.GET,
+  }),
+  reservationAccommodation: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/accommodation`,
     method: Method.POST,
   }),
 }

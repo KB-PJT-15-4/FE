@@ -107,6 +107,39 @@ export async function getAvailableTimeTimeList(token: string, restId: string, da
   return res.data
 }
 
+export async function reservationRestaurant(
+  token: string,
+  tripId: number,
+  restId: number,
+  date: string,
+  time: string,
+  resNum: number
+) {
+  const { url, method } = API_END_POINT.trip.reservationRestaurant()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      tripId,
+      restId,
+      date,
+      time,
+      resNum,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
 export async function getTransportationSeatsStatus(token: string, transportId: string) {
   const { url, method } = API_END_POINT.trip.getSeatsStatus(transportId)
   const result = await fetch(url, {
@@ -144,6 +177,160 @@ export async function selectSeat(
       tripId,
       tranResIds,
       departureDateTime: reservationDateTime,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function reservationTransportation(
+  token: string,
+  reservationId: number,
+  price: number
+) {
+  const { url, method } = API_END_POINT.trip.reservationTransportation()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      reservationId,
+      price,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function cancelTransportationReservation(token: string, reservationId: number) {
+  const { url, method } = API_END_POINT.trip.cancelTransportReservation()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      reservationId,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function getAccommodationInfo(token: string, accomId: string) {
+  const { url, method } = API_END_POINT.trip.getAccommodationInfo(accomId)
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function getRoomList(
+  token: string,
+  tripId: string,
+  accomId: string,
+  checkinDay: string,
+  checkoutDay: string,
+  guests: number
+) {
+  const { url, method } = API_END_POINT.trip.getRoomList(
+    tripId,
+    accomId,
+    checkinDay,
+    checkoutDay,
+    guests
+  )
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function getRestaurantInfo(token: string, restId: string) {
+  const { url, method } = API_END_POINT.trip.getRestaurantInfo(restId)
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}
+
+export async function reservationAccommodation(
+  token: string,
+  tripId: number,
+  accomResId: number,
+  checkinday: string,
+  checkoutday: string,
+  guests: number,
+  price: number
+) {
+  const { url, method } = API_END_POINT.trip.reservationAccommodation()
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      tripId,
+      accomResId,
+      checkinday,
+      checkoutday,
+      guests,
+      price,
     }),
   })
 

@@ -7,8 +7,10 @@ import RecordCreate from '@/pages/record/RecordCreate.vue'
 import RecordDetail from '@/pages/record/RecordDetail.vue'
 import Map from '@/pages/record/RecordMap.vue'
 import RecordReport from '@/pages/record/RecordReport.vue'
-import Reservation from '@/pages/reservation/Reservation.vue'
+import ReservationAccommodation from '@/pages/reservation/ReservationAccommodation.vue'
+import ReservationRestaurant from '@/pages/reservation/ReservationRestaurant.vue'
 import ReservationStatus from '@/pages/reservation/ReservationStatus.vue'
+import ReservationTransportation from '@/pages/reservation/ReservationTransportation.vue'
 import SelectSeat from '@/pages/reservation/SelectSeat.vue'
 import Test from '@/pages/Test.vue'
 import CreateTrip from '@/pages/trip/CreateTrip.vue'
@@ -62,9 +64,19 @@ const router = createRouter({
       component: TripDetail,
     },
     {
-      path: '/trip/:tripId/reservation',
-      name: 'reservation',
-      component: Reservation,
+      path: '/trip/:tripId/reservation/accommodation',
+      name: 'reservation_accommodation',
+      component: ReservationAccommodation,
+    },
+    {
+      path: '/trip/:tripId/reservation/transportation',
+      name: 'reservation_transportation',
+      component: ReservationTransportation,
+    },
+    {
+      path: '/trip/:tripId/reservation/restaurant',
+      name: 'reservation_restaurant',
+      component: ReservationRestaurant,
     },
     {
       path: '/trip/:tripId/reservation/pay/status',

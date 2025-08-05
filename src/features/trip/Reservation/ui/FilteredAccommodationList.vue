@@ -33,7 +33,7 @@
             }
 
             router.push({
-              name: 'reservation',
+              name: 'reservation_accommodation',
               params: { tripId },
               query,
             })

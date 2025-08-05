@@ -27,6 +27,7 @@
             const query: Record<string, string | number> = {
               type: ItemType.Transportation,
               itemId: item.transportId,
+              trainNo: item.trainNo,
               start_date: selectedStartDate,
               origin: selectedOrigin,
               destination: selectedDestination,
