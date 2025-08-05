@@ -14,7 +14,7 @@
       </TypographySubTitle1>
 
       <TypographySubTitle1
-        v-if="reservationList.length === 0"
+        v-if="tripId && reservationList.length === 0"
         class="w-full mt-4 text-center text-moa-sub-text"
       >
         예매 내역이 존재하지 않습니다.
