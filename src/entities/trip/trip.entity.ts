@@ -131,6 +131,7 @@ export interface RestaurantItem {
   restName: string
   restImageUrl: string
   description: string
+  address?: string
 }
 
 export interface RestaurantCategory {

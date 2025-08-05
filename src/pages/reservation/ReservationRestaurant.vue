@@ -1,10 +1,11 @@
 <template>
   <div class="flex w-full flex-col gap-3">
     <TypographyHead3>예약하기</TypographyHead3>
-    <!-- <ItemInfo
+    <ItemInfoRestaurant
+      v-if="item"
       :item="item"
       class="mb-3"
-    /> -->
+    />
 
     <div class="h-[430px]">
       <!-- 식당 -->
@@ -77,14 +78,16 @@
 <script setup lang="ts">
 import {
   ItemType,
+  type RestaurantItem,
   type RestaurantReservation,
   type RestaurantTimeSlot,
 } from '@/entities/trip/trip.entity'
-import { reservationItemInfoMockData } from '@/entities/trip/trip.mock'
 import {
   getAvailableTimeTimeList,
+  getRestaurantInfo,
   reservationRestaurant,
 } from '@/features/trip/Reservation/services/reservation.service'
+import ItemInfoRestaurant from '@/features/trip/Reservation/ui/ItemInfoRestaurant.vue'
 // import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
@@ -105,7 +108,7 @@ const tripId = route.params.tripId as string
 
 const type = route.query.type as ItemType
 const itemId = route.query.itemId as string
-const item = reservationItemInfoMockData // 추후 itemId, type을 통해 받아올 예정
+const item = ref<RestaurantItem>() // 추후 itemId, type을 통해 받아올 예정
 
 const selectedN = ref(1)
 
@@ -162,7 +165,12 @@ async function reservationRestaurantFunction() {
   }
 }
 
+async function getRestaurantInfoFunction() {
+  item.value = await getRestaurantInfo(localStorage.getItem('accessToken')!, itemId)
+}
+
 onMounted(() => {
+  getRestaurantInfoFunction()
   if (type === ItemType.Restaurant) {
     getAvailableTimeListFunction()
   }

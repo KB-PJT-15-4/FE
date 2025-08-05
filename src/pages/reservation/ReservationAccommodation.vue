@@ -156,6 +156,8 @@ async function getRoomListFunction() {
   )
 }
 
+async function reservationAccommodationFunction() {}
+
 onMounted(() => {
   getAccommodationInfoFunction()
   getRoomListFunction()
