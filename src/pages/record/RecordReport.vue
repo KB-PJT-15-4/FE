@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col gap-4 p-4">
+  <div class="w-full flex flex-col gap-4">
     <div class="flex items-center justify-between mb-4">
       <h1 class="text-xl font-bold">
         결제 내역 리포트

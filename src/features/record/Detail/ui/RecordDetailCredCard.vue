@@ -11,7 +11,7 @@
     <Card
       v-for="payment in paymentRecords"
       :key="payment.paymentId"
-      class="flex justify-between items-center p-4"
+      class="flex justify-between items-center p-4 mb-2"
     >
       <div>
         <p class="text-sm text-[#626262]">
