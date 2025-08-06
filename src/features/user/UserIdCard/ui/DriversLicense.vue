@@ -12,35 +12,39 @@
         <div class="flex flex-col justify-center text-center">
           <TypographyHead3>자동차운전면허증</TypographyHead3>
           <TypographyP2>(Driver's License)</TypographyP2>
-          <TypographyP1>{{ idCard.licenseType }}</TypographyP1>
+          <TypographyP1>{{ driversLicense.licenseType }}</TypographyP1>
         </div>
 
         <div class="flex flex-col justify-center items-center text-center gap-3 w-full">
           <img
-            :src="idCard.imageUrl"
+            :src="driversLicense.imageUrl"
             class="w-[100px] mb-4"
           >
           <div class="flex flex-col">
             <TypographyHead2 class="font-semibold">
-              {{ formatDriversLicenseCardNumber(idCard.licenseNumber) }}
+              {{ formatDriversLicenseCardNumber(driversLicense.licenseNumber) }}
             </TypographyHead2>
             <TypographyHead3 class="font-medium">
-              {{ idCard.name }}
+              {{ driversLicense.name }}
             </TypographyHead3>
 
-            <TypographyP1>{{ formatIdCardNumber(idCard.idCardNumber) }}</TypographyP1>
+            <TypographyP1>{{ formatIdCardNumber(driversLicense.idCardNumber) }}</TypographyP1>
             <TypographyP2>
-              기간: ~ {{ formatFullDateToKorean(new Date(idCard.expiryDate)) }}
+              기간: ~ {{ formatFullDateToKorean(new Date(driversLicense.expiryDate)) }}
             </TypographyP2>
           </div>
         </div>
-        <TypographyHead3>{{ formatFullDateToKorean(new Date(idCard.issueDate)) }}</TypographyHead3>
+        <TypographyHead3>
+          {{
+            formatFullDateToKorean(new Date(driversLicense.issuedDate))
+          }}
+        </TypographyHead3>
       </div>
     </Card>
   </div>
 </template>
-<script setup>
-import { userDriversLicenseMockData } from '@/entities/user/user.mock'
+<script setup lang="ts">
+import type { UserDriversLicenseCard } from '@/entities/user/user.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
@@ -53,6 +57,9 @@ import {
 } from '@/shared/utils/format'
 import { defineEmits } from 'vue'
 
+defineProps<{
+  driversLicense: UserDriversLicenseCard
+}>()
+
 const emit = defineEmits(['close'])
-const idCard = userDriversLicenseMockData
 </script>

@@ -1,11 +1,13 @@
 <template>
   <div class="w-full flex flex-col gap-5">
     <IdCard
-      v-if="showIdCard"
+      v-if="showIdCard && idCard"
+      :id-card="idCard"
       @close="showIdCard = false"
     />
     <DriversLicense
       v-if="showDriversLicenseCard"
+      :drivers-license="driversLicense"
       @close="showDriversLicenseCard = false"
     />
     <TypographyHead1>강민재님의 전자지갑</TypographyHead1>
@@ -58,7 +60,9 @@ import { getTripList } from '@/features/trip/MyTrip/services/myTrip.service'
 import DriversLicense from '@/features/user/UserIdCard/ui/DriversLicense.vue'
 import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
 
+import type { UserDriversLicenseCard, UserIDCard } from '@/entities/user/user.entity'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
+import { getIdInfo } from '@/features/user/UserIdCard/services/userIdCard.service'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
@@ -72,6 +76,9 @@ const selectedFilter = ref(filterTabOptions[0])
 const showIdCard = ref(false)
 const showDriversLicenseCard = ref(false)
 
+const idCard = ref<UserIDCard | null>(null)
+const driversLicense = ref<UserDriversLicenseCard | null>(null)
+
 const tripOptions = computed(() =>
   tripList.value.map((trip) => ({
     label: trip.tripName,
@@ -84,7 +91,14 @@ async function getTripListFunction(page: number) {
   tripList.value = result.content
 }
 
+async function getIdInfoFunction() {
+  const result = await getIdInfo(localStorage.getItem('accessToken')!)
+  idCard.value = result.idCard
+  driversLicense.value = result.driverLicense
+}
+
 onMounted(() => {
   getTripListFunction(0)
+  getIdInfoFunction()
 })
 </script>
