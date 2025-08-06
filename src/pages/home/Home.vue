@@ -11,18 +11,17 @@
     <TypographyHead1>강민재님의 전자지갑</TypographyHead1>
 
     <Card
-      class="flex justify-center items-center cursor-pointer"
+      class="bg-white flex justify-center items-center cursor-pointer"
       @click="showIdCard = true"
     >
-      <TypographyHead3>주민등록증 조회</TypographyHead3>
+      <TypographyHead3><span class="text-red-500">PASS</span> 주민등록증 조회</TypographyHead3>
     </Card>
     <Card
-      class="flex justify-center items-center cursor-pointer"
+      class="bg-white flex justify-center items-center cursor-pointer"
       @click="showDriversLicenseCard = true"
     >
       <TypographyHead3>운전면허증 조회</TypographyHead3>
     </Card>
-
     <div>
       <TypographyHead3>나의 예매내역</TypographyHead3>
       <TypographyP2 class="text-moa-main-text">

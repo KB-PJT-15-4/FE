@@ -1,21 +1,30 @@
 <template>
-  <div class="mt-2 flex flex-col gap-3">
+  <div class="flex flex-col gap-3">
     <SegmentedTab
       v-model="selectedFilter"
       :options="filterTabOptions"
     />
 
-    <div class="h-[260px] flex flex-col gap-3">
+    <div class="h-[250px] flex flex-col gap-3">
+      <div
+        v-if="!tripId || reservationList.length === 0"
+        class="w-full flex justify-center mt-4"
+      >
+        <img
+          :src="logo"
+          class="h-[180px]"
+        >
+      </div>
       <TypographySubTitle1
         v-if="!tripId"
-        class="w-full mt-4 text-center text-moa-sub-text"
+        class="w-full text-center text-moa-sub-text"
       >
         여행을 먼저 선택해주세요
       </TypographySubTitle1>
 
       <TypographySubTitle1
         v-if="tripId && reservationList.length === 0"
-        class="w-full mt-4 text-center text-moa-sub-text"
+        class="w-full text-center text-moa-sub-text"
       >
         예매 내역이 존재하지 않습니다.
       </TypographySubTitle1>
@@ -37,17 +46,16 @@
 </template>
 
 <script setup lang="ts">
+import logo from '@/assets/bear.jpg'
 import type { UserReservationList } from '@/entities/trip/trip.entity'
 import { filterTabOptions } from '@/entities/trip/trip.entity'
 import { getMyReservationList } from '@/features/trip/MyReservationList/services/myReservationList.service'
-import { computed, ref, watch } from 'vue'
-
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ReservationInfo from './ReservationInfo.vue'
-
 const props = defineProps<{
   tripId: number | null
 }>()

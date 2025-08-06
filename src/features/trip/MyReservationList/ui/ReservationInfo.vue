@@ -16,7 +16,7 @@
         <TypographyP2>{{ formatFullDateToKorean(new Date(reservation.date)) }}</TypographyP2>
       </div>
     </div>
-    <ButtonSmallMain>QR 보기</ButtonSmallMain>
+    <ButtonSmallMain> <i class="bi bi-qr-code-scan mr-1" /> QR 보기</ButtonSmallMain>
   </Card>
 </template>
 <script setup lang="ts">
