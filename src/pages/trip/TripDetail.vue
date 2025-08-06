@@ -1,6 +1,9 @@
 <template>
   <div class="w-full flex flex-col gap-3">
-    <TripInfoBox :trip="trip" />
+    <TripInfoBox
+      v-if="trip"
+      :trip="trip"
+    />
     <ToggleTab
       v-model="currentLabel"
       :options="toggleOptions"
@@ -18,9 +21,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
-import { tripInformationMockData } from '@/entities/trip/trip.mock'
+import type { TripInfo } from '@/entities/trip/trip.entity'
+import { getTripInfo } from '@/features/trip/MyReservationList/services/myReservationList.service'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
 import TripInfoBox from '@/features/trip/MyTrip/ui/TripInfoBox.vue'
 import Reservation from '@/features/trip/Reservation/ui/Reservation.vue'
@@ -28,7 +32,7 @@ import RequestSettlement from '@/features/trip/Settlement/ui/RequestSettlement.v
 import SettlementHistory from '@/features/trip/Settlement/ui/SettlementHistory.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import { useRoute, useRouter } from 'vue-router'
-const trip = tripInformationMockData
+const trip = ref<TripInfo>()
 
 type TabValue = 'reservationList' | 'reservation' | 'settle'
 
@@ -61,5 +65,18 @@ const currentLabel = computed({
 
 watch(selectedOption, (newTab) => {
   router.replace({ query: { tab: newTab } })
+})
+
+async function getTripInfoFunction() {
+  try {
+    trip.value = await getTripInfo(localStorage.getItem('accessToken')!, tripId)
+  } catch (e) {
+    console.error(e)
+    alert('여행 정보를 불러오는데 실패하였습니다.')
+  }
+}
+
+onMounted(() => {
+  getTripInfoFunction()
 })
 </script>
