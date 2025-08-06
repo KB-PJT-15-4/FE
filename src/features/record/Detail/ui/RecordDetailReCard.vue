@@ -8,17 +8,10 @@
       <div class="flex gap-4">
         <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center bg-gray-200">
           <img
-            v-if="reservation.imageUrl"
-            :src="reservation.imageUrl"
-            :alt="reservation.name"
+            :src="reservation.imageUrl || 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'"
+            :alt="reservation.name || 'Default Image'"
             class="h-[40px] w-[40px] object-cover"
           >
-          <div
-            v-else
-            class="text-gray-400 text-xs"
-          >
-            No Image
-          </div>
         </div>
         <div>
           <TypographySubTitle1>{{ reservation.name }}</TypographySubTitle1>
@@ -28,7 +21,7 @@
         </div>
       </div>
     </Card>
-    
+
     <!-- 데이터가 없을 때 표시 -->
     <div
       v-if="reservationList.length === 0"
