@@ -27,7 +27,10 @@
 
     <!-- 결제 내역 -->
     <div v-else-if="selectedOption === 'credit'">
-      <RecordDetailCredCard :trip-id="tripId" />
+      <RecordDetailCredCard 
+        :trip-id="tripId" 
+        :selected-date="selectedDate"
+      />
     </div>
 
     <!-- 사용자 작성 기록 및 추가 버튼 -->

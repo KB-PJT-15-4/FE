@@ -5,7 +5,7 @@
         결제 내역 리포트
       </h1>
       <button
-        class="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
+        class="px-4 py-2 text-sm text-[#626262] bg-[#87BFFF] rounded-md"
         @click="goBack"
       >
         뒤로가기
@@ -47,7 +47,7 @@
       >
         <div class="flex justify-between items-center">
           <span class="text-lg font-semibold">총 결제 금액:</span>
-          <span class="text-xl font-bold text-blue-600">
+          <span class="text-xl font-bold text-[#87BFFF]">
             {{ formatCurrency(totalAmount) }}
           </span>
         </div>

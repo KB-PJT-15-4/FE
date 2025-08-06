@@ -9,7 +9,7 @@
   <!-- 결제 내역 카드들 -->
   <div>
     <Card
-      v-for="payment in paymentRecords"
+      v-for="payment in filteredPaymentRecords"
       :key="payment.paymentId"
       class="flex justify-between items-center p-4 mb-2"
     >
@@ -28,16 +28,16 @@
 
     <!-- 데이터가 없을 때 표시 -->
     <div
-      v-if="paymentRecords.length === 0"
+      v-if="filteredPaymentRecords.length === 0"
       class="text-center py-8 text-gray-500"
     >
-      결제 내역이 없습니다.
+      {{ selectedDate ? '선택한 날짜에 결제 내역이 없습니다.' : '결제 내역이 없습니다.' }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
 
@@ -48,14 +48,29 @@ import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSm
 
 import type { ApiPaymentRecord } from '@/entities/record/record.entity'
 
-const { tripId } = defineProps<{
+const { tripId, selectedDate } = defineProps<{
   tripId: number
+  selectedDate?: string
 }>()
 
 const router = useRouter()
 const route = useRoute()
 
 const paymentRecords = ref<ApiPaymentRecord[]>([])
+
+// 선택된 날짜에 따라 결제 내역을 필터링
+const filteredPaymentRecords = computed(() => {
+  if (!selectedDate) {
+    return paymentRecords.value
+  }
+  
+  return paymentRecords.value.filter(payment => {
+    const paymentDate = new Date(payment.paymentDate)
+    const selectedDateObj = new Date(selectedDate)
+    
+    return paymentDate.toDateString() === selectedDateObj.toDateString()
+  })
+})
 
 // 결제 내역 API 호출
 const fetchPaymentRecords = async () => {
@@ -83,14 +98,16 @@ const fetchPaymentRecords = async () => {
   } 
 }
 
+watch(() => selectedDate, () => {
+}, { immediate: true })
+
+onMounted(() => {
+  fetchPaymentRecords()
+})
+
 // RecordReport.vue 페이지로 이동
 const navigateToReport = () => {
   const tripId = route.params.tripId
   router.push(`/record/${tripId}/report`)
 }
-
-// 컴포넌트 마운트 시 데이터 로드
-onMounted(() => {
-  fetchPaymentRecords()
-})
 </script>
