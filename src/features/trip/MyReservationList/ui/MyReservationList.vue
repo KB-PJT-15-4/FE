@@ -40,7 +40,15 @@
       v-if="totalPage > 1"
       :total-page="totalPage"
       :active-page="currentPage"
-      @change="(page: number) => (currentPage = page)"
+      @change="
+        (page: number) => {
+          const query = {
+            ...route.query,
+            page: page.toString(),
+          }
+          router.push({ path: route.path, query })
+        }
+      "
     />
   </div>
 </template>
@@ -54,16 +62,44 @@ import TypographySubTitle1 from '@/shared/components/atoms/typography/Typography
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import SegmentedTab from '@/shared/components/molecules/tab/SegmentedTab.vue'
 import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import ReservationInfo from './ReservationInfo.vue'
 const props = defineProps<{
   tripId: number | null
 }>()
 const route = useRoute()
-const selectedFilter = ref(filterTabOptions[0])
+const router = useRouter()
+
+const selectedFilter = ref(
+  filterTabOptions.find((option) => mapOptionToQueryParam(option) === route.query.type) ??
+    filterTabOptions[0]
+)
 const currentPage = ref(Number(route.query.page ?? 1))
 const reservationList = ref<UserReservationList[]>([])
 const totalPage = ref(0)
+
+watch(selectedFilter, (newFilter) => {
+  const query = {
+    ...route.query,
+    type: mapOptionToQueryParam(newFilter),
+    page: '1',
+  }
+  router.replace({ path: route.path, query })
+})
+
+function mapOptionToQueryParam(option: string): string | undefined {
+  switch (option) {
+    case '교통':
+      return 'TRANSPORT'
+    case '숙박':
+      return 'ACCOMMODATION'
+    case '식당':
+      return 'RESTAURANT'
+    case '전체':
+    default:
+      return undefined
+  }
+}
 
 const selectedOption = computed(() => {
   switch (selectedFilter.value) {
