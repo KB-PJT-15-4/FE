@@ -9,4 +9,8 @@ export const user = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/my-id`,
     method: Method.GET,
   }),
+  getIdQR: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/qr/idcard`,
+    method: Method.GET,
+  }),
 }

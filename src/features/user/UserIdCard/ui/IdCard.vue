@@ -30,7 +30,11 @@
           :src="idCard.imageUrl"
           class="w-[130px] mb-4"
         >
-        <!-- <img v-if="qrShow" :src="'data:image/png;base64,' + idCard.qrUrl" class="h-[182px] mb-4" /> -->
+        <img
+          v-if="qrShow"
+          :src="'data:image/png;base64,' + qrString"
+          class="h-[182px] mb-4"
+        >
         <div class="text-center">
           <TypographyHead2>{{ idCard.name }}</TypographyHead2>
           <TypographySubTitle2>{{ formatIdCardNumber(idCard.idCardNumber) }}</TypographySubTitle2>
@@ -51,7 +55,8 @@ import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatFullDateToKorean, formatIdCardNumber } from '@/shared/utils/format'
-import { defineEmits, ref } from 'vue'
+import { defineEmits, onMounted, ref } from 'vue'
+import { getIdQR } from '../services/userIdCard.service'
 
 defineProps<{
   idCard: UserIDCard
@@ -59,4 +64,17 @@ defineProps<{
 
 const emit = defineEmits(['close'])
 const qrShow = ref(false)
+const qrString = ref<string>('')
+
+async function getQRFunction() {
+  try {
+    qrString.value = await getIdQR(localStorage.getItem('accessToken')!)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+onMounted(() => {
+  getQRFunction()
+})
 </script>
