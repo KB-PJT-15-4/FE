@@ -3,16 +3,20 @@
     class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-50 flex justify-center items-center"
   >
     <Card class="bg-white h-[550px]">
-      <TypographyHead1>예약권</TypographyHead1>
       <div class="w-full flex justify-end">
         <button @click="emit('close')">
           <i class="bi bi-x text-[30px]" />
         </button>
       </div>
-      <img
-        :src="'data:image/png;base64,' + qrString"
-        class="h-[182px] mb-4"
-      >
+      <TypographyHead1 class="text-center">
+        예약권
+      </TypographyHead1>
+      <div class="w-full flex justify-center">
+        <img
+          :src="'data:image/png;base64,' + qrString"
+          class="h-[182px] mb-4"
+        >
+      </div>
     </Card>
   </div>
 </template>
