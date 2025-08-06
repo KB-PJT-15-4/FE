@@ -27,7 +27,7 @@
 
     <!-- 결제 내역 -->
     <div v-else-if="selectedOption === 'credit'">
-      <RecordDetailCredCard :credit-list="creditMockData" />
+      <RecordDetailCredCard :trip-id="tripId" />
     </div>
 
     <!-- 사용자 작성 기록 및 추가 버튼 -->
@@ -38,7 +38,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { creditMockData } from '@/entities/map/map.mock'
 
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 
@@ -86,4 +85,3 @@ watch(selectedOption, (newTab) => {
   })
 })
 </script>
-

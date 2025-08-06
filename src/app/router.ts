@@ -119,7 +119,7 @@ const router = createRouter({
       component: RecordCreate,
     },
     {
-      path: '/record/:tripId/detail/:recordId',
+      path: '/record/:tripId/report',
       name: 'record_report',
       component: RecordReport,
     },

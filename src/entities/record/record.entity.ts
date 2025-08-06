@@ -15,3 +15,10 @@ export interface ApiReservationItem {
   createdAt: string
   resKind: string
 }
+
+export interface ApiPaymentRecord {
+  paymentId: number
+  paymentName: string
+  paymentPrice: number
+  paymentDate: string
+}
