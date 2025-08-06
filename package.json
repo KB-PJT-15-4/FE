@@ -11,6 +11,7 @@
     "pre-commit": "lint-staged"
   },
   "dependencies": {
+    "@zxing/browser": "^0.1.5",
     "axios": "^1.11.0",
     "bootstrap-icons": "^1.13.1",
     "pinia": "^3.0.3",
