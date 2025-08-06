@@ -1,4 +1,4 @@
-export enum NotificationTye {
+export enum NotificationType {
   TRIP = 'trip',
   SETTLE = 'settle',
 }
@@ -29,7 +29,7 @@ export interface UserDriversLicenseCard {
 export interface UserNotification {
   id: string
   tripId: string
-  type: NotificationTye
+  type: NotificationType
   sender: string // 알림 보낸 사람
   tripName: string // 여행 이름
 }

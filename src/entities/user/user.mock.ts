@@ -1,5 +1,5 @@
 import {
-  NotificationTye,
+  NotificationType,
   type UserDriversLicenseCard,
   type UserIDCard,
   type UserNotification,
@@ -35,14 +35,14 @@ export const userNotificationMockData: UserNotification[] = [
   {
     id: '1',
     tripId: '2',
-    type: NotificationTye.SETTLE,
+    type: NotificationType.SETTLE,
     sender: '강민재',
     tripName: '즐거운 부산여행',
   },
   {
     id: '2',
     tripId: '2',
-    type: NotificationTye.TRIP,
+    type: NotificationType.TRIP,
     sender: '강민재',
     tripName: '즐거운 부산여행',
   },
