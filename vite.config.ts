@@ -1,4 +1,5 @@
 import vue from '@vitejs/plugin-vue'
+import fs from 'fs'
 import path from 'path'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -40,18 +41,18 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  // server: Object.assign(
-  //   {
-  //     host: true,
-  //     port: 5173,
-  //   },
-  //   isDev && fs.existsSync('./certs/key.pem') && fs.existsSync('./certs/cert.pem')
-  //     ? {
-  //         https: {
-  //           key: fs.readFileSync('./certs/key.pem'),
-  //           cert: fs.readFileSync('./certs/cert.pem'),
-  //         },
-  //       }
-  //     : {}
-  // ),
+  server: Object.assign(
+    {
+      host: true,
+      port: 5173,
+    },
+    isDev && fs.existsSync('./certs/key.pem') && fs.existsSync('./certs/cert.pem')
+      ? {
+          https: {
+            key: fs.readFileSync('./certs/key.pem'),
+            cert: fs.readFileSync('./certs/cert.pem'),
+          },
+        }
+      : {}
+  ),
 })

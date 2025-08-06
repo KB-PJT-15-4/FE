@@ -9,7 +9,7 @@ export interface UserIDCard {
   imageUrl: string // 주민등록증 이미지
   issuedDate: string // 발급일자
   address?: string /// 주민등록상 주소지
-  birthday: string
+  birthday?: string
 }
 
 // [메인페이지] 운전면허증 엔티티
