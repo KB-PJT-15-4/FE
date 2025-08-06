@@ -9,13 +9,28 @@
     </div>
 
     <div class="h-full w-full flex flex-col justify-start items-center p-5">
-      <button
-        class="bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
-        @click="onClickCameraButton"
-      >
-        <i class="bi bi-qr-code-scan text-[30px]" />
-        <TypographySubTitle1>QR 코드 스캔하기</TypographySubTitle1>
-      </button>
+      <div class="flex w-full gap-4">
+        <button
+          class="bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
+          @click="onClickIdCameraButton"
+        >
+          <i class="bi bi-qr-code-scan text-[30px]" />
+          <TypographySubTitle1>
+            PASS<br>
+            QR 코드 스캔
+          </TypographySubTitle1>
+        </button>
+        <button
+          class="bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
+          @click="onClickReservationCameraButton"
+        >
+          <i class="bi bi-qr-code-scan text-[30px]" />
+          <TypographySubTitle1>
+            예약권<br>
+            QR 코드 스캔
+          </TypographySubTitle1>
+        </button>
+      </div>
       <TypographySubTitle2>고객의 QR 코드를 스캔하여 </TypographySubTitle2>
       <TypographySubTitle2>예매 정보를 확인하세요</TypographySubTitle2>
     </div>
@@ -30,7 +45,11 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-function onClickCameraButton() {
-  router.push({ name: 'camera' })
+function onClickIdCameraButton() {
+  router.push({ name: 'id_camera' })
+}
+
+function onClickReservationCameraButton() {
+  router.push({ name: 'reservation_camera' })
 }
 </script>

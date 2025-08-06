@@ -17,4 +17,8 @@ export const user = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/public/qr/idcard?data=${data}`,
     method: Method.GET,
   }),
+  getDecodeReservationQR: (data: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/public/qr/reservation?data=${data}`,
+    method: Method.GET,
+  }),
 }

@@ -105,4 +105,8 @@ export const trip = {
     }&page=${page}&size=${size}`,
     method: Method.GET,
   }),
+  getReservationQr: (itemId: number) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/member/qr/reservation?reservationId=${itemId}`,
+    method: Method.GET,
+  }),
 }
