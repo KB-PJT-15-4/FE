@@ -3,9 +3,13 @@ import Login from '@/pages/auth/Login.vue'
 import SignUp from '@/pages/auth/SignUp.vue'
 import Home from '@/pages/home/Home.vue'
 import Notification from '@/pages/home/Notification.vue'
-import Camera from '@/pages/owner/Camera.vue'
+
+import IdCamera from '@/pages/owner/IdCamera.vue'
+import IdInfo from '@/pages/owner/IdInfo.vue'
 import Owner from '@/pages/owner/Owner.vue'
+import ReservationCamera from '@/pages/owner/ReservationCamera.vue'
 import ReservationInfo from '@/pages/owner/ReservationInfo.vue'
+
 import RecordCreate from '@/pages/record/RecordCreate.vue'
 import RecordDetail from '@/pages/record/RecordDetail.vue'
 import Map from '@/pages/record/RecordMap.vue'
@@ -139,13 +143,25 @@ const router = createRouter({
       meta: { owner: true },
     },
     {
-      path: '/owner/camera',
-      name: 'camera',
-      component: Camera,
+      path: '/owner/id/camera',
+      name: 'id_camera',
+      component: IdCamera,
       meta: { owner: true },
     },
     {
-      path: '/owner/reservation_info',
+      path: '/owner/id/info',
+      name: 'id_info',
+      component: IdInfo,
+      meta: { owner: true },
+    },
+    {
+      path: '/owner/reservation/camera',
+      name: 'reservation_camera',
+      component: ReservationCamera,
+      meta: { owner: true },
+    },
+    {
+      path: '/owner/reservation/info',
       name: 'reservation_info',
       component: ReservationInfo,
       meta: { owner: true },

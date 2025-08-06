@@ -32,7 +32,7 @@
         >
         <img
           v-if="qrShow"
-          :src="'data:image/png;base64,' + idCard.qrUrl"
+          :src="'data:image/png;base64,' + qrString"
           class="h-[182px] mb-4"
         >
         <div class="text-center">
@@ -41,13 +41,13 @@
           <TypographySubTitle2>{{ idCard.address }}</TypographySubTitle2>
         </div>
 
-        <TypographyHead3>{{ formatFullDateToKorean(new Date(idCard.issueDate)) }}</TypographyHead3>
+        <TypographyHead3>{{ formatFullDateToKorean(new Date(idCard.issuedDate)) }}</TypographyHead3>
       </div>
     </Card>
   </div>
 </template>
-<script setup>
-import { userIdCardMockData } from '@/entities/user/user.mock'
+<script setup lang="ts">
+import { type UserIDCard } from '@/entities/user/user.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Tag from '@/shared/components/atoms/tag/Tag.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
@@ -55,9 +55,26 @@ import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatFullDateToKorean, formatIdCardNumber } from '@/shared/utils/format'
-import { defineEmits, ref } from 'vue'
+import { defineEmits, onMounted, ref } from 'vue'
+import { getIdQR } from '../services/userIdCard.service'
+
+defineProps<{
+  idCard: UserIDCard
+}>()
 
 const emit = defineEmits(['close'])
 const qrShow = ref(false)
-const idCard = userIdCardMockData
+const qrString = ref<string>('')
+
+async function getQRFunction() {
+  try {
+    qrString.value = await getIdQR(localStorage.getItem('accessToken')!)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+onMounted(() => {
+  getQRFunction()
+})
 </script>

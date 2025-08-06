@@ -1,4 +1,9 @@
 <template>
+  <ReservationInfoCard
+    v-if="showInfoCard"
+    :item-id="reservation.itemId"
+    @close="showInfoCard = false"
+  />
   <Card class="flex justify-between">
     <div class="flex gap-4">
       <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center">
@@ -16,7 +21,9 @@
         <TypographyP2>{{ formatFullDateToKorean(new Date(reservation.date)) }}</TypographyP2>
       </div>
     </div>
-    <ButtonSmallMain> <i class="bi bi-qr-code-scan mr-1" /> QR 보기</ButtonSmallMain>
+    <ButtonSmallMain @click="showInfoCard = true">
+      <i class="bi bi-qr-code-scan mr-1" /> QR 보기
+    </ButtonSmallMain>
   </Card>
 </template>
 <script setup lang="ts">
@@ -26,6 +33,9 @@ import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import { ref } from 'vue'
+import ReservationInfoCard from './ReservationInfoCard.vue'
 
 defineProps<{ reservation: UserReservationList }>()
+const showInfoCard = ref(false)
 </script>
