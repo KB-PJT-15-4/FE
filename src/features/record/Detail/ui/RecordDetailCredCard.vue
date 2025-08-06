@@ -14,16 +14,12 @@
       class="flex justify-between items-center p-4 mb-2"
     >
       <div>
-        <p class="text-sm text-[#626262]">
+        <TypographySubTitle1>{{ payment.paymentName }}</TypographySubTitle1>
+        <TypographyP2 class="text-[#626262]">
           {{ formatFullDateToKorean(new Date(payment.paymentDate)) }}
-        </p>
-        <p class="font-semibold text-base">
-          {{ payment.paymentName }}
-        </p>
+        </TypographyP2>
       </div>
-      <p class="font-bold text-lg">
-        {{ formatCurrency(payment.paymentPrice) }}
-      </p>
+      <TypographyHead2>{{ formatCurrency(payment.paymentPrice) }}</TypographyHead2>
     </Card>
 
     <!-- 데이터가 없을 때 표시 -->
@@ -45,8 +41,12 @@ import axios from 'axios'
 
 import Card from '@/shared/components/atoms/card/Card.vue'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 
 import type { ApiPaymentRecord } from '@/entities/record/record.entity'
+
 
 const { tripId, selectedDate } = defineProps<{
   tripId: number

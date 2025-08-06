@@ -1,15 +1,13 @@
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="flex items-center justify-between mb-4">
-      <h1 class="text-xl font-bold">
-        결제 내역 리포트
-      </h1>
-      <button
-        class="px-4 py-2 text-sm text-[#626262] bg-[#87BFFF] rounded-md"
+      <TypographyHead2>결제 내역 리포트</TypographyHead2>
+      <ButtonExtraSmallMain
+        class="text-sm"
         @click="goBack"
       >
-        뒤로가기
-      </button>
+        뒤로이동
+      </ButtonExtraSmallMain>
     </div>
 
     <!-- 결제 내역 카드들 -->
@@ -20,16 +18,12 @@
         class="flex justify-between items-center p-4 mb-2"
       >
         <div>
-          <p class="text-sm text-[#626262]">
+          <TypographySubTitle1>{{ payment.paymentName }}</TypographySubTitle1>
+          <TypographyP2 class="text-[#626262]">
             {{ formatFullDateToKorean(new Date(payment.paymentDate)) }}
-          </p>
-          <p class="font-semibold text-base">
-            {{ payment.paymentName }}
-          </p>
+          </TypographyP2>
         </div>
-        <p class="font-bold text-lg">
-          {{ formatCurrency(payment.paymentPrice) }}
-        </p>
+        <TypographyHead2>{{ formatCurrency(payment.paymentPrice) }}</TypographyHead2>
       </Card>
 
       <!-- 데이터가 없을 때 표시 -->
@@ -67,8 +61,13 @@ import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
 import axios from 'axios'
 
 import Card from '@/shared/components/atoms/card/Card.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
+import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 
 import type { ApiPaymentRecord } from '@/entities/record/record.entity'
+
 
 const route = useRoute()
 const router = useRouter()
