@@ -9,9 +9,9 @@
     </div>
 
     <div class="h-full w-full flex flex-col justify-start items-center p-5">
-      <div class="flex w-full gap-4">
+      <div class="flex w-full gap-4 justify-between">
         <button
-          class="bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
+          class="w-full bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
           @click="onClickIdCameraButton"
         >
           <i class="bi bi-qr-code-scan text-[30px]" />
@@ -21,7 +21,7 @@
           </TypographySubTitle1>
         </button>
         <button
-          class="bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
+          class="w-full bg-moa-main p-6 h-[130px] text-white rounded-md flex flex-col gap-4 justify-center items-center mb-6"
           @click="onClickReservationCameraButton"
         >
           <i class="bi bi-qr-code-scan text-[30px]" />

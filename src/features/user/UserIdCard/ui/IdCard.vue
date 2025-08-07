@@ -43,6 +43,19 @@
 
         <TypographyHead3>{{ formatFullDateToKorean(new Date(idCard.issuedDate)) }}</TypographyHead3>
       </div>
+      <div class="marquee-wrapper">
+        <div class="marquee">
+          <span>
+            🔒 본 정보는 QR 인증을 통해 검증된 사용자 정보입니다. 정지된 화면은 무효 처리됩니다.
+          </span>
+          <span>
+            🔒 본 정보는 QR 인증을 통해 검증된 사용자 정보입니다. 정지된 화면은 무효 처리됩니다.
+          </span>
+          <span>
+            🔒 본 정보는 QR 인증을 통해 검증된 사용자 정보입니다. 정지된 화면은 무효 처리됩니다.
+          </span>
+        </div>
+      </div>
     </Card>
   </div>
 </template>
@@ -78,3 +91,34 @@ onMounted(() => {
   getQRFunction()
 })
 </script>
+<style scoped>
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.marquee {
+  display: inline-flex;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee span {
+  padding-right: 4rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+</style>
