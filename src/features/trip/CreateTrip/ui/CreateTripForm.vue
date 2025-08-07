@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="flex justify-between">
-      <ButtonMediumSub @click="router.push({ name: 'trip_list' })">
+      <ButtonMediumSub @click="onClickCancelButton">
         <TypographyHead3>취소</TypographyHead3>
       </ButtonMediumSub>
       <ButtonMediumMain @click="onClickCreateButton">
@@ -148,6 +148,12 @@ async function onClickCreateButton() {
       console.error(e)
       alert('여행을 생성하지 못하였습니다.')
     }
+  }
+}
+
+function onClickCancelButton() {
+  if (window.confirm('여행 만들기를 취소하시겠습니까?\n작성하신 내용은 저장되지 않습니다')) {
+    router.push({ name: 'trip_list' })
   }
 }
 </script>
