@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[500px]">
+  <div class="h-[520px]">
     <div
       v-for="(trip, index) in tripList"
       :key="index"
@@ -10,7 +10,7 @@
     </div>
   </div>
   <Pagination
-    :total-page="totalPage - 1"
+    :total-page="totalPage"
     :active-page="currentPage"
   />
 </template>
@@ -27,16 +27,16 @@ const router = useRouter()
 
 const tripList = ref<TripInfo[]>([])
 const totalPage = ref<number>(0)
-const currentPage = computed(() => Number(route.query.page ?? 1))
+const currentPage = computed(() => Number(route.query.page ?? 0))
 
 async function getTripListFunction(page: number) {
-  const result = await getTripList(localStorage.getItem('accessToken')!, page, 4)
+  const result = await getTripList(localStorage.getItem('accessToken')!, page, 5)
   tripList.value = result.content
   totalPage.value = result.totalPages
 }
 
 watch(currentPage, async (newPage) => {
-  getTripListFunction(newPage)
+  getTripListFunction(newPage - 1)
 })
 
 onMounted(() => {
