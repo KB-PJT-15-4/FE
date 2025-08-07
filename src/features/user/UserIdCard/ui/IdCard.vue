@@ -8,7 +8,7 @@
           <i class="bi bi-x text-[30px]" />
         </button>
       </div>
-      <div class="flex flex-col justify-center items-center gap-3 pb-9">
+      <div class="flex flex-col justify-center items-center gap-3 pb-6">
         <Tag
           v-if="!qrShow"
           color="ghost"
@@ -28,7 +28,7 @@
         <img
           v-if="!qrShow"
           :src="idCard.imageUrl"
-          class="w-[130px] mb-4"
+          class="h-[182px] mb-4"
         >
         <img
           v-if="qrShow"
