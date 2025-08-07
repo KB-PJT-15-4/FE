@@ -27,7 +27,7 @@ export const user = {
   }),
   postNotification: () => ({
     // 수락, 거절
-    url: `${import.meta.env.VITE_APP_API_URL}/api/notification`,
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trip-notification`,
     method: Method.POST,
   }),
   readNotification: () => ({

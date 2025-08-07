@@ -6,7 +6,7 @@ export async function getNotifications(token: string) {
   const result = await fetch(url, {
     method: method,
     headers: {
-      Authorizations: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   })
 
@@ -25,12 +25,12 @@ export async function postNotification(
   tripId: number,
   notificationId: number
 ) {
-  const { url, method } = API_END_POINT.user.getNotifications()
+  const { url, method } = API_END_POINT.user.postNotification()
 
   const result = await fetch(url, {
     method: method,
     headers: {
-      Authorizations: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -55,7 +55,7 @@ export async function readNotification(token: string, tripId: number, notificati
   const result = await fetch(url, {
     method: method,
     headers: {
-      Authorizations: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
