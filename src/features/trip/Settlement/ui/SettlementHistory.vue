@@ -35,6 +35,10 @@
       {{ settlement.status }}
     </ButtonSmallSub>
   </Card>
+  <Pagination
+    :total-page="totalPage"
+    :active-page="currentPage"
+  />
 </template>
 <script setup lang="ts">
 import { SettlementStatus, type UserSettlement } from '@/entities/trip/trip.entity'
@@ -43,8 +47,9 @@ import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import { formatDateTime, formatNumber } from '@/shared/utils/format'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getSettleList } from '../services/settlement.service'
 
@@ -52,18 +57,25 @@ const router = useRouter()
 const route = useRoute()
 const tripId = route.params.tripId as string
 const settleList = ref<UserSettlement[]>([])
+const totalPage = ref<number>(0)
+const currentPage = computed(() => Number(route.query.page ?? 1))
 
-async function getSettleListFunction() {
+async function getSettleListFunction(page: number) {
   try {
-    const result = await getSettleList(localStorage.getItem('accessToken')!, tripId)
+    const result = await getSettleList(localStorage.getItem('accessToken')!, tripId, page, 3)
     settleList.value = result.content
+    totalPage.value = result.totalPages
   } catch (e) {
     console.error(e)
     alert('정산 내역을 불러오는데 실패하였습니다.')
   }
 }
 
+watch(currentPage, async (newPage) => {
+  getSettleListFunction(newPage - 1)
+})
+
 onMounted(() => {
-  getSettleListFunction()
+  getSettleListFunction(0)
 })
 </script>

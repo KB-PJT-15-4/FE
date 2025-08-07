@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-between w-full max-w-[355px]">
+  <div class="flex justify-start overflow-x-scroll w-full gap-3">
     <button
       v-for="date in dateList"
       :key="date"
       :class="[
-        'w-10 h-10 rounded-full border border-moa-gray text-gray-700 flex items-center justify-center transition',
+        'min-w-10 w-10 h-10 rounded-full border border-moa-gray text-gray-700 flex items-center justify-center transition',
         modelValue === date ? 'bg-moa-gray font-bold' : 'bg-white',
       ]"
       @click="selectDate(date)"

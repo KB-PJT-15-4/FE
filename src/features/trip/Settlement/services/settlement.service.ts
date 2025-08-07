@@ -19,8 +19,8 @@ export async function getMemberList(token: string, tripId: string) {
   return res.data
 }
 
-export async function getSettleList(token: string, tripId: string) {
-  const { url, method } = API_END_POINT.trip.getSettleList(tripId)
+export async function getSettleList(token: string, tripId: string, page: number, size: number) {
+  const { url, method } = API_END_POINT.trip.getSettleList(tripId, page, size)
   const result = await fetch(url, {
     method: method,
     headers: {

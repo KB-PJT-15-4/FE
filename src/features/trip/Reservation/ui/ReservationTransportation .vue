@@ -10,7 +10,7 @@
           placeholder="출발지 선택"
         >
           <Option
-            v-for="(location, index) in locationList"
+            v-for="(location, index) in transportStationNameList"
             :key="index"
             :value="location"
           >
@@ -27,7 +27,7 @@
           placeholder="도착지 선택"
         >
           <Option
-            v-for="(location, index) in locationList"
+            v-for="(location, index) in transportStationNameList"
             :key="index"
             :value="location"
           >
@@ -85,7 +85,11 @@
   />
 </template>
 <script setup lang="ts">
-import { locationList, timeOptions, type TransportationItem } from '@/entities/trip/trip.entity'
+import {
+  timeOptions,
+  transportStationNameList,
+  type TransportationItem,
+} from '@/entities/trip/trip.entity'
 import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
@@ -99,8 +103,8 @@ import FilteredTransportationList from './FilteredTransportationList.vue'
 
 const availableReservationList = ref<TransportationItem[] | null>(null)
 
-const selectedOrigin = ref(locationList[0])
-const selectedDestination = ref(locationList[1])
+const selectedOrigin = ref(transportStationNameList[0])
+const selectedDestination = ref(transportStationNameList[1])
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])
@@ -112,6 +116,10 @@ provide('selectedOrigin', selectedOrigin)
 provide('selectedDestination', selectedDestination)
 
 async function getAvailableTransportList() {
+  if (selectedOrigin.value === selectedDestination.value) {
+    alert('출발지와 도착지는 달라야합니다.')
+    return
+  }
   try {
     const result = await getTransportList(
       localStorage.getItem('accessToken')!,

@@ -71,6 +71,11 @@ provide('selectedStartDate', selectedStartDate)
 provide('selectedEndDate', selectedEndDate)
 
 async function getAvailableAccommodationList() {
+  if (selectedStartDate.value >= selectedEndDate.value) {
+    alert('입실 날짜는 퇴실날짜보다 이전이어야합니다.')
+    return
+  }
+
   try {
     const result = await getAccommodationList(
       localStorage.getItem('accessToken')!,

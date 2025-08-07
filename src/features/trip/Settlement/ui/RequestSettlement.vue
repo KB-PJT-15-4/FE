@@ -1,15 +1,22 @@
 <template>
   <div class="w-full mt-7 flex flex-col gap-2">
     <TypographyHead3>정산 요청하기</TypographyHead3>
-    <TypographyP2> 정산 요청 금액</TypographyP2>
+    <TypographyP2 class="ml-1">
+      정산 제목
+    </TypographyP2>
+
+    <Input
+      v-model="settlementMemo"
+      placeholder="정산 제목을 입력해주세요 (예: 숙소비, 교통비 등)"
+    />
+    <TypographyP2 class="ml-1">
+      정산 요청 금액
+    </TypographyP2>
     <Input
       v-model="settlementAmount"
       type="number"
     />
-    <Input
-      v-model="settlementMemo"
-      placeholder="간단한 메모를 입력해주세요 (최대 30자)"
-    />
+
     <TypographySubTitle2
       v-if="settlementMemberList.length == 0"
       class="text-moa-main-text w-full text-center py-4"
@@ -59,7 +66,7 @@
       </button>
     </div>
     <ButtonMain
-      :disabled="settlementMemberList.length == 0"
+      :disabled="settlementMemberList.length == 0 || settlementAmount == 0 || settlementMemo == ''"
       @click="makeSettlementFunction"
     >
       정산 요청 보내기

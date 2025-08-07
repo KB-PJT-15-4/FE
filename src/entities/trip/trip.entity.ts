@@ -1,5 +1,14 @@
 export const filterTabOptions = ['전체', '교통', '숙박', '식당']
-export const locationList = ['서울역', '부산역', '대구역', '인천역', '광주역', '대전역', '울산역']
+export const locationList = ['서울', '부산', '대구', '인천', '광주', '대전', '울산']
+export const transportStationNameList = [
+  '서울역',
+  '부산역',
+  '대구역',
+  '인천역',
+  '광주역',
+  '대전역',
+  '울산역',
+]
 
 export const timeOptions = [
   '07:30',
