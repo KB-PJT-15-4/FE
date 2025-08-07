@@ -8,8 +8,8 @@
         v-model="tripName"
         placeholder="여행 제목을 입력해주세요"
       />
-      <div class="flex justify-between">
-        <div>
+      <div class="flex w-full justify-between gap-2">
+        <div class="w-full">
           <TypographySubTitle2 class="text-moa-main-text">
             시작 날짜
           </TypographySubTitle2>
@@ -18,7 +18,7 @@
             type="date"
           />
         </div>
-        <div>
+        <div class="w-full">
           <TypographySubTitle2 class="text-moa-main-text">
             종료 날짜
           </TypographySubTitle2>
@@ -120,6 +120,16 @@ function removeMember(id: number) {
 }
 
 async function onClickCreateButton() {
+  if (startTime.value >= endTime.value) {
+    alert('시작 날짜는 종료 날짜보다 이전이어야 합니다.')
+    return
+  }
+
+  if (tripName.value === '') {
+    alert('여행 제목은 필수 입력사항입니다.')
+    return
+  }
+
   const membersId = memberList.value.map((value) => value.id)
 
   if (window.confirm('여행을 생성하시겠습니까?')) {

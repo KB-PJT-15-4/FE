@@ -10,7 +10,7 @@
           placeholder="출발지 선택"
         >
           <Option
-            v-for="(location, index) in locationList"
+            v-for="(location, index) in transportStationNameList"
             :key="index"
             :value="location"
           >
@@ -27,7 +27,7 @@
           placeholder="도착지 선택"
         >
           <Option
-            v-for="(location, index) in locationList"
+            v-for="(location, index) in transportStationNameList"
             :key="index"
             :value="location"
           >
@@ -85,7 +85,12 @@
   />
 </template>
 <script setup lang="ts">
-import { locationList, timeOptions, type TransportationItem } from '@/entities/trip/trip.entity'
+import {
+  locationList,
+  timeOptions,
+  transportStationNameList,
+  type TransportationItem,
+} from '@/entities/trip/trip.entity'
 import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
