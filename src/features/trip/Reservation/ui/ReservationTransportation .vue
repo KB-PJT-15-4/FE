@@ -116,6 +116,10 @@ provide('selectedOrigin', selectedOrigin)
 provide('selectedDestination', selectedDestination)
 
 async function getAvailableTransportList() {
+  if (selectedOrigin.value === selectedDestination.value) {
+    alert('출발지와 도착지는 달라야합니다.')
+    return
+  }
   try {
     const result = await getTransportList(
       localStorage.getItem('accessToken')!,
