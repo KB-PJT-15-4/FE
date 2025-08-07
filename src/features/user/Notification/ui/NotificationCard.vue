@@ -65,6 +65,7 @@ async function postNotificationFunction(type: string, tripId: number, notificati
       if (window.confirm('여행 초대 알림을 거절하시겠습니까?')) {
         await postNotification(localStorage.getItem('accessToken')!, type, tripId, notificationId)
         alert('여행 초대 거절이 완료되었습니다.')
+        router.go(0)
       }
     }
   } catch (e) {
