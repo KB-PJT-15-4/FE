@@ -1,6 +1,6 @@
 export enum NotificationType {
-  TRIP = 'trip',
-  SETTLE = 'settle',
+  TRIP = 'TRIP',
+  SETTLE = 'SETTLE',
 }
 // [메인페이지] 주민등록증 엔티티
 export interface UserIDCard {
@@ -26,9 +26,10 @@ export interface UserDriversLicenseCard {
 
 // [알림페이지] 알림 엔티티
 export interface UserNotification {
-  id: string
-  tripId: string
-  type: NotificationType
+  notificationId: number
+  tripId: number
+  expenseId: null | number
+  notificationType: NotificationType
   sender: string // 알림 보낸 사람
   tripName: string // 여행 이름
 }

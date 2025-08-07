@@ -6,11 +6,11 @@
       @close="showIdCard = false"
     />
     <DriversLicense
-      v-if="showDriversLicenseCard"
+      v-if="showDriversLicenseCard && driversLicense"
       :drivers-license="driversLicense"
       @close="showDriversLicenseCard = false"
     />
-    <TypographyHead1>강민재님의 전자지갑</TypographyHead1>
+    <TypographyHead1>{{ name }} 님의 전자지갑</TypographyHead1>
 
     <Card
       class="bg-white flex justify-center items-center cursor-pointer"
@@ -70,7 +70,7 @@ import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
-const selectedTripId = ref<number | null>(null)
+const selectedTripId = ref<string | null>(null)
 const tripList = ref<TripInfo[]>([])
 const selectedFilter = ref(filterTabOptions[0])
 const showIdCard = ref(false)
@@ -79,6 +79,7 @@ const showDriversLicenseCard = ref(false)
 const idCard = ref<UserIDCard | null>(null)
 const driversLicense = ref<UserDriversLicenseCard | null>(null)
 
+const name = localStorage.getItem('name') || idCard.value?.name
 const tripOptions = computed(() =>
   tripList.value.map((trip) => ({
     label: trip.tripName,
@@ -95,6 +96,9 @@ async function getIdInfoFunction() {
   const result = await getIdInfo(localStorage.getItem('accessToken')!)
   idCard.value = result.idCard
   driversLicense.value = result.driverLicense
+  if (localStorage.getItem('name') !== idCard.value!.name) {
+    localStorage.setItem('name', idCard.value!.name)
+  }
 }
 
 onMounted(() => {

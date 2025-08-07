@@ -29,17 +29,19 @@ export const userDriversLicenseMockData: UserDriversLicenseCard = {
 
 export const userNotificationMockData: UserNotification[] = [
   {
-    id: '1',
-    tripId: '2',
-    type: NotificationType.SETTLE,
+    notificationId: 1,
+    tripId: 2,
+    notificationType: NotificationType.SETTLE,
     sender: '강민재',
     tripName: '즐거운 부산여행',
+    expenseId: 1,
   },
   {
-    id: '2',
-    tripId: '2',
-    type: NotificationType.TRIP,
+    notificationId: 2,
+    tripId: 2,
+    notificationType: NotificationType.TRIP,
     sender: '강민재',
     tripName: '즐거운 부산여행',
+    expenseId: null,
   },
 ]

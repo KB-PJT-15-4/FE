@@ -65,7 +65,7 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ReservationInfo from './ReservationInfo.vue'
 const props = defineProps<{
-  tripId: number | null
+  tripId: number | string | null
 }>()
 const route = useRoute()
 const router = useRouter()
@@ -119,7 +119,7 @@ async function fetchReservationList() {
 
   const result = await getMyReservationList(
     localStorage.getItem('accessToken')!,
-    props.tripId,
+    Number(props.tripId),
     currentPage.value - 1,
     3,
     selectedOption.value
