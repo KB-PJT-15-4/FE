@@ -86,7 +86,6 @@
 </template>
 <script setup lang="ts">
 import {
-  locationList,
   timeOptions,
   transportStationNameList,
   type TransportationItem,
@@ -104,8 +103,8 @@ import FilteredTransportationList from './FilteredTransportationList.vue'
 
 const availableReservationList = ref<TransportationItem[] | null>(null)
 
-const selectedOrigin = ref(locationList[0])
-const selectedDestination = ref(locationList[1])
+const selectedOrigin = ref(transportStationNameList[0])
+const selectedDestination = ref(transportStationNameList[1])
 
 const today = new Date()
 const selectedStartDate = ref(today.toISOString().split('T')[0])
