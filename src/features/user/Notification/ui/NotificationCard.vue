@@ -11,7 +11,11 @@
         </TypographyP1>
       </div>
       <div class="flex w-full justify-end gap-2 mt-2">
-        <ButtonExtraSmallMain>이동</ButtonExtraSmallMain>
+        <ButtonExtraSmallMain
+          @click="() => readNotificationFunction(notification.tripId, notification.notificationId)"
+        >
+          이동
+        </ButtonExtraSmallMain>
       </div>
     </div>
 
@@ -48,7 +52,7 @@ import ButtonExtraSmallSub from '@/shared/components/atoms/button/ButtonExtraSma
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import { useRouter } from 'vue-router'
-import { postNotification } from '../services/notification.service'
+import { postNotification, readNotification } from '../services/notification.service'
 
 defineProps<{ notification: UserNotification }>()
 const router = useRouter()
@@ -71,6 +75,22 @@ async function postNotificationFunction(type: string, tripId: number, notificati
   } catch (e) {
     console.error(e)
     alert(`여행 ${type}을 완료하지 못하였습니다.`)
+  }
+}
+
+async function readNotificationFunction(tripId: number, notificationId: number) {
+  try {
+    if (window.confirm('정산 페이지로 이동하시겠습니까?')) {
+      const result = await readNotification(
+        localStorage.getItem('accessToken')!,
+        tripId,
+        notificationId
+      )
+      router.replace({ name: 'trip_detail', params: { tripId: tripId }, query: { tab: 'settle' } })
+    }
+  } catch (e) {
+    console.error(e)
+    alert('정산 페이지로 이동하지 못하였습니다.')
   }
 }
 </script>
