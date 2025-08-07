@@ -26,10 +26,12 @@ export const user = {
     method: Method.GET,
   }),
   postNotification: () => ({
+    // 수락, 거절
     url: `${import.meta.env.VITE_APP_API_URL}/api/notification`,
     method: Method.POST,
   }),
   readNotification: () => ({
+    // 정산 읽음
     url: `${import.meta.env.VITE_APP_API_URL}/api/settle-notification`,
     method: Method.POST,
   }),
