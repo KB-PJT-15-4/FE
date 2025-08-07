@@ -42,6 +42,7 @@ export const userTripListMockData: TripInfo[] = [
 export const userReservationListMockData: UserReservationList[] = [
   {
     itemId: 1,
+    reservationId: 1,
     resKind: ItemType.Accommodation,
     name: '모아 호텔',
     date: '2025-10-23 10:23:42',
@@ -50,6 +51,7 @@ export const userReservationListMockData: UserReservationList[] = [
   },
   {
     itemId: 2,
+    reservationId: 2,
     resKind: ItemType.Restaurant,
     name: '철구네 술집',
     date: '2025-10-24 10:23:42',
@@ -57,6 +59,7 @@ export const userReservationListMockData: UserReservationList[] = [
   },
   {
     itemId: 3,
+    reservationId: 3,
     name: 'KTX 35',
     resKind: ItemType.Transportation,
     date: '2025-10-22 02:03:10',
@@ -65,7 +68,7 @@ export const userReservationListMockData: UserReservationList[] = [
   },
   {
     itemId: 4,
-
+    reservationId: 4,
     resKind: ItemType.Restaurant,
     name: '철구네 술집',
     date: '2025-10-24 10:23:42',

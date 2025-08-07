@@ -79,6 +79,7 @@ export interface TripMember {
 export interface UserReservationList {
   name: string
   itemId: number
+  reservationId: number
   date: string
   resKind: string
   imageUrl: string

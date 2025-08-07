@@ -1,7 +1,7 @@
 <template>
   <ReservationInfoCard
     v-if="showInfoCard"
-    :item-id="reservation.itemId"
+    :item-id="reservation.reservationId"
     @close="showInfoCard = false"
   />
   <Card class="flex justify-between">
