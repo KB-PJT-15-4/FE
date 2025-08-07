@@ -21,4 +21,16 @@ export const user = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/public/qr/reservation?data=${data}`,
     method: Method.GET,
   }),
+  getNotifications: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/notification`,
+    method: Method.GET,
+  }),
+  postNotification: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/notification`,
+    method: Method.POST,
+  }),
+  readNotification: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/settle-notification`,
+    method: Method.POST,
+  }),
 }
