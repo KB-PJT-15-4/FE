@@ -119,6 +119,21 @@ function removeMember(id: number) {
   memberList.value = newMemberList
 }
 
+function convertLocationToEng(locationName: string) {
+  switch (location.value) {
+    case '서울':
+      return 'SEOUL'
+    case '제주':
+      return 'JEJU'
+    case '강릉':
+      return 'GANGNEUNG'
+    case '부산':
+      return 'BUSAN'
+    default:
+      return 'BUSAN'
+  }
+}
+
 async function onClickCreateButton() {
   if (startTime.value >= endTime.value) {
     alert('시작 날짜는 종료 날짜보다 이전이어야 합니다.')
@@ -139,7 +154,7 @@ async function onClickCreateButton() {
         tripName.value,
         formatFullDateToKorean2(new Date(startTime.value)),
         formatFullDateToKorean2(new Date(endTime.value)),
-        'BUSAN',
+        convertLocationToEng(location.value),
         membersId
       )
       alert('여행 생성이 완료되었습니다.\n여행 페이지로 이동합니다.')
