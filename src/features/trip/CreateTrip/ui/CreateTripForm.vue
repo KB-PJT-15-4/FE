@@ -119,7 +119,7 @@ function removeMember(id: number) {
   memberList.value = newMemberList
 }
 
-function convertLocationToEng(locationName: string) {
+function convertLocationToEng() {
   switch (location.value) {
     case '서울':
       return 'SEOUL'
@@ -154,7 +154,7 @@ async function onClickCreateButton() {
         tripName.value,
         formatFullDateToKorean2(new Date(startTime.value)),
         formatFullDateToKorean2(new Date(endTime.value)),
-        convertLocationToEng(location.value),
+        convertLocationToEng(),
         membersId
       )
       alert('여행 생성이 완료되었습니다.\n여행 페이지로 이동합니다.')
