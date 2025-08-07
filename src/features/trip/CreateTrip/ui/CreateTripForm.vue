@@ -132,8 +132,8 @@ async function onClickCreateButton() {
         'BUSAN',
         membersId
       )
-
-      router.push({ name: 'trip_detail', params: { tripId: result.tripId } })
+      alert('여행 생성이 완료되었습니다.\n여행 페이지로 이동합니다.')
+      router.push({ name: 'trip_detail', params: { tripId: String(result) } })
     } catch (e) {
       console.error(e)
       alert('여행을 생성하지 못하였습니다.')
