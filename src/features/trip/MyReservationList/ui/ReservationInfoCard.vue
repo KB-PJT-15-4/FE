@@ -14,7 +14,7 @@
       <div class="w-full flex justify-center">
         <img
           :src="'data:image/png;base64,' + qrString"
-          class="h-[182px] mb-4"
+          class="h-[240px] mb-4"
         >
       </div>
     </Card>
