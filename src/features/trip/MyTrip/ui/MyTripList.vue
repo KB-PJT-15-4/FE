@@ -27,7 +27,7 @@ const router = useRouter()
 
 const tripList = ref<TripInfo[]>([])
 const totalPage = ref<number>(0)
-const currentPage = computed(() => Number(route.query.page ?? 0))
+const currentPage = computed(() => Number(route.query.page ?? 1))
 
 async function getTripListFunction(page: number) {
   const result = await getTripList(localStorage.getItem('accessToken')!, page, 5)
