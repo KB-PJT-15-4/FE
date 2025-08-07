@@ -81,11 +81,7 @@ async function postNotificationFunction(type: string, tripId: number, notificati
 async function readNotificationFunction(tripId: number, notificationId: number) {
   try {
     if (window.confirm('정산 페이지로 이동하시겠습니까?')) {
-      const result = await readNotification(
-        localStorage.getItem('accessToken')!,
-        tripId,
-        notificationId
-      )
+      await readNotification(localStorage.getItem('accessToken')!, tripId, notificationId)
       router.replace({ name: 'trip_detail', params: { tripId: tripId }, query: { tab: 'settle' } })
     }
   } catch (e) {
