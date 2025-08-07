@@ -20,6 +20,7 @@ import ReservationStatus from '@/pages/reservation/ReservationStatus.vue'
 import ReservationTransportation from '@/pages/reservation/ReservationTransportation.vue'
 import SelectSeat from '@/pages/reservation/SelectSeat.vue'
 import Test from '@/pages/Test.vue'
+import AddMember from '@/pages/trip/AddMember.vue'
 import CreateTrip from '@/pages/trip/CreateTrip.vue'
 import PaySettle from '@/pages/trip/PaySettle.vue'
 import PaySettleStatus from '@/pages/trip/PaySettleStatus.vue'
@@ -99,6 +100,11 @@ const router = createRouter({
       path: '/trip/create',
       name: 'create_trip',
       component: CreateTrip,
+    },
+    {
+      path: '/trip/:tripId/add_member',
+      name: 'add_member',
+      component: AddMember,
     },
     {
       path: '/trip/:tripId/settle/:settleId',
