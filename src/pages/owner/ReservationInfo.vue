@@ -22,7 +22,7 @@
       </TypographyHead1>
       <div
         v-if="reservationInfo!.type === 'ACCOMMODATION'"
-        class="w-full flex flex-col justify-center items-center gap-4 h-[55vh]"
+        class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
         <TypographyHead3 class="mb-7">
           {{ (reservationInfo as AccommodationItem).hotelName }}
@@ -60,7 +60,7 @@
       </div>
       <div
         v-if="reservationInfo!.type === 'RESTAURANT'"
-        class="w-full flex flex-col justify-center items-center gap-4 h-[55vh]"
+        class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
         <TypographyHead3 class="mb-7">
           {{ (reservationInfo as RestaurantItem).restName }}
@@ -92,9 +92,6 @@
         v-if="reservationInfo!.type === 'TRANSPORT'"
         class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
-        <TypographyHead3 class="mb-7">
-          {{ (reservationInfo as TransportationItem).trainNo }}
-        </TypographyHead3>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             열차 명
