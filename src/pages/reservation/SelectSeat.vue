@@ -45,6 +45,7 @@
       </ButtonMediumMain>
     </div>
   </div>
+  <p>{{ disabledSeat }}</p>
 </template>
 <script setup lang="ts">
 import {
@@ -58,7 +59,6 @@ import {
   selectSeat,
 } from '@/features/trip/Reservation/services/reservation.service'
 import ItemInfoTransportation from '@/features/trip/Reservation/ui/ItemInfoTransportation.vue'
-// import ItemInfo from '@/features/trip/Reservation/ui/ItemInfo.vue'
 import SelectSeatBox from '@/features/trip/Reservation/ui/SelectSeatBox.vue'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
@@ -98,23 +98,18 @@ const toggleSeat = (seat: TransportationSeat) => {
   }
 }
 
-async function getTransportationSeatStatusFunction() {
+async function getTransportationSeatStatusFunction(container: string) {
   const result = await getTransportationSeatsStatus(localStorage.getItem('accessToken')!, itemId)
-  seats.value = result['7']
+  seats.value = result[container]
+  setDisabledSeat()
 }
 
 watch(selectedContainer, (newVal) => {
-  if (newVal === '7칸') {
-    getTransportationSeatStatusFunction()
-  } else {
-    seats.value = []
-  }
+  getTransportationSeatStatusFunction(newVal.split('')[0])
 })
 
 onMounted(() => {
-  if (selectedContainer.value === '7칸') {
-    getTransportationSeatStatusFunction()
-  }
+  getTransportationSeatStatusFunction('1')
 })
 
 async function selectSeatFunction() {
@@ -156,6 +151,12 @@ function setItemInfo() {
     startDate: route.query.start_date as string,
     startTime: route.query.start_time as string,
   }
+}
+
+function setDisabledSeat() {
+  disabledSeat.value = seats.value.filter(
+    (seat) => seat.status === 'CONFIRMED' || seat.status === 'PENDING'
+  )
 }
 
 onMounted(() => {

@@ -3,7 +3,7 @@
     :class="[
       'w-[40px] h-[40px] flex justify-center items-center border rounded-sm cursor-pointer',
       selected ? 'bg-moa-main text-white' : 'bg-white text-black',
-      disabled ? 'cursor-not-allowed bg-moa-disabled text-moa-sub-text' : '',
+      disabled ? 'cursor-not-allowed bg-[#e2e2e2] text-[#f3f3f3]' : '',
     ]"
     @click="handleClick"
   >
