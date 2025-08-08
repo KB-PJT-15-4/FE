@@ -4,10 +4,18 @@
       v-if="trip"
       :trip="trip"
     />
-    <ToggleTab
-      v-model="currentLabel"
-      :options="toggleOptions"
-    />
+    <div class="flex justify-between items-center gap-2">
+      <ToggleTab
+        v-model="currentLabel"
+        :options="toggleOptions"
+      />
+      <button
+        class="border rounded-full bg-moa-gray w-[50px] h-[40px] flex justify-center items-center"
+        @click="router.push({ name: 'add_member', params: { tripId: tripId } })"
+      >
+        <i class="bi bi-person-plus text-[22px]" />
+      </button>
+    </div>
     <div v-if="selectedOption === 'reservationList'">
       <MyReservationList :trip-id="Number(tripId)" />
     </div>

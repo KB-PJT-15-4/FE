@@ -5,10 +5,6 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/trips`,
     method: Method.POST,
   }),
-  getTripMembers: (tripId: string) => ({
-    url: `${import.meta.env.VITE_APP_API_URL}/api/trip-members?tripId=${tripId}`,
-    method: Method.GET,
-  }),
   getTripList: (page: number, size: number) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trips?page=${page}&size=${size}`,
     method: Method.GET,
@@ -112,5 +108,9 @@ export const trip = {
   getTripInfo: (tripId: string) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trip-detail?tripId=${tripId}`,
     method: Method.GET,
+  }),
+  inviteMembers: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trips/member`,
+    method: Method.POST,
   }),
 }

@@ -9,7 +9,7 @@ export async function createTrip(
   memberIds: number[]
 ) {
   const { url, method } = API_END_POINT.trip.createTrip()
-  console.log(tripName, startTime, endTime, location, memberIds)
+
   const result = await fetch(url, {
     method: method,
     headers: {
@@ -17,7 +17,6 @@ export async function createTrip(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      memberId: 1,
       tripName,
       startTime,
       endTime,
@@ -50,6 +49,53 @@ export async function getIdByEmail(token: string, email: string) {
     const errorBody = await result.json().catch(() => ({}))
     throw new Error(errorBody.message)
   }
+  const res = await result.json()
+  return res.data
+}
+
+export async function getValidMemberIdByEmail(token: string, email: string, tripId: string) {
+  const { url, method } = API_END_POINT.user.getValidMemberIdByEmail(email, tripId)
+
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const res = await result.json()
+
+  if (!result.ok) {
+    const error: Error & { status?: number; code?: string } = new Error(res.message || '에러 발생')
+    error.status = result.status
+    error.code = res.code
+    throw error
+  }
+
+  return res.data
+}
+
+export async function inviteMembers(token: string, tripId: number, memberIds: number[]) {
+  const { url, method } = API_END_POINT.trip.inviteMembers()
+
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      tripId,
+      memberIds,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
   const res = await result.json()
   return res.data
 }

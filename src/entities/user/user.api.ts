@@ -5,6 +5,10 @@ export const user = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/search-by-email?email=${email}`,
     method: Method.GET,
   }),
+  getValidMemberIdByEmail: (email: string, tripId: string) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/exist-by-email?email=${email}&tripId=${tripId}`,
+    method: Method.GET,
+  }),
   getIdInfo: () => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/my-id`,
     method: Method.GET,
