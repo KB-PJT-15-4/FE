@@ -22,7 +22,7 @@
       </TypographyHead1>
       <div
         v-if="reservationInfo!.type === 'ACCOMMODATION'"
-        class="w-full flex flex-col justify-center items-center gap-4"
+        class="w-full flex flex-col justify-center items-center gap-4 h-[55vh]"
       >
         <TypographyHead3 class="mb-7">
           {{ (reservationInfo as AccommodationItem).hotelName }}
@@ -51,10 +51,46 @@
           </TypographyP1>
           <TypographyP1> {{ (reservationInfo as AccommodationItem).guests }}명</TypographyP1>
         </div>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            예약 상태
+          </TypographyP1>
+          <TypographyP1> {{ (reservationInfo as AccommodationItem).status }}</TypographyP1>
+        </div>
+      </div>
+      <div
+        v-if="reservationInfo!.type === 'RESTAURANT'"
+        class="w-full flex flex-col justify-center items-center gap-4 h-[55vh]"
+      >
+        <TypographyHead3 class="mb-7">
+          {{ (reservationInfo as RestaurantItem).restName }}
+        </TypographyHead3>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            예약 일자
+          </TypographyP1>
+          <TypographyP1>
+            {{ (reservationInfo as RestaurantItem).date }}
+            {{ (reservationInfo as RestaurantItem).time }}
+          </TypographyP1>
+        </div>
+
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            인원
+          </TypographyP1>
+          <TypographyP1> {{ (reservationInfo as RestaurantItem).resNum }}명</TypographyP1>
+        </div>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            예약 상태
+          </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as RestaurantItem).status }} </TypographyP1>
+        </div>
       </div>
       <div
         v-if="reservationInfo!.type === 'TRANSPORT'"
-        class="w-full flex flex-col justify-center items-center gap-4"
+        class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
         <TypographyHead3 class="mb-7">
           {{ (reservationInfo as TransportationItem).trainNo }}
@@ -110,7 +146,7 @@
       </div>
     </div>
     <ButtonMain
-      class="mt-[20vh]"
+      class=""
       @click="router.replace({ name: 'owner' })"
     >
       <TypographyHead3> 메인으로</TypographyHead3>
