@@ -10,6 +10,7 @@
         <i class="bi bi-x text-[#d43a3a] font-extrabold text-[120px]" />
       </div>
       <TypographyHead1>유효하지 않은 QR 정보입니다</TypographyHead1>
+      <TypographySubTitle1>예약권 정보를 확인해주세요</TypographySubTitle1>
     </div>
     <div
       v-else
@@ -24,9 +25,7 @@
         class="w-full flex flex-col justify-center items-center gap-4"
       >
         <TypographyHead3 class="mb-7">
-          {{
-            (reservationInfo as AccommodationItem).hotelName
-          }}
+          {{ (reservationInfo as AccommodationItem).hotelName }}
         </TypographyHead3>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
@@ -53,6 +52,62 @@
           <TypographyP1> {{ (reservationInfo as AccommodationItem).guests }}명</TypographyP1>
         </div>
       </div>
+      <div
+        v-if="reservationInfo!.type === 'TRANSPORT'"
+        class="w-full flex flex-col justify-center items-center gap-4"
+      >
+        <TypographyHead3 class="mb-7">
+          {{ (reservationInfo as TransportationItem).trainNo }}
+        </TypographyHead3>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            열차 명
+          </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).trainNo }} </TypographyP1>
+        </div>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            예매 좌석
+          </TypographyP1>
+          <TypographyP1>
+            {{ (reservationInfo as TransportationItem).seatRoomNo }}칸-{{
+              (reservationInfo as TransportationItem).seatNumber
+            }}
+          </TypographyP1>
+        </div>
+
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            출발지
+          </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).departureName }} </TypographyP1>
+        </div>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            출발 시간
+          </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).departureTime }} </TypographyP1>
+        </div>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            도착지
+          </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).arrivalName }} </TypographyP1>
+        </div>
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            도착 시간
+          </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).arrivalTime }} </TypographyP1>
+        </div>
+
+        <div class="w-full flex gap-4 justify-between">
+          <TypographyP1 class="font-bold">
+            예약 상태
+          </TypographyP1>
+          <TypographyP1> {{ (reservationInfo as TransportationItem).status }}</TypographyP1>
+        </div>
+      </div>
     </div>
     <ButtonMain
       class="mt-[20vh]"
@@ -68,6 +123,7 @@ import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -77,7 +133,7 @@ const data = route.query.result as string
 const reservationInfo = ref<AccommodationItem | RestaurantItem | TransportationItem>()
 
 interface ItemType {
-  type: 'ACCOMMODATION' | 'RESTAURANT' | 'TRANSPORTATION'
+  type: 'ACCOMMODATION' | 'RESTAURANT' | 'TRANSPORT'
   reservationId: number
   status: string
 }
@@ -96,16 +152,21 @@ interface RestaurantItem extends ItemType {
   date: string
   time: string
   resNum: number
+  restName: string
 }
 
 interface TransportationItem extends ItemType {
   tranResId: number
   transportId: number
-  departure: string
-  arrival: string
+  departureName: string
+  arrivalName: string
   seatRoomNo: number
   seatNumber: string
   seatType: string
+  trainNo: string
+  departureTime: string
+  arrivalTime: string
+  bookedAt: string
 }
 
 async function getDecodeQRFunction() {
