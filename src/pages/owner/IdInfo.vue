@@ -4,7 +4,7 @@
     class="w-full h-[100vh] flex flex-col items-center pt-[100px]"
   >
     <div
-      class="border rounded-full bg-[#ff8888] mb-10 h-[140px] w-[140px] flex justify-center items-center"
+      class="border rounded-full bg-[#ff9090] mb-10 h-[140px] w-[140px] flex justify-center items-center"
     >
       <i class="bi bi-x text-[#d43a3a] font-extrabold text-[120px]" />
     </div>
