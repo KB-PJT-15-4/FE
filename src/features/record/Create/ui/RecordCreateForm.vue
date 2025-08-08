@@ -5,6 +5,7 @@
       v-model="title"
       placeholder="제목을 입력해주세요"
       class="border p-2 rounded"
+      maxlength="100"
     />
 
     <!-- 날짜 선택 -->
@@ -13,7 +14,7 @@
         날짜 선택
       </TypographyP1>
       <Input
-        v-model="selectedDate"
+        v-model="recordDate"
         type="date"
         class="border p-2 rounded"
       />
@@ -27,18 +28,19 @@
       class="border p-2 rounded-md resize-none border-[2px]"
       rows="5"
     />
+    
+    <!-- 글자 수 표시 -->
+    <div class="text-sm text-gray-500 text-right">
+      {{ content?.length || 0 }}/800자
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue'
-import type { Ref } from 'vue'
-
 import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 
 const title = defineModel<string>('title')
 const content = defineModel<string>('content')
-
-const selectedDate = inject('selectedDate') as Ref<string>
+const recordDate = defineModel<string>('recordDate')
 </script>

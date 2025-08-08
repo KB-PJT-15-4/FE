@@ -34,7 +34,10 @@
     </div>
 
     <!-- 사용자 작성 기록 및 추가 버튼 -->
-    <RecordDetailCustom />
+    <RecordDetailCustom 
+      :trip-id="tripId"
+      :selected-date="selectedDate"
+    />
   </div>
 </template>
 

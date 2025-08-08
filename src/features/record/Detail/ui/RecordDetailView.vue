@@ -18,16 +18,21 @@
               {{ formatFullDateToKorean(new Date(record?.date || '')) }}
             </TypographySubTitle2>
           </div>
+
+          <!-- 여러 장의 이미지 지원 -->
           <div
-            v-if="record?.imageUrl"
-            class="flex justify-center"
+            v-if="record?.imageUrls && record.imageUrls.length > 0"
+            class="space-y-2"
           >
             <img
-              :src="record.imageUrl"
+              v-for="(imageUrl, index) in record.imageUrls"
+              :key="index"
+              :src="imageUrl"
               class="max-w-full h-auto rounded-md shadow-sm"
-              alt="기록 이미지"
+              :alt="`기록 이미지 ${index + 1}`"
             >
           </div>
+
           <div class="bg-gray-50 p-4 rounded-md">
             <TypographyP2 class="whitespace-pre-line leading-relaxed">
               {{ record?.content }}
@@ -48,9 +53,16 @@ import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
-import type { RecordProps } from '@/entities/record/record.entity'
+interface RecordDetail {
+  title: string
+  date: string
+  imageUrls?: string[]
+  content: string
+}
 
-defineProps<RecordProps>()
+defineProps<{
+  record: RecordDetail | null
+}>()
 
 const emit = defineEmits(['close'])
 </script>
