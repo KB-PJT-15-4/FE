@@ -65,8 +65,9 @@
       <img
         src="/src/assets/bear.jpg"
         alt="기록 없음"
-        class="w-40 h-40 object-contain"
+        class="w-40 h-40 object-contain mx-auto mb-2"
       >
+      <TypographySubTitle1>아직 기록이 없습니다</TypographySubTitle1>
     </div>
 
     <!-- 페이지네이션 -->
@@ -88,6 +89,7 @@ import { formatFullDateToKorean } from '@/shared/utils/format'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import RecordDetailView from '@/features/record/Detail/ui/RecordDetailView.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
 interface Record {
   recordId: number
