@@ -171,7 +171,7 @@ async function reservationAccommodationFunction() {
       await reservationAccommodation(
         localStorage.getItem('accessToken')!,
         Number(tripId),
-        Number(itemId),
+        selectedRoom.value!.accomResId,
         route.query.start_date as string,
         route.query.end_date as string,
         selectedN.value,
