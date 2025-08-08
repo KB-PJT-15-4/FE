@@ -13,7 +13,7 @@
         class="border rounded-full bg-moa-gray w-[50px] h-[40px] flex justify-center items-center"
         @click="router.push({ name: 'add_member', params: { tripId: tripId } })"
       >
-        <i class="bi bi-person-plus text-[22px]" />
+        <i class="bi bi-person-plus text-[22px] text-moa-main-text" />
       </button>
     </div>
     <div v-if="selectedOption === 'reservationList'">

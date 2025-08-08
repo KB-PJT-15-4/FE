@@ -12,7 +12,7 @@
         </div>
         <TypographySubTitle1>{{ item.trainNo }}</TypographySubTitle1>
       </div>
-      <di class="flex justify-between">
+      <div class="flex justify-between">
         <div class="flex flex-col justify-end items-end">
           <TypographyP2> {{ item.origin }} - {{ item.destination }} </TypographyP2>
           <TypographyP2>
@@ -20,7 +20,7 @@
             {{ item.startTime }}
           </TypographyP2>
         </div>
-      </di>
+      </div>
     </div>
   </Card>
 </template>
