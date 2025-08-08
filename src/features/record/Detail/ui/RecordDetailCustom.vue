@@ -198,9 +198,14 @@ const goToCreate = () => {
 }
 
 const editRecord = (recordId: number) => {
+  const record = recordList.value.find(r => r.recordId === recordId)
+  const existing = record?.imageUrls || []
   router.push({ 
     path: `/record/${props.tripId}/create`, 
-    query: { editRecordId: recordId }
+    query: { 
+      editRecordId: String(recordId),
+      existingImageUrls: JSON.stringify(existing)
+    }
   })
 }
 
@@ -246,4 +251,3 @@ defineExpose({
   refreshRecords
 })
 </script>
-
