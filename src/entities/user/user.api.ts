@@ -18,11 +18,11 @@ export const user = {
     method: Method.GET,
   }),
   getDecodeIdQR: (data: string) => ({
-    url: `${import.meta.env.VITE_APP_API_URL}/api/public/qr/idcard?data=${data}`,
+    url: `${import.meta.env.VITE_APP_API_URL}/api/owner/qr/idcard?data=${data}`,
     method: Method.GET,
   }),
   getDecodeReservationQR: (data: string) => ({
-    url: `${import.meta.env.VITE_APP_API_URL}/api/public/qr/reservation?data=${data}`,
+    url: `${import.meta.env.VITE_APP_API_URL}/api/owner/qr/reservation?data=${data}`,
     method: Method.GET,
   }),
   getNotifications: () => ({

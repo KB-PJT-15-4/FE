@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-[100vh] flex flex-col gap-5 justify-center items-center mt-6">
-    <TypographySubTitle1>다모아 호텔 사장님, 반갑습니다 👋</TypographySubTitle1>
+    <TypographySubTitle1>{{ name }} 사장님, 반갑습니다 👋</TypographySubTitle1>
     <div class="flex flex-col mb-3 mt-12">
       <TypographyHead1>MOA 사장님 페이지 </TypographyHead1>
       <TypographySubTitle1 class="text-moa-sub-text">
@@ -44,6 +44,7 @@ import TypographySubTitle2 from '@/shared/components/atoms/typography/Typography
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const name = localStorage.getItem('name')
 
 function onClickIdCameraButton() {
   router.push({ name: 'id_camera' })

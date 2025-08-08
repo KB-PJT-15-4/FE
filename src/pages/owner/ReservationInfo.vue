@@ -18,7 +18,7 @@ const data = route.query.result as string
 const reservationInfo = ref()
 
 async function getDecodeQRFunction() {
-  reservationInfo.value = await getDecodeReservationQR(data)
+  reservationInfo.value = await getDecodeReservationQR(localStorage.getItem('accessToken')!, data)
 }
 
 onMounted(() => {

@@ -59,39 +59,42 @@ const email = ref('')
 const password = ref('')
 
 const handleLogin = async () => {
-  if (email.value.includes('@')) {
-    const context = {
-      email: email.value,
-      password: password.value,
-    }
-
-    try {
-      const response = await fetch(`http://localhost:8080/api/public/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // 쿠키 포함
-        body: JSON.stringify(context),
-      })
-
-      if (!response.ok) {
-        const errorBody = await response.text()
-        throw new Error(`HTTP ${response.status} - ${errorBody}`)
-      }
-
-      const data = await response.json()
-
-      const accessToken = data.token
-      localStorage.setItem('accessToken', accessToken)
-
-      router.replace({ name: 'home' })
-    } catch (error) {
-      alert('로그인에 실패했습니다. 정보를 확인해주세요.')
-    }
-    return
+  const context = {
+    email: email.value,
+    password: password.value,
   }
-  router.replace({ name: 'owner' })
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/public/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // 쿠키 포함
+      body: JSON.stringify(context),
+    })
+
+    if (!response.ok) {
+      const errorBody = await response.text()
+      throw new Error(`HTTP ${response.status} - ${errorBody}`)
+    }
+
+    const data = await response.json()
+
+    const accessToken = data.token
+    const name = data.user.username
+    localStorage.setItem('accessToken', accessToken)
+    localStorage.setItem('name', name)
+
+    if (email.value.includes('@')) {
+      router.replace({ name: 'home' })
+    } else {
+      router.replace({ name: 'owner' })
+    }
+  } catch (error) {
+    alert('로그인에 실패했습니다. 정보를 확인해주세요.')
+  }
+  return
 }
 
 // 본인인증 페이지로 이동

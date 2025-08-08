@@ -15,10 +15,13 @@ export async function getDecodeIdQR(data: string) {
   return res.data
 }
 
-export async function getDecodeReservationQR(data: string) {
+export async function getDecodeReservationQR(token: string, data: string) {
   const { url, method } = API_END_POINT.user.getDecodeReservationQR(data)
   const result = await fetch(url, {
     method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
 
   if (!result.ok) {
