@@ -49,7 +49,10 @@
       <TypographySubTitle2 class="w-[50px] mt-5">
         방 타입
       </TypographySubTitle2>
-      <template v-if="availableRoom.length >= 1">
+      <div
+        v-if="availableRoom.length >= 1"
+        class="h-[200px] overflow-scroll"
+      >
         <Card
           v-for="(room, index) in availableRoom"
           :key="index"
@@ -65,13 +68,13 @@
           >
           <div class="w-full">
             <TypographyHead2>{{ room.roomType }}</TypographyHead2>
-            <TypographyP1>최대 {{ room.maxGuests }}명</TypographyP1>
-            <TypographyHead3 class="w-full text-right">
+            <TypographyCaption>현재 예약 가능 인원: {{ room.maxGuests }}명</TypographyCaption>
+            <TypographyHead3 class="w-full text-right mt-4">
               {{ formatNumber(room.price) }}원
             </TypographyHead3>
           </div>
         </Card>
-      </template>
+      </div>
       <TypographySubTitle2
         v-else
         class="text-moa-sub-text w-full text-center py-4"
@@ -118,6 +121,7 @@ import ItemInfoAccommodation from '@/features/trip/Reservation/ui/ItemInfoAccomm
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
+import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
@@ -167,7 +171,7 @@ async function reservationAccommodationFunction() {
       await reservationAccommodation(
         localStorage.getItem('accessToken')!,
         Number(tripId),
-        Number(itemId),
+        selectedRoom.value!.accomResId,
         route.query.start_date as string,
         route.query.end_date as string,
         selectedN.value,
