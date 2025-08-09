@@ -10,8 +10,12 @@
         v-model:record-date="recordDate"
       />
 
-      <!-- 기록 이미지 추가 -->
-      <RecordCreateImage v-model="imageFiles" />
+      <!-- 기록 이미지 추가/기존 이미지 관리 -->
+      <!-- 기존 이미지(existingImageUrls)와 새로 선택한 파일(imageFiles)을 모두 다룸 -->
+      <RecordCreateImage
+        v-model="imageFiles"
+        v-model:existing-urls="existingImageUrls"
+      />
 
       <!-- 기록 취소, 완료 버튼 -->
       <div class="w-full flex justify-between gap-4">
@@ -54,7 +58,12 @@ const isEditMode = !isNaN(editRecordId)
 const title = ref('')
 const content = ref('')
 const recordDate = ref(route.query.date as string || new Date().toISOString().split('T')[0])
+
+// 새로 업로드할 파일들
 const imageFiles = ref<File[]>([])
+// 기존에 서버에 있던 이미지 URL들 중 '유지할 것' 리스트
+const existingImageUrls = ref<string[]>([])
+
 const saving = ref(false)
 
 const fetchRecord = async () => {
@@ -75,8 +84,11 @@ const fetchRecord = async () => {
       title.value = record.title
       recordDate.value = record.recordDate
       content.value = record.content
+
+      // **핵심**: 기존 이미지 URL 목록을 상태로 저장(수정 화면에서 보여주고 삭제 가능하게)
+      existingImageUrls.value = record.imageUrls ? [...record.imageUrls] : []
+      // 새로 업로드할 파일 목록은 비워둠
       imageFiles.value = []
-      console.log('편집 모드: 기존 이미지', record.imageUrls)
     }
   } catch (error: unknown) {
     console.error('기록을 불러오는 중 오류가 발생했습니다:', error)
@@ -91,6 +103,19 @@ const fetchRecord = async () => {
 }
 
 onMounted(() => {
+  // (안전) 라우터 쿼리로 기존 이미지 URL이 전달되어 있는 경우 초기값으로 사용 가능
+  try {
+    const q = route.query.existingImageUrls as string | undefined
+    if (q) {
+      const parsed = JSON.parse(q)
+      if (Array.isArray(parsed)) {
+        existingImageUrls.value = parsed
+      }
+    }
+  } catch (e) {
+    // 무시
+  }
+
   fetchRecord()
 })
 
@@ -100,6 +125,13 @@ const createFormData = () => {
   formData.append('recordDate', recordDate.value)
   formData.append('content', content.value)
 
+  // **핵심**: 기존 이미지 URL 목록을 formData에 각각 같은 key 이름으로 append
+  // 백엔드의 TripRecordRequestDto.existingImageUrls(List<String>)로 바인딩 됨
+  existingImageUrls.value.forEach((url) => {
+    formData.append('existingImageUrls', url)
+  })
+
+  // 새로 업로드한 파일들은 기존과 동일하게 'imageUrls'로 append
   imageFiles.value.forEach((file) => {
     formData.append('imageUrls', file)
   })
@@ -147,7 +179,6 @@ const saveRecord = async () => {
     }
   } catch (error: unknown) {
     console.error('기록 저장 중 오류가 발생했습니다:', error)
-
     if (error && typeof error === 'object' && 'response' in error) {
       const axiosError = error as {
         response?: {
