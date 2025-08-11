@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import axios from 'axios'
+import { onMounted, ref } from 'vue'
 
 const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY
 const emit = defineEmits(['selectLocation'])
