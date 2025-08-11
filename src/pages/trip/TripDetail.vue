@@ -16,9 +16,7 @@
       </div>
     </div>
 
-    <div
-      class="relative -mt-4 z-20 rounded-t-[20px] bg-white px-[10px] max-h-[100vh] overflow-scroll pt-7"
-    >
+    <div class="relative -mt-4 z-20 bg-white px-[10px] h-[100vh] overflow-scroll pt-7">
       <div class="flex justify-between items-center gap-2 mb-2">
         <ToggleTab
           v-model="currentLabel"
@@ -38,10 +36,7 @@
           :trip-id="Number(tripId)"
         />
         <Reservation v-else-if="selectedOption === 'reservation'" />
-        <template v-else>
-          <SettlementHistory />
-          <RequestSettlement />
-        </template>
+        <SettlementTab v-else />
       </div>
     </div>
   </div>
@@ -54,8 +49,7 @@ import { getTripInfo } from '@/features/trip/MyReservationList/services/myReserv
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
 import TripInfoBoxDark from '@/features/trip/MyTrip/ui/TripInfoBoxDark.vue'
 import Reservation from '@/features/trip/Reservation/ui/Reservation.vue'
-import RequestSettlement from '@/features/trip/Settlement/ui/RequestSettlement.vue'
-import SettlementHistory from '@/features/trip/Settlement/ui/SettlementHistory.vue'
+import SettlementTab from '@/features/trip/Settlement/ui/SettlementTab.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import { useRoute, useRouter } from 'vue-router'
 const trip = ref<TripInfo>()

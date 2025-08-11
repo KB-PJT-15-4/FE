@@ -79,10 +79,12 @@
       예약 가능한 교통편이 없습니다.
     </TypographySubTitle1>
   </div>
-  <FilteredTransportationList
+  <div
     v-else
-    :available-reservation-list="availableReservationList"
-  />
+    class="max-h-[120px] overflow-scroll"
+  >
+    <FilteredTransportationList :available-reservation-list="availableReservationList" />
+  </div>
 </template>
 <script setup lang="ts">
 import {

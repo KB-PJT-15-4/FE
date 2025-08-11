@@ -1,6 +1,5 @@
 <template>
-  <div class="w-full mt-7 flex flex-col gap-2">
-    <TypographyHead3>정산 요청하기</TypographyHead3>
+  <div class="w-full flex flex-col gap-2">
     <TypographyP2 class="ml-1">
       정산 제목
     </TypographyP2>
@@ -77,7 +76,6 @@
 import type { SettleExpenses, TripMember } from '@/entities/trip/trip.entity'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { formatNumber } from '@/shared/utils/format'
