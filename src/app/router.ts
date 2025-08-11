@@ -2,6 +2,7 @@ import Certification from '@/pages/auth/Certification.vue'
 import Login from '@/pages/auth/Login.vue'
 import SignUp from '@/pages/auth/SignUp.vue'
 import Home from '@/pages/home/Home.vue'
+import My from '@/pages/home/My.vue'
 import Notification from '@/pages/home/Notification.vue'
 
 import IdCamera from '@/pages/owner/IdCamera.vue'
@@ -54,6 +55,11 @@ const router = createRouter({
       path: '/main/home',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/main/my',
+      name: 'my',
+      component: My,
     },
     {
       path: '/main/notification',

@@ -2,10 +2,12 @@ import {
   ItemType,
   SettlementStatus,
   StatusType,
+  type FeedItem,
   type ReservationItem,
   type SettlementProgressStatus,
   type TripInfo,
   type TripMember,
+  type TripRecommendation,
   type UserReservationList,
   type UserSettlement,
 } from './trip.entity'
@@ -264,3 +266,59 @@ export const settlementProgressStatusMockData: SettlementProgressStatus = {
     { name: '지젤', status: '정산 완료' },
   ],
 }
+
+export const tripRecommendationListMockData: TripRecommendation[] = [
+  {
+    name: '도심 속 감성 여행',
+    imageUrl:
+      'https://www.agoda.com/wp-content/uploads/2019/05/Seoul-itinerary-Seoul-Bukchon-Hanok-Village.jpg',
+    location: '서울',
+    rating: 4.3,
+  },
+  {
+    name: '부산 바다와 맛집 투어',
+    imageUrl: 'https://t1.daumcdn.net/cfile/tistory/99D87B445D1C33E802',
+    location: '부산',
+    rating: 4.6,
+  },
+  {
+    name: '강릉 커피 & 바다 여행',
+    imageUrl: 'https://cdn.kado.net/news/photo/202208/1140591_566333_1613.jpg',
+    location: '강릉',
+    rating: 4.1,
+  },
+  {
+    name: '제주 자연 속 힐링 여행',
+    imageUrl:
+      'https://api.cdn.visitjeju.net/photomng/imgpath/202305/22/3a122a04-65f0-43eb-9a5a-5e1901c27501.jpg',
+    location: '제주',
+    rating: 4.9,
+  },
+]
+
+export const friendFeedMock: FeedItem[] = [
+  {
+    id: 'f1',
+    user: '카리나',
+    avatar: '/img/avatars/minsu.jpg',
+    action: '기록을 남겼어요',
+    tripId: '3',
+    tripName: '부산 3박4일',
+    place: '부산',
+    thumb: '/img/feed/busan-note.jpg',
+    timeISO: '2025-08-11T10:20:00+09:00',
+    timeText: '2시간 전',
+  },
+  {
+    id: 'f2',
+    user: '윈터',
+    avatar: '/img/avatars/jiyeon.jpg',
+    action: '호텔을 예약하였어요',
+    tripId: '2',
+    tripName: '제주 가을 여행',
+    extra: '신라스테이 제주',
+    place: '제주',
+    timeISO: '2025-08-10T21:05:00+09:00',
+    timeText: '어제',
+  },
+]
