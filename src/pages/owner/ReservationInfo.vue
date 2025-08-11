@@ -2,15 +2,21 @@
   <div>
     <div
       v-if="reservationInfo == null"
-      class="w-full h-[100vh] flex flex-col items-center pt-[100px]"
+      class="w-full pt-[100px] flex flex-col items-center"
     >
       <div
-        class="border rounded-full bg-[#ff9090] mb-10 h-[140px] w-[140px] flex justify-center items-center"
+        class="border rounded-full bg-[#ff9090] h-[140px] w-[140px] mb-7 flex justify-center items-center"
       >
         <i class="bi bi-x text-[#d43a3a] font-extrabold text-[120px]" />
       </div>
       <TypographyHead1>유효하지 않은 QR 정보입니다</TypographyHead1>
       <TypographySubTitle1>예약권 정보를 확인해주세요</TypographySubTitle1>
+      <ButtonMain
+        class="mt-[20vh]"
+        @click="router.replace({ name: 'owner' })"
+      >
+        <TypographyHead3> 메인으로</TypographyHead3>
+      </ButtonMain>
     </div>
     <div
       v-else
@@ -141,13 +147,13 @@
           <TypographyP1> {{ (reservationInfo as TransportationItem).status }}</TypographyP1>
         </div>
       </div>
+      <ButtonMain
+        class=""
+        @click="router.replace({ name: 'owner' })"
+      >
+        <TypographyHead3> 메인으로</TypographyHead3>
+      </ButtonMain>
     </div>
-    <ButtonMain
-      class=""
-      @click="router.replace({ name: 'owner' })"
-    >
-      <TypographyHead3> 메인으로</TypographyHead3>
-    </ButtonMain>
   </div>
 </template>
 <script setup lang="ts">

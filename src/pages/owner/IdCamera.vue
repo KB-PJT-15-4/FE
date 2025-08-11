@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full flex justify-center items-center">
     <video
       ref="videoRef"
       autoplay
@@ -8,9 +8,13 @@
       class="w-full"
     />
   </div>
+  <ButtonGhost @click="onClickCancelButton">
+    취소
+  </ButtonGhost>
 </template>
 
 <script setup lang="ts">
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import { BrowserQRCodeReader, type IScannerControls } from '@zxing/browser'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -43,6 +47,10 @@ const stopScan = () => {
     controls.stop()
     controls = null
   }
+}
+
+function onClickCancelButton() {
+  router.push({ name: 'owner' })
 }
 
 onMounted(() => {

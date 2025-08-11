@@ -33,11 +33,18 @@
       </div>
       <TypographySubTitle2>고객의 QR 코드를 스캔하여 </TypographySubTitle2>
       <TypographySubTitle2>예매 정보를 확인하세요</TypographySubTitle2>
+      <ButtonGhost
+        class="mt-[180px]"
+        @click="logoutFunction"
+      >
+        로그아웃
+      </ButtonGhost>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
@@ -52,5 +59,12 @@ function onClickIdCameraButton() {
 
 function onClickReservationCameraButton() {
   router.push({ name: 'reservation_camera' })
+}
+
+function logoutFunction() {
+  if (window.confirm('로그아웃하시겠습니까?')) {
+    localStorage.removeItem('accessToken')
+    router.replace({ name: 'login' })
+  }
 }
 </script>
