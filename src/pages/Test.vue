@@ -115,7 +115,7 @@
       :total-page="totalCount"
       :active-page="currentPage"
     />
-    <p>test</p>
+    <p>test2</p>
   </div>
 </template>
 <script setup>
