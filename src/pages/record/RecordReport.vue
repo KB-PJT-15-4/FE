@@ -54,20 +54,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
 
 import axios from 'axios'
 
-import Card from '@/shared/components/atoms/card/Card.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
+import Card from '@/shared/components/atoms/card/Card.vue'
+import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
 import type { ApiPaymentRecord } from '@/entities/record/record.entity'
-
 
 const route = useRoute()
 const router = useRouter()
@@ -87,7 +86,7 @@ const fetchPaymentRecords = async () => {
     if (!token) throw new Error('Access token not found')
 
     const response = await axios.get(
-      `http://localhost:8080/api/trips/${tripId}/records/payment-records`,
+      `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/payment-records`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

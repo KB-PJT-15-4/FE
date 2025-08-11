@@ -81,15 +81,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import axios from 'axios'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
-import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import RecordDetailView from '@/features/record/Detail/ui/RecordDetailView.vue'
+import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 
 interface Record {
   recordId: number
@@ -150,62 +150,68 @@ const fetchRecords = async () => {
 
     const params = new URLSearchParams({
       page: String(currentPage.value - 1),
-      size: String(ITEMS_PER_PAGE)
+      size: String(ITEMS_PER_PAGE),
     })
 
     const dateParam = props.selectedDate || new Date().toISOString().split('T')[0]
     params.append('date', dateParam)
 
-    const response = await axios.get(`http://localhost:8080/api/trips/${props.tripId}/records?${params.toString()}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    
+    const response = await axios.get(
+      `${import.meta.env.VITE_APP_API_URL}/api/trips/${props.tripId}/records?${params.toString()}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
     if (response.data.code === 'S200') {
       recordList.value = response.data.data.content || response.data.data
       totalRecords.value = response.data.data.totalElements || response.data.data.length || 0
-    } 
+    }
   } catch (error: unknown) {
     console.error('기록을 불러오는 중 오류가 발생했습니다:', error)
-  } 
+  }
 }
 
 onMounted(() => {
   fetchRecords()
 })
 
-watch(() => [props.selectedDate, currentPage.value], () => {
-  fetchRecords()
-})
+watch(
+  () => [props.selectedDate, currentPage.value],
+  () => {
+    fetchRecords()
+  }
+)
 
 const showDetail = (record: Record) => {
   selectedRecord.value = {
     title: record.title,
     date: record.recordDate,
     imageUrls: record.imageUrls,
-    content: record.content
+    content: record.content,
   }
   showRecordDetail.value = true
 }
 
 const goToCreate = () => {
-  router.push({ 
-    name: 'record_create', 
+  router.push({
+    name: 'record_create',
     params: { tripId: props.tripId },
-    query: { date: props.selectedDate }
+    query: { date: props.selectedDate },
   })
 }
 
 const editRecord = (recordId: number) => {
-  const record = recordList.value.find(r => r.recordId === recordId)
+  const record = recordList.value.find((r) => r.recordId === recordId)
   const existing = record?.imageUrls || []
-  router.push({ 
-    path: `/record/${props.tripId}/create`, 
-    query: { 
+  router.push({
+    path: `/record/${props.tripId}/create`,
+    query: {
       editRecordId: String(recordId),
-      existingImageUrls: JSON.stringify(existing)
-    }
+      existingImageUrls: JSON.stringify(existing),
+    },
   })
 }
 
@@ -215,14 +221,17 @@ const deleteRecord = async (recordId: number) => {
       const token = localStorage.getItem('accessToken')
       if (!token) throw new Error('Access token not found')
 
-      const response = await axios.delete(`http://localhost:8080/api/trips/${props.tripId}/records/${recordId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      
+      const response = await axios.delete(
+        `${import.meta.env.VITE_APP_API_URL}/api/trips/${props.tripId}/records/${recordId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
       if (response.data.code === 'S200') {
-        recordList.value = recordList.value.filter(record => record.recordId !== recordId)
+        recordList.value = recordList.value.filter((record) => record.recordId !== recordId)
         totalRecords.value = Math.max(0, totalRecords.value - 1)
 
         if (currentPage.value > 1 && recordList.value.length === 0) {
@@ -238,7 +247,7 @@ const deleteRecord = async (recordId: number) => {
       if (error instanceof Error && error.message === 'Access token not found') {
         alert('로그인이 필요합니다.')
         router.push('/login')
-      } 
+      }
     }
   }
 }
@@ -248,6 +257,6 @@ const refreshRecords = () => {
 }
 
 defineExpose({
-  refreshRecords
+  refreshRecords,
 })
 </script>
