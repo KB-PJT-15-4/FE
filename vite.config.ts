@@ -3,7 +3,6 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-const isDev = process.env.NODE_ENV === 'development'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -40,18 +39,8 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  // server: Object.assign(
-  //   {
-  //     host: true,
-  //     port: 5173,
-  //   },
-  //   isDev && fs.existsSync('./certs/key.pem') && fs.existsSync('./certs/cert.pem')
-  //     ? {
-  //         https: {
-  //           key: fs.readFileSync('./certs/key.pem'),
-  //           cert: fs.readFileSync('./certs/cert.pem'),
-  //         },
-  //       }
-  //     : {}
-  // ),
+  server: Object.assign({
+    host: true,
+    port: 5173,
+  }),
 })
