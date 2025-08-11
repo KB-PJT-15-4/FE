@@ -2,8 +2,9 @@
   <div class="relative w-full max-w-[390px] mx-auto bg-white">
     <!-- 헤더 -->
     <header
-      v-if="!shouldHideLayout"
+      v-if="!shouldHideLayout || !tripDetail"
       class="fixed top-0 left-0 w-full z-50 flex justify-center"
+      :class="tripDetail && 'text-white'"
     >
       <Header v-if="!isOwner" />
       <OwnerHeader v-if="isOwner" />
@@ -13,8 +14,9 @@
     <main
       ref="mainRef"
       :class="[
-        'overflow-y-auto px-[16px] flex flex-col gap-3 justify-start items-center',
-        !shouldHideLayout && 'pt-[80px] pb-[100px]',
+        'overflow-y-auto flex flex-col gap-3 justify-start items-center',
+        !shouldHideLayout && !tripDetail && 'pt-[80px]',
+        !tripDetail && ' px-[16px] pb-[100px]',
       ]"
       :style="mainStyle"
     >
@@ -46,6 +48,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const shouldHideLayout = computed(() => route.meta.layout === false)
 const isOwner = computed(() => route.meta.owner === true)
+const tripDetail = computed(() => route.meta.dark === true)
 const tab = ['home', 'map', 'trip']
 const currentTab = ref(tab[0])
 
