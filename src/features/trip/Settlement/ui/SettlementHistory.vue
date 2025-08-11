@@ -1,44 +1,49 @@
 <template>
-  <TypographyHead3>나의 정산내역</TypographyHead3>
-  <Card
-    v-for="(settlement, index) in settleList"
-    :key="index"
-    class="flex justify-between items-center my-3"
-  >
-    <div>
-      <div class="flex gap-2">
-        <TypographyCaption>
-          {{ settlement.received ? '받은 요청' : '보낸 요청' }}
-        </TypographyCaption>
-        <TypographyCaption>{{ formatDateTime(settlement.expenseDate) }}</TypographyCaption>
-      </div>
+  <div class="px-1 mt-3">
+    <TypographyHead3>나의 정산내역</TypographyHead3>
+    <Card
+      v-for="(settlement, index) in settleList"
+      :key="index"
+      class="flex justify-between items-center my-3"
+    >
+      <div>
+        <div class="flex gap-2">
+          <TypographyCaption>
+            {{ settlement.received ? '받은 요청' : '보낸 요청' }}
+          </TypographyCaption>
+          <TypographyCaption>{{ formatDateTime(settlement.expenseDate) }}</TypographyCaption>
+        </div>
 
-      <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
-    </div>
-    <ButtonSmallMain
-      v-if="settlement.status === SettlementStatus.WAITING"
-      @click="
-        router.push({ name: 'settle', params: { tripId: tripId, settleId: settlement.expenseId } })
-      "
-    >
-      정산하기
-    </ButtonSmallMain>
-    <ButtonSmallSub
-      v-else
-      @click="
-        router.push({
-          name: 'settle_status',
-          params: { tripId: tripId, settleId: settlement.expenseId },
-        })
-      "
-    >
-      {{ settlement.status }}
-    </ButtonSmallSub>
-  </Card>
-  <Pagination
-    :total-page="totalPage"
-    :active-page="currentPage"
-  />
+        <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
+      </div>
+      <ButtonSmallMain
+        v-if="settlement.status === SettlementStatus.WAITING"
+        @click="
+          router.push({
+            name: 'settle',
+            params: { tripId: tripId, settleId: settlement.expenseId },
+          })
+        "
+      >
+        정산하기
+      </ButtonSmallMain>
+      <ButtonSmallSub
+        v-else
+        @click="
+          router.push({
+            name: 'settle_status',
+            params: { tripId: tripId, settleId: settlement.expenseId },
+          })
+        "
+      >
+        {{ settlement.status }}
+      </ButtonSmallSub>
+    </Card>
+    <Pagination
+      :total-page="totalPage"
+      :active-page="currentPage"
+    />
+  </div>
 </template>
 <script setup lang="ts">
 import { SettlementStatus, type UserSettlement } from '@/entities/trip/trip.entity'

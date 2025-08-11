@@ -3,6 +3,7 @@
     <SegmentedTab
       v-model="selectedFilter"
       :options="filterTabOptions"
+      class="my-2"
     />
 
     <div class="h-[250px] flex flex-col gap-3">

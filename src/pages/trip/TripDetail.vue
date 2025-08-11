@@ -1,15 +1,12 @@
 <template>
-  <div class="w-full flex flex-col bg-white">
-    <!-- 히어로 -->
-    <div class="relative h-[200px]">
+  <div class="w-full flex flex-col bg-white h-screen">
+    <div class="sticky top-0 h-[220px] shrink-0">
       <img
         src="https://t1.daumcdn.net/news/202408/04/speaktravel/20240804090001287dbfq.jpg"
         class="absolute inset-0 w-full h-full object-cover object-top"
         alt=""
       >
-      <div
-        class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/40 to-transparent"
-      />
+      <div class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/40 to-transparent" />
 
       <div class="relative pt-[50px] px-[16px]">
         <TripInfoBoxDark
@@ -20,9 +17,9 @@
     </div>
 
     <div
-      class="relative z-10 -mt-10 w-full rounded-t-[30px] bg-white px-[10px] pt-7 pb-6 shadow-[0_-6px_16px_rgba(0,0,0,0.08)]"
+      class="relative -mt-4 z-20 rounded-t-[20px] bg-white px-[10px] max-h-[100vh] overflow-scroll pt-7"
     >
-      <div class="flex justify-between items-center gap-2">
+      <div class="flex justify-between items-center gap-2 mb-2">
         <ToggleTab
           v-model="currentLabel"
           :options="toggleOptions"
@@ -35,15 +32,16 @@
         </button>
       </div>
 
-      <div v-if="selectedOption === 'reservationList'">
-        <MyReservationList :trip-id="Number(tripId)" />
-      </div>
-      <div v-else-if="selectedOption === 'reservation'">
-        <Reservation />
-      </div>
-      <div v-else>
-        <SettlementHistory />
-        <RequestSettlement />
+      <div>
+        <MyReservationList
+          v-if="selectedOption === 'reservationList'"
+          :trip-id="Number(tripId)"
+        />
+        <Reservation v-else-if="selectedOption === 'reservation'" />
+        <template v-else>
+          <SettlementHistory />
+          <RequestSettlement />
+        </template>
       </div>
     </div>
   </div>
