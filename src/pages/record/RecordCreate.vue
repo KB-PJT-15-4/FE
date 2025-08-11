@@ -11,10 +11,9 @@
       />
 
       <!-- 기록 이미지 추가/기존 이미지 관리 -->
-      <!-- 기존 이미지(existingImageUrls)와 새로 선택한 파일(imageFiles)을 모두 다룸 -->
       <RecordCreateImage
         v-model="imageFiles"
-        v-model:existing-urls="existingImageUrls"
+        v-model:existing-images="existingImages"
       />
 
       <!-- 기록 취소, 완료 버튼 -->
@@ -48,6 +47,8 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 import RecordCreateForm from '@/features/record/Create/ui/RecordCreateForm.vue'
 import RecordCreateImage from '@/features/record/Create/ui/RecordCreateImage.vue'
 
+type ExistingImage = { url: string; fileName: string }
+
 const router = useRouter()
 const route = useRoute()
 
@@ -57,12 +58,12 @@ const isEditMode = !isNaN(editRecordId)
 
 const title = ref('')
 const content = ref('')
-const recordDate = ref(route.query.date as string || new Date().toISOString().split('T')[0])
+const recordDate = ref((route.query.date as string) || new Date().toISOString().split('T')[0])
 
 // 새로 업로드할 파일들
 const imageFiles = ref<File[]>([])
-// 기존에 서버에 있던 이미지 URL들 중 '유지할 것' 리스트
-const existingImageUrls = ref<string[]>([])
+// 기존 이미지(미리보기 url + 서버 통신용 fileName)
+const existingImages = ref<ExistingImage[]>([])
 
 const saving = ref(false)
 
@@ -74,20 +75,29 @@ const fetchRecord = async () => {
     if (!token) throw new Error('Access token not found')
 
     const response = await axios.get(`http://localhost:8080/api/trips/${tripId}/records/${editRecordId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` },
     })
 
     if (response.data.code === 'S200') {
-      const record = response.data.data
+      const record = response.data.data as {
+        title: string
+        recordDate: string
+        content: string
+        images?: ExistingImage[]
+      }
+
       title.value = record.title
       recordDate.value = record.recordDate
       content.value = record.content
 
-      // **핵심**: 기존 이미지 URL 목록을 상태로 저장(수정 화면에서 보여주고 삭제 가능하게)
-      existingImageUrls.value = record.imageUrls ? [...record.imageUrls] : []
-      // 새로 업로드할 파일 목록은 비워둠
+      // 상세 DTO는 images: [{ url, fileName }]
+      const images: ExistingImage[] = Array.isArray(record.images) ? record.images : []
+      existingImages.value = images.map((img: ExistingImage) => ({
+        url: img.url,
+        fileName: img.fileName,
+      }))
+
+      // 새 업로드 목록은 비움
       imageFiles.value = []
     }
   } catch (error: unknown) {
@@ -103,37 +113,41 @@ const fetchRecord = async () => {
 }
 
 onMounted(() => {
-  // (안전) 라우터 쿼리로 기존 이미지 URL이 전달되어 있는 경우 초기값으로 사용 가능
-  try {
-    const q = route.query.existingImageUrls as string | undefined
-    if (q) {
-      const parsed = JSON.parse(q)
-      if (Array.isArray(parsed)) {
-        existingImageUrls.value = parsed
-      }
-    }
-  } catch (e) {
-    // 무시
-  }
-
+  // 상세 API에서 항상 최신 데이터 로딩
   fetchRecord()
 })
 
-const createFormData = () => {
+const createFormDataForCreate = () => {
+  // POST /records : TripRecordRequestDto (imageUrls)
   const formData = new FormData()
   formData.append('title', title.value)
   formData.append('recordDate', recordDate.value)
   formData.append('content', content.value)
 
-  // **핵심**: 기존 이미지 URL 목록을 formData에 각각 같은 key 이름으로 append
-  // 백엔드의 TripRecordRequestDto.existingImageUrls(List<String>)로 바인딩 됨
-  existingImageUrls.value.forEach((url) => {
-    formData.append('existingImageUrls', url)
+  imageFiles.value.forEach((file) => {
+    formData.append('imageUrls', file) // ✅ 생성은 imageUrls
   })
 
-  // 새로 업로드한 파일들은 기존과 동일하게 'imageUrls'로 append
+  return formData
+}
+
+const createFormDataForUpdate = () => {
+  // PUT /records/{id} : TripRecordUpdateRequestDto (existingImageFileNames, newImages)
+  const formData = new FormData()
+  formData.append('title', title.value)
+  formData.append('recordDate', recordDate.value)
+  formData.append('content', content.value)
+
+  // 유지할 기존 이미지의 파일명만 전송
+  existingImages.value.forEach((img) => {
+    if (img?.fileName) {
+      formData.append('existingImageFileNames', img.fileName)
+    }
+  })
+
+  // 새 파일
   imageFiles.value.forEach((file) => {
-    formData.append('imageUrls', file)
+    formData.append('newImages', file)
   })
 
   return formData
@@ -150,29 +164,37 @@ const saveRecord = async () => {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
 
-    const formData = createFormData()
-
     let response
     if (isEditMode) {
-      response = await axios.put(`http://localhost:8080/api/trips/${tripId}/records/${editRecordId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const formData = createFormDataForUpdate()
+      response = await axios.put(
+        `http://localhost:8080/api/trips/${tripId}/records/${editRecordId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
     } else {
-      response = await axios.post(`http://localhost:8080/api/trips/${tripId}/records`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const formData = createFormDataForCreate()
+      response = await axios.post(
+        `http://localhost:8080/api/trips/${tripId}/records`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
     }
 
     if (response.data.code === 'S200' || response.data.code === 'S201') {
       alert(isEditMode ? '기록이 성공적으로 수정되었습니다.' : '기록이 성공적으로 생성되었습니다.')
-      router.push({ 
-        name: 'record_detail', 
+      router.push({
+        name: 'record_detail',
         params: { tripId },
         query: { refresh: Date.now().toString() }
       })
@@ -181,20 +203,13 @@ const saveRecord = async () => {
     console.error('기록 저장 중 오류가 발생했습니다:', error)
     if (error && typeof error === 'object' && 'response' in error) {
       const axiosError = error as {
-        response?: {
-          status: number
-          data?: {
-            message?: string
-          }
-        }
+        response?: { status: number; data?: { message?: string } }
       }
-
       if (axiosError.response?.status === 400) {
         const errorMessage = axiosError.response.data?.message || '입력 데이터에 문제가 있습니다.'
         alert(`오류: ${errorMessage}`)
       }
     }
-
     if (error instanceof Error && error.message === 'Access token not found') {
       alert('로그인이 필요합니다.')
       router.push('/login')

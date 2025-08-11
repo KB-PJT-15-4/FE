@@ -21,18 +21,18 @@
       >
     </div>
 
-    <!-- 기존 이미지 미리보기 (서버에 이미 올라가 있는 URL) -->
+    <!-- 기존 이미지 미리보기 (서버에 이미 있는 URL) -->
     <div
       v-if="existingPreviews.length > 0"
       class="grid grid-cols-2 gap-4 mt-4 mb-4"
     >
       <div
-        v-for="(url, idx) in existingPreviews"
+        v-for="(img, idx) in existingPreviews"
         :key="'existing-' + idx"
         class="relative inline-block"
       >
         <img
-          :src="url"
+          :src="img.url"
           class="w-[150px] h-[100px] object-cover rounded-[12px] shadow"
           :alt="`기존 이미지 ${idx + 1}`"
         >
@@ -76,19 +76,22 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
+type ExistingImage = { url: string; fileName: string }
+
 const props = defineProps<{
-  modelValue?: File[] // 새로 선택한 파일들
-  existingUrls?: string[] // 서버에 이미 있는 기존 URL들
+  modelValue?: File[]                 // 새로 선택한 파일들
+  existingImages?: ExistingImage[]    // 서버에 이미 있는 기존 이미지들 (url + fileName)
 }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: File[]): void
-  (e: 'update:existingUrls', value: string[]): void
+  // 부모가 v-model:existing-images 를 사용하므로 kebab-case로 내보냄
+  (e: 'update:existing-images', value: ExistingImage[]): void
 }>()
 
 const imagePreviews = ref<string[]>([])
 const selectedFiles = ref<File[]>(props.modelValue ? [...props.modelValue] : [])
-const existingPreviews = ref<string[]>(props.existingUrls ? [...props.existingUrls] : [])
+const existingPreviews = ref<ExistingImage[]>(props.existingImages ? [...props.existingImages] : [])
 const fileInput = ref<HTMLInputElement | null>(null)
 
 // 파일을 미리보기 URL로 변환
@@ -96,15 +99,10 @@ const createPreview = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {
-      if (reader.result && typeof reader.result === 'string') {
-        resolve(reader.result)
-      } else {
-        reject(new Error('파일을 읽는 중 오류가 발생했습니다.'))
-      }
+      if (typeof reader.result === 'string') resolve(reader.result)
+      else reject(new Error('파일을 읽는 중 오류가 발생했습니다.'))
     }
-    reader.onerror = () => {
-      reject(new Error('파일을 읽는 중 오류가 발생했습니다.'))
-    }
+    reader.onerror = () => reject(new Error('파일을 읽는 중 오류가 발생했습니다.'))
     reader.readAsDataURL(file)
   })
 }
@@ -133,9 +131,9 @@ watch(
   { immediate: true }
 )
 
-// 외부에서 existingUrls 변경될 때 반영
+// 외부에서 existingImages 변경될 때 반영
 watch(
-  () => props.existingUrls,
+  () => props.existingImages,
   (newVal) => {
     existingPreviews.value = newVal ? [...newVal] : []
   },
@@ -181,7 +179,7 @@ const handleImageUpload = async (event: Event) => {
     }
 
     if (fileInput.value) {
-      fileInput.value.value = ''
+      fileInput.value.value = '' // input의 value 초기화
     }
   }
 }
@@ -192,12 +190,13 @@ const removeNew = (index: number) => {
   emit('update:modelValue', [...selectedFiles.value])
 
   if (fileInput.value) {
-    fileInput.value.value = ''
+    fileInput.value.value = '' // input의 value 초기화
   }
 }
 
 const removeExisting = (index: number) => {
   existingPreviews.value.splice(index, 1)
-  emit('update:existingUrls', [...existingPreviews.value])
+  // 변경된 existing 목록을 부모로 전달 (kebab-case)
+  emit('update:existing-images', [...existingPreviews.value])
 }
 </script>
