@@ -18,8 +18,10 @@
       <Input
         v-model="email"
         name="email"
+        type="email"
         autocomplete="email"
         placeholder="이메일/사업자번호를 입력해주세요"
+        class="text-[16px]"
       />
       <Input
         v-model="password"
@@ -27,6 +29,7 @@
         autocomplete="current-password"
         type="password"
         placeholder="비밀번호를 입력해주세요"
+        class="text-[16px]"
       />
 
       <ButtonMain class="mt-5">
