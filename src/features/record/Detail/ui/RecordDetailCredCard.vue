@@ -33,20 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { formatFullDateToKorean, formatCurrency } from '@/shared/utils/format'
+import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import axios from 'axios'
 
-import Card from '@/shared/components/atoms/card/Card.vue'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
 import type { ApiPaymentRecord } from '@/entities/record/record.entity'
-
 
 const { tripId, selectedDate } = defineProps<{
   tripId: number
@@ -63,11 +62,11 @@ const filteredPaymentRecords = computed(() => {
   if (!selectedDate) {
     return paymentRecords.value
   }
-  
-  return paymentRecords.value.filter(payment => {
+
+  return paymentRecords.value.filter((payment) => {
     const paymentDate = new Date(payment.paymentDate)
     const selectedDateObj = new Date(selectedDate)
-    
+
     return paymentDate.toDateString() === selectedDateObj.toDateString()
   })
 })
@@ -79,7 +78,7 @@ const fetchPaymentRecords = async () => {
     if (!token) throw new Error('Access token not found')
 
     const response = await axios.get(
-      `http://localhost:8080/api/trips/${tripId}/records/payment-records`,
+      `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/payment-records`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -95,11 +94,14 @@ const fetchPaymentRecords = async () => {
   } catch (error) {
     console.error('결제 내역 조회 실패:', error)
     paymentRecords.value = []
-  } 
+  }
 }
 
-watch(() => selectedDate, () => {
-}, { immediate: true })
+watch(
+  () => selectedDate,
+  () => {},
+  { immediate: true }
+)
 
 onMounted(() => {
   fetchPaymentRecords()

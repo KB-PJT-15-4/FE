@@ -24,11 +24,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import { onMounted, ref, watch } from 'vue'
 
-import axios from 'axios'
 import Card from '@/shared/components/atoms/card/Card.vue'
+import axios from 'axios'
 
 import type { Trip } from '@/entities/trip/trip.entity'
 
@@ -44,7 +44,7 @@ const fetchTripData = async (id: number) => {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
 
-    const response = await axios.get(`http://localhost:8080/api/trips`, {
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -53,15 +53,15 @@ const fetchTripData = async (id: number) => {
     // 전체 목록에서 특정 tripId 찾기
     const trips: Trip[] = response.data.data.content || response.data.data
     const foundTrip = trips.find((t: Trip) => t.tripId === id)
-    
+
     trip.value = foundTrip || null
-    
+
     if (!foundTrip) {
       console.warn(`tripId ${id}에 해당하는 여행을 찾을 수 없습니다.`)
     }
   } catch (err) {
     console.error('여행 정보 조회 실패:', err)
-  } 
+  }
 }
 
 onMounted(() => {
@@ -70,9 +70,13 @@ onMounted(() => {
   }
 })
 
-watch(() => props.tripId, (newTripId) => {
-  if (newTripId) {
-    fetchTripData(newTripId)
-  }
-}, { immediate: true })
+watch(
+  () => props.tripId,
+  (newTripId) => {
+    if (newTripId) {
+      fetchTripData(newTripId)
+    }
+  },
+  { immediate: true }
+)
 </script>

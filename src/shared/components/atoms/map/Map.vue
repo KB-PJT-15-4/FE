@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import axios from 'axios'
+import { onMounted, ref } from 'vue'
 
 const kakaoMapKey = import.meta.env.VITE_KAKAOMAP_KEY
 const emit = defineEmits(['selectLocation'])
@@ -31,7 +31,7 @@ async function fetchLocations() {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('No access token found')
 
-    const res = await axios.get('http://localhost:8080/api/trip-locations', {
+    const res = await axios.get('${import.meta.env.VITE_APP_API_URL}/api/trip-locations', {
       headers: {
         Authorization: `Bearer ${token}`,
       },

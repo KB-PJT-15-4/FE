@@ -117,7 +117,7 @@ const goToSignup = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/public/verifyJoin', {
+    const response = await fetch('${import.meta.env.VITE_APP_API_URL}/api/public/verifyJoin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
