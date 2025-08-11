@@ -1,13 +1,12 @@
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex flex-col">
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center -mt-4">
         <TypographyHead2>우리의 여행을</TypographyHead2>
         <div class="text-xs text-gray-500">
           {{ today }} · 맑음 ☀️ · 28℃
         </div>
       </div>
-
       <TypographyHead1 class="text-moa-main text-[30px]">
         MOA
       </TypographyHead1>

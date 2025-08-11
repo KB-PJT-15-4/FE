@@ -4,17 +4,16 @@
     <header
       v-if="!shouldHideLayout || !tripDetail"
       class="fixed top-0 left-0 w-full z-50 flex justify-center"
-      :class="tripDetail && 'text-white'"
+      :class="[tripDetail ? 'text-white bg-transparent' : 'bg-white']"
     >
       <Header v-if="!isOwner" />
       <OwnerHeader v-if="isOwner" />
     </header>
-
     <!-- 메인 콘텐츠 -->
     <main
       ref="mainRef"
       :class="[
-        'overflow-y-auto flex flex-col gap-3 justify-start items-center pb-[60px]',
+        'overflow-y-auto flex flex-col gap-3 justify-start items-center pb-[70px]',
         !shouldHideLayout && !tripDetail && 'pt-[80px]',
         !tripDetail && ' px-[16px] ',
       ]"
