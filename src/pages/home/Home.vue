@@ -48,6 +48,9 @@
       :trip-id="selectedTripId"
       :filter="selectedFilter"
     />
+    <ButtonGhost @click="logoutFunction">
+      로그아웃
+    </ButtonGhost>
   </div>
 </template>
 
@@ -63,12 +66,14 @@ import IdCard from '@/features/user/UserIdCard/ui/IdCard.vue'
 import type { UserDriversLicenseCard, UserIDCard } from '@/entities/user/user.entity'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
 import { getIdInfo } from '@/features/user/UserIdCard/services/userIdCard.service'
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import { useRouter } from 'vue-router'
 
 const selectedTripId = ref<string | null>(null)
 const tripList = ref<TripInfo[]>([])
@@ -78,6 +83,7 @@ const showDriversLicenseCard = ref(false)
 
 const idCard = ref<UserIDCard | null>(null)
 const driversLicense = ref<UserDriversLicenseCard | null>(null)
+const router = useRouter()
 
 const name = localStorage.getItem('name') || idCard.value?.name
 const tripOptions = computed(() =>
@@ -98,6 +104,13 @@ async function getIdInfoFunction() {
   driversLicense.value = result.driverLicense
   if (localStorage.getItem('name') !== idCard.value!.name) {
     localStorage.setItem('name', idCard.value!.name)
+  }
+}
+
+function logoutFunction() {
+  if (window.confirm('로그아웃하시겠습니까?')) {
+    localStorage.removeItem('accessToken')
+    router.replace({ name: 'login' })
   }
 }
 
