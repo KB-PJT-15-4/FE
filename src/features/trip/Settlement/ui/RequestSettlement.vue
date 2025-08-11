@@ -15,13 +15,6 @@
       v-model="settlementAmount"
       type="number"
     />
-
-    <TypographySubTitle2
-      v-if="settlementMemberList.length == 0"
-      class="text-moa-main-text w-full text-center py-4"
-    >
-      최소 한명의 멤버를 추가하여야 합니다.
-    </TypographySubTitle2>
     <div
       v-for="member in settlementMemberList"
       :key="member.memberId"
@@ -40,29 +33,25 @@
         </button>
       </div>
     </div>
+    <div v-if="unSettlementMemberList.length > 0">
+      <TypographySubTitle2 class="text-moa-sub-text mt-2">
+        정산 친구 추가
+      </TypographySubTitle2>
 
-    <TypographySubTitle2 class="text-moa-sub-text mt-2">
-      정산 친구 추가
-    </TypographySubTitle2>
-    <TypographySubTitle2
-      v-if="unSettlementMemberList.length == 0"
-      class="text-moa-main-text w-full text-center py-4"
-    >
-      추가할 수 있는 멤버가 없습니다
-    </TypographySubTitle2>
-    <div
-      v-for="member in unSettlementMemberList"
-      :key="member.memberId"
-      class="flex justify-between items-center"
-    >
-      <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
-
-      <button
-        class="flex items-center"
-        @click="addMember(member.memberId)"
+      <div
+        v-for="member in unSettlementMemberList"
+        :key="member.memberId"
+        class="flex justify-between items-center my-2"
       >
-        <i class="bi bi-plus text-[25px]" />
-      </button>
+        <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
+
+        <button
+          class="flex items-center"
+          @click="addMember(member.memberId)"
+        >
+          <i class="bi bi-plus text-[25px]" />
+        </button>
+      </div>
     </div>
     <ButtonMain
       :disabled="settlementMemberList.length == 0 || settlementAmount == 0 || settlementMemo == ''"

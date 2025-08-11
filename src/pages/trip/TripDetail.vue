@@ -16,7 +16,9 @@
       </div>
     </div>
 
-    <div class="relative -mt-4 z-20 bg-white px-[10px] h-[100vh] overflow-scroll pt-7">
+    <div
+      class="relative rounded-t-[25px] -mt-5 z-20 bg-white px-[10px] h-[100vh] overflow-scroll pt-7"
+    >
       <div class="flex justify-between items-center gap-2 mb-2">
         <ToggleTab
           v-model="currentLabel"
