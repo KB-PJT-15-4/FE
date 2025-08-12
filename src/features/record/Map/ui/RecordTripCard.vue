@@ -71,7 +71,7 @@ const fetchTrips = async () => {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
 
-    const response = await axios.get('${import.meta.env.VITE_APP_API_URL}/api/trips', {
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

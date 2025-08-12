@@ -10,7 +10,7 @@
       :drivers-license="driversLicense"
       @close="showDriversLicenseCard = false"
     />
-    <TypographyHead1>{{ name }} 님의 전자지갑</TypographyHead1>
+    <TypographyHead2>{{ name }}님의 전자지갑</TypographyHead2>
 
     <Card
       class="bg-white flex justify-center items-center cursor-pointer"
@@ -70,7 +70,7 @@ import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Option from '@/shared/components/atoms/input/Option.vue'
 import Select from '@/shared/components/atoms/input/Select.vue'
-import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
+import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import { useRouter } from 'vue-router'

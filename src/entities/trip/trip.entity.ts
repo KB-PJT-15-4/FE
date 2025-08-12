@@ -1,4 +1,5 @@
 export const filterTabOptions = ['전체', '교통', '숙박', '식당']
+export const filterTabOptions2 = ['내역 ', '요청']
 export const locationList = ['서울', '부산', '제주', '강릉']
 export const transportStationNameList = [
   '서울역',

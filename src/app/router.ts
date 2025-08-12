@@ -76,6 +76,7 @@ const router = createRouter({
       path: '/trip/:tripId',
       name: 'trip_detail',
       component: TripDetail,
+      meta: { dark: true },
     },
     {
       path: '/trip/:tripId/reservation/accommodation',

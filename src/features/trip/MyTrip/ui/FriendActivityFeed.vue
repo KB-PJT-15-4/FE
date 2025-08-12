@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex flex-col gap-3 divide-y rounded-xl">
+  <ul class="flex flex-col gap-3">
     <Card
       v-for="item in items"
       :key="item.id"

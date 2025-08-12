@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[520px]">
+  <div class="h-[450px]">
     <div
       v-for="(trip, index) in tripList"
       :key="index"
@@ -30,7 +30,7 @@ const totalPage = ref<number>(0)
 const currentPage = computed(() => Number(route.query.page ?? 1))
 
 async function getTripListFunction(page: number) {
-  const result = await getTripList(localStorage.getItem('accessToken')!, page, 5)
+  const result = await getTripList(localStorage.getItem('accessToken')!, page, 4)
   tripList.value = result.content
   totalPage.value = result.totalPages
 }

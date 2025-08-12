@@ -1,30 +1,45 @@
 <template>
-  <div class="w-full flex flex-col gap-3">
-    <TripInfoBox
-      v-if="trip"
-      :trip="trip"
-    />
-    <div class="flex justify-between items-center gap-2">
-      <ToggleTab
-        v-model="currentLabel"
-        :options="toggleOptions"
-      />
-      <button
-        class="border rounded-full bg-moa-gray w-[50px] h-[40px] flex justify-center items-center"
-        @click="router.push({ name: 'add_member', params: { tripId: tripId } })"
+  <div class="w-full flex flex-col bg-white h-screen">
+    <div class="sticky top-0 h-[220px] shrink-0">
+      <img
+        src="https://t1.daumcdn.net/news/202408/04/speaktravel/20240804090001287dbfq.jpg"
+        class="absolute inset-0 w-full h-full object-cover object-top"
+        alt=""
       >
-        <i class="bi bi-person-plus text-[22px] text-moa-main-text" />
-      </button>
+      <div class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/40 to-transparent" />
+
+      <div class="relative pt-[50px] px-[16px]">
+        <TripInfoBoxDark
+          v-if="trip"
+          :trip="trip"
+        />
+      </div>
     </div>
-    <div v-if="selectedOption === 'reservationList'">
-      <MyReservationList :trip-id="Number(tripId)" />
-    </div>
-    <div v-if="selectedOption === 'reservation'">
-      <Reservation />
-    </div>
-    <div v-if="selectedOption === 'settle'">
-      <SettlementHistory />
-      <RequestSettlement />
+
+    <div
+      class="relative rounded-t-[25px] -mt-5 z-20 bg-white px-[10px] h-[100vh] overflow-scroll pt-7"
+    >
+      <div class="flex justify-between items-center gap-2 mb-2">
+        <ToggleTab
+          v-model="currentLabel"
+          :options="toggleOptions"
+        />
+        <button
+          class="border rounded-full bg-moa-gray w-[50px] h-[40px] flex justify-center items-center"
+          @click="router.push({ name: 'add_member', params: { tripId: tripId } })"
+        >
+          <i class="bi bi-person-plus text-[22px] text-moa-main-text" />
+        </button>
+      </div>
+
+      <div>
+        <MyReservationList
+          v-if="selectedOption === 'reservationList'"
+          :trip-id="Number(tripId)"
+        />
+        <Reservation v-else-if="selectedOption === 'reservation'" />
+        <SettlementTab v-else />
+      </div>
     </div>
   </div>
 </template>
@@ -34,10 +49,9 @@ import { computed, onMounted, ref, watch } from 'vue'
 import type { TripInfo } from '@/entities/trip/trip.entity'
 import { getTripInfo } from '@/features/trip/MyReservationList/services/myReservationList.service'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
-import TripInfoBox from '@/features/trip/MyTrip/ui/TripInfoBox.vue'
+import TripInfoBoxDark from '@/features/trip/MyTrip/ui/TripInfoBoxDark.vue'
 import Reservation from '@/features/trip/Reservation/ui/Reservation.vue'
-import RequestSettlement from '@/features/trip/Settlement/ui/RequestSettlement.vue'
-import SettlementHistory from '@/features/trip/Settlement/ui/SettlementHistory.vue'
+import SettlementTab from '@/features/trip/Settlement/ui/SettlementTab.vue'
 import ToggleTab from '@/shared/components/molecules/tab/ToggleTab.vue'
 import { useRoute, useRouter } from 'vue-router'
 const trip = ref<TripInfo>()

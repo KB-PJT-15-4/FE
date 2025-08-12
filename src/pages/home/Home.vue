@@ -1,31 +1,36 @@
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex flex-col">
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center -mt-4">
         <TypographyHead2>우리의 여행을</TypographyHead2>
         <div class="text-xs text-gray-500">
           {{ today }} · 맑음 ☀️ · 28℃
         </div>
       </div>
-
       <TypographyHead1 class="text-moa-main text-[30px]">
         MOA
       </TypographyHead1>
     </div>
     <TypographySubTitle1>다가오는 일정</TypographySubTitle1>
+
     <div
-      class="relative w-full h-[140px] rounded-2xl overflow-hidden bg-cover bg-center"
-      :style="{ backgroundImage: `url(${trip.imageUrl})` }"
+      class="relative w-full h-[140px] rounded-2xl overflow-hidden"
       @click="router.push({ name: 'trip_detail', params: { tripId: 1 } })"
     >
-      <div class="absolute inset-0 bg-black/30" />
-      <div class="absolute top-3 left-3">
+      <img
+        src="https://t1.daumcdn.net/news/202408/04/speaktravel/20240804090001287dbfq.jpg"
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover z-0"
+      >
+      <div class="absolute inset-0 bg-black/30 z-10" />
+
+      <div class="absolute top-3 left-3 z-20">
         <span class="px-2 py-1 text-xs font-semibold rounded-full bg-white/90 text-gray-900">
           D-{{ dday }}
         </span>
       </div>
 
-      <div class="absolute bottom-3 left-3 text-white">
+      <div class="absolute bottom-3 left-3 text-white z-20">
         <div class="text-sm font-semibold">
           {{ trip.city }} · {{ trip.title }}
         </div>
