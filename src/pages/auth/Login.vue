@@ -13,14 +13,17 @@
 
     <form
       class="w-full flex flex-col gap-4"
+      novalidate
       @submit.prevent="handleLogin"
     >
       <Input
-        v-model="email"
-        name="email"
-        type="email"
-        autocomplete="email"
-        placeholder="이메일/사업자번호를 입력해주세요"
+        v-model="identifier"
+        name="identifier"
+        type="text"
+        autocomplete="username"
+        autocapitalize="off"
+        spellcheck="false"
+        placeholder="이메일 또는 사업자번호를 입력해주세요"
         class="text-[16px]"
       />
       <Input
@@ -31,12 +34,10 @@
         placeholder="비밀번호를 입력해주세요"
         class="text-[16px]"
       />
-
       <ButtonMain class="mt-5">
         <TypographyHead3>로그인</TypographyHead3>
       </ButtonMain>
     </form>
-
     <TypographyP2
       class="text-center cursor-pointer"
       @click="goToSignup"

@@ -2,7 +2,7 @@
   <div class="relative w-full max-w-[390px] mx-auto bg-white">
     <!-- 헤더 -->
     <header
-      v-if="!shouldHideLayout || !tripDetail"
+      v-if="!shouldHideLayout && !tripDetail"
       class="fixed top-0 left-0 w-full z-50 flex justify-center"
       :class="[tripDetail ? 'text-white bg-transparent' : 'bg-white']"
     >
@@ -46,6 +46,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const shouldHideLayout = computed(() => route.meta.layout === false)
+
 const isOwner = computed(() => route.meta.owner === true)
 const tripDetail = computed(() => route.meta.dark === true)
 const tab = ['home', 'map', 'trip']
