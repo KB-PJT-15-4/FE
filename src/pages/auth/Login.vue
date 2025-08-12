@@ -66,8 +66,9 @@ const handleLogin = async () => {
   try {
     const result = await login(email.value, password.value)
 
-    const accessToken = result.token
-    const name = result.user.username
+    const accessToken = await result.token
+    const name = await result.user.username
+    console.log(accessToken, name)
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('name', name)
 

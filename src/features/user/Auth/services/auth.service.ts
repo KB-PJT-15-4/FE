@@ -16,8 +16,7 @@ export async function login(email: string, password: string) {
     throw new Error(errorBody.message)
   }
 
-  const res = await result.json()
-  return res.data
+  return await result.json()
 }
 
 export async function certification(
