@@ -1,6 +1,11 @@
 <template>
   <div
-    v-if="userInfo == null"
+    v-if="isLoading"
+    class="w-full h-[100vh] flex flex-col justify-center items-center gap-4"
+  />
+
+  <div
+    v-else-if="userInfo == null"
     class="w-full h-[100vh] flex flex-col items-center pt-[100px]"
   >
     <div
@@ -9,13 +14,17 @@
       <i class="bi bi-x text-[#d43a3a] font-extrabold text-[120px]" />
     </div>
     <TypographyHead1>유효하지 않은 QR 정보입니다</TypographyHead1>
+    <TypographyP1 class="text-moa-sub-text mt-2">
+      다시 스캔하거나 메인으로 돌아가세요.
+    </TypographyP1>
     <ButtonMain
       class="mt-[20vh]"
       @click="router.replace({ name: 'owner' })"
     >
-      <TypographyHead3> 메인으로</TypographyHead3>
+      <TypographyHead3>메인으로</TypographyHead3>
     </ButtonMain>
   </div>
+
   <div
     v-else
     class="w-full h-[100vh] flex flex-col gap-5 items-center"
@@ -25,15 +34,12 @@
       회원 주민등록증 정보
     </TypographyHead1>
 
-    <div
-      v-if="userInfo"
-      class="flex flex-col items-center justify-center"
-    >
+    <div class="flex flex-col items-center justify-center">
       <img
         :src="userInfo.imageUrl"
+        alt="ID Image"
         class="w-[130px] mb-4"
       >
-
       <TypographyHead2>{{ userInfo.name }}</TypographyHead2>
       <TypographySubTitle2 class="mt-4">
         {{ formatIdCardNumber(userInfo.idCardNumber) }}
@@ -48,10 +54,11 @@
       class="mt-5"
       @click="router.replace({ name: 'owner' })"
     >
-      <TypographyHead3> 메인으로</TypographyHead3>
+      <TypographyHead3>메인으로</TypographyHead3>
     </ButtonMain>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { UserIDCard } from '@/entities/user/user.entity'
 import { getDecodeIdQR } from '@/features/user/Owner/services/owner.service'
@@ -68,9 +75,9 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const data = route.query.result as string
-
-const userInfo = ref<UserIDCard | null>()
+const data = (route.query.result as string) || ''
+const userInfo = ref<UserIDCard | null>(null)
+const isLoading = ref(true)
 
 async function getDecodeQRFunction() {
   try {
@@ -78,8 +85,11 @@ async function getDecodeQRFunction() {
   } catch (e) {
     console.error(e)
     userInfo.value = null
+  } finally {
+    isLoading.value = false
   }
 }
+
 onMounted(() => {
   getDecodeQRFunction()
 })
