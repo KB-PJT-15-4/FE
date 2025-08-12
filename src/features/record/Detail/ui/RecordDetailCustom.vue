@@ -204,14 +204,12 @@ const goToCreate = () => {
 }
 
 const editRecord = (recordId: number) => {
-  const record = recordList.value.find((r) => r.recordId === recordId)
-  const existing = record?.imageUrls || []
-  router.push({
-    path: `/record/${props.tripId}/create`,
-    query: {
+  router.push({ 
+    path: `/record/${props.tripId}/create`, 
+    query: { 
       editRecordId: String(recordId),
-      existingImageUrls: JSON.stringify(existing),
-    },
+      date: props.selectedDate
+    }
   })
 }
 

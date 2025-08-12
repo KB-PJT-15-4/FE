@@ -10,8 +10,11 @@
         v-model:record-date="recordDate"
       />
 
-      <!-- 기록 이미지 추가 -->
-      <RecordCreateImage v-model="imageFiles" />
+      <!-- 기록 이미지 추가/기존 이미지 관리 -->
+      <RecordCreateImage
+        v-model="imageFiles"
+        v-model:existing-images="existingImages"
+      />
 
       <!-- 기록 취소, 완료 버튼 -->
       <div class="w-full flex justify-between gap-4">
@@ -44,6 +47,8 @@ import RecordCreateImage from '@/features/record/Create/ui/RecordCreateImage.vue
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
+type ExistingImage = { url: string; fileName: string }
+
 const router = useRouter()
 const route = useRoute()
 
@@ -54,7 +59,12 @@ const isEditMode = !isNaN(editRecordId)
 const title = ref('')
 const content = ref('')
 const recordDate = ref((route.query.date as string) || new Date().toISOString().split('T')[0])
+
+// 새로 업로드할 파일들
 const imageFiles = ref<File[]>([])
+// 기존 이미지(미리보기 url + 서버 통신용 fileName)
+const existingImages = ref<ExistingImage[]>([])
+
 const saving = ref(false)
 
 const fetchRecord = async () => {
@@ -63,23 +73,32 @@ const fetchRecord = async () => {
   try {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
 
     if (response.data.code === 'S200') {
-      const record = response.data.data
+      const record = response.data.data as {
+        title: string
+        recordDate: string
+        content: string
+        images?: ExistingImage[]
+      }
+
       title.value = record.title
       recordDate.value = record.recordDate
       content.value = record.content
+
+      // 상세 DTO는 images: [{ url, fileName }]
+      const images: ExistingImage[] = Array.isArray(record.images) ? record.images : []
+      existingImages.value = images.map((img: ExistingImage) => ({
+        url: img.url,
+        fileName: img.fileName,
+      }))
+
+      // 새 업로드 목록은 비움
       imageFiles.value = []
-      console.log('편집 모드: 기존 이미지', record.imageUrls)
     }
   } catch (error: unknown) {
     console.error('기록을 불러오는 중 오류가 발생했습니다:', error)
@@ -94,17 +113,41 @@ const fetchRecord = async () => {
 }
 
 onMounted(() => {
+  // 상세 API에서 항상 최신 데이터 로딩
   fetchRecord()
 })
 
-const createFormData = () => {
+const createFormDataForCreate = () => {
+  // POST /records : TripRecordRequestDto (imageUrls)
   const formData = new FormData()
   formData.append('title', title.value)
   formData.append('recordDate', recordDate.value)
   formData.append('content', content.value)
 
   imageFiles.value.forEach((file) => {
-    formData.append('imageUrls', file)
+    formData.append('imageUrls', file) // ✅ 생성은 imageUrls
+  })
+
+  return formData
+}
+
+const createFormDataForUpdate = () => {
+  // PUT /records/{id} : TripRecordUpdateRequestDto (existingImageFileNames, newImages)
+  const formData = new FormData()
+  formData.append('title', title.value)
+  formData.append('recordDate', recordDate.value)
+  formData.append('content', content.value)
+
+  // 유지할 기존 이미지의 파일명만 전송
+  existingImages.value.forEach((img) => {
+    if (img?.fileName) {
+      formData.append('existingImageFileNames', img.fileName)
+    }
+  })
+
+  // 새 파일
+  imageFiles.value.forEach((file) => {
+    formData.append('newImages', file)
   })
 
   return formData
@@ -121,12 +164,13 @@ const saveRecord = async () => {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
 
-    const formData = createFormData()
-
     let response
     if (isEditMode) {
+
+      const formData = createFormDataForUpdate()
       response = await axios.put(
         `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`,
+
         formData,
         {
           headers: {
@@ -136,8 +180,11 @@ const saveRecord = async () => {
         }
       )
     } else {
+
+      const formData = createFormDataForCreate()
       response = await axios.post(
         `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records`,
+
         formData,
         {
           headers: {
@@ -158,23 +205,15 @@ const saveRecord = async () => {
     }
   } catch (error: unknown) {
     console.error('기록 저장 중 오류가 발생했습니다:', error)
-
     if (error && typeof error === 'object' && 'response' in error) {
       const axiosError = error as {
-        response?: {
-          status: number
-          data?: {
-            message?: string
-          }
-        }
+        response?: { status: number; data?: { message?: string } }
       }
-
       if (axiosError.response?.status === 400) {
         const errorMessage = axiosError.response.data?.message || '입력 데이터에 문제가 있습니다.'
         alert(`오류: ${errorMessage}`)
       }
     }
-
     if (error instanceof Error && error.message === 'Access token not found') {
       alert('로그인이 필요합니다.')
       router.push('/login')

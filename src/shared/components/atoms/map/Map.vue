@@ -50,8 +50,8 @@ function initMap() {
     if (!container) return
 
     const options = {
-      center: new window.kakao.maps.LatLng(37.4979, 126.9828),
-      level: 9,
+      center: new window.kakao.maps.LatLng(36.35041, 127.38455),
+      level: 15,
     }
 
     const map = new window.kakao.maps.Map(container, options)
