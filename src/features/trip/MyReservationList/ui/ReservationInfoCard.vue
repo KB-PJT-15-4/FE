@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-50 flex justify-center items-center"
+    class="fixed overflow-scroll flex flex-col top-0 left-0 w-full h-full bg-black bg-opacity-30 z-50 justify-start py-[100px] items-center"
   >
     <Card
       v-for="(res, index) in info"

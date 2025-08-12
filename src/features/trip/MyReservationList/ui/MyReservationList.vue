@@ -34,8 +34,8 @@
           </TypographySubTitle1>
 
           <div
-            v-for="reservation in reservationList"
-            :key="reservation.itemId"
+            v-for="(reservation, index) in reservationList"
+            :key="index"
           >
             <ReservationInfo :reservation="reservation" />
           </div>
@@ -122,6 +122,7 @@ const selectedOption = computed(() => {
   }
 })
 
+console.log(reservationList)
 async function fetchReservationList() {
   if (!props.tripId) return
 
