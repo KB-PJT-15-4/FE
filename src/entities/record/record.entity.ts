@@ -22,3 +22,13 @@ export interface ApiPaymentRecord {
   paymentPrice: number
   paymentDate: string
 }
+
+export interface Record {
+  recordId: number
+  tripId: number
+  title: string
+  recordDate: string
+  content: string
+  imageUrls?: string[]
+  createdAt: string
+}
