@@ -12,30 +12,23 @@
     <div
       v-for="record in paginatedRecords"
       :key="record.recordId"
-      class="p-4 bg-white rounded-md shadow border space-y-2"
+      class="bg-white space-y-2 mb-3"
     >
       <div class="flex justify-between items-center">
         <div class="font-bold text-base">
-          {{ record.title }}
+          <TypographyHead3>{{ record.title }}</TypographyHead3>
         </div>
-        <div class="flex gap-2 w-[100px] text-sm">
-          <ButtonExtraSmallMain @click="editRecord(record.recordId)">
-            수정
-          </ButtonExtraSmallMain>
-          <ButtonExtraSmallMain @click="deleteRecord(record.recordId)">
-            삭제
-          </ButtonExtraSmallMain>
+        <div class="flex gap-2 w-[80px] text-sm">
+          <TypographyP2 class="text-moa-main-text"> 
+            {{ formatFullDateToKorean(new Date(record.recordDate)) }}
+          </TypographyP2>
         </div>
-      </div>
-
-      <div class="text-sm text-[#626262]">
-        {{ formatFullDateToKorean(new Date(record.recordDate)) }}
       </div>
 
       <!-- 이미지 가로 슬라이더 -->
       <div
         v-if="record.imageUrls && record.imageUrls.length > 0"
-        class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
+        class=" flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
         style="-webkit-overflow-scrolling: touch;"
       >
         <div
@@ -45,16 +38,23 @@
         >
           <img
             :src="imageUrl"
-            class="w-full h-64 object-cover rounded-md"
+            class="my-3 w-full h-64 object-cover rounded-md"
             :alt="`기록 이미지 ${imgIndex + 1}`"
             loading="lazy"
           >
         </div>
       </div>
 
-      <p class="text-sm text-[#626262] whitespace-pre-line line-clamp-2">
+      <TypographyP1 class=" text-moa-gray-text whitespace-pre-line ">
         {{ record.content }}
-      </p>
+      </TypographyP1>
+      
+      <ButtonExtraSmallMain @click="editRecord(record.recordId)">
+        수정
+      </ButtonExtraSmallMain>
+      <ButtonExtraSmallMain @click="deleteRecord(record.recordId)">
+        삭제
+      </ButtonExtraSmallMain>
     </div>
 
     <!-- 기록이 없는 경우 -->
@@ -89,6 +89,9 @@ import { useRoute, useRouter } from 'vue-router'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
 import type { Record } from '@/entities/record/record.entity'
 
