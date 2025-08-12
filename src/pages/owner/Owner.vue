@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-[100vh] flex flex-col gap-5 justify-center items-center mt-6">
-    <TypographySubTitle1>다모아 호텔 사장님, 반갑습니다 👋</TypographySubTitle1>
+    <TypographySubTitle1>{{ name }} 사장님, 반갑습니다 👋</TypographySubTitle1>
     <div class="flex flex-col mb-3 mt-12">
       <TypographyHead1>MOA 사장님 페이지 </TypographyHead1>
       <TypographySubTitle1 class="text-moa-sub-text">
@@ -33,17 +33,25 @@
       </div>
       <TypographySubTitle2>고객의 QR 코드를 스캔하여 </TypographySubTitle2>
       <TypographySubTitle2>예매 정보를 확인하세요</TypographySubTitle2>
+      <ButtonGhost
+        class="mt-[180px]"
+        @click="logoutFunction"
+      >
+        로그아웃
+      </ButtonGhost>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import ButtonGhost from '@/shared/components/atoms/button/ButtonGhost.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const name = localStorage.getItem('name')
 
 function onClickIdCameraButton() {
   router.push({ name: 'id_camera' })
@@ -51,5 +59,12 @@ function onClickIdCameraButton() {
 
 function onClickReservationCameraButton() {
   router.push({ name: 'reservation_camera' })
+}
+
+function logoutFunction() {
+  if (window.confirm('로그아웃하시겠습니까?')) {
+    localStorage.removeItem('accessToken')
+    router.replace({ name: 'login' })
+  }
 }
 </script>

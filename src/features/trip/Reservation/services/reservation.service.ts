@@ -312,8 +312,8 @@ export async function reservationAccommodation(
   token: string,
   tripId: number,
   accomResId: number,
-  checkinday: string,
-  checkoutday: string,
+  checkinDay: string,
+  checkoutDay: string,
   guests: number,
   price: number
 ) {
@@ -327,8 +327,8 @@ export async function reservationAccommodation(
     body: JSON.stringify({
       tripId,
       accomResId,
-      checkinday,
-      checkoutday,
+      checkinDay,
+      checkoutDay,
       guests,
       price,
     }),

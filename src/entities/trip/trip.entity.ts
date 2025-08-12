@@ -230,3 +230,26 @@ export interface Trip {
   endDate: string
   locationName: string
 }
+
+// 마이페이지 여행 추천 목데이터
+export interface TripRecommendation {
+  name: string
+  imageUrl: string
+
+  location: string
+  rating: number
+}
+
+export interface FeedItem {
+  id: string
+  user: string
+  avatar: string
+  action: '기록을 남겼어요' | '호텔을 예약하였어요' | '식당을 예약하였어요'
+  tripId: string
+  tripName: string
+  extra?: string // 호텔명, 식당명 등
+  place?: string
+  thumb?: string
+  timeISO: string
+  timeText: string // '3시간 전' 같은 가독성 문자열
+}

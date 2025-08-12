@@ -39,13 +39,14 @@
       </div>
     </div>
     <div class="flex w-full justify-between">
-      <ButtonMediumSub>취소</ButtonMediumSub>
+      <ButtonMediumSub @click="cancelSelectSeat">
+        취소
+      </ButtonMediumSub>
       <ButtonMediumMain @click="selectSeatFunction">
         예약하기
       </ButtonMediumMain>
     </div>
   </div>
-  <p>{{ disabledSeat }}</p>
 </template>
 <script setup lang="ts">
 import {
@@ -150,6 +151,16 @@ function setItemInfo() {
     destination: route.query.destination as string,
     startDate: route.query.start_date as string,
     startTime: route.query.start_time as string,
+  }
+}
+
+function cancelSelectSeat() {
+  if (window.confirm('예약을 취소하시겠습니까?')) {
+    router.replace({
+      name: 'trip_detail',
+      params: { tripId: tripId },
+      query: { tab: 'reservation' },
+    })
   }
 }
 

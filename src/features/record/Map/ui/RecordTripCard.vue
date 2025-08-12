@@ -38,14 +38,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Trip } from '@/entities/trip/trip.entity'
+import { formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { formatFullDateToKorean } from '@/shared/utils/format'
-import type { Trip } from '@/entities/trip/trip.entity'
 
-import axios from 'axios'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
+import axios from 'axios'
 
 const props = withDefaults(
   defineProps<{
@@ -71,7 +71,7 @@ const fetchTrips = async () => {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
 
-    const response = await axios.get('http://localhost:8080/api/trips', {
+    const response = await axios.get('${import.meta.env.VITE_APP_API_URL}/api/trips', {
       headers: {
         Authorization: `Bearer ${token}`,
       },

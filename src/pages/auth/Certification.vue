@@ -25,7 +25,6 @@
           ref="rrnFrontRef"
           v-model="rrnFront"
           name="id-1"
-          class="flex-1 border-[2px]"
           placeholder="주민번호 앞자리"
           maxlength="6"
           @input="handleRrnFrontInput"
@@ -37,7 +36,6 @@
           ref="rrnBackRef"
           v-model="rrnBack"
           name="id-2"
-          class="flex-1 border-[2px]"
           type="password"
           placeholder="주민번호 뒷자리"
           maxlength="7"
@@ -119,7 +117,7 @@ const goToSignup = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/public/verifyJoin', {
+    const response = await fetch('${import.meta.env.VITE_APP_API_URL}/api/public/verifyJoin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

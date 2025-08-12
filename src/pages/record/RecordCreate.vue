@@ -38,14 +38,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import RecordCreateForm from '@/features/record/Create/ui/RecordCreateForm.vue'
 import RecordCreateImage from '@/features/record/Create/ui/RecordCreateImage.vue'
+import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
 type ExistingImage = { url: string; fileName: string }
 
@@ -73,8 +73,8 @@ const fetchRecord = async () => {
   try {
     const token = localStorage.getItem('accessToken')
     if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(`http://localhost:8080/api/trips/${tripId}/records/${editRecordId}`, {
+    
+    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
 
@@ -166,9 +166,11 @@ const saveRecord = async () => {
 
     let response
     if (isEditMode) {
+
       const formData = createFormDataForUpdate()
       response = await axios.put(
-        `http://localhost:8080/api/trips/${tripId}/records/${editRecordId}`,
+        `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`,
+
         formData,
         {
           headers: {
@@ -178,9 +180,11 @@ const saveRecord = async () => {
         }
       )
     } else {
+
       const formData = createFormDataForCreate()
       response = await axios.post(
-        `http://localhost:8080/api/trips/${tripId}/records`,
+        `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records`,
+
         formData,
         {
           headers: {
@@ -196,7 +200,7 @@ const saveRecord = async () => {
       router.push({
         name: 'record_detail',
         params: { tripId },
-        query: { refresh: Date.now().toString() }
+        query: { refresh: Date.now().toString() },
       })
     }
   } catch (error: unknown) {

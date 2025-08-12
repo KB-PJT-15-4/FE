@@ -97,7 +97,7 @@ const handleSignup = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/public/join', {
+    const response = await fetch('${import.meta.env.VITE_APP_API_URL}/api/public/join', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
