@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import logo from '@/assets/moa_logo.jpg'
 import { login } from '@/features/user/Auth/services/auth.service'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
@@ -59,8 +59,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
+const email = ref<string>('')
+const password = ref<string>('')
 
 const handleLogin = async () => {
   try {
