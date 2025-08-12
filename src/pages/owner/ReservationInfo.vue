@@ -1,7 +1,12 @@
 <template>
   <div>
     <div
-      v-if="reservationInfo == null"
+      v-if="isLoading"
+      class="w-full h-[100vh] flex flex-col justify-center items-center gap-4"
+    />
+
+    <div
+      v-else-if="reservationInfo == null"
       class="w-full pt-[100px] flex flex-col items-center"
     >
       <div
@@ -15,9 +20,10 @@
         class="mt-[20vh]"
         @click="router.replace({ name: 'owner' })"
       >
-        <TypographyHead3> 메인으로</TypographyHead3>
+        <TypographyHead3>메인으로</TypographyHead3>
       </ButtonMain>
     </div>
+
     <div
       v-else
       class="w-full flex flex-col justify-center items-center gap-5"
@@ -26,8 +32,10 @@
       <TypographyHead1 class="my-7">
         예약권 정보
       </TypographyHead1>
+
+      <!-- 숙박 -->
       <div
-        v-if="reservationInfo!.type === 'ACCOMMODATION'"
+        v-if="reservationInfo.type === 'ACCOMMODATION'"
         class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
         <TypographyHead3 class="mb-7">
@@ -37,35 +45,37 @@
           <TypographyP1 class="font-bold">
             룸 타입
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as AccommodationItem).roomType }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as AccommodationItem).roomType }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             체크인 시간
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as AccommodationItem).checkinDay }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as AccommodationItem).checkinDay }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             체크아웃 시간
           </TypographyP1>
-          <TypographyP1> {{ (reservationInfo as AccommodationItem).checkoutDay }}</TypographyP1>
+          <TypographyP1>{{ (reservationInfo as AccommodationItem).checkoutDay }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             인원
           </TypographyP1>
-          <TypographyP1> {{ (reservationInfo as AccommodationItem).guests }}명</TypographyP1>
+          <TypographyP1>{{ (reservationInfo as AccommodationItem).guests }}명</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             예약 상태
           </TypographyP1>
-          <TypographyP1> {{ (reservationInfo as AccommodationItem).status }}</TypographyP1>
+          <TypographyP1>{{ (reservationInfo as AccommodationItem).status }}</TypographyP1>
         </div>
       </div>
+
+      <!-- 식당 -->
       <div
-        v-if="reservationInfo!.type === 'RESTAURANT'"
+        v-if="reservationInfo.type === 'RESTAURANT'"
         class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
         <TypographyHead3 class="mb-7">
@@ -80,29 +90,30 @@
             {{ (reservationInfo as RestaurantItem).time }}
           </TypographyP1>
         </div>
-
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             인원
           </TypographyP1>
-          <TypographyP1> {{ (reservationInfo as RestaurantItem).resNum }}명</TypographyP1>
+          <TypographyP1>{{ (reservationInfo as RestaurantItem).resNum }}명</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             예약 상태
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as RestaurantItem).status }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as RestaurantItem).status }}</TypographyP1>
         </div>
       </div>
+
+      <!-- 교통 -->
       <div
-        v-if="reservationInfo!.type === 'TRANSPORT'"
+        v-if="reservationInfo.type === 'TRANSPORT'"
         class="w-full flex flex-col justify-start items-center gap-4 h-[55vh]"
       >
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             열차 명
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as TransportationItem).trainNo }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).trainNo }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
@@ -114,48 +125,45 @@
             }}
           </TypographyP1>
         </div>
-
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             출발지
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as TransportationItem).departureName }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).departureName }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             출발 시간
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as TransportationItem).departureTime }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).departureTime }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             도착지
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as TransportationItem).arrivalName }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).arrivalName }}</TypographyP1>
         </div>
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             도착 시간
           </TypographyP1>
-          <TypographyP1>{{ (reservationInfo as TransportationItem).arrivalTime }} </TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).arrivalTime }}</TypographyP1>
         </div>
-
         <div class="w-full flex gap-4 justify-between">
           <TypographyP1 class="font-bold">
             예약 상태
           </TypographyP1>
-          <TypographyP1> {{ (reservationInfo as TransportationItem).status }}</TypographyP1>
+          <TypographyP1>{{ (reservationInfo as TransportationItem).status }}</TypographyP1>
         </div>
       </div>
-      <ButtonMain
-        class=""
-        @click="router.replace({ name: 'owner' })"
-      >
-        <TypographyHead3> 메인으로</TypographyHead3>
+
+      <ButtonMain @click="router.replace({ name: 'owner' })">
+        <TypographyHead3>메인으로</TypographyHead3>
       </ButtonMain>
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { getDecodeReservationQR } from '@/features/user/Owner/services/owner.service'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
@@ -169,7 +177,8 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const data = route.query.result as string
-const reservationInfo = ref<AccommodationItem | RestaurantItem | TransportationItem>()
+const reservationInfo = ref<AccommodationItem | RestaurantItem | TransportationItem | null>(null)
+const isLoading = ref(true)
 
 interface ItemType {
   type: 'ACCOMMODATION' | 'RESTAURANT' | 'TRANSPORT'
@@ -209,7 +218,14 @@ interface TransportationItem extends ItemType {
 }
 
 async function getDecodeQRFunction() {
-  reservationInfo.value = await getDecodeReservationQR(localStorage.getItem('accessToken')!, data)
+  try {
+    reservationInfo.value = await getDecodeReservationQR(localStorage.getItem('accessToken')!, data)
+  } catch (e) {
+    console.error(e)
+    reservationInfo.value = null
+  } finally {
+    isLoading.value = false
+  }
 }
 
 onMounted(() => {
