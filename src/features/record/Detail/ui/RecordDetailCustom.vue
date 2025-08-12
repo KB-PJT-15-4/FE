@@ -1,12 +1,5 @@
 <template>
   <div class="flex flex-col gap-4">
-    <!-- 기록 상세보기 모달 -->
-    <RecordDetailView
-      v-if="showRecordDetail"
-      :record="selectedRecord"
-      @close="showRecordDetail = false"
-    />
-
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px] text-sm"
@@ -25,10 +18,7 @@
         <div class="font-bold text-base">
           {{ record.title }}
         </div>
-        <div class="flex gap-2 w-[200px] text-sm">
-          <ButtonExtraSmallMain @click="showDetail(record)">
-            상세보기
-          </ButtonExtraSmallMain>
+        <div class="flex gap-2 w-[100px] text-sm">
           <ButtonExtraSmallMain @click="editRecord(record.recordId)">
             수정
           </ButtonExtraSmallMain>
@@ -37,21 +27,31 @@
           </ButtonExtraSmallMain>
         </div>
       </div>
+
       <div class="text-sm text-[#626262]">
         {{ formatFullDateToKorean(new Date(record.recordDate)) }}
       </div>
+
+      <!-- 이미지 가로 슬라이더 -->
       <div
         v-if="record.imageUrls && record.imageUrls.length > 0"
-        class="space-y-2"
+        class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
+        style="-webkit-overflow-scrolling: touch;"
       >
-        <img
+        <div
           v-for="(imageUrl, imgIndex) in record.imageUrls"
           :key="imgIndex"
-          :src="imageUrl"
-          class="w-full rounded"
-          :alt="`기록 이미지 ${imgIndex + 1}`"
+          class="flex-none basis-full snap-center"
         >
+          <img
+            :src="imageUrl"
+            class="w-full h-64 object-cover rounded-md"
+            :alt="`기록 이미지 ${imgIndex + 1}`"
+            loading="lazy"
+          >
+        </div>
       </div>
+
       <p class="text-sm text-[#626262] whitespace-pre-line line-clamp-2">
         {{ record.content }}
       </p>
@@ -86,20 +86,11 @@ import axios from 'axios'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import RecordDetailView from '@/features/record/Detail/ui/RecordDetailView.vue'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 
-interface Record {
-  recordId: number
-  tripId: number
-  title: string
-  recordDate: string
-  content: string
-  imageUrls?: string[]
-  createdAt: string
-}
+import type { Record } from '@/entities/record/record.entity'
 
 const props = defineProps<{
   tripId: number
@@ -113,14 +104,6 @@ const ITEMS_PER_PAGE = 2
 
 const recordList = ref<Record[]>([])
 const totalRecords = ref(0)
-
-const showRecordDetail = ref(false)
-const selectedRecord = ref<{
-  title: string
-  date: string
-  imageUrls?: string[]
-  content: string
-} | null>(null)
 
 const currentPage = ref(Number(route.query.page) || 1)
 
@@ -185,16 +168,6 @@ watch(
   }
 )
 
-const showDetail = (record: Record) => {
-  selectedRecord.value = {
-    title: record.title,
-    date: record.recordDate,
-    imageUrls: record.imageUrls,
-    content: record.content,
-  }
-  showRecordDetail.value = true
-}
-
 const goToCreate = () => {
   router.push({
     name: 'record_create',
@@ -244,7 +217,7 @@ const deleteRecord = async (recordId: number) => {
       console.error('기록 삭제 중 오류가 발생했습니다:', error)
       if (error instanceof Error && error.message === 'Access token not found') {
         alert('로그인이 필요합니다.')
-        router.push('/login')
+        router.push('/')
       }
     }
   }

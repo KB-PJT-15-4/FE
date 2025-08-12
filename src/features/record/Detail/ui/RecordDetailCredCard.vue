@@ -3,7 +3,7 @@
     class="w-[60px] mb-2 text-sm"
     @click="navigateToReport"
   >
-    가져오기
+    Report
   </ButtonExtraSmallMain>
 
   <!-- 결제 내역 카드들 -->
