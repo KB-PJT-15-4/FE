@@ -217,7 +217,7 @@ const deleteRecord = async (recordId: number) => {
       console.error('기록 삭제 중 오류가 발생했습니다:', error)
       if (error instanceof Error && error.message === 'Access token not found') {
         alert('로그인이 필요합니다.')
-        router.push('/')
+        router.push({ name: 'login' })
       }
     }
   }
