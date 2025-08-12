@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full text-left py-4">
+  <div class="w-full text-left mt-[-20px]">
     <TypographyHead3 class="mb-4">
       나의 여행지도
     </TypographyHead3>
