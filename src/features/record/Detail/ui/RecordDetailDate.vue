@@ -11,10 +11,9 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import type { Trip } from '@/entities/record/record.entity'
 import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import axios from 'axios'
-
-import type { Trip } from '@/entities/trip/trip.entity'
 
 const props = defineProps<{
   tripId: number

@@ -23,6 +23,16 @@ export interface ApiPaymentRecord {
   paymentDate: string
 }
 
+// [기록 페이지] 지도 타입
+export interface Trip {
+  tripId: number
+  tripName: string
+  status: string
+  startDate: string
+  endDate: string
+  locationName: string
+}
+
 export interface Record {
   recordId: number
   tripId: number
@@ -32,3 +42,4 @@ export interface Record {
   imageUrls?: string[]
   createdAt: string
 }
+

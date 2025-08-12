@@ -122,7 +122,6 @@ const selectedOption = computed(() => {
   }
 })
 
-console.log(reservationList)
 async function fetchReservationList() {
   if (!props.tripId) return
 
