@@ -28,33 +28,33 @@
         class="flex flex-col justify-center items-center w-full"
       >
         <TypographyHead1>
-          {{ (res.details as AccommodationItem).hotelName }}
+          {{ (res.details as AccommodationInfoItem).hotelName }}
         </TypographyHead1>
         <div class="w-[250px] flex justify-between mt-5">
           <TypographyP1> 방 타입</TypographyP1>
           <TypographyP1>
-            {{ (res.details as AccommodationItem).roomType }}
+            {{ (res.details as AccommodationInfoItem).roomType }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 체크인</TypographyP1>
           <TypographyP1>
-            {{ (res.details as AccommodationItem).checkinDay }}
+            {{ (res.details as AccommodationInfoItem).checkinDay }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 체크아웃</TypographyP1>
           <TypographyP1>
-            {{ (res.details as AccommodationItem).checkoutDay }}
+            {{ (res.details as AccommodationInfoItem).checkoutDay }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 인원</TypographyP1>
-          <TypographyP1> {{ (res.details as AccommodationItem).guests }} 명 </TypographyP1>
+          <TypographyP1> {{ (res.details as AccommodationInfoItem).guests }} 명 </TypographyP1>
         </div>
 
         <TypographySubTitle1 class="mt-4">
-          {{ (res.details as AccommodationItem).address }}
+          {{ (res.details as AccommodationInfoItem).address }}
         </TypographySubTitle1>
       </div>
 
@@ -64,21 +64,21 @@
         class="flex flex-col justify-center items-center w-full"
       >
         <TypographyHead1>
-          {{ (res.details as RestaurantItem).restName }}
+          {{ (res.details as RestaurantInfoItem).restName }}
         </TypographyHead1>
         <div class="w-[250px] flex justify-between mt-5">
           <TypographyP1> 예약 시간</TypographyP1>
           <TypographyP1>
-            {{ (res.details as RestaurantItem).date }}
-            {{ (res.details as RestaurantItem).time }}
+            {{ (res.details as RestaurantInfoItem).date }}
+            {{ (res.details as RestaurantInfoItem).time }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 인원</TypographyP1>
-          <TypographyP1> {{ (res.details as RestaurantItem).resNum }}명 </TypographyP1>
+          <TypographyP1> {{ (res.details as RestaurantInfoItem).resNum }}명 </TypographyP1>
         </div>
         <TypographySubTitle1 class="mt-7">
-          {{ (res.details as RestaurantItem).address }}
+          {{ (res.details as RestaurantInfoItem).address }}
         </TypographySubTitle1>
       </div>
 
@@ -88,26 +88,28 @@
         class="flex flex-col justify-center items-center w-full"
       >
         <TypographyHead1>
-          {{ (res.details as TransportItem).trainNo }}
+          {{ (res.details as TransportInfoItem).trainNo }}
         </TypographyHead1>
         <div class="w-[250px] flex justify-between">
           <TypographyP1>좌석</TypographyP1>
           <TypographyP1>
-            {{ (res.details as TransportItem).seatRoomNo }}호차
-            {{ (res.details as TransportItem).seatNumber }}번
+            {{ (res.details as TransportInfoItem).seatRoomNo }}호차
+            {{ (res.details as TransportInfoItem).seatNumber }}번
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between mt-5">
-          <TypographyP1> 출발: {{ (res.details as TransportItem).departureName }} </TypographyP1>
           <TypographyP1>
-            {{ (res.details as TransportItem).departureTime }}
+            출발: {{ (res.details as TransportInfoItem).departureName }}
+          </TypographyP1>
+          <TypographyP1>
+            {{ (res.details as TransportInfoItem).departureTime }}
           </TypographyP1>
         </div>
 
         <div class="w-[250px] flex justify-between">
-          <TypographyP1> 도착: {{ (res.details as TransportItem).arrivalName }} </TypographyP1>
+          <TypographyP1> 도착: {{ (res.details as TransportInfoItem).arrivalName }} </TypographyP1>
           <TypographyP1>
-            {{ (res.details as TransportItem).arrivalTime }}
+            {{ (res.details as TransportInfoItem).arrivalTime }}
           </TypographyP1>
         </div>
       </div>
@@ -115,56 +117,18 @@
   </div>
 </template>
 <script setup lang="ts">
+import type {
+  AccommodationInfoItem,
+  Reservation,
+  RestaurantInfoItem,
+  TransportInfoItem,
+} from '@/entities/trip/trip.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import { onMounted, ref } from 'vue'
 import { getReservationQR } from '../services/myReservationList.service'
-
-interface Item {
-  type: string
-  status: string
-}
-
-interface RestaurantItem extends Item {
-  reservationId: number
-  restName: string
-  address: string
-  date: string
-  time: string
-  resNum: number
-  status: string
-}
-
-interface AccommodationItem extends Item {
-  reservationId: number
-  hotelName: string
-  address: string
-  roomType: string
-  checkinDay: string
-  checkoutDay: string
-  guests: number
-  location: string
-}
-
-interface TransportItem extends Item {
-  tranResId: number
-  reservationId: number
-  trainNo: string
-  departureName: string
-  arrivalName: string
-  departureTime: string
-  arrivalTime: string
-  seatRoomNo: number
-  seatNumber: string
-  seatType: string
-}
-
-interface Reservation {
-  qrCodeString: string
-  details: RestaurantItem | AccommodationItem | TransportItem
-}
 
 const props = defineProps<{
   itemId: number

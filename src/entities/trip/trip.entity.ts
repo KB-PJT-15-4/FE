@@ -85,6 +85,51 @@ export interface UserReservationList {
   imageUrl: string
 }
 
+// [마이페이지, 여행페이지] 예매 내역 QR 보기 엔티티
+interface Item {
+  type: string
+  status: string
+}
+
+export interface RestaurantInfoItem extends Item {
+  reservationId: number
+  restName: string
+  address: string
+  date: string
+  time: string
+  resNum: number
+  status: string
+}
+
+export interface AccommodationInfoItem extends Item {
+  reservationId: number
+  hotelName: string
+  address: string
+  roomType: string
+  checkinDay: string
+  checkoutDay: string
+  guests: number
+  location: string
+}
+
+export interface TransportInfoItem extends Item {
+  tranResId: number
+  reservationId: number
+  trainNo: string
+  departureName: string
+  arrivalName: string
+  departureTime: string
+  arrivalTime: string
+  seatRoomNo: number
+  seatNumber: string
+  seatType: string
+}
+
+export interface Reservation {
+  qrCodeString: string
+  details: RestaurantInfoItem | AccommodationInfoItem | TransportInfoItem
+}
+
 // [여행 페이지] 예매 가능 항목
 export interface ReservationItem {
   itemId: string // 예매 항목 id
