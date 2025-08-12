@@ -16,6 +16,7 @@ export default {
         'moa-success': '#009F2C',
         'moa-main-text': '#3E3E3E',
         'moa-sub-text': '#949494',
+        'moa-gray-text': '#626262'
       },
     },
   },
