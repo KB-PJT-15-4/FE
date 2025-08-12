@@ -45,11 +45,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import logo from '@/assets/moa_logo.jpg'
+import { signup } from '@/features/user/Auth/services/auth.service'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
@@ -57,26 +58,18 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+const email = ref<string>('')
+const password = ref<string>('')
+const confirmPassword = ref<string>('')
 
 // 본인인증 정보 가져오기
-const name = ref('')
-const idCardNumber = ref('')
-const accountNumber = ref('')
-const accountPassword = ref('')
-
-onMounted(() => {
-  const certData = JSON.parse(localStorage.getItem('certData') || '{}')
-  name.value = certData.name || ''
-  idCardNumber.value = certData.idCardNumber || ''
-  accountNumber.value = certData.accountNumber || ''
-  accountPassword.value = certData.accountPassword || ''
-})
+const name = ref<string>('')
+const idCardNumber = ref<string>('')
+const accountNumber = ref<string>('')
+const accountPassword = ref<string>('')
 
 const goToLogin = () => {
-  router.push({ name: 'login' })
+  router.replace({ name: 'login' })
 }
 
 const handleSignup = async () => {
@@ -86,44 +79,33 @@ const handleSignup = async () => {
     return
   }
 
-  const signupData = {
-    email: email.value,
-    password: password.value,
-    name: name.value,
-    idCardNumber: idCardNumber.value,
-    accountNumber: accountNumber.value,
-    accountPassword: accountPassword.value,
-    role: 'ROLE_USER',
-  }
-
   try {
-    const response = await fetch('${import.meta.env.VITE_APP_API_URL}/api/public/join', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // 세션 유지
-      body: JSON.stringify(signupData),
-    })
+    await signup(
+      email.value,
+      password.value,
+      name.value,
+      idCardNumber.value,
+      accountNumber.value,
+      accountPassword.value,
+      'ROLE_USER'
+    )
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`회원가입 실패: ${response.status} - ${errorText}`)
-    }
+    localStorage.removeItem('certData')
 
-    const data = await response.json()
-    console.log('서버 응답:', data)
+    alert('회원가입에 성공하였습니다.\n로그인페이지로 이동합니다.')
 
-    localStorage.setItem('signData', JSON.stringify(signupData))
-
-    localStorage.removeItem('certData') // 본인인증 데이터 제거
-
-    alert('회원가입 성공!')
-
-    router.push({ name: 'login' })
-  } catch (error) {
-    console.error('회원가입 실패:', error)
+    router.replace({ name: 'login' })
+  } catch (e) {
+    console.error(e)
     alert('회원가입에 실패했습니다. 정보를 확인해주세요.')
   }
 }
+
+onMounted(() => {
+  const certData = JSON.parse(localStorage.getItem('certData') || '{}')
+  name.value = certData.name || ''
+  idCardNumber.value = certData.idCardNumber || ''
+  accountNumber.value = certData.accountNumber || ''
+  accountPassword.value = certData.accountPassword || ''
+})
 </script>

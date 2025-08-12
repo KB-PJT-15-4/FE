@@ -47,46 +47,28 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
+<script setup lang="ts">
 import logo from '@/assets/moa_logo.jpg'
+import { login } from '@/features/user/Auth/services/auth.service'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const email = ref('')
-const password = ref('')
+const email = ref<string>('')
+const password = ref<string>('')
 
 const handleLogin = async () => {
-  const context = {
-    email: email.value,
-    password: password.value,
-  }
-
   try {
-    const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/api/public/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // 쿠키 포함
-      body: JSON.stringify(context),
-    })
+    const result = await login(email.value, password.value)
 
-    if (!response.ok) {
-      const errorBody = await response.text()
-      throw new Error(`HTTP ${response.status} - ${errorBody}`)
-    }
-
-    const data = await response.json()
-
-    const accessToken = data.token
-    const name = data.user.username
+    const accessToken = await result.token
+    const name = await result.user.username
+    console.log(accessToken, name)
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('name', name)
 
@@ -101,7 +83,6 @@ const handleLogin = async () => {
   return
 }
 
-// 본인인증 페이지로 이동
 const goToSignup = () => {
   router.push({ name: 'certification' })
 }

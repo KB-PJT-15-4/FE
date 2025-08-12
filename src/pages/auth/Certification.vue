@@ -8,7 +8,7 @@
 
     <TypographyHead3>
       <span class="font-inter">우리의 여행을 </span>
-      <span class="text-[#87BFFF] font-inter">MOA</span>
+      <span class="text-moa-main font-inter">MOA</span>
     </TypographyHead3>
 
     <div class="w-full flex flex-col gap-4 px-4">
@@ -52,7 +52,6 @@
       <Input
         v-model="accountPassword"
         name="account-pw"
-        class="w-[60%]"
         type="password"
         placeholder="계좌 비밀번호를 입력해주세요"
       />
@@ -72,11 +71,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import logo from '@/assets/moa_logo.jpg'
+import { certification } from '@/features/user/Auth/services/auth.service'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
@@ -85,14 +85,14 @@ import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead
 
 const router = useRouter()
 
-const name = ref('')
-const rrnFront = ref('')
-const rrnBack = ref('')
-const accountNumber = ref('')
-const accountPassword = ref('')
+const name = ref<string>('')
+const rrnFront = ref<string>('')
+const rrnBack = ref<string>('')
+const accountNumber = ref<string>('')
+const accountPassword = ref<string>('')
 
-const rrnFrontRef = ref(null)
-const rrnBackRef = ref(null)
+const rrnFrontRef = ref<string>('')
+const rrnBackRef = ref<string>('')
 
 const handleRrnFrontInput = () => {
   // 6자리 초과 입력 제한
@@ -117,28 +117,12 @@ const goToSignup = async () => {
   }
 
   try {
-    const response = await fetch('${import.meta.env.VITE_APP_API_URL}/api/public/verifyJoin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(authData),
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`본인인증 실패: ${response.status} - ${errorText}`)
-    }
-
-    const data = await response.json()
-    console.log('서버 응답:', data)
-
+    await certification(name.value, idCardNumber, accountNumber.value, accountPassword.value)
     localStorage.setItem('certData', JSON.stringify(authData))
 
     router.push({ name: 'signup' })
-  } catch (error) {
-    console.error('본인인증 실패:', error)
+  } catch (e) {
+    console.error(e)
     alert('본인인증에 실패했습니다. 정보를 확인해주세요.')
   }
 }
