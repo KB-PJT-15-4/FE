@@ -17,8 +17,8 @@
       @submit.prevent="handleLogin"
     >
       <Input
-        v-model="identifier"
-        name="identifier"
+        v-model="email"
+        name="email"
         type="text"
         autocomplete="username"
         autocapitalize="off"
