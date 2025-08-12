@@ -1,63 +1,71 @@
 <template>
-  <div class="px-1 flex flex-col">
-    <div
-      v-if="settleList.length == 0"
-      class="w-full flex justify-center mt-4 mb-3"
-    >
-      <img
-        :src="logo"
-        class="h-[180px]"
+  <div class="w-full flex justify-center">
+    <div class="w-full max-w-[360px] px-1 flex flex-col">
+      <div
+        v-if="settleList.length == 0"
+        class="w-full flex justify-center mt-4 mb-3"
       >
-    </div>
-    <TypographySubTitle1
-      v-if="settleList.length == 0"
-      class="w-full text-center text-moa-sub-text"
-    >
-      정산 내역이 존재하지 않습니다.
-    </TypographySubTitle1>
+        <img
+          :src="logo"
+          class="h-[180px]"
+        >
+      </div>
 
-    <Card
-      v-for="(settlement, index) in settleList"
-      :key="index"
-      class="flex justify-between items-center my-3"
-    >
-      <div>
-        <div class="flex gap-2">
-          <TypographyCaption>
-            {{ settlement.received ? '받은 요청' : '보낸 요청' }}
-          </TypographyCaption>
-          <TypographyCaption>{{ formatDateTime(settlement.expenseDate) }}</TypographyCaption>
+      <TypographySubTitle1
+        v-if="settleList.length == 0"
+        class="w-full text-center text-moa-sub-text"
+      >
+        정산 내역이 존재하지 않습니다.
+      </TypographySubTitle1>
+
+      <Card
+        v-for="(settlement, index) in settleList"
+        :key="index"
+        class="flex justify-between items-center my-3"
+      >
+        <div>
+          <div class="flex gap-2">
+            <TypographyCaption>
+              {{ settlement.received ? '받은 요청' : '보낸 요청' }}
+            </TypographyCaption>
+            <TypographyCaption>
+              {{ formatDateTime(settlement.expenseDate) }}
+            </TypographyCaption>
+          </div>
+
+          <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
         </div>
 
-        <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
-      </div>
-      <ButtonSmallMain
-        v-if="settlement.status === SettlementStatus.WAITING"
-        @click="
-          router.push({
-            name: 'settle',
-            params: { tripId: tripId, settleId: settlement.expenseId },
-          })
-        "
-      >
-        정산하기
-      </ButtonSmallMain>
-      <ButtonSmallSub
-        v-else
-        @click="
-          router.push({
-            name: 'settle_status',
-            params: { tripId: tripId, settleId: settlement.expenseId },
-          })
-        "
-      >
-        {{ settlement.status }}
-      </ButtonSmallSub>
-    </Card>
-    <Pagination
-      :total-page="totalPage"
-      :active-page="currentPage"
-    />
+        <ButtonSmallMain
+          v-if="settlement.status === SettlementStatus.WAITING"
+          @click="
+            router.push({
+              name: 'settle',
+              params: { tripId: tripId, settleId: settlement.expenseId },
+            })
+          "
+        >
+          정산하기
+        </ButtonSmallMain>
+
+        <ButtonSmallSub
+          v-else
+          @click="
+            router.push({
+              name: 'settle_status',
+              params: { tripId: tripId, settleId: settlement.expenseId },
+            })
+          "
+        >
+          {{ settlement.status }}
+        </ButtonSmallSub>
+      </Card>
+
+      <Pagination
+        :total-page="totalPage"
+        :active-page="currentPage"
+      />
+    </div>
   </div>
 </template>
 <script setup lang="ts">

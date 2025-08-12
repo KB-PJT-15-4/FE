@@ -1,56 +1,63 @@
 <template>
-  <div class="flex flex-col gap-3">
-    <SegmentedTab
-      v-model="selectedFilter"
-      :options="filterTabOptions"
-      class="my-2"
-    />
+  <div class="w-full flex justify-center">
+    <div class="w-full max-w-[360px]">
+      <div class="flex flex-col gap-3">
+        <SegmentedTab
+          v-model="selectedFilter"
+          :options="filterTabOptions"
+          class="my-2"
+        />
 
-    <div class="h-[250px] flex flex-col gap-3">
-      <div
-        v-if="!tripId || reservationList.length === 0"
-        class="w-full flex justify-center mt-4"
-      >
-        <img
-          :src="logo"
-          class="h-[180px]"
+        <div class="flex flex-col gap-3">
+          <div
+            v-if="!tripId || reservationList.length === 0"
+            class="w-full flex justify-center mt-4"
+          >
+            <img
+              :src="logo"
+              class="h-[180px]"
+            >
+          </div>
+
+          <TypographySubTitle1
+            v-if="!tripId"
+            class="w-full text-center text-moa-sub-text"
+          >
+            여행을 먼저 선택해주세요
+          </TypographySubTitle1>
+
+          <TypographySubTitle1
+            v-if="tripId && reservationList.length === 0"
+            class="w-full text-center text-moa-sub-text"
+          >
+            예매 내역이 존재하지 않습니다.
+          </TypographySubTitle1>
+
+          <div
+            v-for="(reservation, index) in reservationList"
+            :key="index"
+          >
+            <ReservationInfo :reservation="reservation" />
+          </div>
+        </div>
+
+        <div
+          v-if="totalPage > 1"
+          class="w-full flex justify-center"
         >
-      </div>
-      <TypographySubTitle1
-        v-if="!tripId"
-        class="w-full text-center text-moa-sub-text"
-      >
-        여행을 먼저 선택해주세요
-      </TypographySubTitle1>
-
-      <TypographySubTitle1
-        v-if="tripId && reservationList.length === 0"
-        class="w-full text-center text-moa-sub-text"
-      >
-        예매 내역이 존재하지 않습니다.
-      </TypographySubTitle1>
-
-      <div
-        v-for="reservation in reservationList"
-        :key="reservation.itemId"
-      >
-        <ReservationInfo :reservation="reservation" />
+          <Pagination
+            :total-page="totalPage"
+            :active-page="currentPage"
+            @change="
+              (page: number) => {
+                const query = { ...route.query, page: page.toString() }
+                router.push({ path: route.path, query })
+              }
+            "
+          />
+        </div>
       </div>
     </div>
-    <Pagination
-      v-if="totalPage > 1"
-      :total-page="totalPage"
-      :active-page="currentPage"
-      @change="
-        (page: number) => {
-          const query = {
-            ...route.query,
-            page: page.toString(),
-          }
-          router.push({ path: route.path, query })
-        }
-      "
-    />
   </div>
 </template>
 
@@ -115,6 +122,7 @@ const selectedOption = computed(() => {
   }
 })
 
+console.log(reservationList)
 async function fetchReservationList() {
   if (!props.tripId) return
 
