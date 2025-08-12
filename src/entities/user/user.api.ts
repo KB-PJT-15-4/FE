@@ -9,6 +9,10 @@ export const user = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/public/verifyJoin`,
     method: Method.POST,
   }),
+  signup: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/public/join`,
+    method: Method.POST,
+  }),
   getIdByEmail: (email: string) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/search-by-email?email=${email}`,
     method: Method.GET,

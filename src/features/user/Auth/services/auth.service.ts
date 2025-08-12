@@ -42,6 +42,37 @@ export async function certification(
     throw new Error(errorBody.message)
   }
 
-  const res = await result.json()
-  return res.data
+  return await result.json()
+}
+
+export async function signup(
+  email: string,
+  password: string,
+  name: string,
+  idCardNumber: string,
+  accountNumber: string,
+  accountPassword: string,
+  role: string
+) {
+  const { url, method } = API_END_POINT.user.signup()
+  const result = await fetch(url, {
+    method: method,
+    credentials: 'include',
+    body: JSON.stringify({
+      email,
+      password,
+      name,
+      idCardNumber,
+      accountNumber,
+      accountPassword,
+      role,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  return await result.json()
 }
