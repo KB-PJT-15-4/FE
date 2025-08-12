@@ -5,7 +5,7 @@
     <Card
       v-for="(res, index) in info"
       :key="index"
-      class="bg-white h-[550px] my-8"
+      class="bg-white min-h-[550px] my-8"
     >
       <div class="w-full flex justify-end">
         <button @click="emit('close')">
