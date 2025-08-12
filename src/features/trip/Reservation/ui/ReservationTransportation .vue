@@ -1,89 +1,108 @@
 <template>
-  <div class="flex flex-col gap-2 mb-3">
-    <div class="flex w-full justify-between">
-      <div class="flex flex-col gap-2 w-full">
-        <TypographyP1 class="pl-1">
-          출발지
-        </TypographyP1>
-        <SelectSmall
-          v-model="selectedOrigin"
-          placeholder="출발지 선택"
-        >
-          <Option
-            v-for="(location, index) in transportStationNameList"
-            :key="index"
-            :value="location"
-          >
-            {{ location }}
-          </Option>
-        </SelectSmall>
-      </div>
-      <div class="flex flex-col gap-2 w-full">
-        <TypographyP1 class="pl-1">
-          도착지
-        </TypographyP1>
-        <SelectSmall
-          v-model="selectedDestination"
-          placeholder="도착지 선택"
-        >
-          <Option
-            v-for="(location, index) in transportStationNameList"
-            :key="index"
-            :value="location"
-          >
-            {{ location }}
-          </Option>
-        </SelectSmall>
-      </div>
-    </div>
-    <div class="flex flex-col gap-2">
-      <TypographyP1 class="pl-1">
-        출발 날짜
-      </TypographyP1>
-      <Input
-        v-model="selectedStartDate"
-        type="date"
-      />
-    </div>
-    <div class="flex flex-col gap-2">
-      <TypographyP1 class="pl-1">
-        출발 시간
-      </TypographyP1>
-      <Select v-model="selectedStartTime">
-        <Option
-          v-for="(item, index) in timeOptions"
-          :key="index"
-        >
-          {{ item }}
-        </Option>
-      </Select>
-    </div>
-  </div>
-  <ButtonGhost @click="getAvailableTransportList">
-    <TypographySubTitle1>검색하기</TypographySubTitle1>
-  </ButtonGhost>
+  <div class="w-full flex justify-center">
+    <div class="w-full max-w-[360px]">
+      <div class="flex flex-col gap-3 mb-3 w-full">
+        <div class="grid grid-cols-2 gap-3 w-full">
+          <div class="flex flex-col gap-2">
+            <TypographyP1 class="pl-1">
+              출발지
+            </TypographyP1>
+            <SelectSmall
+              v-model="selectedOrigin"
+              placeholder="출발지 선택"
+            >
+              <Option
+                v-for="(location, i) in transportStationNameList"
+                :key="i"
+                :value="location"
+              >
+                {{ location }}
+              </Option>
+            </SelectSmall>
+          </div>
 
-  <div
-    v-if="!availableReservationList"
-    class="w-full h-[100px] flex justify-center items-center"
-  >
-    <TypographySubTitle1 class="text-moa-main-text">
-      교통편을 검색해보세요!
-    </TypographySubTitle1>
-  </div>
-  <div
-    v-else-if="availableReservationList.length === 0"
-    class="w-full h-[100px] flex justify-center items-center"
-  >
-    <TypographySubTitle1 class="text-moa-main-text">
-      예약 가능한 교통편이 없습니다.
-    </TypographySubTitle1>
-  </div>
-  <div
-    v-else
-    class="max-h-[120px] overflow-scroll"
-  >
-    <FilteredTransportationList :available-reservation-list="availableReservationList" />
+          <div class="flex flex-col gap-2">
+            <TypographyP1 class="pl-1">
+              도착지
+            </TypographyP1>
+            <SelectSmall
+              v-model="selectedDestination"
+              placeholder="도착지 선택"
+            >
+              <Option
+                v-for="(location, i) in transportStationNameList"
+                :key="i"
+                :value="location"
+              >
+                {{ location }}
+              </Option>
+            </SelectSmall>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
+          <TypographyP1 class="pl-1">
+            출발 날짜
+          </TypographyP1>
+          <Input
+            v-model="selectedStartDate"
+            type="date"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
+          <TypographyP1 class="pl-1">
+            출발 시간
+          </TypographyP1>
+          <Select
+            v-model="selectedStartTime"
+            class="w-full"
+          >
+            <Option
+              v-for="(t, i) in timeOptions"
+              :key="i"
+            >
+              {{ t }}
+            </Option>
+          </Select>
+        </div>
+      </div>
+
+      <ButtonGhost
+        class="w-full"
+        @click="getAvailableTransportList"
+      >
+        <TypographySubTitle1 class="w-full text-center">
+          검색하기
+        </TypographySubTitle1>
+      </ButtonGhost>
+
+      <div
+        v-if="!availableReservationList"
+        class="w-full h-[100px] flex justify-center items-center"
+      >
+        <TypographySubTitle1 class="text-moa-main-text text-center">
+          교통편을 검색해보세요!
+        </TypographySubTitle1>
+      </div>
+
+      <div
+        v-else-if="availableReservationList.length === 0"
+        class="w-full h-[100px] flex justify-center items-center"
+      >
+        <TypographySubTitle1 class="text-moa-main-text text-center">
+          예약 가능한 교통편이 없습니다.
+        </TypographySubTitle1>
+      </div>
+
+      <div
+        v-else
+        class="max-h-[140px] overflow-auto w-full"
+      >
+        <FilteredTransportationList :available-reservation-list="availableReservationList" />
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">

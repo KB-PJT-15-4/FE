@@ -1,64 +1,73 @@
 <template>
-  <div class="w-full flex flex-col gap-2">
-    <TypographyP2 class="ml-1">
-      정산 제목
-    </TypographyP2>
+  <!-- 가운데 정렬 컨테이너 -->
+  <div class="w-full flex justify-center">
+    <div class="w-full max-w-[360px] flex flex-col gap-2">
+      <TypographyP2 class="ml-1">
+        정산 제목
+      </TypographyP2>
 
-    <Input
-      v-model="settlementMemo"
-      placeholder="정산 제목을 입력해주세요 (예: 숙소비, 교통비 등)"
-    />
-    <TypographyP2 class="ml-1">
-      정산 요청 금액
-    </TypographyP2>
-    <Input
-      v-model="settlementAmount"
-      type="number"
-    />
-    <div
-      v-for="member in settlementMemberList"
-      :key="member.memberId"
-      class="flex justify-between items-center"
-    >
-      <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
-      <div class="flex justify-between items-center gap-2">
-        <TypographySubTitle2>
-          {{ formatNumber(settlementAmount / settlementMemberList.length) }}원
-        </TypographySubTitle2>
-        <button
-          class="flex items-center"
-          @click="removeMember(member.memberId)"
-        >
-          <i class="bi bi-x text-[25px]" />
-        </button>
-      </div>
-    </div>
-    <div v-if="unSettlementMemberList.length > 0">
-      <TypographySubTitle2 class="text-moa-sub-text mt-2">
-        정산 친구 추가
-      </TypographySubTitle2>
+      <Input
+        v-model="settlementMemo"
+        placeholder="정산 제목을 입력해주세요 (예: 숙소비, 교통비 등)"
+      />
+
+      <TypographyP2 class="ml-1">
+        정산 요청 금액
+      </TypographyP2>
+      <Input
+        v-model="settlementAmount"
+        type="number"
+      />
 
       <div
-        v-for="member in unSettlementMemberList"
+        v-for="member in settlementMemberList"
         :key="member.memberId"
-        class="flex justify-between items-center my-2"
+        class="flex justify-between items-center"
       >
         <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
-
-        <button
-          class="flex items-center"
-          @click="addMember(member.memberId)"
-        >
-          <i class="bi bi-plus text-[25px]" />
-        </button>
+        <div class="flex justify-between items-center gap-2">
+          <TypographySubTitle2>
+            {{ formatNumber(settlementAmount / settlementMemberList.length) }}원
+          </TypographySubTitle2>
+          <button
+            class="flex items-center"
+            @click="removeMember(member.memberId)"
+          >
+            <i class="bi bi-x text-[25px]" />
+          </button>
+        </div>
       </div>
+
+      <div v-if="unSettlementMemberList.length > 0">
+        <TypographySubTitle2 class="text-moa-sub-text mt-2">
+          정산 친구 추가
+        </TypographySubTitle2>
+
+        <div
+          v-for="member in unSettlementMemberList"
+          :key="member.memberId"
+          class="flex justify-between items-center my-2"
+        >
+          <TypographySubTitle2>{{ member.memberName }}</TypographySubTitle2>
+
+          <button
+            class="flex items-center"
+            @click="addMember(member.memberId)"
+          >
+            <i class="bi bi-plus text-[25px]" />
+          </button>
+        </div>
+      </div>
+
+      <ButtonMain
+        :disabled="
+          settlementMemberList.length == 0 || settlementAmount == 0 || settlementMemo == ''
+        "
+        @click="makeSettlementFunction"
+      >
+        정산 요청 보내기
+      </ButtonMain>
     </div>
-    <ButtonMain
-      :disabled="settlementMemberList.length == 0 || settlementAmount == 0 || settlementMemo == ''"
-      @click="makeSettlementFunction"
-    >
-      정산 요청 보내기
-    </ButtonMain>
   </div>
 </template>
 <script setup lang="ts">

@@ -1,51 +1,69 @@
 <template>
-  <div class="flex flex-col gap-2 mb-3">
-    <TypographyP1 class="pl-1">
-      카테고리
-    </TypographyP1>
-    <Select
-      v-model="selectedCategoryCode"
-      placeholder="카테고리를 선택해주세요"
-    >
-      <Option
-        v-for="(type, index) in categoryList"
-        :key="index"
-        :value="type.categoryCode"
+  <div class="w-full flex justify-center">
+    <div class="w-full max-w-[360px]">
+      <div class="flex flex-col gap-4 mb-3 w-full">
+        <div class="flex flex-col gap-2 w-full">
+          <TypographyP1 class="pl-1">
+            카테고리
+          </TypographyP1>
+          <Select
+            v-model="selectedCategoryCode"
+            placeholder="카테고리를 선택해주세요"
+          >
+            <Option
+              v-for="(type, index) in categoryList"
+              :key="index"
+              :value="type.categoryCode"
+            >
+              {{ type.categoryName }}
+            </Option>
+          </Select>
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
+          <TypographyP1 class="pl-1">
+            예약 날짜
+          </TypographyP1>
+          <Input
+            v-model="selectedDate"
+            type="date"
+          />
+        </div>
+      </div>
+
+      <ButtonGhost
+        class="w-full"
+        @click="getAvailableRestaurantList"
       >
-        {{ type.categoryName }}
-      </Option>
-    </Select>
-    <TypographyP1 class="pl-1">
-      예약 날짜
-    </TypographyP1>
-    <Input
-      v-model="selectedDate"
-      type="date"
-    />
+        <TypographySubTitle1 class="w-full text-center">
+          검색하기
+        </TypographySubTitle1>
+      </ButtonGhost>
+
+      <div
+        v-if="!availableReservationList"
+        class="w-full h-[100px] flex justify-center items-center"
+      >
+        <TypographySubTitle1 class="text-moa-main-text text-center">
+          식당을 검색해보세요!
+        </TypographySubTitle1>
+      </div>
+
+      <div
+        v-else-if="availableReservationList.length === 0"
+        class="w-full h-[100px] flex justify-center items-center"
+      >
+        <TypographySubTitle1 class="text-moa-main-text text-center">
+          예약 가능한 식당이 없습니다.
+        </TypographySubTitle1>
+      </div>
+
+      <FilteredRestaurantList
+        v-else
+        :available-reservation-list="availableReservationList"
+      />
+    </div>
   </div>
-  <ButtonGhost @click="getAvailableRestaurantList">
-    <TypographySubTitle1>검색하기</TypographySubTitle1>
-  </ButtonGhost>
-  <div
-    v-if="!availableReservationList"
-    class="w-full h-[100px] flex justify-center items-center"
-  >
-    <TypographySubTitle1 class="text-moa-main-text">
-      식당을 검색해보세요!
-    </TypographySubTitle1>
-  </div>
-  <div
-    v-else-if="availableReservationList.length === 0"
-    class="w-full h-[100px] flex justify-center items-center"
-  >
-    <TypographySubTitle1 class="text-moa-main-text">
-      예약 가능한 식당이 없습니다.
-    </TypographySubTitle1>
-  </div>
-  <FilteredRestaurantList
-    v-else
-    :available-reservation-list="availableReservationList"
-  />
 </template>
 <script setup lang="ts">
 import { type RestaurantCategory, type RestaurantItem } from '@/entities/trip/trip.entity'

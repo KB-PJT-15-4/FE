@@ -15,7 +15,7 @@
       :class="[
         'overflow-y-auto flex flex-col gap-3 justify-start items-center pb-[70px]',
         !shouldHideLayout && !tripDetail && 'pt-[80px]',
-        !tripDetail && ' px-[16px] ',
+        !tripDetail && 'px-[16px]',
       ]"
       :style="mainStyle"
     >
