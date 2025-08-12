@@ -24,94 +24,90 @@
 
       <!-- Accommodation -->
       <div
-        v-if="res.reservationDetails && res.reservationDetails.type === 'ACCOMMODATION'"
+        v-if="res.details.type === 'ACCOMMODATION'"
         class="flex flex-col justify-center items-center w-full"
       >
         <TypographyHead1>
-          {{ (res.reservationDetails as AccommodationItem).hotelName }}
+          {{ (res.details as AccommodationItem).hotelName }}
         </TypographyHead1>
         <div class="w-[250px] flex justify-between mt-5">
           <TypographyP1> 방 타입</TypographyP1>
           <TypographyP1>
-            {{ (res.reservationDetails as AccommodationItem).roomType }}
+            {{ (res.details as AccommodationItem).roomType }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 체크인</TypographyP1>
           <TypographyP1>
-            {{ (res.reservationDetails as AccommodationItem).checkinDay }}
+            {{ (res.details as AccommodationItem).checkinDay }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 체크아웃</TypographyP1>
           <TypographyP1>
-            {{ (res.reservationDetails as AccommodationItem).checkoutDay }}
+            {{ (res.details as AccommodationItem).checkoutDay }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 인원</TypographyP1>
-          <TypographyP1>
-            {{ (res.reservationDetails as AccommodationItem).guests }} 명
-          </TypographyP1>
+          <TypographyP1> {{ (res.details as AccommodationItem).guests }} 명 </TypographyP1>
         </div>
 
         <TypographySubTitle1 class="mt-4">
-          {{ (res.reservationDetails as AccommodationItem).address }}
+          {{ (res.details as AccommodationItem).address }}
         </TypographySubTitle1>
       </div>
 
       <!-- Restaurant -->
       <div
-        v-else-if="res.reservationDetails && res.reservationDetails.type === 'RESTAURANT'"
+        v-else-if="res.details.type === 'RESTAURANT'"
         class="flex flex-col justify-center items-center w-full"
       >
         <TypographyHead1>
-          {{ (res.reservationDetails as RestaurantItem).restName }}
+          {{ (res.details as RestaurantItem).restName }}
         </TypographyHead1>
         <div class="w-[250px] flex justify-between mt-5">
           <TypographyP1> 예약 시간</TypographyP1>
           <TypographyP1>
-            {{ (res.reservationDetails as RestaurantItem).date }}
-            {{ (res.reservationDetails as RestaurantItem).time }}
+            {{ (res.details as RestaurantItem).date }}
+            {{ (res.details as RestaurantItem).time }}
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between">
           <TypographyP1> 인원</TypographyP1>
-          <TypographyP1> {{ (res.reservationDetails as RestaurantItem).resNum }}명 </TypographyP1>
+          <TypographyP1> {{ (res.details as RestaurantItem).resNum }}명 </TypographyP1>
         </div>
         <TypographySubTitle1 class="mt-7">
-          {{ (res.reservationDetails as RestaurantItem).address }}
+          {{ (res.details as RestaurantItem).address }}
         </TypographySubTitle1>
       </div>
 
       <!-- Transportation -->
       <div
-        v-else-if="res.seatDetails"
+        v-else
         class="flex flex-col justify-center items-center w-full"
       >
         <TypographyHead1>
-          {{ (res.seatDetails as TransportItem).trainNo }}
+          {{ (res.details as TransportItem).trainNo }}
         </TypographyHead1>
         <div class="w-[250px] flex justify-between">
           <TypographyP1>좌석</TypographyP1>
           <TypographyP1>
-            {{ (res.seatDetails as TransportItem).seatRoomNo }}호차
-            {{ (res.seatDetails as TransportItem).seatNumber }}번
+            {{ (res.details as TransportItem).seatRoomNo }}호차
+            {{ (res.details as TransportItem).seatNumber }}번
           </TypographyP1>
         </div>
         <div class="w-[250px] flex justify-between mt-5">
+          <TypographyP1> 출발: {{ (res.details as TransportItem).departureName }} </TypographyP1>
           <TypographyP1>
-            출발: {{ (res.seatDetails as TransportItem).departureName }}
-          </TypographyP1>
-          <TypographyP1>
-            {{ (res.seatDetails as TransportItem).departureTime }}
+            {{ (res.details as TransportItem).departureTime }}
           </TypographyP1>
         </div>
 
         <div class="w-[250px] flex justify-between">
-          <TypographyP1> 도착: {{ (res.seatDetails as TransportItem).arrivalName }} </TypographyP1>
+          <TypographyP1> 도착: {{ (res.details as TransportItem).arrivalName }} </TypographyP1>
           <TypographyP1>
-            {{ (res.seatDetails as TransportItem).arrivalTime }}
+            {{ (res.details as TransportItem).arrivalTime }}
           </TypographyP1>
         </div>
       </div>
@@ -167,8 +163,7 @@ interface TransportItem extends Item {
 
 interface Reservation {
   qrCodeString: string
-  reservationDetails?: RestaurantItem | AccommodationItem
-  seatDetails?: TransportItem
+  details: RestaurantItem | AccommodationItem | TransportItem
 }
 
 const props = defineProps<{
@@ -181,11 +176,7 @@ const info = ref<Reservation[]>()
 async function getReservationQRFunction() {
   try {
     const result = await getReservationQR(localStorage.getItem('accessToken')!, props.itemId)
-    if (Array.isArray(result)) {
-      info.value = result
-    } else {
-      info.value = [result]
-    }
+    info.value = result
   } catch (e) {
     console.error(e)
     alert('예약 QR을 불러오는데 실패하였습니다.')

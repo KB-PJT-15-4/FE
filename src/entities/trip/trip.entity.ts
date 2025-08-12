@@ -10,7 +10,6 @@ export const transportStationNameList = [
   '대전역',
   '울산역',
 ]
-
 export const timeOptions = [
   '07:30',
   '10:00',
@@ -59,7 +58,7 @@ export enum StatusType {
   Finished = '여행 종료',
 }
 
-// 여행 리스트
+// [마이페이지, 여행 페이지] 여행 리스트
 export interface TripInfo {
   tripId: number
   tripName: string
@@ -76,7 +75,7 @@ export interface TripMember {
   memberEmail: string
 }
 
-// [메인페이지, 여헹 페이지] 여행 당 예약내역 리스트
+// [마이페이지, 여헹 페이지] 여행 당 예약내역 리스트
 export interface UserReservationList {
   name: string
   itemId: number
@@ -148,12 +147,14 @@ export interface RestaurantItem {
   address?: string
 }
 
+// [예매 페이지] 식당 카테고리
 export interface RestaurantCategory {
   categoryId: number
   categoryName: string
   categoryCode: string
 }
 
+// [예매 페이지] 식당 예약 가능 시간
 export interface RestaurantTimeSlot {
   time: string
   restTimeId: number
@@ -162,6 +163,7 @@ export interface RestaurantTimeSlot {
   availableNum: number
 }
 
+// [예매 페이지] 숙박 방 타입 엔티티
 export interface RoomType {
   accomResId: number
   maxGuests: number
@@ -171,7 +173,7 @@ export interface RoomType {
   roomImageUrl: string
 }
 
-// 좌석 엔티티
+// [예매 페이지] 좌석 엔티티
 export interface TransportationSeat {
   price: number
   seatNumber: string
@@ -192,7 +194,7 @@ export enum SettlementStatus {
   WAITING = '정산 하기',
 }
 
-// 정산내역 리스트
+// [여행 페이지] 정산내역 리스트
 export interface UserSettlement {
   expenseId: string // 정산 id
   expenseDate: string
@@ -201,7 +203,7 @@ export interface UserSettlement {
   status: SettlementStatus
 }
 
-// 정산 현황
+// [여행 페이지] 정산 현황
 export interface SettlementProgressStatus {
   expenseName: string
   expenseDate: string
@@ -209,30 +211,20 @@ export interface SettlementProgressStatus {
   progresses: { name: string; status: string }[]
 }
 
-// 정산 요청 멤버 내역
+// [여행 페이지] 정산 요청 멤버 내역
 export interface SettleExpenses {
   memberId: number
   amount: number
 }
 
-// 정산 정보
+// [여행 페이지] 정산 정보
 export interface SettleInfo {
   receiverName: string // 보낼사람 이름
   shareAmount: number // 보낼 금액
   balance: number // 현재 잔액
 }
 
-// [Map.vue] 타입 지정
-export interface Trip {
-  tripId: number
-  tripName: string
-  status: string
-  startDate: string
-  endDate: string
-  locationName: string
-}
-
-// 마이페이지 여행 추천 목데이터
+// [메인페이지] 마이페이지 여행 추천 목데이터
 export interface TripRecommendation {
   name: string
   imageUrl: string
@@ -241,6 +233,7 @@ export interface TripRecommendation {
   rating: number
 }
 
+// [메인페이지] 메인페이지 피드 엔티티
 export interface FeedItem {
   id: string
   user: string

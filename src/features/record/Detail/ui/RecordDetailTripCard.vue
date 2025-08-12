@@ -27,10 +27,9 @@
 import { formatFullDateToKorean } from '@/shared/utils/format'
 import { onMounted, ref, watch } from 'vue'
 
+import type { Trip } from '@/entities/record/record.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import axios from 'axios'
-
-import type { Trip } from '@/entities/trip/trip.entity'
 
 const props = defineProps<{
   tripId: number

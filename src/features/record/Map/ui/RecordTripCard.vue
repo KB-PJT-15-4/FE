@@ -38,11 +38,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Trip } from '@/entities/trip/trip.entity'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
+import type { Trip } from '@/entities/record/record.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import axios from 'axios'
