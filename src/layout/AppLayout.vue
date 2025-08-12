@@ -2,7 +2,7 @@
   <div class="relative w-full max-w-[390px] mx-auto bg-white">
     <!-- 헤더 -->
     <header
-      v-if="!shouldHideLayout && !tripDetail"
+      v-if="!shouldHideLayout"
       class="fixed top-0 left-0 w-full z-50 flex justify-center"
       :class="[tripDetail ? 'text-white bg-transparent' : 'bg-white']"
     >
