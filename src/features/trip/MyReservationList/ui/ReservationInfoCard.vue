@@ -139,8 +139,7 @@ const info = ref<Reservation[]>()
 
 async function getReservationQRFunction() {
   try {
-    const result = await getReservationQR(localStorage.getItem('accessToken')!, props.itemId)
-    info.value = result
+    info.value = await getReservationQR(localStorage.getItem('accessToken')!, props.itemId)
   } catch (e) {
     console.error(e)
     alert('예약 QR을 불러오는데 실패하였습니다.')
