@@ -74,7 +74,7 @@ const userInfo = ref<UserIDCard | null>()
 
 async function getDecodeQRFunction() {
   try {
-    userInfo.value = await getDecodeIdQR(data)
+    userInfo.value = await getDecodeIdQR(localStorage.getItem('accessToken')!, data)
   } catch (e) {
     console.error(e)
     userInfo.value = null

@@ -1,9 +1,12 @@
 import { API_END_POINT } from '@/shared/utils/fetcher'
 
-export async function getDecodeIdQR(data: string) {
+export async function getDecodeIdQR(token: string, data: string) {
   const { url, method } = API_END_POINT.user.getDecodeIdQR(data)
   const result = await fetch(url, {
     method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
 
   if (!result.ok) {
