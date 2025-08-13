@@ -63,7 +63,6 @@ const router = useRouter()
 const email = ref<string>('')
 const password = ref<string>('')
 
-console.log(localStorage.getItem('fcmToken'))
 const handleLogin = async () => {
   try {
     const result = await login(email.value, password.value)
@@ -73,6 +72,7 @@ const handleLogin = async () => {
 
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('name', name)
+
     postFcmTokenFunction()
 
     if (email.value.includes('@')) {

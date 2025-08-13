@@ -8,8 +8,11 @@ const { ensure, request } = useNotifications()
 ensure()
 
 async function onClickRequest() {
+  const perm = Notification.permission
+  if (perm === 'granted') return
+
   const { status } = await request()
-  if (status === 'granted') toast.success('알림이 설정되었습니다!')
+  if (status === 'granted') toast.info('알림이 설정되었습니다!')
   else if (status === 'denied') toast.info('설정 > Safari > 알림에서 직접 허용해주세요.')
 }
 </script>

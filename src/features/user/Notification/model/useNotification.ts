@@ -1,4 +1,3 @@
-// useNotifications.ts (composable로 빼두면 깔끔)
 import { initFCM } from '@/shared/utils/firebase'
 
 export function useNotifications() {
