@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { initFCM } from '@/initFCM'
 import AppLayout from '@/layout/AppLayout.vue'
+import { initFCM } from '@/shared/utils/fcm/initFCM'
 import { RouterView } from 'vue-router'
 
 function isIOSWebTab() {
