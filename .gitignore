@@ -26,4 +26,3 @@ dist-ssr
 .env
 *.pem
 
-firebase-messaging-sw.js
