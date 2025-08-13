@@ -11,21 +11,15 @@
     >
       <div class="p-2 space-y-1">
         <div class="flex justify-between items-start">
-          <div class="font-bold text-lg">
-            {{ trip.tripName }}
-          </div>
-          <div class="text-sm text-black">
-            {{ trip.status }}
-          </div>
+          <TypographyHead3>{{ trip.tripName }}</TypographyHead3>
+          <TypographyP2>{{ trip.status }}</TypographyP2>
         </div>
         <div class="flex justify-between items-end">
-          <div class="text-sm text-[#949494]">
+          <TypographyP2 class="text-moa-sub-text text-sm">
             {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
             {{ formatFullDateToKorean(new Date(trip.endDate)) }}
-          </div>
-          <div class="text-sm text-black">
-            {{ trip.locationName }}
-          </div>
+          </TypographyP2>
+          <TypographyP2>{{ trip.locationName }}</TypographyP2>
         </div>
       </div>
     </Card>
@@ -38,14 +32,20 @@
 </template>
 
 <script setup lang="ts">
-import { formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
+import { formatFullDateToKorean } from '@/shared/utils/format'
 import type { Trip } from '@/entities/record/record.entity'
+
 import Card from '@/shared/components/atoms/card/Card.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
-import axios from 'axios'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+
+import {
+  ITEMS_PER_PAGE,
+  fetchTripsService,
+} from '../services/mapTripCard.service'
 
 const props = withDefaults(
   defineProps<{
@@ -61,28 +61,22 @@ const router = useRouter()
 const route = useRoute()
 const trips = ref<Trip[]>([])
 
-const ITEMS_PER_PAGE = 3 // 페이지네이션 카드 단위
-const currentPage = ref(Number(route.query.page) || props.page || 1)
-const totalPage = ref(1)
+const currentPage = ref<number>(Number(route.query.page) || props.page || 1)
+const totalPage = ref<number>(1)
 
-// api 연결
-const fetchTrips = async () => {
+const apiBaseUrl = import.meta.env.VITE_APP_API_URL // localhost:8080 대체
+
+// API 호출
+async function fetchTrips() {
   try {
     const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        page: currentPage.value - 1,
-        size: ITEMS_PER_PAGE,
-        locationName: props.location,
-      },
+    const { content, totalPages } = await fetchTripsService({
+      token,
+      apiBaseUrl,
+      pageIndex: currentPage.value - 1,
+      pageSize: ITEMS_PER_PAGE,
+      locationName: props.location,
     })
-
-    const { content, totalPages } = response.data.data
     trips.value = content
     totalPage.value = totalPages
   } catch (error) {
@@ -90,7 +84,7 @@ const fetchTrips = async () => {
   }
 }
 
-// 페이지 query가 바뀌면 currentPage 갱신 + fetch
+// 페이지 query 변경 시
 watch(
   () => route.query.page,
   async (newPage) => {
@@ -101,7 +95,7 @@ watch(
   { immediate: true }
 )
 
-// locationName이 바뀌면 첫 페이지로 리셋 + fetch
+// location 변경 시 첫 페이지로 리셋
 watch(
   () => props.location,
   async () => {
@@ -113,15 +107,8 @@ watch(
 
 const pagedTrips = computed(() => trips.value)
 
-// RecordDetail.vue 페이지 이동
-const goToDetail = (tripId: number) => {
+// 상세 페이지 이동
+function goToDetail(tripId: number) {
   router.push({ name: 'record_detail', params: { tripId } })
 }
-
-// location 로그 확인용
-watch(
-  () => props.location,
-  (loc) => console.log('📍 선택된 지역:', loc),
-  { immediate: true }
-)
 </script>

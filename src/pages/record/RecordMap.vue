@@ -18,7 +18,7 @@
 <script setup>
 import { ref } from 'vue'
 
-import Map from '@/shared/components/atoms/map/Map.vue'
+import Map from '@/features/record/Map/ui/Map.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import RecordTripCard from '@/features/record/Map/ui/RecordTripCard.vue'
 

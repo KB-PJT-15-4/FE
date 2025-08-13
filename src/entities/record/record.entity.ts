@@ -43,3 +43,24 @@ export interface Record {
   createdAt: string
 }
 
+// [map.service.ts] 타입
+export interface MapLocation {
+  locationName: string
+  latitude: number
+  longitude: number
+  address?: string | null
+}
+
+// [mapTripCard.service.ts] 타입
+export interface FetchTripsParams {
+  token: string | null
+  apiBaseUrl: string
+  pageIndex: number
+  pageSize: number
+  locationName: string
+}
+
+export interface TripsResponse {
+  content: Trip[]
+  totalPages: number
+}
