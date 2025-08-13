@@ -126,7 +126,6 @@ async function fetchReservationList() {
   if (!props.tripId) return
 
   const result = await getMyReservationList(
-    localStorage.getItem('accessToken')!,
     Number(props.tripId),
     currentPage.value - 1,
     3,

@@ -1,64 +1,29 @@
-import { API_END_POINT } from '@/shared/utils/fetcher'
+import type { Reservation, TripInfo, UserReservationList } from '@/entities/trip/trip.entity'
+import { api } from '@/shared/utils/api'
+import { API_END_POINT, type ApiData, type Paged } from '@/shared/utils/fetcher'
 
 export async function getMyReservationList(
-  token: string,
   tripId: number,
   page: number,
   size: number,
   resKind: string | null
-) {
+): Promise<Paged<UserReservationList>> {
   const { url, method } = API_END_POINT.trip.getReservationList(tripId, resKind, page, size)
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  })
 
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
+  const res = await api.request<ApiData<Paged<UserReservationList>>>(url, { method })
   return res.data
 }
 
-export async function getReservationQR(token: string, itemId: number) {
+export async function getReservationQR(itemId: number): Promise<Reservation[]> {
   const { url, method } = API_END_POINT.trip.getReservationQr(itemId)
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  })
 
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
+  const res = await api.request<ApiData<Reservation[]>>(url, { method })
   return res.data
 }
 
-export async function getTripInfo(token: string, tripId: string) {
+export async function getTripInfo(tripId: string): Promise<TripInfo> {
   const { url, method } = API_END_POINT.trip.getTripInfo(tripId)
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  })
 
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
+  const res = await api.request<ApiData<TripInfo>>(url, { method })
   return res.data
 }

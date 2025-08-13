@@ -3,6 +3,17 @@ import { map } from '@/entities/map/map.api'
 import { trip } from '@/entities/trip/trip.api'
 import { user } from '@/entities/user/user.api'
 
+export interface Paged<T> {
+  content: T[]
+  totalPages: number
+  totalElements: number
+}
+
+export interface ApiData<T> {
+  code: string
+  data: T
+}
+
 export enum Method {
   GET = 'GET',
   POST = 'POST',
@@ -45,16 +56,17 @@ export interface HttpError<E> extends Error {
 }
 
 // ========== Utils ==========
-function buildUrl(baseURL: string, url: string, params?: RequestOptions['params']) {
-  const full = url.startsWith('http') ? url : `${baseURL}${url}`
-  if (!params) return full
+function buildUrl(url: string, params?: RequestOptions['params']) {
+  if (!params) return url
+
   const sp = new URLSearchParams()
   for (const [k, v] of Object.entries(params)) {
     if (v === undefined || v === null) continue
     sp.append(k, String(v))
   }
+
   const q = sp.toString()
-  return q ? `${full}${full.includes('?') ? '&' : '?'}${q}` : full
+  return q ? `${url}${url.includes('?') ? '&' : '?'}${q}` : url
 }
 
 function mergeHeaders(base: HeadersInit, extra?: HeadersInit): Headers {
@@ -67,7 +79,6 @@ function mergeHeaders(base: HeadersInit, extra?: HeadersInit): Headers {
 
 // ========== Client Factory ==========
 export function createFetchClient({
-  baseURL = '',
   getAccessToken = () =>
     typeof localStorage !== 'undefined' ? localStorage.getItem('accessToken') : null,
   onUnauthorized,
@@ -101,7 +112,7 @@ export function createFetchClient({
       ...rest
     } = opts
 
-    const finalUrl = buildUrl(baseURL, url, params)
+    const finalUrl = buildUrl(url, params)
 
     // 기본 헤더
     const isForm = typeof FormData !== 'undefined' && data instanceof FormData
