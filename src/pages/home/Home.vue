@@ -105,6 +105,7 @@ import trip_image from '@/assets/trip_image.png'
 import { friendFeedMock, tripRecommendationListMockData } from '@/entities/trip/trip.mock'
 import FriendActivityFeed from '@/features/trip/MyTrip/ui/FriendActivityFeed.vue'
 import { initFCM } from '@/initFCM'
+import { swReadyPromise } from '@/registerServiceWorker'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
@@ -143,16 +144,19 @@ const period = computed(() => {
 })
 
 const requestNotificationPermission = async () => {
-  if (typeof window !== 'undefined' && 'Notification' in window) {
-    const permission = await window.Notification.requestPermission()
-    if (permission === 'granted') {
-      initFCM()
-    } else {
-      console.warn('알림 권한 거부됨')
-    }
-  } else {
+  if (!(typeof window !== 'undefined' && 'Notification' in window)) {
     console.info('이 환경은 Notification API를 지원하지 않아요.')
+    return
   }
+
+  const permission = await Notification.requestPermission()
+  if (permission !== 'granted') {
+    console.warn('알림 권한 거부됨')
+    return
+  }
+
+  const swReg = await swReadyPromise
+  await initFCM(swReg)
 }
 </script>
 
