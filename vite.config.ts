@@ -12,6 +12,10 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
       manifest: {
         name: 'MOA',
         short_name: 'MOA',
@@ -35,6 +39,9 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
+      },
+      workbox: {
+        importScripts: ['firebase-messaging-sw.js'],
       },
     }),
   ],

@@ -1,22 +1,26 @@
 <script setup lang="ts">
 import { initFCM } from '@/initFCM'
 import AppLayout from '@/layout/AppLayout.vue'
-import { swReadyPromise } from '@/registerServiceWorker'
 import { RouterView } from 'vue-router'
 
-// 서비스워커는 앱 시작 시 1번만
-const swRegPromise = swReadyPromise
+function isIOSWebTab() {
+  const ua = navigator.userAgent || ''
+  const isiOS = /iP(hone|ad|od)/.test(ua)
+  const isStandalone = window.matchMedia?.('(display-mode: standalone)').matches
+  return isiOS && !isStandalone
+}
 
-// 이미 권한이 허용된 브라우저라면 자동 초기화
-if (
-  typeof window !== 'undefined' &&
-  'Notification' in window &&
-  Notification.permission === 'granted'
-) {
-  ;(async () => {
-    const swReg = await swRegPromise
-    await initFCM(swReg) // onMessage 리스너 붙음
-  })()
+// iOS Safari 웹 탭이 아닐 때만 Notification 사용
+if (!isIOSWebTab() && typeof window !== 'undefined' && 'Notification' in window) {
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      initFCM()
+    } else {
+      console.warn('알림 권한 거부됨')
+    }
+  })
+} else {
+  console.info('[알림] iOS Safari 탭 환경에서는 알림 비활성화')
 }
 </script>
 

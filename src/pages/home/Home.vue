@@ -105,7 +105,6 @@ import trip_image from '@/assets/trip_image.png'
 import { friendFeedMock, tripRecommendationListMockData } from '@/entities/trip/trip.mock'
 import FriendActivityFeed from '@/features/trip/MyTrip/ui/FriendActivityFeed.vue'
 import { initFCM } from '@/initFCM'
-import { swReadyPromise } from '@/registerServiceWorker'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
@@ -154,9 +153,7 @@ const requestNotificationPermission = async () => {
     console.warn('알림 권한 거부됨')
     return
   }
-
-  const swReg = await swReadyPromise
-  await initFCM(swReg)
+  await initFCM()
 }
 </script>
 
