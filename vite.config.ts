@@ -11,7 +11,6 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      registerType: 'autoUpdate',
       devOptions: {
         enabled: true,
         type: 'module',
@@ -19,6 +18,7 @@ export default defineConfig({
       manifest: {
         name: 'MOA',
         short_name: 'MOA',
+        description: '여행과 기록을 모아',
         theme_color: '#ffffff',
         start_url: '/',
         display: 'standalone',
