@@ -11,11 +11,9 @@ export const initFCM = async () => {
     if (currentToken) {
       localStorage.setItem('fcmToken', currentToken)
 
-      // 👇 포그라운드 메시지 수신 콜백 등록
       onMessage(messaging, (payload) => {
         console.log('📬 Foreground 메시지 수신:', payload)
 
-        // 필요 시 사용자에게 알림 표시
         const { title, body } = payload.notification || {}
         if (title && body) new Notification(title, { body })
         if (title || body) toast.info(`${title ?? '알림'}\n${body ?? ''}`)
