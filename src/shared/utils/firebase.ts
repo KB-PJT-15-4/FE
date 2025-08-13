@@ -22,19 +22,6 @@ export function isIOSWebTab() {
   return isiOS && !isStandalone
 }
 
-export const swReadyPromise = (async () => {
-  if (!('serviceWorker' in navigator)) return null
-  try {
-    const reg = await navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/' })
-    await navigator.serviceWorker.ready
-
-    return reg
-  } catch (e) {
-    console.error('[SW] 등록 실패:', e)
-    return null
-  }
-})()
-
 export async function initFCM() {
   // 1) 포그라운드 수신은 항상 먼저(토큰/권한과 무관)
   _onMessage(messaging, (payload) => {
@@ -47,19 +34,20 @@ export async function initFCM() {
 
   // 2) 토큰 발급은 별도 시도(실패해도 onMessage는 유지)
   try {
-    const swReg = await swReadyPromise
+    if (!('serviceWorker' in navigator)) return
+    const reg = await navigator.serviceWorker.ready // ✅ Workbox SW
     const token = await _getToken(messaging, {
       vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
-      serviceWorkerRegistration: swReg ?? undefined,
+      serviceWorkerRegistration: reg, // ✅ 중요
     })
     if (token) {
       localStorage.setItem('fcmToken', token)
+      console.log('FCM Token', token)
     } else {
       console.warn('❌ FCM 토큰을 받아올 수 없음. 알림 권한을 허용해주세요.')
     }
   } catch (err) {
     console.error('💥 FCM 토큰 발급 실패:', err)
-    // bound는 그대로 true 유지 -> 포그라운드 수신은 계속됨
   }
 }
 
