@@ -70,7 +70,7 @@ const fetchReservationData = async () => {
     if (!token) throw new Error('Access token not found')
 
     const response = await axios.get(
-      '${import.meta.env.VITE_APP_API_URL}/api/member/reservation/by-date',
+      `${import.meta.env.VITE_APP_API_URL}/api/member/reservation/by-date`,
       {
         params: {
           tripId: props.tripId,
