@@ -16,6 +16,8 @@ export default defineConfig({
         name: 'MOA',
         short_name: 'MOA',
         theme_color: '#ffffff',
+        start_url: '/',
+        display: 'standalone',
         icons: [
           {
             src: '/icons/icon-192x192.png',

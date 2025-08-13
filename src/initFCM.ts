@@ -1,4 +1,4 @@
-// initFCM.ts
+// src/initFCM.ts
 import { toast } from 'vue3-toastify'
 import { getToken, messaging, onMessage } from './firebase'
 
