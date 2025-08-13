@@ -15,7 +15,7 @@
     >
       <div>
         <TypographySubTitle1>{{ payment.paymentName }}</TypographySubTitle1>
-        <TypographyP2 class="text-[#626262]">
+        <TypographyP2 class="text-moa-gray-text">
           {{ formatFullDateToKorean(new Date(payment.paymentDate)) }}
         </TypographyP2>
       </div>
@@ -25,7 +25,7 @@
     <!-- 데이터가 없을 때 표시 -->
     <div
       v-if="filteredPaymentRecords.length === 0"
-      class="text-center py-8 text-gray-500"
+      class="text-center py-8 text-moa-gray-text"
     >
       {{ selectedDate ? '선택한 날짜에 결제 내역이 없습니다.' : '결제 내역이 없습니다.' }}
     </div>

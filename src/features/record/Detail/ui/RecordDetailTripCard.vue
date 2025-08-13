@@ -4,21 +4,15 @@
     class="p-2 space-y-1"
   >
     <div class="flex justify-between items-start">
-      <div class="font-bold text-lg">
-        {{ trip.tripName }}
-      </div>
-      <div class="text-sm text-black">
-        {{ trip.status }}
-      </div>
+      <TypographyHead3>{{ trip.tripName }}</TypographyHead3>
+      <TypographyP2>{{ trip.status }}</TypographyP2>
     </div>
     <div class="flex justify-between items-end">
-      <div class="text-sm text-[#626262]">
+      <TypographyP2 class="text-moa-sub-text text-sm">
         {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
         {{ formatFullDateToKorean(new Date(trip.endDate)) }}
-      </div>
-      <div class="text-sm text-black">
-        {{ trip.locationName }}
-      </div>
+      </TypographyP2>
+      <TypographyP2>{{ trip.locationName }}</TypographyP2>
     </div>
   </Card>
 </template>
@@ -30,6 +24,8 @@ import { onMounted, ref, watch } from 'vue'
 import type { Trip } from '@/entities/record/record.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import axios from 'axios'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
 const props = defineProps<{
   tripId: number

@@ -20,7 +20,7 @@
         </div>
         <div>
           <TypographySubTitle1>{{ reservation.name }}</TypographySubTitle1>
-          <TypographyP2 class="text-[#626262]">
+          <TypographyP2 class="text-moa-gray-text">
             {{ formatFullDateToKorean(new Date(reservation.date)) }}
           </TypographyP2>
         </div>
@@ -30,7 +30,7 @@
     <!-- 데이터가 없을 때 표시 -->
     <div
       v-if="reservationList.length === 0"
-      class="text-center py-8 text-gray-500"
+      class="text-center text-moa-gray-text py-8"
     >
       해당 날짜에 예매 내역이 없습니다.
     </div>
