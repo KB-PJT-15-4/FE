@@ -29,7 +29,3 @@ if (!isIOSWebTab() && typeof window !== 'undefined' && 'Notification' in window)
     <RouterView />
   </AppLayout>
 </template>
-
-<style scoped>
-/* 기본 비움 */
-</style>

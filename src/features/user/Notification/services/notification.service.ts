@@ -72,3 +72,26 @@ export async function readNotification(token: string, tripId: number, notificati
   const res = await result.json()
   return res.data
 }
+
+export async function postFcmToken(fcmToken: string, token: string) {
+  const { url, method } = API_END_POINT.user.postFcmToken()
+
+  const result = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      fcmToken,
+    }),
+  })
+
+  if (!result.ok) {
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody.message)
+  }
+
+  const res = await result.json()
+  return res.data
+}

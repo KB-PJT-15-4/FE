@@ -9,6 +9,7 @@ export const initFCM = async () => {
 
     if (currentToken) {
       console.log('📱 FCM Token:', currentToken)
+      localStorage.setItem('fcmToken', currentToken)
 
       // 👇 포그라운드 메시지 수신 콜백 등록
       onMessage(messaging, (payload) => {

@@ -51,4 +51,8 @@ export const user = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/settle-notification`,
     method: Method.POST,
   }),
+  postFcmToken: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/fcm-token`,
+    method: Method.POST,
+  }),
 }

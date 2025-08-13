@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import logo from '@/assets/moa_logo.jpg'
 import { login } from '@/features/user/Auth/services/auth.service'
+import { postFcmToken } from '@/features/user/Notification/services/notification.service'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import Input from '@/shared/components/atoms/input/Input.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
@@ -68,9 +69,10 @@ const handleLogin = async () => {
 
     const accessToken = await result.token
     const name = await result.user.username
-    console.log(accessToken, name)
+
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('name', name)
+    postFcmTokenFunction()
 
     if (email.value.includes('@')) {
       router.replace({ name: 'home' })
@@ -83,6 +85,9 @@ const handleLogin = async () => {
   return
 }
 
+async function postFcmTokenFunction() {
+  await postFcmToken(localStorage.getItem('fcmToken')!, localStorage.getItem('accessToken')!)
+}
 const goToSignup = () => {
   router.push({ name: 'certification' })
 }
