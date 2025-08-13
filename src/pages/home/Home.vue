@@ -109,7 +109,7 @@ import TypographyCaption from '@/shared/components/atoms/typography/TypographyCa
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import { initFCM } from '@/shared/utils/fcm/initFCM'
+import { requestNotificationPermission } from '@/shared/utils/firebase'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -141,20 +141,6 @@ const period = computed(() => {
     `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
   return `${fmt(s)} ~ ${fmt(e)}`
 })
-
-const requestNotificationPermission = async () => {
-  if (!(typeof window !== 'undefined' && 'Notification' in window)) {
-    console.info('이 환경은 Notification API를 지원하지 않아요.')
-    return
-  }
-
-  const permission = await Notification.requestPermission()
-  if (permission !== 'granted') {
-    console.warn('알림 권한 거부됨')
-    return
-  }
-  await initFCM()
-}
 </script>
 
 <style scoped>

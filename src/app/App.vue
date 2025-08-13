@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layout/AppLayout.vue'
-import { initFCM } from '@/shared/utils/fcm/initFCM'
+import { initFCM, isIOSWebTab } from '@/shared/utils/firebase'
 import { RouterView } from 'vue-router'
-
-function isIOSWebTab() {
-  const ua = navigator.userAgent || ''
-  const isiOS = /iP(hone|ad|od)/.test(ua)
-  const isStandalone = window.matchMedia?.('(display-mode: standalone)').matches
-  return isiOS && !isStandalone
-}
 
 // iOS Safari 웹 탭이 아닐 때만 Notification 사용
 if (!isIOSWebTab() && typeof window !== 'undefined' && 'Notification' in window) {
