@@ -69,6 +69,7 @@ async function load() {
     size: 10,
   })
   reservationList.value = res.content
+
 }
 
 watch([() => props.date, () => props.tripId], load, { immediate: true })

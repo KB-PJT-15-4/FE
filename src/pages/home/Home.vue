@@ -7,9 +7,16 @@
           {{ today }} · 맑음 ☀️ · 28℃
         </div>
       </div>
-      <TypographyHead1 class="text-moa-main text-[30px]">
-        MOA
-      </TypographyHead1>
+      <div class="flex justify-between">
+        <TypographyHead1 class="text-moa-main text-[30px]">
+          MOA
+        </TypographyHead1>
+        <button @click="requestNotificationPermission">
+          <TypographyCaption class="text-gray-500">
+            알림 권한 요청
+          </TypographyCaption>
+        </button>
+      </div>
     </div>
     <TypographySubTitle1>다가오는 일정</TypographySubTitle1>
 
@@ -97,7 +104,10 @@
 import trip_image from '@/assets/trip_image.png'
 import { friendFeedMock, tripRecommendationListMockData } from '@/entities/trip/trip.mock'
 import FriendActivityFeed from '@/features/trip/MyTrip/ui/FriendActivityFeed.vue'
+import { initFCM } from '@/initFCM'
+import { swReadyPromise } from '@/registerServiceWorker'
 import Card from '@/shared/components/atoms/card/Card.vue'
+import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
@@ -132,6 +142,22 @@ const period = computed(() => {
     `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
   return `${fmt(s)} ~ ${fmt(e)}`
 })
+
+const requestNotificationPermission = async () => {
+  if (!(typeof window !== 'undefined' && 'Notification' in window)) {
+    console.info('이 환경은 Notification API를 지원하지 않아요.')
+    return
+  }
+
+  const permission = await Notification.requestPermission()
+  if (permission !== 'granted') {
+    console.warn('알림 권한 거부됨')
+    return
+  }
+
+  const swReg = await swReadyPromise
+  await initFCM(swReg)
+}
 </script>
 
 <style scoped>
