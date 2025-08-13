@@ -11,11 +11,7 @@
         <TypographyHead1 class="text-moa-main text-[30px]">
           MOA
         </TypographyHead1>
-        <button @click="requestNotificationPermission">
-          <TypographyCaption class="text-gray-500">
-            알림 권한 요청
-          </TypographyCaption>
-        </button>
+        <RequestNotificationButton />
       </div>
     </div>
     <TypographySubTitle1>다가오는 일정</TypographySubTitle1>
@@ -104,12 +100,11 @@
 import trip_image from '@/assets/trip_image.png'
 import { friendFeedMock, tripRecommendationListMockData } from '@/entities/trip/trip.mock'
 import FriendActivityFeed from '@/features/trip/MyTrip/ui/FriendActivityFeed.vue'
+import RequestNotificationButton from '@/features/user/Notification/ui/RequestNotificationButton.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
-import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import { requestNotificationPermission } from '@/shared/utils/firebase'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
