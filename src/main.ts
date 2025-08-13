@@ -13,10 +13,12 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 const options: ToastContainerOptions = {
-  position: 'top-right',
+  position: 'top-center',
   autoClose: 3000,
   pauseOnHover: true,
   closeOnClick: true,
+  hideProgressBar: true,
+  newestOnTop: true,
 }
 
 app.use(Vue3Toastify, options)
