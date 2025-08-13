@@ -63,6 +63,7 @@
             </div>
           </div>
         </Card>
+
         <Card
           class="carousel-card snap-center shrink-0 relative rounded-2xl overflow-hidden"
           :style="{
@@ -70,6 +71,7 @@
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }"
+          @click="router.push({ name: 'create_trip' })"
         >
           <div class="flex flex-col items-end justify-end pb-4 h-full">
             <TypographyHead2 class="text-white">
@@ -77,6 +79,8 @@
             </TypographyHead2>
           </div>
         </Card>
+
+        >
       </div>
     </div>
     <TypographySubTitle1>친구 소식 확인하기</TypographySubTitle1>
