@@ -33,11 +33,10 @@
 </template>
 
 <script setup lang="ts">
-import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
-import axios from 'axios'
+import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
+import type { ApiPaymentRecord } from '@/entities/record/record.entity'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
@@ -45,7 +44,7 @@ import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
-import type { ApiPaymentRecord } from '@/entities/record/record.entity'
+import { fetchPaymentRecords } from '../services/recordDetail.service'
 
 const { tripId, selectedDate } = defineProps<{
   tripId: number
@@ -55,61 +54,29 @@ const { tripId, selectedDate } = defineProps<{
 const router = useRouter()
 const route = useRoute()
 
+const apiBaseUrl = import.meta.env.VITE_APP_API_URL
 const paymentRecords = ref<ApiPaymentRecord[]>([])
 
-// 선택된 날짜에 따라 결제 내역을 필터링
 const filteredPaymentRecords = computed(() => {
-  if (!selectedDate) {
-    return paymentRecords.value
-  }
-
-  return paymentRecords.value.filter((payment) => {
-    const paymentDate = new Date(payment.paymentDate)
-    const selectedDateObj = new Date(selectedDate)
-
-    return paymentDate.toDateString() === selectedDateObj.toDateString()
+  if (!selectedDate) return paymentRecords.value
+  return paymentRecords.value.filter((p) => {
+    const pDate = new Date(p.paymentDate).toDateString()
+    const sDate = new Date(selectedDate).toDateString()
+    return pDate === sDate
   })
 })
 
-// 결제 내역 API 호출
-const fetchPaymentRecords = async () => {
-  try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/payment-records`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (response.data.code === 'S200') {
-      paymentRecords.value = response.data.data || []
-    } else {
-      console.error('API 응답 오류:', response.data.message)
-      paymentRecords.value = []
-    }
-  } catch (error) {
-    console.error('결제 내역 조회 실패:', error)
-    paymentRecords.value = []
-  }
+async function load() {
+  const token = localStorage.getItem('accessToken') || ''
+  if (!token) return
+  paymentRecords.value = await fetchPaymentRecords({ token, apiBaseUrl, tripId })
 }
 
-watch(
-  () => selectedDate,
-  () => {},
-  { immediate: true }
-)
+watch(() => selectedDate, () => {}, { immediate: true })
+onMounted(load)
 
-onMounted(() => {
-  fetchPaymentRecords()
-})
-
-// RecordReport.vue 페이지로 이동
-const navigateToReport = () => {
-  const tripId = route.params.tripId
-  router.push(`/record/${tripId}/report`)
+function navigateToReport() {
+  const id = route.params.tripId
+  router.push(`/record/${id}/report`)
 }
 </script>

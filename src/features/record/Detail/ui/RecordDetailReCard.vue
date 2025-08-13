@@ -6,14 +6,9 @@
       class="flex justify-between mb-2"
     >
       <div class="flex gap-4">
-        <div
-          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center bg-gray-200"
-        >
+        <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center bg-gray-200">
           <img
-            :src="
-              reservation.imageUrl ||
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'
-            "
+            :src="reservation.imageUrl || 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'"
             :alt="reservation.name || 'Default Image'"
             class="h-[40px] w-[40px] object-cover"
           >
@@ -38,64 +33,43 @@
 </template>
 
 <script setup lang="ts">
-import { formatFullDateToKorean } from '@/shared/utils/format'
-import axios from 'axios'
 import { ref, watch } from 'vue'
+import { formatFullDateToKorean } from '@/shared/utils/format'
+import type { ApiReservationItem } from '@/entities/record/record.entity'
 
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
-import type { ApiReservationItem } from '@/entities/record/record.entity'
+import { fetchReservationByDate } from '../services/recordDetail.service'
 
-// Props 정의
 const props = defineProps<{
   date: string
   tripId?: number
 }>()
 
-// 예매 리스트
 const reservationList = ref<ApiReservationItem[]>([])
+const apiBaseUrl = import.meta.env.VITE_APP_API_URL
 
-// API 호출 함수
-const fetchReservationData = async () => {
-  // date나 tripId가 없으면 API 호출하지 않음 -> 이 코드 추가안하면 400번 오류발생
+async function load() {
+  // date나 tripId가 없으면 API 호출하지 않음(400 방지)
   if (!props.date || !props.tripId) {
     reservationList.value = []
     return
   }
+  const token = localStorage.getItem('accessToken') || ''
+  if (!token) return
 
-  try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(
-      '${import.meta.env.VITE_APP_API_URL}/api/member/reservation/by-date',
-      {
-        params: {
-          tripId: props.tripId,
-          date: props.date,
-          page: 0,
-          size: 10,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    reservationList.value = response.data?.data?.content || []
-  } catch (err) {
-    console.error('예매 내역 조회 실패:', err)
-    reservationList.value = []
-  }
+  const res = await fetchReservationByDate({
+    token,
+    apiBaseUrl,
+    tripId: props.tripId,
+    date: props.date,
+    page: 0,
+    size: 10,
+  })
+  reservationList.value = res.content
 }
 
-// 날짜나 tripId가 변경될 때 API 호출
-watch(
-  [() => props.date, () => props.tripId],
-  () => {
-    fetchReservationData()
-  },
-  { immediate: true }
-)
+watch([() => props.date, () => props.tripId], load, { immediate: true })
 </script>
