@@ -24,58 +24,24 @@
 </template>
 
 <script setup lang="ts">
-import { formatFullDateToKorean } from '@/shared/utils/format'
 import { onMounted, ref, watch } from 'vue'
-
-import type { Trip } from '@/entities/record/record.entity'
+import { formatFullDateToKorean } from '@/shared/utils/format'
 import Card from '@/shared/components/atoms/card/Card.vue'
-import axios from 'axios'
+import type { Trip } from '@/entities/record/record.entity'
+import { fetchTripByIdViaList } from '../services/recordDetail.service'
 
-const props = defineProps<{
-  tripId: number
-}>()
-
+const props = defineProps<{ tripId: number }>()
 const trip = ref<Trip | null>(null)
 
-// API 호출 함수
-const fetchTripData = async (id: number) => {
+async function load(id: number) {
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-
-    // 전체 목록에서 특정 tripId 찾기
-    const trips: Trip[] = response.data.data.content || response.data.data
-    const foundTrip = trips.find((t: Trip) => t.tripId === id)
-
-    trip.value = foundTrip || null
-
-    if (!foundTrip) {
-      console.warn(`tripId ${id}에 해당하는 여행을 찾을 수 없습니다.`)
-    }
-  } catch (err) {
-    console.error('여행 정보 조회 실패:', err)
+    trip.value = await fetchTripByIdViaList(id)
+    if (!trip.value) console.warn(`tripId ${id}에 해당하는 여행을 찾을 수 없습니다.`)
+  } catch (e) {
+    console.error('여행 정보 조회 실패:', e)
   }
 }
 
-onMounted(() => {
-  if (props.tripId) {
-    fetchTripData(props.tripId)
-  }
-})
-
-watch(
-  () => props.tripId,
-  (newTripId) => {
-    if (newTripId) {
-      fetchTripData(newTripId)
-    }
-  },
-  { immediate: true }
-)
+onMounted(() => props.tripId && load(props.tripId))
+watch(() => props.tripId, (v) => v && load(v), { immediate: false })
 </script>

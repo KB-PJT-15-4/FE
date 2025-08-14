@@ -46,7 +46,7 @@
               </button>
               <button
                 class="block w-full text-moa-error px-4 py-2"
-                @click="deleteRecord(record.recordId)"
+                @click="onDelete(record.recordId)"
               >
                 삭제
               </button>
@@ -104,10 +104,9 @@
 </template>
 
 <script setup lang="ts">
-import { formatFullDateToKorean } from '@/shared/utils/format'
-import axios from 'axios'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { formatFullDateToKorean } from '@/shared/utils/format'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
@@ -117,6 +116,8 @@ import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
 import type { Record } from '@/entities/record/record.entity'
+import { deleteRecord, fetchRecords } from '../services/recordDetail.service'
+import type { Paged } from '@/shared/utils/common.types'
 
 const props = defineProps<{
   tripId: number
@@ -129,21 +130,21 @@ const router = useRouter()
 const ITEMS_PER_PAGE = 2
 const recordList = ref<Record[]>([])
 const totalRecords = ref(0)
-const currentPage = ref(Number(route.query.page) || 1)
-const openMenuId = ref<number | null>(null) // 현재 열려있는 메뉴의 recordId
+const currentPage = ref<number>(Number(route.query.page) || 1)
+const openMenuId = ref<number | null>(null)
 
-const toggleMenu = (recordId: number) => {
+function toggleMenu(recordId: number) {
   openMenuId.value = openMenuId.value === recordId ? null : recordId
 }
-
-// 메뉴 외부 클릭 시 닫기
-document.addEventListener('click', (e) => {
+// 외부 클릭시 닫기 기능
+function onGlobalClick(e: MouseEvent) {
   const target = e.target as HTMLElement
-  if (!target.closest('.relative')) {
-    openMenuId.value = null
-  }
-})
+  if (!target.closest('.relative')) openMenuId.value = null
+}
+document.addEventListener('click', onGlobalClick)
+onBeforeUnmount(() => document.removeEventListener('click', onGlobalClick))
 
+// route.page 동기화
 watch(
   () => route.query.page,
   (newVal) => {
@@ -160,43 +161,34 @@ watch(currentPage, (newPage) => {
 const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
 const paginatedRecords = computed(() => recordList.value)
 
-const fetchRecords = async () => {
+async function load() {
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
+    const pageIndex = currentPage.value - 1
+    const pageSize = ITEMS_PER_PAGE
+    const date = props.selectedDate || new Date().toISOString().split('T')[0]
 
-    const params = new URLSearchParams({
-      page: String(currentPage.value - 1),
-      size: String(ITEMS_PER_PAGE),
+    const res: Paged<Record> = await fetchRecords({
+      tripId: props.tripId,
+      date,
+      pageIndex,
+      pageSize,
     })
 
-    const dateParam = props.selectedDate || new Date().toISOString().split('T')[0]
-    params.append('date', dateParam)
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_URL}/api/trips/${props.tripId}/records?${params.toString()}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-
-    if (response.data.code === 'S200') {
-      recordList.value = response.data.data.content || response.data.data
-      totalRecords.value = response.data.data.totalElements || response.data.data.length || 0
-    }
-  } catch (error) {
-    console.error('기록을 불러오는 중 오류가 발생했습니다:', error)
+    recordList.value = res.content ?? []
+    
+    totalRecords.value =
+      res.totalElements ??
+      (Array.isArray(res.content) ? res.content.length : 0)
+  } catch (e) {
+    console.error('기록을 불러오는 중 오류:', e)
   }
 }
 
-onMounted(() => {
-  fetchRecords()
-})
+onMounted(load)
+watch([() => props.selectedDate, () => currentPage.value], load)
 
-watch(
-  () => [props.selectedDate, currentPage.value],
-  () => fetchRecords()
-)
-
-const goToCreate = () => {
+// RecordCreate.vue 페이지 이동
+function goToCreate() {
   router.push({
     name: 'record_create',
     params: { tripId: props.tripId },
@@ -204,44 +196,36 @@ const goToCreate = () => {
   })
 }
 
-const editRecord = (recordId: number) => {
+// 수정 페이지 이동
+function editRecord(recordId: number) {
   router.push({
-    path: `/record/${props.tripId}/create`,
-    query: { editRecordId: String(recordId), date: props.selectedDate }
+    name: 'record_create',
+    params: { tripId: props.tripId },
+    query: {
+      editRecordId: String(recordId),
+      date: props.selectedDate,
+    },
   })
 }
 
-const deleteRecord = async (recordId: number) => {
-  if (confirm('정말 삭제하시겠습니까?')) {
-    try {
-      const token = localStorage.getItem('accessToken')
-      if (!token) throw new Error('Access token not found')
+// 삭제
+async function onDelete(recordId: number) {
+  if (!confirm('정말 삭제하시겠습니까?')) return
+  try {
+    await deleteRecord(props.tripId, recordId)
 
-      const response = await axios.delete(
-        `${import.meta.env.VITE_APP_API_URL}/api/trips/${props.tripId}/records/${recordId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-
-      if (response.data.code === 'S200') {
-        recordList.value = recordList.value.filter((r) => r.recordId !== recordId)
-        totalRecords.value = Math.max(0, totalRecords.value - 1)
-        if (currentPage.value > 1 && recordList.value.length === 0) {
-          currentPage.value -= 1
-        } else {
-          fetchRecords()
-        }
-        alert('기록이 성공적으로 삭제되었습니다.')
-      }
-    } catch (error) {
-      console.error('기록 삭제 중 오류:', error)
-      if (error instanceof Error && error.message === 'Access token not found') {
-        alert('로그인이 필요합니다.')
-        router.push({ name: 'login' })
-      }
+    if (recordList.value.length === 1 && currentPage.value > 1) {
+      currentPage.value -= 1
+    } else {
+      await load()
     }
+    alert('기록이 성공적으로 삭제되었습니다.')
+  } catch (e) {
+    console.error('기록 삭제 중 오류:', e)
+    alert('삭제 중 오류가 발생했습니다.')
   }
 }
 
-const refreshRecords = () => fetchRecords()
+const refreshRecords = () => load()
 defineExpose({ refreshRecords })
 </script>

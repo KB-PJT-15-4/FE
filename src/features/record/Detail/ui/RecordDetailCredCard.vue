@@ -6,7 +6,6 @@
     Report
   </ButtonExtraSmallMain>
 
-  <!-- 결제 내역 카드들 -->
   <div>
     <Card
       v-for="payment in filteredPaymentRecords"
@@ -22,94 +21,56 @@
       <TypographyHead2>{{ formatCurrency(payment.paymentPrice) }}</TypographyHead2>
     </Card>
 
-    <!-- 데이터가 없을 때 표시 -->
-    <div
-      v-if="filteredPaymentRecords.length === 0"
-      class="text-center py-8 text-gray-500"
-    >
-      {{ selectedDate ? '선택한 날짜에 결제 내역이 없습니다.' : '결제 내역이 없습니다.' }}
+    <div v-if="filteredPaymentRecords.length === 0">
+      <TypographySubTitle1 class="text-center py-8 text-moa-gray-text">
+        {{ selectedDate ? '선택한 날짜에 결제 내역이 없습니다.' : '결제 내역이 없습니다.' }}
+      </TypographySubTitle1>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
-import axios from 'axios'
-
+import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-
 import type { ApiPaymentRecord } from '@/entities/record/record.entity'
+import { fetchPaymentRecords } from '../services/recordDetail.service'
 
-const { tripId, selectedDate } = defineProps<{
-  tripId: number
-  selectedDate?: string
-}>()
-
+const { tripId, selectedDate } = defineProps<{ tripId: number; selectedDate?: string }>()
 const router = useRouter()
 const route = useRoute()
 
 const paymentRecords = ref<ApiPaymentRecord[]>([])
 
-// 선택된 날짜에 따라 결제 내역을 필터링
 const filteredPaymentRecords = computed(() => {
-  if (!selectedDate) {
-    return paymentRecords.value
-  }
-
-  return paymentRecords.value.filter((payment) => {
-    const paymentDate = new Date(payment.paymentDate)
-    const selectedDateObj = new Date(selectedDate)
-
-    return paymentDate.toDateString() === selectedDateObj.toDateString()
-  })
+  if (!selectedDate) return paymentRecords.value
+  const target = new Date(selectedDate).toDateString()
+  return paymentRecords.value.filter(
+    (p) => new Date(p.paymentDate).toDateString() === target
+  )
 })
 
-// 결제 내역 API 호출
-const fetchPaymentRecords = async () => {
+async function load() {
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/payment-records`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-    if (response.data.code === 'S200') {
-      paymentRecords.value = response.data.data || []
-    } else {
-      console.error('API 응답 오류:', response.data.message)
-      paymentRecords.value = []
-    }
-  } catch (error) {
-    console.error('결제 내역 조회 실패:', error)
+    paymentRecords.value = await fetchPaymentRecords(tripId)
+  } catch (e) {
+    console.error('결제 내역 조회 실패:', e)
     paymentRecords.value = []
   }
 }
 
-watch(
-  () => selectedDate,
-  () => {},
-  { immediate: true }
-)
+onMounted(load)
 
-onMounted(() => {
-  fetchPaymentRecords()
-})
-
-// RecordReport.vue 페이지로 이동
+// Report 로 이동
 const navigateToReport = () => {
-  const tripId = route.params.tripId
-  router.push(`/record/${tripId}/report`)
+  router.push({
+    name: 'record_report',
+    params: { tripId: route.params.tripId },
+  })
 }
 </script>
