@@ -22,11 +22,10 @@
       </div>
     </Card>
 
-    <div
-      v-if="reservationList.length === 0"
-      class="text-center py-8 text-gray-500"
-    >
-      해당 날짜에 예매 내역이 없습니다.
+    <div v-if="reservationList.length === 0">
+      <TypographySubTitle1 class="text-center py-8 text-moa-gray-text">
+        해당 날짜에 예매 내역이 없습니다.
+      </TypographySubTitle1>
     </div>
 
     <!-- 페이지네이션 -->
