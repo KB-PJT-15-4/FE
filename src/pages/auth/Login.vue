@@ -73,7 +73,7 @@ const handleLogin = async () => {
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('name', name)
 
-    postFcmTokenFunction()
+    await postFcmToken(localStorage.getItem('fcmToken')!)
 
     if (email.value.includes('@')) {
       router.replace({ name: 'home' })
@@ -86,9 +86,6 @@ const handleLogin = async () => {
   return
 }
 
-async function postFcmTokenFunction() {
-  await postFcmToken(localStorage.getItem('fcmToken')!, localStorage.getItem('accessToken')!)
-}
 const goToSignup = () => {
   router.push({ name: 'certification' })
 }

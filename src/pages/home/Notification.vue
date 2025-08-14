@@ -18,12 +18,13 @@ const notifications = ref<UserNotification[]>([])
 
 async function getNotificationsFunction() {
   try {
-    notifications.value = await getNotifications(localStorage.getItem('accessToken')!)
+    notifications.value = await getNotifications()
   } catch (e) {
     console.error(e)
     alert('알림을 불러오는데 실패하였습니다.')
   }
 }
+
 onMounted(() => {
   getNotificationsFunction()
 })

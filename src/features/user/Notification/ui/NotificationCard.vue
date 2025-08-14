@@ -62,13 +62,15 @@ async function postNotificationFunction(type: string, tripId: number, notificati
   try {
     if (type === '수락') {
       if (window.confirm('여행 초대 알림을 수락하시겠습니까?')) {
-        await postNotification(localStorage.getItem('accessToken')!, type, tripId, notificationId)
+        await postNotification(type, tripId, notificationId)
         alert('여행 초대 수락이 완료되었습니다.\n여행 페이지로 이동합니다.')
         router.replace({ name: 'trip_detail', params: { tripId: tripId } })
       }
-    } else {
+    }
+
+    if (type === '거절') {
       if (window.confirm('여행 초대 알림을 거절하시겠습니까?')) {
-        await postNotification(localStorage.getItem('accessToken')!, type, tripId, notificationId)
+        await postNotification(type, tripId, notificationId)
         alert('여행 초대 거절이 완료되었습니다.')
         router.go(0)
       }
@@ -82,7 +84,7 @@ async function postNotificationFunction(type: string, tripId: number, notificati
 async function readNotificationFunction(tripId: number, notificationId: number) {
   try {
     if (window.confirm('정산 페이지로 이동하시겠습니까?')) {
-      await readNotification(localStorage.getItem('accessToken')!, tripId, notificationId)
+      await readNotification(tripId, notificationId)
       router.replace({ name: 'trip_detail', params: { tripId: tripId }, query: { tab: 'settle' } })
     }
   } catch (e) {
