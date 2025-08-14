@@ -99,9 +99,11 @@ async function getTripListFunction(page: number) {
 }
 
 async function getIdInfoFunction() {
-  const result = await getIdInfo(localStorage.getItem('accessToken')!)
+  const result = await getIdInfo()
+
   idCard.value = result.idCard
   driversLicense.value = result.driverLicense
+
   if (localStorage.getItem('name') !== idCard.value!.name) {
     localStorage.setItem('name', idCard.value!.name)
   }

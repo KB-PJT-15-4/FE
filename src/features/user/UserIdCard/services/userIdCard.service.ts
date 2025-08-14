@@ -1,37 +1,25 @@
-import { API_END_POINT } from '@/shared/utils/fetcher'
+import type { IdInfo } from '@/entities/user/user.entity'
+import { api } from '@/shared/utils/api'
+import { API_END_POINT, type ApiData } from '@/shared/utils/fetcher'
 
-export async function getIdInfo(token: string) {
+/**
+ * 회원의 주민등록증/운전면허증 조회
+ * @returns IdInfo (UserIDCard, UserDriversLicenseCard)
+ */
+export async function getIdInfo(): Promise<IdInfo> {
   const { url, method } = API_END_POINT.user.getIdInfo()
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
 
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
+  const res = await api.request<ApiData<IdInfo>>(url, { method })
   return res.data
 }
 
-export async function getIdQR(token: string) {
+/**
+ * 회원의 주민등록증 QR 스트링 조회
+ * @returns QR 스트링값
+ */
+export async function getIdQR(): Promise<string> {
   const { url, method } = API_END_POINT.user.getIdQR()
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
 
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
+  const res = await api.request<ApiData<string>>(url, { method })
   return res.data
 }
