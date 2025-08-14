@@ -113,11 +113,7 @@ reservationInfo.value = {
 async function reservationTransportationFunction() {
   try {
     if (window.confirm('예약하시겠습니까?')) {
-      await reservationTransportation(
-        localStorage.getItem('accessToken')!,
-        Number(reservationId),
-        price
-      )
+      await reservationTransportation(Number(reservationId), price)
 
       alert('예약이 완료되었습니다. \n예매내역페이지로 이동합니다.')
       localStorage.removeItem('seat')
@@ -132,10 +128,7 @@ async function reservationTransportationFunction() {
 async function cancelReservationFunction() {
   try {
     if (window.confirm('선택한 좌석 정보가 사라집니다.\n예약을 취소하시겠습니까?')) {
-      await cancelTransportationReservation(
-        localStorage.getItem('accessToken')!,
-        Number(reservationId)
-      )
+      await cancelTransportationReservation(Number(reservationId))
       alert('취소가 완료되었습니다.')
       router.replace({ name: 'trip_detail', query: { tab: 'reservationList' } })
     }

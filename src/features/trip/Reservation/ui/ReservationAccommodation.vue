@@ -91,7 +91,6 @@ async function getAvailableAccommodationList() {
 
   try {
     const result = await getAccommodationList(
-      localStorage.getItem('accessToken')!,
       tripId,
       selectedStartDate.value,
       selectedEndDate.value

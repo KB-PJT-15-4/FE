@@ -143,7 +143,6 @@ async function getAvailableTransportList() {
   }
   try {
     const result = await getTransportList(
-      localStorage.getItem('accessToken')!,
       selectedOrigin.value,
       selectedDestination.value,
       selectedStartDate.value,

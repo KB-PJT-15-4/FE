@@ -151,12 +151,11 @@ reservationInfo.value = {
 }
 
 async function getAccommodationInfoFunction() {
-  item.value = await getAccommodationInfo(localStorage.getItem('accessToken')!, itemId)
+  item.value = await getAccommodationInfo(itemId)
 }
 
 async function getRoomListFunction() {
   availableRoom.value = await getRoomList(
-    localStorage.getItem('accessToken')!,
     tripId,
     itemId,
     route.query.start_date as string,
@@ -169,7 +168,6 @@ async function reservationAccommodationFunction() {
   try {
     if (window.confirm('숙박시설을 예약하시겠습니까?')) {
       await reservationAccommodation(
-        localStorage.getItem('accessToken')!,
         Number(tripId),
         selectedRoom.value!.accomResId,
         route.query.start_date as string,
