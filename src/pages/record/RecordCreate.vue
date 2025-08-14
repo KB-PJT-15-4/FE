@@ -38,7 +38,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -47,7 +46,14 @@ import RecordCreateImage from '@/features/record/Create/ui/RecordCreateImage.vue
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 
-type ExistingImage = { url: string; fileName: string }
+import {
+  buildCreateFormData,
+  buildUpdateFormData,
+  createRecord,
+  fetchRecordDetail,
+  updateRecord,
+  type ExistingImage,
+} from '@/features/record/Create/services/recordCreate.service'
 
 const router = useRouter()
 const route = useRoute()
@@ -67,93 +73,30 @@ const existingImages = ref<ExistingImage[]>([])
 
 const saving = ref(false)
 
-const fetchRecord = async () => {
+// 수정 모드
+async function loadDetail() {
   if (!isEditMode) return
-
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-    
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-
-    if (response.data.code === 'S200') {
-      const record = response.data.data as {
-        title: string
-        recordDate: string
-        content: string
-        images?: ExistingImage[]
-      }
-
-      title.value = record.title
-      recordDate.value = record.recordDate
-      content.value = record.content
-
-      // 상세 DTO는 images: [{ url, fileName }]
-      const images: ExistingImage[] = Array.isArray(record.images) ? record.images : []
-      existingImages.value = images.map((img: ExistingImage) => ({
-        url: img.url,
-        fileName: img.fileName,
-      }))
-
-      // 새 업로드 목록은 비움
-      imageFiles.value = []
-    }
+    const detail = await fetchRecordDetail(tripId, editRecordId)
+    title.value = detail.title
+    recordDate.value = detail.recordDate
+    content.value = detail.content
+    existingImages.value = (detail.images ?? []).map((img) => ({
+      url: img.url,
+      fileName: img.fileName,
+    }))
+    imageFiles.value = []
   } catch (error: unknown) {
     console.error('기록을 불러오는 중 오류가 발생했습니다:', error)
-    if (error instanceof Error && error.message === 'Access token not found') {
-      alert('로그인이 필요합니다.')
-      router.push('/login')
-    } else {
-      alert('기록을 불러오는 중 오류가 발생했습니다.')
-      goBack()
-    }
+    alert('기록을 불러오는 중 오류가 발생했습니다.')
+    goBack()
   }
 }
 
-onMounted(() => {
-  // 상세 API에서 항상 최신 데이터 로딩
-  fetchRecord()
-})
+onMounted(loadDetail)
 
-const createFormDataForCreate = () => {
-  // POST /records : TripRecordRequestDto (imageUrls)
-  const formData = new FormData()
-  formData.append('title', title.value)
-  formData.append('recordDate', recordDate.value)
-  formData.append('content', content.value)
-
-  imageFiles.value.forEach((file) => {
-    formData.append('imageUrls', file) // ✅ 생성은 imageUrls
-  })
-
-  return formData
-}
-
-const createFormDataForUpdate = () => {
-  // PUT /records/{id} : TripRecordUpdateRequestDto (existingImageFileNames, newImages)
-  const formData = new FormData()
-  formData.append('title', title.value)
-  formData.append('recordDate', recordDate.value)
-  formData.append('content', content.value)
-
-  // 유지할 기존 이미지의 파일명만 전송
-  existingImages.value.forEach((img) => {
-    if (img?.fileName) {
-      formData.append('existingImageFileNames', img.fileName)
-    }
-  })
-
-  // 새 파일
-  imageFiles.value.forEach((file) => {
-    formData.append('newImages', file)
-  })
-
-  return formData
-}
-
-const saveRecord = async () => {
+// 저장
+async function saveRecord() {
   if (!title.value.trim() || !content.value.trim()) {
     alert('제목과 내용을 모두 입력해주세요.')
     return
@@ -161,69 +104,46 @@ const saveRecord = async () => {
 
   saving.value = true
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
+    let json: { code?: string }
 
-    let response
     if (isEditMode) {
-
-      const formData = createFormDataForUpdate()
-      response = await axios.put(
-        `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${editRecordId}`,
-
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const formData = buildUpdateFormData({
+        title: title.value,
+        recordDate: recordDate.value,
+        content: content.value,
+        existingImages: existingImages.value,
+        imageFiles: imageFiles.value,
+      })
+      json = await updateRecord(tripId, editRecordId, formData)
     } else {
-
-      const formData = createFormDataForCreate()
-      response = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records`,
-
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const formData = buildCreateFormData({
+        title: title.value,
+        recordDate: recordDate.value,
+        content: content.value,
+        imageFiles: imageFiles.value,
+      })
+      json = await createRecord(tripId, formData)
     }
 
-    if (response.data.code === 'S200' || response.data.code === 'S201') {
+    if (json?.code === 'S200' || json?.code === 'S201') {
       alert(isEditMode ? '기록이 성공적으로 수정되었습니다.' : '기록이 성공적으로 생성되었습니다.')
       router.push({
         name: 'record_detail',
         params: { tripId },
         query: { refresh: Date.now().toString() },
       })
+    } else {
+      alert('처리 중 문제가 발생했습니다.')
     }
   } catch (error: unknown) {
     console.error('기록 저장 중 오류가 발생했습니다:', error)
-    if (error && typeof error === 'object' && 'response' in error) {
-      const axiosError = error as {
-        response?: { status: number; data?: { message?: string } }
-      }
-      if (axiosError.response?.status === 400) {
-        const errorMessage = axiosError.response.data?.message || '입력 데이터에 문제가 있습니다.'
-        alert(`오류: ${errorMessage}`)
-      }
-    }
-    if (error instanceof Error && error.message === 'Access token not found') {
-      alert('로그인이 필요합니다.')
-      router.push('/login')
-    }
+    alert('기록 저장 중 오류가 발생했습니다.')
   } finally {
     saving.value = false
   }
 }
 
-const goBack = () => {
+function goBack() {
   router.back()
 }
 </script>

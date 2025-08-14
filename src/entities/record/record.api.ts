@@ -9,6 +9,24 @@ export const record = {
     method: Method.GET,
   }),
 
+  // 여행 기록 상세 조회
+  getRecordDetail: (tripId: number, recordId: number) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${recordId}`,
+    method: Method.GET,
+  }),
+
+  // 여행 기록 생성 
+  createRecord: (tripId: number) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records`,
+    method: Method.POST,
+  }),
+
+  // 여행 기록 수정
+  updateRecord: (tripId: number, recordId: number) => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${recordId}`,
+    method: Method.PUT,
+  }),
+
   // 여행 기록 삭제
   deleteTripRecord: (tripId: number, recordId: number) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/${recordId}`,

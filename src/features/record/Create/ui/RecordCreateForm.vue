@@ -25,7 +25,7 @@
       v-model="content"
       placeholder="기록을 자유롭게 작성해주세요 (최대 800자)"
       maxlength="800"
-      class="border p-2 rounded-md resize-none border-[2px]"
+      class="p-2 rounded-md resize-none border-[2px]"
       rows="5"
     />
     
