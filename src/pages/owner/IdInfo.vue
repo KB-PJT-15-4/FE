@@ -81,7 +81,7 @@ const isLoading = ref(true)
 
 async function getDecodeQRFunction() {
   try {
-    userInfo.value = await getDecodeIdQR(localStorage.getItem('accessToken')!, data)
+    userInfo.value = await getDecodeIdQR(data)
   } catch (e) {
     console.error(e)
     userInfo.value = null

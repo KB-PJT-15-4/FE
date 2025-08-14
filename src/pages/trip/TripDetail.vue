@@ -91,7 +91,7 @@ watch(selectedOption, (newTab) => {
 
 async function getTripInfoFunction() {
   try {
-    trip.value = await getTripInfo(localStorage.getItem('accessToken')!, tripId)
+    trip.value = await getTripInfo(tripId)
   } catch (e) {
     console.error(e)
     alert('여행 정보를 불러오는데 실패하였습니다.')

@@ -108,7 +108,7 @@ function addMember(id: number) {
 
 async function getMemberListFunction() {
   try {
-    const result = await getMemberList(localStorage.getItem('accessToken')!, tripId)
+    const result = await getMemberList(tripId)
     settlementMemberList.value = await result
   } catch (e) {
     console.error(e)
@@ -123,13 +123,7 @@ async function makeSettlementFunction() {
       amount: settlementAmount.value / settlementMemberList.value.length,
     }))
 
-    await makeSettlement(
-      localStorage.getItem('accessToken')!,
-      tripId,
-      settlementAmount.value.toString(),
-      settlementMemo.value,
-      expenses
-    )
+    await makeSettlement(tripId, settlementAmount.value.toString(), settlementMemo.value, expenses)
     settlementAmount.value = 0
     settlementMemo.value = ''
 

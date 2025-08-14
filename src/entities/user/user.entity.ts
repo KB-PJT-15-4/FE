@@ -2,7 +2,14 @@ export enum NotificationType {
   TRIP = 'TRIP',
   SETTLE = 'SETTLE',
 }
-// [메인페이지] 주민등록증 엔티티
+
+// [마이 페이지] 주민등록증/운전면허증 통합 엔티티
+export interface IdInfo {
+  idCard: UserIDCard
+  driverLicense: UserDriversLicenseCard
+}
+
+// [마이 페이지] 주민등록증 엔티티
 export interface UserIDCard {
   idCardNumber: string // 주민번호
   name: string // 이름
@@ -12,7 +19,7 @@ export interface UserIDCard {
   birthday?: string
 }
 
-// [메인페이지] 운전면허증 엔티티
+// [마이 페이지] 운전면허증 엔티티
 export interface UserDriversLicenseCard {
   idCardNumber: string // 주민번호
   licenseNumber: string // 운전면허 번호
@@ -24,7 +31,7 @@ export interface UserDriversLicenseCard {
   issuingAgency: string // 발급 기관
 }
 
-// [알림페이지] 알림 엔티티
+// [알림 페이지] 알림 엔티티
 export interface UserNotification {
   notificationId: number
   tripId: number
@@ -32,4 +39,42 @@ export interface UserNotification {
   notificationType: NotificationType
   sender: string // 알림 보낸 사람
   tripName: string // 여행 이름
+}
+
+// [사장님 페이지] 예약권 엔티티
+interface ReservedItemType {
+  type: 'ACCOMMODATION' | 'RESTAURANT' | 'TRANSPORT'
+  reservationId: number
+  status: string
+}
+
+export interface ReservedAccommodationItem extends ReservedItemType {
+  accomId: number
+  hotelName: string
+  checkinDay: string
+  checkoutDay: string
+  guests: number
+  roomType: string
+}
+
+export interface ReservedRestaurantItem extends ReservedItemType {
+  restId: number
+  date: string
+  time: string
+  resNum: number
+  restName: string
+}
+
+export interface ReservedTransportationItem extends ReservedItemType {
+  tranResId: number
+  transportId: number
+  departureName: string
+  arrivalName: string
+  seatRoomNo: number
+  seatNumber: string
+  seatType: string
+  trainNo: string
+  departureTime: string
+  arrivalTime: string
+  bookedAt: string
 }

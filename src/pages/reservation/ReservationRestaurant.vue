@@ -132,11 +132,7 @@ reservationInfo.value = {
 
 async function getAvailableTimeListFunction() {
   try {
-    availableTimeSlot.value = await getAvailableTimeTimeList(
-      localStorage.getItem('accessToken')!,
-      itemId,
-      route.query.date as string
-    )
+    availableTimeSlot.value = await getAvailableTimeTimeList(itemId, route.query.date as string)
 
     availableTime.value = availableTimeSlot.value.map((slot) => slot.time)
     selectedTime.value = availableTime.value[0]
@@ -150,7 +146,6 @@ async function reservationRestaurantFunction() {
   try {
     if (window.confirm('식당을 예약하시겠습니까?')) {
       await reservationRestaurant(
-        localStorage.getItem('accessToken')!,
         Number(tripId),
         Number(itemId),
         route.query.date as string,
@@ -176,8 +171,9 @@ function cancelReservationFunction() {
     alert('취소를 완료하지 못하였습니다.')
   }
 }
+
 async function getRestaurantInfoFunction() {
-  item.value = await getRestaurantInfo(localStorage.getItem('accessToken')!, itemId)
+  item.value = await getRestaurantInfo(itemId)
 }
 
 onMounted(() => {

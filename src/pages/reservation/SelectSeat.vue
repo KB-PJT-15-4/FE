@@ -100,7 +100,7 @@ const toggleSeat = (seat: TransportationSeat) => {
 }
 
 async function getTransportationSeatStatusFunction(container: string) {
-  const result = await getTransportationSeatsStatus(localStorage.getItem('accessToken')!, itemId)
+  const result = await getTransportationSeatsStatus(itemId)
   seats.value = result[container]
   setDisabledSeat()
 }
@@ -116,13 +116,7 @@ onMounted(() => {
 async function selectSeatFunction() {
   const tranResIds = selectedSeat.value.map((seat) => seat.tranResId)
   try {
-    const result = await selectSeat(
-      localStorage.getItem('accessToken')!,
-      tripId,
-      tranResIds,
-      selectedStartDate,
-      selectedStartTime
-    )
+    const result = await selectSeat(tripId, tranResIds, selectedStartDate, selectedStartTime)
 
     localStorage.setItem('seat', JSON.stringify(selectedSeat.value))
     const query: Record<string, string | number | string[]> = {

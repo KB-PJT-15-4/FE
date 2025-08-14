@@ -110,7 +110,6 @@ async function getAvailableRestaurantList() {
 
   try {
     const result = await getRestaurantList(
-      localStorage.getItem('accessToken')!,
       tripId,
       selectedDate.value,
       selectedCategory.value?.categoryCode
@@ -124,7 +123,7 @@ async function getAvailableRestaurantList() {
 
 async function getRestaurantCategoryListFunction() {
   try {
-    const result = await getRestaurantCategoryList(localStorage.getItem('accessToken')!)
+    const result = await getRestaurantCategoryList()
     categoryList.value = await result
   } catch (e) {
     console.error(e)

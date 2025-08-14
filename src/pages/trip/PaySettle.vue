@@ -55,7 +55,7 @@ const settleId = route.params.settleId as string
 
 async function getSettlementInfoFunction() {
   try {
-    settlementInfo.value = await getSettlementInfo(localStorage.getItem('accessToken')!, settleId)
+    settlementInfo.value = await getSettlementInfo(settleId)
   } catch (e) {
     alert('정산 정보를 불러오지 못하였습니다.')
   }
@@ -75,11 +75,7 @@ async function postSettleFunction() {
       )
     ) {
       try {
-        await postSettle(
-          localStorage.getItem('accessToken')!,
-          settleId,
-          settlementInfo.value!.shareAmount
-        )
+        await postSettle(settleId, settlementInfo.value!.shareAmount)
         alert('송금이 완료되었습니다.')
         router.replace({ name: 'settle_status', params: { tripId: tripId, settleId: settleId } })
       } catch (e) {

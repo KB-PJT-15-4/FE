@@ -81,7 +81,7 @@ const qrString = ref<string>('')
 
 async function getQRFunction() {
   try {
-    qrString.value = await getIdQR(localStorage.getItem('accessToken')!)
+    qrString.value = await getIdQR()
   } catch (e) {
     console.error(e)
   }
