@@ -25,19 +25,20 @@
       v-model="content"
       placeholder="기록을 자유롭게 작성해주세요 (최대 800자)"
       maxlength="800"
-      class="p-2 rounded-md resize-none border-[2px]"
+      class="p-2 rounded-md resize-none border-[1px]"
       rows="5"
     />
     
     <!-- 글자 수 표시 -->
-    <div class="text-sm text-gray-500 text-right">
+    <TypographyCaption class="text-moa-gray-text text-right">
       {{ content?.length || 0 }}/800자
-    </div>
+    </TypographyCaption>
   </div>
 </template>
 
 <script setup lang="ts">
 import Input from '@/shared/components/atoms/input/Input.vue'
+import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 
 const title = defineModel<string>('title')
