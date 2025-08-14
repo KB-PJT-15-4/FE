@@ -33,3 +33,41 @@ export interface UserNotification {
   sender: string // 알림 보낸 사람
   tripName: string // 여행 이름
 }
+
+// [사장님 페이지] 예약권 엔티티
+interface ReservedItemType {
+  type: 'ACCOMMODATION' | 'RESTAURANT' | 'TRANSPORT'
+  reservationId: number
+  status: string
+}
+
+export interface ReservedAccommodationItem extends ReservedItemType {
+  accomId: number
+  hotelName: string
+  checkinDay: string
+  checkoutDay: string
+  guests: number
+  roomType: string
+}
+
+export interface ReservedRestaurantItem extends ReservedItemType {
+  restId: number
+  date: string
+  time: string
+  resNum: number
+  restName: string
+}
+
+export interface ReservedTransportationItem extends ReservedItemType {
+  tranResId: number
+  transportId: number
+  departureName: string
+  arrivalName: string
+  seatRoomNo: number
+  seatNumber: string
+  seatType: string
+  trainNo: string
+  departureTime: string
+  arrivalTime: string
+  bookedAt: string
+}
