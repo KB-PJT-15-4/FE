@@ -103,7 +103,7 @@ const memberEmail = ref<string>('')
 
 async function addMember() {
   try {
-    const result = await getIdByEmail(localStorage.getItem('accessToken')!, memberEmail.value)
+    const result = await getIdByEmail(memberEmail.value)
 
     memberList.value.push({ email: memberEmail.value, id: result })
     memberEmail.value = ''
@@ -150,7 +150,6 @@ async function onClickCreateButton() {
   if (window.confirm('여행을 생성하시겠습니까?')) {
     try {
       const result = await createTrip(
-        localStorage.getItem('accessToken')!,
         tripName.value,
         formatFullDateToKorean2(new Date(startTime.value)),
         formatFullDateToKorean2(new Date(endTime.value)),

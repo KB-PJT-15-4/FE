@@ -69,11 +69,7 @@ async function addMember() {
   }
 
   try {
-    const result = await getValidMemberIdByEmail(
-      localStorage.getItem('accessToken')!,
-      memberEmail.value,
-      tripId
-    )
+    const result = await getValidMemberIdByEmail(memberEmail.value, tripId)
 
     memberList.value.push({ email: memberEmail.value, id: result })
     memberEmail.value = ''
@@ -103,7 +99,7 @@ async function onClickInviteButton() {
   try {
     if (window.confirm('여행에 멤버들을 초대 하시겠습니끼?')) {
       const membersId = memberList.value.map((value) => value.id)
-      await inviteMembers(localStorage.getItem('accessToken')!, Number(tripId), membersId)
+      await inviteMembers(Number(tripId), membersId)
       alert('추가 요청을 보냈습니다.')
       router.push({ name: 'trip_detail', params: { tripId: tripId } })
     }

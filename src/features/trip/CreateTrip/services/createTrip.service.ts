@@ -1,101 +1,52 @@
-import { API_END_POINT } from '@/shared/utils/fetcher'
+import { api } from '@/shared/utils/api'
+import { API_END_POINT, type ApiData } from '@/shared/utils/fetcher'
 
 export async function createTrip(
-  token: string,
   tripName: string,
   startTime: string,
   endTime: string,
   location: string,
   memberIds: number[]
-) {
+): Promise<string> {
   const { url, method } = API_END_POINT.trip.createTrip()
 
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
+  const res = await api.request<ApiData<string>>(url, {
+    method,
+    data: {
       tripName,
       startTime,
       endTime,
       location,
       memberIds,
-    }),
+    },
   })
 
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
   return res.data
 }
 
-export async function getIdByEmail(token: string, email: string) {
+export async function getIdByEmail(email: string): Promise<number> {
   const { url, method } = API_END_POINT.user.getIdByEmail(email)
 
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-  const res = await result.json()
+  const res = await api.request<ApiData<number>>(url, { method })
   return res.data
 }
 
-export async function getValidMemberIdByEmail(token: string, email: string, tripId: string) {
+export async function getValidMemberIdByEmail(email: string, tripId: string): Promise<number> {
   const { url, method } = API_END_POINT.user.getValidMemberIdByEmail(email, tripId)
 
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  const res = await result.json()
-
-  if (!result.ok) {
-    const error: Error & { status?: number; code?: string } = new Error(res.message || '에러 발생')
-    error.status = result.status
-    error.code = res.code
-    throw error
-  }
-
+  const res = await api.request<ApiData<number>>(url, { method })
   return res.data
 }
 
-export async function inviteMembers(token: string, tripId: number, memberIds: number[]) {
+export async function inviteMembers(tripId: number, memberIds: number[]): Promise<boolean> {
   const { url, method } = API_END_POINT.trip.inviteMembers()
 
-  const result = await fetch(url, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
+  const res = await api.request<ApiData<boolean>>(url, {
+    method,
+    data: {
       tripId,
       memberIds,
-    }),
+    },
   })
-
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  const res = await result.json()
   return res.data
 }
