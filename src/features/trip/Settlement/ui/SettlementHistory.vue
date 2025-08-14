@@ -92,7 +92,7 @@ const currentPage = computed(() => Number(route.query.page ?? 1))
 
 async function getSettleListFunction(page: number) {
   try {
-    const result = await getSettleList(localStorage.getItem('accessToken')!, tripId, page, 3)
+    const result = await getSettleList(tripId, page, 3)
     settleList.value = result.content
     totalPage.value = result.totalPages
   } catch (e) {

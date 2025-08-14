@@ -74,7 +74,7 @@ const settleId = route.params.settleId as string
 
 async function getSettlementStateFunction() {
   try {
-    const result = await getSettlementStatus(localStorage.getItem('accessToken')!, settleId)
+    const result = await getSettlementStatus(settleId)
     data.value = await result
   } catch (e) {
     console.error(e)
