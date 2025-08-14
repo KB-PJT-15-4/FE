@@ -4,78 +4,40 @@
     class="p-2 space-y-1"
   >
     <div class="flex justify-between items-start">
-      <div class="font-bold text-lg">
-        {{ trip.tripName }}
-      </div>
-      <div class="text-sm text-black">
-        {{ trip.status }}
-      </div>
+      <TypographyHead3>{{ trip.tripName }}</TypographyHead3>
+      <TypographyP2>{{ trip.status }}</TypographyP2>
     </div>
     <div class="flex justify-between items-end">
-      <div class="text-sm text-[#626262]">
+      <TypographyP2 class="text-moa-gray-text">
         {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
         {{ formatFullDateToKorean(new Date(trip.endDate)) }}
-      </div>
-      <div class="text-sm text-black">
-        {{ trip.locationName }}
-      </div>
+      </TypographyP2>
+      <TypographyP2>{{ trip.locationName }}</TypographyP2>
     </div>
   </Card>
 </template>
 
 <script setup lang="ts">
-import { formatFullDateToKorean } from '@/shared/utils/format'
 import { onMounted, ref, watch } from 'vue'
-
-import type { Trip } from '@/entities/record/record.entity'
+import { formatFullDateToKorean } from '@/shared/utils/format'
 import Card from '@/shared/components/atoms/card/Card.vue'
-import axios from 'axios'
+import type { Trip } from '@/entities/record/record.entity'
+import { fetchTripByIdViaList } from '../services/recordDetail.service'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 
-const props = defineProps<{
-  tripId: number
-}>()
-
+const props = defineProps<{ tripId: number }>()
 const trip = ref<Trip | null>(null)
 
-// API 호출 함수
-const fetchTripData = async (id: number) => {
+async function load(id: number) {
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/trips`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-
-    // 전체 목록에서 특정 tripId 찾기
-    const trips: Trip[] = response.data.data.content || response.data.data
-    const foundTrip = trips.find((t: Trip) => t.tripId === id)
-
-    trip.value = foundTrip || null
-
-    if (!foundTrip) {
-      console.warn(`tripId ${id}에 해당하는 여행을 찾을 수 없습니다.`)
-    }
-  } catch (err) {
-    console.error('여행 정보 조회 실패:', err)
+    trip.value = await fetchTripByIdViaList(id)
+    if (!trip.value) console.warn(`tripId ${id}에 해당하는 여행을 찾을 수 없습니다.`)
+  } catch (e) {
+    console.error('여행 정보 조회 실패:', e)
   }
 }
 
-onMounted(() => {
-  if (props.tripId) {
-    fetchTripData(props.tripId)
-  }
-})
-
-watch(
-  () => props.tripId,
-  (newTripId) => {
-    if (newTripId) {
-      fetchTripData(newTripId)
-    }
-  },
-  { immediate: true }
-)
+onMounted(() => props.tripId && load(props.tripId))
+watch(() => props.tripId, (v) => v && load(v), { immediate: false })
 </script>

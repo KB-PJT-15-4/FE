@@ -64,15 +64,12 @@ const trips = ref<Trip[]>([])
 const currentPage = ref<number>(Number(route.query.page) || props.page || 1)
 const totalPage = ref<number>(1)
 
-const apiBaseUrl = import.meta.env.VITE_APP_API_URL // localhost:8080 대체
-
 // API 호출
 async function fetchTrips() {
   try {
     const token = localStorage.getItem('accessToken')
     const { content, totalPages } = await fetchTripsService({
       token,
-      apiBaseUrl,
       pageIndex: currentPage.value - 1,
       pageSize: ITEMS_PER_PAGE,
       locationName: props.location,

@@ -1,24 +1,30 @@
-import axios from 'axios'
 import type { FetchTripsParams, TripsResponse } from '@/entities/record/record.entity'
+import { API_END_POINT } from '@/shared/utils/fetcher'
 
 export const ITEMS_PER_PAGE = 3
 
-/** 여행 목록 API 호출 */
+// 여행 목록 API (fetch 사용)
 export async function fetchTripsService(params: FetchTripsParams): Promise<TripsResponse> {
-  const { token, apiBaseUrl, pageIndex, pageSize, locationName } = params
+  const { token, pageIndex, pageSize, locationName } = params
   if (!token) throw new Error('Access token not found')
 
-  const response = await axios.get(`${apiBaseUrl}/api/trips`, {
+  const { url, method } = API_END_POINT.map.getTrips(pageIndex, pageSize, locationName ?? undefined)
+
+  const res = await fetch(url, {
+    method,
     headers: {
       Authorization: `Bearer ${token}`,
-    },
-    params: {
-      page: pageIndex,
-      size: pageSize,
-      locationName,
+      'Content-Type': 'application/json',
     },
   })
 
-  const { content, totalPages } = response.data.data
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => ({}))
+    throw new Error(errorBody?.message ?? 'Failed to fetch trips')
+  }
+
+  const json = await res.json()
+  const { content, totalPages } = json.data
   return { content, totalPages }
 }
+

@@ -54,7 +54,6 @@ export interface MapLocation {
 // [mapTripCard.service.ts] 타입
 export interface FetchTripsParams {
   token: string | null
-  apiBaseUrl: string
   pageIndex: number
   pageSize: number
   locationName: string
