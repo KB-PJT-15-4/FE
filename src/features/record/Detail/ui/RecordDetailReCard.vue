@@ -15,7 +15,7 @@
         </div>
         <div>
           <TypographySubTitle1>{{ reservation.name }}</TypographySubTitle1>
-          <TypographyP2 class="text-[#626262]">
+          <TypographyP2 class="text-moa-gray-text">
             {{ formatFullDateToKorean(new Date(reservation.date)) }}
           </TypographyP2>
         </div>

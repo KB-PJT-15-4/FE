@@ -83,7 +83,7 @@
     <!-- 기록이 없는 경우 -->
     <div
       v-if="recordList.length === 0"
-      class="text-center py-8 text-gray-500"
+      class="text-center py-8 text-moa-gray-text"
     >
       <img
         src="/src/assets/bear.jpg"

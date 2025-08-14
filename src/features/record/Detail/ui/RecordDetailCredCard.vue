@@ -14,7 +14,7 @@
     >
       <div>
         <TypographySubTitle1>{{ payment.paymentName }}</TypographySubTitle1>
-        <TypographyP2 class="text-[#626262]">
+        <TypographyP2 class="text-moa-gray-text">
           {{ formatFullDateToKorean(new Date(payment.paymentDate)) }}
         </TypographyP2>
       </div>
