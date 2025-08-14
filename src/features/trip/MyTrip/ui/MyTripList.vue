@@ -30,7 +30,7 @@ const totalPage = ref<number>(0)
 const currentPage = computed(() => Number(route.query.page ?? 1))
 
 async function getTripListFunction(page: number) {
-  const result = await getTripList(localStorage.getItem('accessToken')!, page, 4)
+  const result = await getTripList(page, 4)
   tripList.value = result.content
   totalPage.value = result.totalPages
 }

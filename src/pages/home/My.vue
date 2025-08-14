@@ -94,7 +94,7 @@ const tripOptions = computed(() =>
 )
 
 async function getTripListFunction(page: number) {
-  const result = await getTripList(localStorage.getItem('accessToken')!, page, 100)
+  const result = await getTripList(page, 100)
   tripList.value = result.content
 }
 
