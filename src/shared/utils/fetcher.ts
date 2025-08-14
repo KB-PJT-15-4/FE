@@ -1,8 +1,8 @@
 // apiClient.ts
 import { map } from '@/entities/map/map.api'
+import { record } from '@/entities/record/record.api'
 import { trip } from '@/entities/trip/trip.api'
 import { user } from '@/entities/user/user.api'
-import { record } from '@/entities/record/record.api'
 
 export interface Paged<T> {
   content: T[]
@@ -29,12 +29,12 @@ export type ApiEndpoint = {
   method: Method
 }
 
-
-const API_END_POINT = {
+export const API_END_POINT = {
   user,
   trip,
   map,
   record,
+}
 export type JsonRequestOptions = Omit<RequestOptions, 'raw'>
 
 // ========== Types ==========
