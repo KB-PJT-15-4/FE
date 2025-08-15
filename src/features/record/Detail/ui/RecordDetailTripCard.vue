@@ -22,7 +22,7 @@ import { onMounted, ref, watch } from 'vue'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import type { Trip } from '@/entities/record/record.entity'
-import { fetchTripByIdViaList } from '../services/recordDetail.service'
+import { fetchTripByIdViaList } from '../services/recordDetail.service' // 내부 구현이 getTripInfo로 변경됨
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 

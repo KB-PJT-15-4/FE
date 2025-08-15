@@ -17,26 +17,38 @@ function getTokenOrThrow(): string {
 // fetch 에러 처리
 async function ensureOk(result: Response) {
   if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody?.message ?? 'Request failed')
+    // 가능한 경우 JSON 파싱
+    let message = 'Request failed'
+    try {
+      const errorBody = await result.json()
+      message = errorBody?.message ?? message
+    } catch {
+      // ignore
+    }
+    throw new Error(message)
   }
 }
 
 // RecordDetailTripCard.vue 기능 분리
 export async function fetchTripByIdViaList(tripId: number): Promise<Trip | null> {
   const token = getTokenOrThrow()
-  const { url, method } = API_END_POINT.trip.getTripList(0, 100)
+  const { url, method } = API_END_POINT.trip.getTripInfo(String(tripId))
+
   const res = await fetch(url, {
     method,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    headers: { Authorization: `Bearer ${token}` },
   })
   await ensureOk(res)
-  const data = await res.json()
-  const list: Trip[] = data?.data?.content ?? data?.data ?? []
-  return list.find((t) => t.tripId === tripId) ?? null
+
+  const body: unknown = await res.json().catch(() => null)
+  if (body && typeof body === 'object' && 'data' in body) {
+    return (body as { data: Trip }).data
+  }
+  return null
 }
 
-// RecordDetailTripCard.vue 기능 분리
+
+// RecordDetailDate.vue 기능 분리
 export function isValidDateInRange(date: string, startDate: string, endDate: string): boolean {
   const target = new Date(date)
   const start = new Date(startDate)
@@ -74,15 +86,15 @@ export async function fetchPaymentRecords(tripId: number): Promise<ApiPaymentRec
 export async function fetchReservationsByDate(params: {
   tripId: number
   date: string
-  page: number         
-  size: number         
+  page: number         // 0-based
+  size: number         // page size
 }): Promise<Paged<ApiReservationItem>> {
   const token = getTokenOrThrow()
 
   const { url, method } = API_END_POINT.record.getReservationsByDate(
     params.tripId,
     params.date,
-    params.page,   // 0-based
+    params.page,
     params.size
   )
 
