@@ -75,8 +75,8 @@ export async function fetchPaymentRecords(tripId: number): Promise<ApiPaymentRec
 export async function fetchReservationsByDate(params: {
   tripId: number
   date: string
-  page: number         // 0-based
-  size: number         // page size
+  page: number         
+  size: number       
 }): Promise<Paged<ApiReservationItem>> {
   const token = getTokenOrThrow()
 
