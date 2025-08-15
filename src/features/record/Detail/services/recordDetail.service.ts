@@ -3,7 +3,7 @@ import type {
   ApiPaymentRecord,
   ApiReservationItem,
   Record as TripRecord,
-  Trip,
+  Trip, ApiResponse
 } from '@/entities/record/record.entity'
 import type { Paged } from '@/shared/utils/common.types'
 
@@ -17,15 +17,8 @@ function getTokenOrThrow(): string {
 // fetch 에러 처리
 async function ensureOk(result: Response) {
   if (!result.ok) {
-    // 가능한 경우 JSON 파싱
-    let message = 'Request failed'
-    try {
-      const errorBody = await result.json()
-      message = errorBody?.message ?? message
-    } catch {
-      // ignore
-    }
-    throw new Error(message)
+    const errorBody = await result.json().catch(() => ({}))
+    throw new Error(errorBody?.message ?? 'Request failed')
   }
 }
 
@@ -40,13 +33,9 @@ export async function fetchTripByIdViaList(tripId: number): Promise<Trip | null>
   })
   await ensureOk(res)
 
-  const body: unknown = await res.json().catch(() => null)
-  if (body && typeof body === 'object' && 'data' in body) {
-    return (body as { data: Trip }).data
-  }
-  return null
+  const { data } = (await res.json()) as ApiResponse<Trip>
+  return data 
 }
-
 
 // RecordDetailDate.vue 기능 분리
 export function isValidDateInRange(date: string, startDate: string, endDate: string): boolean {
