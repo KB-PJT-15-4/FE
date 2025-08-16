@@ -3,7 +3,7 @@ import type {
   ApiPaymentRecord,
   ApiReservationItem,
   Record as TripRecord,
-  Trip,
+  Trip, ApiResponse
 } from '@/entities/record/record.entity'
 import type { Paged } from '@/shared/utils/common.types'
 
@@ -25,18 +25,19 @@ async function ensureOk(result: Response) {
 // RecordDetailTripCard.vue 기능 분리
 export async function fetchTripByIdViaList(tripId: number): Promise<Trip | null> {
   const token = getTokenOrThrow()
-  const { url, method } = API_END_POINT.trip.getTripList(0, 100)
+  const { url, method } = API_END_POINT.trip.getTripInfo(String(tripId))
+
   const res = await fetch(url, {
     method,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    headers: { Authorization: `Bearer ${token}` },
   })
   await ensureOk(res)
-  const data = await res.json()
-  const list: Trip[] = data?.data?.content ?? data?.data ?? []
-  return list.find((t) => t.tripId === tripId) ?? null
+
+  const { data } = (await res.json()) as ApiResponse<Trip>
+  return data 
 }
 
-// RecordDetailTripCard.vue 기능 분리
+// RecordDetailDate.vue 기능 분리
 export function isValidDateInRange(date: string, startDate: string, endDate: string): boolean {
   const target = new Date(date)
   const start = new Date(startDate)
@@ -75,14 +76,14 @@ export async function fetchReservationsByDate(params: {
   tripId: number
   date: string
   page: number         
-  size: number         
+  size: number       
 }): Promise<Paged<ApiReservationItem>> {
   const token = getTokenOrThrow()
 
   const { url, method } = API_END_POINT.record.getReservationsByDate(
     params.tripId,
     params.date,
-    params.page,   // 0-based
+    params.page,
     params.size
   )
 
