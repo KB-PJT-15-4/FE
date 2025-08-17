@@ -1,142 +1,100 @@
-import { API_END_POINT } from '@/shared/utils/fetcher'
 import type {
-  ApiPaymentRecord,
-  ApiReservationItem,
+  PaymentRecord,
+  ReservationItem,
+  Trip,
   Record as TripRecord,
-  Trip, ApiResponse
 } from '@/entities/record/record.entity'
-import type { Paged } from '@/shared/utils/common.types'
+import { api } from '@/shared/utils/api'
 
-// accessToken 가져오기
-function getTokenOrThrow(): string {
-  const token = localStorage.getItem('accessToken')
-  if (!token) throw new Error('Access token not found')
-  return token
-}
+import { API_END_POINT, type ApiData, type Paged } from '@/shared/utils/fetcher'
+import { isValidDateInRange } from '@/shared/utils/format'
 
-// fetch 에러 처리
-async function ensureOk(result: Response) {
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody?.message ?? 'Request failed')
-  }
-}
-
-// RecordDetailTripCard.vue 기능 분리
-export async function fetchTripByIdViaList(tripId: number): Promise<Trip | null> {
-  const token = getTokenOrThrow()
+/**
+ * 여행 id를 통해 여행 정보를 가져옴
+ * @param tripId 여행 id
+ * @returns Trip
+ */
+export async function getTripInfo(tripId: number): Promise<Trip | null> {
   const { url, method } = API_END_POINT.trip.getTripInfo(String(tripId))
 
-  const res = await fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${token}` },
-  })
-  await ensureOk(res)
-
-  const { data } = (await res.json()) as ApiResponse<Trip>
-  return data 
+  const res = await api.request<ApiData<Trip>>(url, { method })
+  return res.data
 }
 
-// RecordDetailDate.vue 기능 분리
-export function isValidDateInRange(date: string, startDate: string, endDate: string): boolean {
-  const target = new Date(date)
-  const start = new Date(startDate)
-  const end = new Date(endDate)
-  return target >= start && target <= end
-}
-
-export async function fetchTripAndResolveDate(
+/**
+ * 여행 및 현재 날짜가 유효한지 조회
+ * @param tripId 여행 id
+ * @param queryDate 조회하려는 날짜
+ * @returns 여행, 현재 날짜 or 여행 시작 날짜
+ */
+export async function getTripAndResolveDate(
   tripId: number,
-  queryDate?: string
+  date?: string
 ): Promise<{ trip: Trip | null; resolvedDate?: string }> {
-  const trip = await fetchTripByIdViaList(tripId)
+  const trip = await getTripInfo(tripId)
   if (!trip) return { trip: null, resolvedDate: undefined }
 
-  if (queryDate && isValidDateInRange(queryDate, trip.startDate, trip.endDate)) {
-    return { trip, resolvedDate: queryDate }
+  if (date && isValidDateInRange(date, trip.startDate, trip.endDate)) {
+    return { trip, resolvedDate: date }
   }
   return { trip, resolvedDate: trip.startDate }
 }
 
-// RecordDetailCredCard.vue 기능 분리
-export async function fetchPaymentRecords(tripId: number): Promise<ApiPaymentRecord[]> {
-  const token = getTokenOrThrow()
+/**
+ * 결제 내역 조회
+ * @param tripId 여행 id
+ * @returns PaymentRecord
+ */
+export async function getPaymentRecords(tripId: number): Promise<PaymentRecord[]> {
   const { url, method } = API_END_POINT.record.getPaymentRecords(tripId)
-  const res = await fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-  })
-  await ensureOk(res)
-  const json = await res.json()
-  return json?.data ?? []
+
+  const res = await api.request<ApiData<PaymentRecord[]>>(url, { method })
+  return res.data
 }
 
-// RecordDetailReCard.vue 기능 분리
-export async function fetchReservationsByDate(params: {
-  tripId: number
-  date: string
-  page: number         
-  size: number       
-}): Promise<Paged<ApiReservationItem>> {
-  const token = getTokenOrThrow()
+/**
+ * 날짜별 예약 내역 조회
+ * @param tripId 여행 id
+ * @param date 조회 날짜
+ * @param page 페이지네이션 page
+ * @param size 페이지네이션 size
+ * @returns ReservationItem[]
+ */
+export async function getReservationsByDate(
+  tripId: number,
+  date: string,
+  page: number,
+  size: number
+): Promise<Paged<ReservationItem>> {
+  const { url, method } = API_END_POINT.record.getReservationsByDate(tripId, date, page, size)
 
-  const { url, method } = API_END_POINT.record.getReservationsByDate(
-    params.tripId,
-    params.date,
-    params.page,
-    params.size
-  )
-
-  const res = await fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-  })
-  await ensureOk(res)
-
-  const json = await res.json()
-
-  const content: ApiReservationItem[] = json?.data?.content ?? []
-  const totalPages: number | undefined = json?.data?.totalPages
-  const totalElements: number | undefined = json?.data?.totalElements
-
-  return { content, totalPages, totalElements }
+  const res = await api.request<ApiData<Paged<ReservationItem>>>(url, { method })
+  return res.data
 }
 
-// RecordDetailCustom.vue 기능 분리
-export async function fetchRecords(params: {
-  tripId: number
+/**
+ * 여행 기록 조회
+ * @param tripId 여행 id
+ * @param page 페이지네이션 page
+ * @param size 페이지네이션 size
+ * @param date 조회 날짜
+ * @returns TripRecord[]
+ */
+export async function getRecords(
+  tripId: number,
+  page: number,
+  size: number,
   date?: string
-  pageIndex: number
-  pageSize: number
-}): Promise<Paged<TripRecord>> {
-  const token = getTokenOrThrow()
-  const { url, method } = API_END_POINT.record.getTripRecords(
-    params.tripId,
-    params.pageIndex,
-    params.pageSize,
-    params.date
-  )
-  const res = await fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-  })
-  await ensureOk(res)
-  const json = await res.json()
+): Promise<Paged<TripRecord>> {
+  const { url, method } = API_END_POINT.record.getTripRecords(tripId, page, size, date)
 
-  const content: TripRecord[] = json?.data?.content ?? json?.data ?? []
-  const totalElements: number =
-    json?.data?.totalElements ?? (Array.isArray(content) ? content.length : 0)
-  const totalPages: number | undefined = json?.data?.totalPages
-
-  return { content, totalElements, totalPages }
+  const res = await api.request<ApiData<Paged<TripRecord>>>(url, { method })
+  return res.data
 }
 
-export async function deleteRecord(tripId: number, recordId: number): Promise<void> {
-  const token = getTokenOrThrow()
+export async function deleteRecord(tripId: number, recordId: number): Promise<boolean> {
   const { url, method } = API_END_POINT.record.deleteTripRecord(tripId, recordId)
-  const res = await fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-  })
-  await ensureOk(res)
+
+  const res = await api.request<ApiData<boolean>>(url, { method })
+  return res.data
 }

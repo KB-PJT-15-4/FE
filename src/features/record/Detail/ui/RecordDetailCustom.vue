@@ -59,7 +59,7 @@
       <div
         v-if="record.imageUrls && record.imageUrls.length > 0"
         class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
-        style="-webkit-overflow-scrolling: touch;"
+        style="-webkit-overflow-scrolling: touch"
       >
         <div
           v-for="(imageUrl, imgIndex) in record.imageUrls"
@@ -104,20 +104,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 
 import type { Record } from '@/entities/record/record.entity'
-import { deleteRecord, fetchRecords } from '../services/recordDetail.service'
-import type { Paged } from '@/shared/utils/common.types'
+import { deleteRecord, getRecords } from '../services/recordDetail.service'
 
 const props = defineProps<{
   tripId: number
@@ -127,9 +126,8 @@ const props = defineProps<{
 const route = useRoute()
 const router = useRouter()
 
-const ITEMS_PER_PAGE = 2
 const recordList = ref<Record[]>([])
-const totalRecords = ref(0)
+const totalElements = ref(0)
 const currentPage = ref<number>(Number(route.query.page) || 1)
 const openMenuId = ref<number | null>(null)
 
@@ -158,27 +156,20 @@ watch(currentPage, (newPage) => {
   router.replace({ query: { ...route.query, page: String(newPage) } })
 })
 
-const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
+const totalPage = computed(() => Math.ceil(totalElements.value / 2))
 const paginatedRecords = computed(() => recordList.value)
 
 async function load() {
   try {
-    const pageIndex = currentPage.value - 1
-    const pageSize = ITEMS_PER_PAGE
+    const page = currentPage.value - 1
+    const size = 2
     const date = props.selectedDate || new Date().toISOString().split('T')[0]
 
-    const res: Paged<Record> = await fetchRecords({
-      tripId: props.tripId,
-      date,
-      pageIndex,
-      pageSize,
-    })
+    const result = await getRecords(props.tripId, page, size, date)
 
-    recordList.value = res.content ?? []
-    
-    totalRecords.value =
-      res.totalElements ??
-      (Array.isArray(res.content) ? res.content.length : 0)
+    recordList.value = result.content
+
+    totalElements.value = result.totalElements
   } catch (e) {
     console.error('기록을 불러오는 중 오류:', e)
   }

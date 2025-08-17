@@ -7,7 +7,7 @@ export interface RecordProps {
   } | null
 }
 
-export interface ApiReservationItem {
+export interface ReservationItem {
   name: string
   itemId: number
   imageUrl: string
@@ -16,7 +16,7 @@ export interface ApiReservationItem {
   resKind: string
 }
 
-export interface ApiPaymentRecord {
+export interface PaymentRecord {
   paymentId: number
   paymentName: string
   paymentPrice: number
@@ -62,12 +62,4 @@ export interface FetchTripsParams {
 export interface TripsResponse {
   content: Trip[]
   totalPages: number
-}
-
-export type ApiResponse<T> = {
-  code: string
-  message: string
-  data: T | null
-  errors: unknown
-  timestamp: string
 }

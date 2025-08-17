@@ -8,11 +8,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Trip } from '@/entities/record/record.entity'
+import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import DateTab from '@/shared/components/molecules/tab/DateTab.vue'
-import type { Trip } from '@/entities/record/record.entity'
-import { fetchTripAndResolveDate } from '../services/recordDetail.service'
+import { getTripAndResolveDate } from '../services/recordDetail.service'
 
 const props = defineProps<{ tripId: number; date: string }>()
 const emit = defineEmits<{ (e: 'update:date', value: string): void }>()
@@ -31,7 +31,7 @@ const internalDate = computed({
 
 async function init() {
   try {
-    const { trip, resolvedDate } = await fetchTripAndResolveDate(
+    const { trip, resolvedDate } = await getTripAndResolveDate(
       props.tripId,
       route.query.date as string | undefined
     )
@@ -44,4 +44,3 @@ async function init() {
 
 onMounted(() => init())
 </script>
-
