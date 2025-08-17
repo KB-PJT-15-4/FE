@@ -29,7 +29,7 @@ const internalDate = computed({
   },
 })
 
-async function init() {
+async function getTripRecordFunction() {
   try {
     const { trip, resolvedDate } = await getTripAndResolveDate(
       props.tripId,
@@ -42,5 +42,7 @@ async function init() {
   }
 }
 
-onMounted(() => init())
+onMounted(() => {
+  getTripRecordFunction()
+})
 </script>

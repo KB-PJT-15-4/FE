@@ -3,7 +3,13 @@
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px] text-sm"
-      @click="goToCreate"
+      @click="
+        router.push({
+          name: 'record_create',
+          params: { tripId: props.tripId },
+          query: { date: props.selectedDate },
+        })
+      "
     >
       추가
     </ButtonExtraSmallMain>
@@ -40,7 +46,16 @@
             >
               <button
                 class="block w-full text-moa-main px-4 py-2"
-                @click="editRecord(record.recordId)"
+                @click="
+                  router.push({
+                    name: 'record_create',
+                    params: { tripId: props.tripId },
+                    query: {
+                      editRecordId: String(record.recordId),
+                      date: props.selectedDate,
+                    },
+                  })
+                "
               >
                 수정
               </button>
@@ -129,7 +144,10 @@ const router = useRouter()
 const recordList = ref<Record[]>([])
 const totalElements = ref(0)
 const currentPage = ref<number>(Number(route.query.page) || 1)
+const totalPage = ref(0)
 const openMenuId = ref<number | null>(null)
+
+const paginatedRecords = computed(() => recordList.value)
 
 function toggleMenu(recordId: number) {
   openMenuId.value = openMenuId.value === recordId ? null : recordId
@@ -142,7 +160,44 @@ function onGlobalClick(e: MouseEvent) {
 document.addEventListener('click', onGlobalClick)
 onBeforeUnmount(() => document.removeEventListener('click', onGlobalClick))
 
-// route.page 동기화
+async function getRecordsFunction() {
+  try {
+    const date = props.selectedDate || new Date().toISOString().split('T')[0]
+
+    const result = await getRecords(props.tripId, currentPage.value - 1, 2, date)
+
+    recordList.value = result.content
+    totalElements.value = result.totalElements
+    totalPage.value = result.totalPages
+  } catch (e) {
+    console.error('기록을 불러오는 중 오류:', e)
+  }
+}
+
+// 기록 삭제
+async function onDelete(recordId: number) {
+  try {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      await deleteRecord(props.tripId, recordId)
+
+      if (recordList.value.length === 1 && currentPage.value > 1) {
+        currentPage.value -= 1
+      } else {
+        await getRecordsFunction()
+      }
+
+      alert('기록이 성공적으로 삭제되었습니다.')
+    }
+  } catch (e) {
+    console.error(e)
+    alert('삭제 중 오류가 발생했습니다.')
+  }
+}
+
+const refreshRecords = () => getRecordsFunction()
+defineExpose({ refreshRecords })
+
+watch([() => props.selectedDate, () => currentPage.value], getRecordsFunction)
 watch(
   () => route.query.page,
   (newVal) => {
@@ -156,67 +211,7 @@ watch(currentPage, (newPage) => {
   router.replace({ query: { ...route.query, page: String(newPage) } })
 })
 
-const totalPage = computed(() => Math.ceil(totalElements.value / 2))
-const paginatedRecords = computed(() => recordList.value)
-
-async function load() {
-  try {
-    const page = currentPage.value - 1
-    const size = 2
-    const date = props.selectedDate || new Date().toISOString().split('T')[0]
-
-    const result = await getRecords(props.tripId, page, size, date)
-
-    recordList.value = result.content
-
-    totalElements.value = result.totalElements
-  } catch (e) {
-    console.error('기록을 불러오는 중 오류:', e)
-  }
-}
-
-onMounted(load)
-watch([() => props.selectedDate, () => currentPage.value], load)
-
-// RecordCreate.vue 페이지 이동
-function goToCreate() {
-  router.push({
-    name: 'record_create',
-    params: { tripId: props.tripId },
-    query: { date: props.selectedDate },
-  })
-}
-
-// 수정 페이지 이동
-function editRecord(recordId: number) {
-  router.push({
-    name: 'record_create',
-    params: { tripId: props.tripId },
-    query: {
-      editRecordId: String(recordId),
-      date: props.selectedDate,
-    },
-  })
-}
-
-// 삭제
-async function onDelete(recordId: number) {
-  if (!confirm('정말 삭제하시겠습니까?')) return
-  try {
-    await deleteRecord(props.tripId, recordId)
-
-    if (recordList.value.length === 1 && currentPage.value > 1) {
-      currentPage.value -= 1
-    } else {
-      await load()
-    }
-    alert('기록이 성공적으로 삭제되었습니다.')
-  } catch (e) {
-    console.error('기록 삭제 중 오류:', e)
-    alert('삭제 중 오류가 발생했습니다.')
-  }
-}
-
-const refreshRecords = () => load()
-defineExpose({ refreshRecords })
+onMounted(() => {
+  getRecordsFunction()
+})
 </script>
