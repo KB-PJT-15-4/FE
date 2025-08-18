@@ -1,22 +1,18 @@
-import { API_END_POINT } from '@/shared/utils/fetcher'
+import type { UserInfo } from '@/entities/user/user.entity'
+import { api } from '@/shared/utils/api'
+import { API_END_POINT, type ApiData } from '@/shared/utils/fetcher'
 
-export async function login(email: string, password: string) {
+export async function login(email: string, password: string): Promise<UserInfo> {
   const { url, method } = API_END_POINT.user.login()
-  const result = await fetch(url, {
-    method: method,
-    credentials: 'include',
-    body: JSON.stringify({
+
+  const res = await api.request<ApiData<UserInfo>>(url, {
+    method,
+    data: {
       email,
       password,
-    }),
+    },
   })
-
-  if (!result.ok) {
-    const errorBody = await result.json().catch(() => ({}))
-    throw new Error(errorBody.message)
-  }
-
-  return await result.json()
+  return res.data
 }
 
 export async function certification(

@@ -3,6 +3,16 @@ export enum NotificationType {
   SETTLE = 'SETTLE',
 }
 
+export interface UserInfo {
+  accessToken: string
+  user: {
+    username: string
+    email: string
+    role: string
+  }
+  expiresIn: number
+  tokenType: string
+}
 // [마이 페이지] 주민등록증/운전면허증 통합 엔티티
 export interface IdInfo {
   idCard: UserIDCard
