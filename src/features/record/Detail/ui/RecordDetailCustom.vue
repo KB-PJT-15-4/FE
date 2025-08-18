@@ -21,106 +21,106 @@
       추가
     </ButtonExtraSmallMain>
 
-    <!-- 사용자 작성 기록 -->
-    <div
-      v-for="record in paginatedRecords"
-      :key="record.recordId"
-      class="bg-white space-y-2 mb-3"
-    >
-      <!-- 제목 + 날짜 + 토글 -->
-      <div class="flex justify-between items-center">
-        <div class="font-bold text-base">
-          <TypographyHead3>{{ record.title }}</TypographyHead3>
-        </div>
+    <!-- 사용자 작성 기록 -> 이미지만 먼저 랜더링 후 대기 -->
+    <template v-if="showContent">
+      <div
+        v-for="record in paginatedRecords"
+        :key="record.recordId"
+        class="bg-white space-y-2 mb-3"
+      >
+        <!-- 제목 + 날짜 + 토글 -->
+        <div class="flex justify-between items-center">
+          <div class="font-bold text-base">
+            <TypographyHead3>{{ record.title }}</TypographyHead3>
+          </div>
 
-        <div class="flex items-center gap-3">
-          <TypographyP2 class="text-moa-main-text">
-            {{ formatFullDateToKorean(new Date(record.recordDate)) }}
-          </TypographyP2>
+          <div class="flex items-center gap-3">
+            <TypographyP2 class="text-moa-main-text">
+              {{ formatFullDateToKorean(new Date(record.recordDate)) }}
+            </TypographyP2>
 
-          <!-- 토글 버튼 -->
-          <div class="relative">
-            <button
-              class="text-moa-main leading-none px-2"
-              @click="toggleMenu(record.recordId)"
-            >
-              ⋯
-            </button>
-
-            <!-- 드롭다운 메뉴 -->
-            <div
-              v-if="openMenuId === record.recordId"
-              class="absolute right-0 mt-2 w-20 bg-white border rounded-md shadow-lg z-10"
-            >
+            <!-- 토글 버튼 -->
+            <div class="relative">
               <button
-                class="block w-full text-moa-main px-4 py-2"
-                @click="editRecord(record.recordId)"
+                class="text-moa-main leading-none px-2"
+                @click="toggleMenu(record.recordId)"
               >
-                수정
+                ⋯
               </button>
-              <button
-                class="block w-full text-moa-error px-4 py-2"
-                @click="onDelete(record.recordId)"
+
+              <!-- 드롭다운 메뉴 -->
+              <div
+                v-if="openMenuId === record.recordId"
+                class="absolute right-0 mt-2 w-20 bg-white border rounded-md shadow-lg z-10"
               >
-                삭제
-              </button>
+                <button
+                  class="block w-full text-moa-main px-4 py-2"
+                  @click="editRecord(record.recordId)"
+                >
+                  수정
+                </button>
+                <button
+                  class="block w-full text-moa-error px-4 py-2"
+                  @click="onDelete(record.recordId)"
+                >
+                  삭제
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- 이미지 가로 슬라이더 -->
-      <div
-        v-if="record.imageUrls && record.imageUrls.length > 0"
-        class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
-        style="-webkit-overflow-scrolling: touch;"
-      >
+        <!-- 이미지 가로 슬라이더 -->
         <div
-          v-for="(imageUrl, imgIndex) in record.imageUrls"
-          :key="imgIndex"
-          class="flex-none basis-full snap-center"
+          v-if="record.imageUrls && record.imageUrls.length > 0"
+          class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
+          style="-webkit-overflow-scrolling: touch;"
         >
-          <img
-            :src="imageUrl"
-            class="my-3 w-full h-64 object-cover rounded-md"
-            :alt="`기록 이미지 ${imgIndex + 1}`"
-            :loading="isLoading ? 'eager' : 'lazy'"
-            @load="onImageSettled"
-            @error="onImageSettled"
+          <div
+            v-for="(imageUrl, imgIndex) in record.imageUrls"
+            :key="imgIndex"
+            class="flex-none basis-full snap-center"
           >
+            <img
+              :src="imageUrl"
+              class="my-3 w-full h-64 object-cover rounded-md"
+              :alt="`기록 이미지 ${imgIndex + 1}`"
+              loading="eager"
+            >
+          </div>
         </div>
+
+        <TypographyP1 class="text-moa-gray-text whitespace-pre-line">
+          {{ record.content }}
+        </TypographyP1>
       </div>
 
-      <TypographyP1 class="text-moa-gray-text whitespace-pre-line">
-        {{ record.content }}
-      </TypographyP1>
-    </div>
-
-    <!-- 기록이 없는 경우 -->
-    <div
-      v-if="!isLoading && recordList.length === 0"
-      class="text-center py-8 text-moa-gray-text"
-    >
-      <img
-        src="/src/assets/bear.jpg"
-        alt="기록 없음"
-        class="w-40 h-40 object-contain mx-auto mb-2"
+      <!-- 기록이 없는 경우 -->
+      <div
+        v-if="recordList.length === 0"
+        class="text-center py-8 text-moa-gray-text"
       >
-      <TypographySubTitle1>아직 기록이 없습니다</TypographySubTitle1>
-    </div>
+        <img
+          src="/src/assets/bear.jpg"
+          alt="기록 없음"
+          class="w-40 h-40 object-contain mx-auto mb-2"
+        >
+        <TypographySubTitle1>아직 기록이 없습니다</TypographySubTitle1>
+      </div>
 
-    <!-- 페이지네이션 -->
-    <Pagination
-      v-if="totalPage > 1"
-      :total-page="totalPage"
-      :active-page="currentPage"
-      class="pt-2"
-    />
+      <!-- 페이지네이션 -->
+      <Pagination
+        v-if="totalPage > 1"
+        :total-page="totalPage"
+        :active-page="currentPage"
+        class="pt-2"
+      />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 
@@ -150,8 +150,7 @@ const currentPage = ref<number>(Number(route.query.page) || 1)
 const openMenuId = ref<number | null>(null)
 
 const isLoading = ref(true)
-const imagesToLoad = ref(0)
-const imagesLoaded = ref(0)
+const showContent = ref(false)
 let loadingTimer: number | undefined
 
 // 메뉴 토글
@@ -176,21 +175,34 @@ watch(currentPage, (newPage) => {
 const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
 const paginatedRecords = computed(() => recordList.value)
 
-// 로딩
-function onImageSettled() {
-  imagesLoaded.value += 1
-  if (imagesLoaded.value >= imagesToLoad.value) {
-    if (loadingTimer) window.clearTimeout(loadingTimer)
-    isLoading.value = false
-  }
+// 이미지 미리 로드
+function preloadImages(urls: string[], timeoutMs = 7000): Promise<void> {
+  if (urls.length === 0) return Promise.resolve()
+  const perImage = (url: string) =>
+    new Promise<void>((resolve) => {
+      const img = new Image()
+      img.onload = () => resolve()
+      img.onerror = () => resolve()
+      img.src = url
+    })
+
+  const all = Promise.allSettled(urls.map(perImage)).then(() => undefined)
+  const timeout = new Promise<void>((resolve) => {
+    setTimeout(() => resolve(), timeoutMs)
+  })
+  return Promise.race([all, timeout])
 }
 
-async function load() {
+// 로딩
+function resetLoading() {
+  isLoading.value = true
+  showContent.value = false
+  if (loadingTimer) window.clearTimeout(loadingTimer)
+}
+
+async function travelRecord() {
   try {
-    isLoading.value = true
-    imagesToLoad.value = 0
-    imagesLoaded.value = 0
-    if (loadingTimer) window.clearTimeout(loadingTimer)
+    resetLoading()
 
     const pageIndex = currentPage.value - 1
     const pageSize = ITEMS_PER_PAGE
@@ -208,29 +220,28 @@ async function load() {
       res.totalElements ??
       (Array.isArray(res.content) ? res.content.length : 0)
 
-    imagesToLoad.value = recordList.value.reduce((sum, r) => {
-      const count = Array.isArray(r.imageUrls) ? r.imageUrls.length : 0
-      return sum + count
-    }, 0)
+    const imageUrls = recordList.value.flatMap(r => Array.isArray(r.imageUrls) ? r.imageUrls : [])
 
-    // 이미지가 하나도 없으면 즉시 로딩 종료
-    if (imagesToLoad.value === 0) {
-      isLoading.value = false
-      return
-    }
+    await nextTick()
+    await preloadImages(imageUrls, 7000)
 
-    // 로딩 타임아웃
+    showContent.value = true
+    isLoading.value = false
+
+    // 로딩 시간
     loadingTimer = window.setTimeout(() => {
       isLoading.value = false
-    }, 7000)
+      showContent.value = true
+    }, 8000)
   } catch (e) {
     console.error('기록을 불러오는 중 오류:', e)
+    showContent.value = true
     isLoading.value = false
   }
 }
 
-onMounted(load)
-watch([() => props.selectedDate, () => currentPage.value], load)
+onMounted(travelRecord)
+watch([() => props.selectedDate, () => currentPage.value], travelRecord)
 
 // 여행 기록 생성 페이지로 이동
 function goToCreate() {
@@ -258,24 +269,23 @@ function editRecord(recordId: number) {
 async function onDelete(recordId: number) {
   if (!confirm('정말 삭제하시겠습니까?')) return
   try {
-    isLoading.value = true
-    if (loadingTimer) window.clearTimeout(loadingTimer)
-
+    resetLoading()
     await deleteRecord(props.tripId, recordId)
 
     if (recordList.value.length === 1 && currentPage.value > 1) {
       currentPage.value -= 1
     } else {
-      await load()
+      await travelRecord()
     }
     alert('기록이 성공적으로 삭제되었습니다.')
   } catch (e) {
     console.error('기록 삭제 중 오류:', e)
     alert('삭제 중 오류가 발생했습니다.')
     isLoading.value = false
+    showContent.value = true
   }
 }
 
-const refreshRecords = () => load()
+const refreshRecords = () => travelRecord()
 defineExpose({ refreshRecords })
 </script>
