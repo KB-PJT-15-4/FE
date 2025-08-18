@@ -75,6 +75,17 @@ export interface TripInfo {
   locationName: string
 }
 
+export interface UpcomingTripInfo {
+  tripId: number
+  title: string
+  startDate: string
+  endDate: string
+  locationName: string
+  memberCount: number
+  status: string
+  dday: number
+}
+
 // [여행 페이지] 여행 멤버
 export interface TripMember {
   memberId: number

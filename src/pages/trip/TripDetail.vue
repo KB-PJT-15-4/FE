@@ -4,7 +4,7 @@
       <img
         :src="tripImageUrl"
         class="absolute inset-0 w-full h-full object-cover object-top"
-        alt=""
+        alt="여행 이미지"
       >
       <div class="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/50 to-transparent" />
 
