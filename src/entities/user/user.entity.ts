@@ -5,7 +5,7 @@ export enum NotificationType {
 
 export interface UserInfo {
   accessToken: string
-  user: {
+  userInfo: {
     username: string
     email: string
     role: string

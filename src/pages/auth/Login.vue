@@ -68,7 +68,7 @@ const handleLogin = async () => {
     const result = await login(email.value, password.value)
 
     const accessToken = await result.accessToken
-    const name = await result.user.username
+    const name = await result.userInfo.username
 
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('name', name)
