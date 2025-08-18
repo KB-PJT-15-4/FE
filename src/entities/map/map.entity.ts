@@ -3,14 +3,6 @@ import GANGNEUNG_IMG from '@/assets/GANGNEUNG.jpeg'
 import JEJU_IMG from '@/assets/JEJU.jpeg'
 import SEOUL_IMG from '@/assets/SEOUL.jpeg'
 
-declare global {
-  interface Window {
-    kakao?: {
-      maps: unknown
-    }
-  }
-}
-
 // 지역별 마커 아이콘 매핑
 export const MARKER_ICON_MAP: Record<string, string> = {
   BUSAN: BUSAN_IMG,
