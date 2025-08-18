@@ -60,3 +60,19 @@ export function isValidDateInRange(date: string, startDate: string, endDate: str
 
   return target >= start && target <= end
 }
+
+// 영어 지역명을 한글로 변환
+export function convertLocationNameToKorean(locationName: string): string {
+  switch (locationName) {
+    case 'BUSAN':
+      return '부산'
+    case 'SEOUL':
+      return '서울'
+    case 'JEJU':
+      return '제주'
+    case 'GANGNEUNG':
+      return '강릉'
+    default:
+      return locationName
+  }
+}
