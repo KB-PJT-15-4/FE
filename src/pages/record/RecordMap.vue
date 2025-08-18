@@ -12,6 +12,16 @@
       v-if="selectedLocation"
       :location="selectedLocation"
     />
+
+    <!-- 선택 전 안내 문구 -->
+    <div v-else>
+      <TypographyHead3 class="mt-20 text-center">
+        여행 지역을 선택해주세요
+      </TypographyHead3>
+      <TypographyCaption class="text-moa-gray-text mt-2 text-center ">
+        지역 마커를 클릭하면 여행 목록이 출력됩니다
+      </TypographyCaption>
+    </div>
   </div>
 </template>
 
@@ -19,8 +29,9 @@
 import { ref } from 'vue'
 
 import Map from '@/features/record/Map/ui/Map.vue'
-import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import RecordTripCard from '@/features/record/Map/ui/RecordTripCard.vue'
+import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
+import TypographyCaption from '@/shared/components/atoms/typography/TypographyCaption.vue'
 
 const selectedLocation = ref('')
 
