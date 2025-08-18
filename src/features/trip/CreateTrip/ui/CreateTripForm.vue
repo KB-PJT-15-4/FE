@@ -6,6 +6,7 @@
     <div class="flex flex-col gap-4 h-[520px] overflow-scroll">
       <Input
         v-model="tripName"
+        class="text-[16px]"
         placeholder="여행 제목을 입력해주세요"
       />
       <div class="flex w-full justify-between gap-2">
@@ -43,6 +44,7 @@
       <div class="flex justify-between">
         <InputMedium
           v-model="memberEmail"
+          class="text-[16px]"
           placeholder="이메일을 입력해주세요"
         />
         <ButtonSmallMain @click="addMember">

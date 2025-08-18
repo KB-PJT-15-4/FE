@@ -113,6 +113,7 @@
       v-if="totalPage > 1"
       :total-page="totalPage"
       :active-page="currentPage"
+      s
       class="pt-2"
     />
   </div>
