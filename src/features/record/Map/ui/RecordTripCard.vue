@@ -19,7 +19,7 @@
             {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
             {{ formatFullDateToKorean(new Date(trip.endDate)) }}
           </TypographyP2>
-          <TypographyP2>{{ trip.locationName }}</TypographyP2>
+          <TypographyP2>{{ convertLocationNameToKorean(trip.locationName) }}</TypographyP2>
         </div>
       </div>
     </Card>
@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import type { Trip } from '@/entities/record/record.entity'
-import { formatFullDateToKorean } from '@/shared/utils/format'
+import { convertLocationNameToKorean, formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 

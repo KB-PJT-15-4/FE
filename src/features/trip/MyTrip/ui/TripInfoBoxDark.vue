@@ -14,7 +14,7 @@
         {{ formatFullDateToKorean(new Date(trip.endDate)) }}
       </TypographySubTitle2>
       <TypographyP1 class="font-semibold text-white">
-        {{ trip.locationName }}
+        {{ convertLocationNameToKorean(trip.locationName) }}
       </TypographyP1>
     </div>
   </div>
@@ -25,7 +25,7 @@ import TypographyCaption from '@/shared/components/atoms/typography/TypographyCa
 import TypographyHead1 from '@/shared/components/atoms/typography/TypographyHead1.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographySubTitle2 from '@/shared/components/atoms/typography/TypographySubTitle2.vue'
-import { formatFullDateToKorean } from '@/shared/utils/format'
+import { convertLocationNameToKorean, formatFullDateToKorean } from '@/shared/utils/format'
 import { defineProps } from 'vue'
 
 defineProps<{ trip: TripInfo }>()
