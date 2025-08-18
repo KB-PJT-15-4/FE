@@ -51,19 +51,6 @@ export interface MapLocation {
   address?: string | null
 }
 
-// [mapTripCard.service.ts] 타입
-export interface FetchTripsParams {
-  token: string | null
-  pageIndex: number
-  pageSize: number
-  locationName: string
-}
-
-export interface TripsResponse {
-  content: Trip[]
-  totalPages: number
-}
-
 export interface ExistingImage {
   url: string
   fileName: string
