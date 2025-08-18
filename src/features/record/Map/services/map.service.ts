@@ -3,6 +3,14 @@ import type { MapLocation } from '@/entities/record/record.entity'
 import { api } from '@/shared/utils/api'
 import { API_END_POINT, type ApiData } from '@/shared/utils/fetcher'
 
+declare global {
+  interface Window {
+    kakao?: {
+      maps: unknown
+    }
+  }
+}
+
 /**
  * 지역 별 아이콘 리턴
  * @param locationName 지역 이름
