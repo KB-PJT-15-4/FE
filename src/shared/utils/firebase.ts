@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app'
 import { getToken as _getToken, onMessage as _onMessage, getMessaging } from 'firebase/messaging'
-import { toast } from 'vue3-toastify'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_API_KEY,
@@ -26,7 +25,7 @@ export async function initFCM() {
   // 1) 포그라운드 수신
   _onMessage(messaging, (payload) => {
     const { title, body } = payload.notification || {}
-    if (title || body) toast.info(`${title ?? '알림'}\n${body ?? ''}`)
+
     if ('Notification' in window && Notification.permission === 'granted' && title && body) {
       new Notification(title, { body })
     }

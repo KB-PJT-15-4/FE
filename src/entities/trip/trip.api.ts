@@ -113,4 +113,8 @@ export const trip = {
     url: `${import.meta.env.VITE_APP_API_URL}/api/trips/member`,
     method: Method.POST,
   }),
+  getUpcomingTrip: () => ({
+    url: `${import.meta.env.VITE_APP_API_URL}/api/trips/upcoming`,
+    method: Method.GET,
+  }),
 }

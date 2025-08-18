@@ -58,6 +58,13 @@ export enum StatusType {
   Finished = '여행 종료',
 }
 
+export enum LocationImage {
+  SEOUL = 'https://t1.daumcdn.net/news/202408/04/speaktravel/20240804090001287dbfq.jpg',
+  BUSAN = 'https://lh3.googleusercontent.com/proxy/s0qhsJFOrE3Di0sZmcZ9dh7s6mlHtIEIid94pHKcmWJYqoj7v9RefB8rhTNnZpP094PUNQTnshxOPLednYZFhZ9wQwbQ3e4AUWpeBxDZxlHTx-sTGJ54G7EqNn4hafXF4g',
+  JEJU = 'https://www.agoda.com/wp-content/uploads/2024/07/Jeju-Island-1244x700.jpg',
+  GANGNEUNG = 'https://tletter.co.kr/files/attach/images/157/517/019/f350655e0950f384b6d8a55d47e4ab23.jpg',
+}
+
 // [마이페이지, 여행 페이지] 여행 리스트
 export interface TripInfo {
   tripId: number
@@ -66,6 +73,17 @@ export interface TripInfo {
   endDate: string
   status: StatusType
   locationName: string
+}
+
+export interface UpcomingTripInfo {
+  tripId: number
+  title: string
+  startDate: string
+  endDate: string
+  locationName: string
+  memberCount: number
+  status: string
+  dday: number
 }
 
 // [여행 페이지] 여행 멤버
