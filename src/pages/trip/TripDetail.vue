@@ -2,11 +2,11 @@
   <div class="w-full flex flex-col bg-white h-screen">
     <div class="sticky top-0 h-[220px] shrink-0">
       <img
-        src="https://t1.daumcdn.net/news/202408/04/speaktravel/20240804090001287dbfq.jpg"
+        :src="tripImageUrl"
         class="absolute inset-0 w-full h-full object-cover object-top"
         alt=""
       >
-      <div class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/40 to-transparent" />
+      <div class="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/50 to-transparent" />
 
       <div class="relative pt-[50px] px-[16px]">
         <TripInfoBoxDark
@@ -46,7 +46,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 
-import type { TripInfo } from '@/entities/trip/trip.entity'
+import { LocationImage, type TripInfo } from '@/entities/trip/trip.entity'
 import { getTripInfo } from '@/features/trip/MyReservationList/services/myReservationList.service'
 import MyReservationList from '@/features/trip/MyReservationList/ui/MyReservationList.vue'
 import TripInfoBoxDark from '@/features/trip/MyTrip/ui/TripInfoBoxDark.vue'
@@ -77,6 +77,11 @@ const router = useRouter()
 
 const selectedOption = ref<TabValue>((route.query.tab as TabValue) || 'reservation')
 const tripId = route.params.tripId as string
+
+const tripImageUrl = computed(() => {
+  if (!trip.value) return ''
+  return LocationImage[trip.value.locationName as keyof typeof LocationImage]
+})
 
 const currentLabel = computed({
   get: () => labelForTab[selectedOption.value],
