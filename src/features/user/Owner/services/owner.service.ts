@@ -28,7 +28,7 @@ export async function getDecodeIdQR(data: string): Promise<UserIDCard> {
 export async function getDecodeReservationQR(
   data: string
 ): Promise<ReservedAccommodationItem | ReservedRestaurantItem | ReservedTransportationItem> {
-  const { url, method } = API_END_POINT.user.getDecodeIdQR(data)
+  const { url, method } = API_END_POINT.user.getDecodeReservationQR(data)
 
   const res = await api.request<
     ApiData<ReservedAccommodationItem | ReservedRestaurantItem | ReservedTransportationItem>

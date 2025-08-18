@@ -1,22 +1,15 @@
 <template>
-  <div class="relative flex flex-col gap-4">
-    <!-- 스피너 오버레이 -->
-    <div
-      v-if="isLoading"
-      class="absolute inset-0 z-10 flex items-center justify-center mt-40"
-      role="status"
-      aria-live="polite"
-    >
-      <span
-        class="inline-block h-8 w-8 animate-spin rounded-full border-2 border-black"
-        style="border-top-color:#87BFFF"
-      />
-    </div>
-
+  <div class="flex flex-col gap-4">
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px] text-sm"
-      @click="goToCreate"
+      @click="
+        router.push({
+          name: 'record_create',
+          params: { tripId: props.tripId },
+          query: { date: props.selectedDate },
+        })
+      "
     >
       추가
     </ButtonExtraSmallMain>
@@ -32,7 +25,6 @@
         <div class="font-bold text-base">
           <TypographyHead3>{{ record.title }}</TypographyHead3>
         </div>
-
         <div class="flex items-center gap-3">
           <TypographyP2 class="text-moa-main-text">
             {{ formatFullDateToKorean(new Date(record.recordDate)) }}
@@ -54,7 +46,16 @@
             >
               <button
                 class="block w-full text-moa-main px-4 py-2"
-                @click="editRecord(record.recordId)"
+                @click="
+                  router.push({
+                    name: 'record_create',
+                    params: { tripId: props.tripId },
+                    query: {
+                      editRecordId: String(record.recordId),
+                      date: props.selectedDate,
+                    },
+                  })
+                "
               >
                 수정
               </button>
@@ -73,7 +74,7 @@
       <div
         v-if="record.imageUrls && record.imageUrls.length > 0"
         class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
-        style="-webkit-overflow-scrolling: touch;"
+        style="-webkit-overflow-scrolling: touch"
       >
         <div
           v-for="(imageUrl, imgIndex) in record.imageUrls"
@@ -84,9 +85,7 @@
             :src="imageUrl"
             class="my-3 w-full h-64 object-cover rounded-md"
             :alt="`기록 이미지 ${imgIndex + 1}`"
-            :loading="isLoading ? 'eager' : 'lazy'"
-            @load="onImageSettled"
-            @error="onImageSettled"
+            loading="lazy"
           >
         </div>
       </div>
@@ -98,7 +97,7 @@
 
     <!-- 기록이 없는 경우 -->
     <div
-      v-if="!isLoading && recordList.length === 0"
+      v-if="recordList.length === 0"
       class="text-center py-8 text-moa-gray-text"
     >
       <img
@@ -120,20 +119,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 
 import type { Record } from '@/entities/record/record.entity'
-import { deleteRecord, fetchRecords } from '../services/recordDetail.service'
-import type { Paged } from '@/shared/utils/common.types'
+import { deleteRecord, getRecords } from '../services/recordDetail.service'
 
 const props = defineProps<{
   tripId: number
@@ -143,23 +141,63 @@ const props = defineProps<{
 const route = useRoute()
 const router = useRouter()
 
-const ITEMS_PER_PAGE = 2
 const recordList = ref<Record[]>([])
-const totalRecords = ref(0)
+const totalElements = ref(0)
 const currentPage = ref<number>(Number(route.query.page) || 1)
+const totalPage = ref(0)
 const openMenuId = ref<number | null>(null)
 
-const isLoading = ref(true)
-const imagesToLoad = ref(0)
-const imagesLoaded = ref(0)
-let loadingTimer: number | undefined
+const paginatedRecords = computed(() => recordList.value)
 
-// 메뉴 토글
 function toggleMenu(recordId: number) {
   openMenuId.value = openMenuId.value === recordId ? null : recordId
 }
+// 외부 클릭시 닫기 기능
+function onGlobalClick(e: MouseEvent) {
+  const target = e.target as HTMLElement
+  if (!target.closest('.relative')) openMenuId.value = null
+}
+document.addEventListener('click', onGlobalClick)
+onBeforeUnmount(() => document.removeEventListener('click', onGlobalClick))
 
-// route.page 동기화
+async function getRecordsFunction() {
+  try {
+    const date = props.selectedDate || new Date().toISOString().split('T')[0]
+
+    const result = await getRecords(props.tripId, currentPage.value - 1, 2, date)
+
+    recordList.value = result.content
+    totalElements.value = result.totalElements
+    totalPage.value = result.totalPages
+  } catch (e) {
+    console.error('기록을 불러오는 중 오류:', e)
+  }
+}
+
+// 기록 삭제
+async function onDelete(recordId: number) {
+  try {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      await deleteRecord(props.tripId, recordId)
+
+      if (recordList.value.length === 1 && currentPage.value > 1) {
+        currentPage.value -= 1
+      } else {
+        await getRecordsFunction()
+      }
+
+      alert('기록이 성공적으로 삭제되었습니다.')
+    }
+  } catch (e) {
+    console.error(e)
+    alert('삭제 중 오류가 발생했습니다.')
+  }
+}
+
+const refreshRecords = () => getRecordsFunction()
+defineExpose({ refreshRecords })
+
+watch([() => props.selectedDate, () => currentPage.value], getRecordsFunction)
 watch(
   () => route.query.page,
   (newVal) => {
@@ -173,109 +211,7 @@ watch(currentPage, (newPage) => {
   router.replace({ query: { ...route.query, page: String(newPage) } })
 })
 
-const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
-const paginatedRecords = computed(() => recordList.value)
-
-// 로딩
-function onImageSettled() {
-  imagesLoaded.value += 1
-  if (imagesLoaded.value >= imagesToLoad.value) {
-    if (loadingTimer) window.clearTimeout(loadingTimer)
-    isLoading.value = false
-  }
-}
-
-async function load() {
-  try {
-    isLoading.value = true
-    imagesToLoad.value = 0
-    imagesLoaded.value = 0
-    if (loadingTimer) window.clearTimeout(loadingTimer)
-
-    const pageIndex = currentPage.value - 1
-    const pageSize = ITEMS_PER_PAGE
-    const date = props.selectedDate || new Date().toISOString().split('T')[0]
-
-    const res: Paged<Record> = await fetchRecords({
-      tripId: props.tripId,
-      date,
-      pageIndex,
-      pageSize,
-    })
-
-    recordList.value = res.content ?? []
-    totalRecords.value =
-      res.totalElements ??
-      (Array.isArray(res.content) ? res.content.length : 0)
-
-    imagesToLoad.value = recordList.value.reduce((sum, r) => {
-      const count = Array.isArray(r.imageUrls) ? r.imageUrls.length : 0
-      return sum + count
-    }, 0)
-
-    // 이미지가 하나도 없으면 즉시 로딩 종료
-    if (imagesToLoad.value === 0) {
-      isLoading.value = false
-      return
-    }
-
-    // 로딩 타임아웃
-    loadingTimer = window.setTimeout(() => {
-      isLoading.value = false
-    }, 7000)
-  } catch (e) {
-    console.error('기록을 불러오는 중 오류:', e)
-    isLoading.value = false
-  }
-}
-
-onMounted(load)
-watch([() => props.selectedDate, () => currentPage.value], load)
-
-// 여행 기록 생성 페이지로 이동
-function goToCreate() {
-  if (isLoading.value) return
-  router.push({
-    name: 'record_create',
-    params: { tripId: props.tripId },
-    query: { date: props.selectedDate },
-  })
-}
-
-// 수정 페이지로 이동
-function editRecord(recordId: number) {
-  router.push({
-    name: 'record_create',
-    params: { tripId: props.tripId },
-    query: {
-      editRecordId: String(recordId),
-      date: props.selectedDate,
-    },
-  })
-}
-
-// 삭제
-async function onDelete(recordId: number) {
-  if (!confirm('정말 삭제하시겠습니까?')) return
-  try {
-    isLoading.value = true
-    if (loadingTimer) window.clearTimeout(loadingTimer)
-
-    await deleteRecord(props.tripId, recordId)
-
-    if (recordList.value.length === 1 && currentPage.value > 1) {
-      currentPage.value -= 1
-    } else {
-      await load()
-    }
-    alert('기록이 성공적으로 삭제되었습니다.')
-  } catch (e) {
-    console.error('기록 삭제 중 오류:', e)
-    alert('삭제 중 오류가 발생했습니다.')
-    isLoading.value = false
-  }
-}
-
-const refreshRecords = () => load()
-defineExpose({ refreshRecords })
+onMounted(() => {
+  getRecordsFunction()
+})
 </script>

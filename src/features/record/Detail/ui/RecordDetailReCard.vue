@@ -6,9 +6,14 @@
       class="flex justify-between mb-2"
     >
       <div class="flex gap-4">
-        <div class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center bg-gray-200">
+        <div
+          class="h-[40px] w-[40px] overflow-hidden rounded-full flex justify-center items-center bg-gray-200"
+        >
           <img
-            :src="reservation.imageUrl || 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'"
+            :src="
+              reservation.imageUrl ||
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/KTX-I_in_Seoul_Station.jpg/960px-KTX-I_in_Seoul_Station.jpg'
+            "
             :alt="reservation.name || 'Default Image'"
             class="h-[40px] w-[40px] object-cover"
           >
@@ -43,20 +48,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { formatFullDateToKorean } from '@/shared/utils/format'
+import type { ReservationItem } from '@/entities/record/record.entity'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
-import type { ApiReservationItem } from '@/entities/record/record.entity'
-import type { Paged } from '@/shared/utils/common.types'
-import { fetchReservationsByDate } from '../services/recordDetail.service'
+import { formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, ref, watch } from 'vue'
+import { getReservationsByDate } from '../services/recordDetail.service'
 
 const props = defineProps<{ date: string; tripId?: number }>()
 
-const reservationList = ref<ApiReservationItem[]>([])
-const currentPage = ref<number>(1)   
+const reservationList = ref<ReservationItem[]>([])
+const currentPage = ref<number>(1)
 const pageSize = ref<number>(10)
 const totalElements = ref<number>(0)
 const totalPage = computed(() =>
@@ -72,17 +76,15 @@ async function load() {
   }
 
   try {
-    const res: Paged<ApiReservationItem> = await fetchReservationsByDate({
-      tripId: props.tripId,
-      date: props.date,
-      page: currentPage.value - 1,
-      size: pageSize.value,
-    })
+    const result = await getReservationsByDate(
+      props.tripId,
+      props.date,
+      currentPage.value - 1,
+      pageSize.value
+    )
 
-    reservationList.value = res.content ?? []
-    totalElements.value =
-      res.totalElements ??
-      (Array.isArray(res.content) ? res.content.length : 0)
+    reservationList.value = result.content
+    totalElements.value = result.totalElements
 
     if (reservationList.value.length === 0 && currentPage.value > 1) {
       currentPage.value -= 1

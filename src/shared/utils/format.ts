@@ -51,3 +51,28 @@ export const formatNumber = (value: number) =>
 
 // 숫자 포맷에 끝에 '원' 을 추가해서 포맷
 export const formatCurrency = (value: number): string => `${formatNumber(value)}원`
+
+// 유효한 날짜인지 리턴
+export function isValidDateInRange(date: string, startDate: string, endDate: string): boolean {
+  const target = new Date(date)
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+
+  return target >= start && target <= end
+}
+
+// 영어 지역명을 한글로 변환
+export function convertLocationNameToKorean(locationName: string): string {
+  switch (locationName) {
+    case 'BUSAN':
+      return '부산'
+    case 'SEOUL':
+      return '서울'
+    case 'JEJU':
+      return '제주'
+    case 'GANGNEUNG':
+      return '강릉'
+    default:
+      return locationName
+  }
+}

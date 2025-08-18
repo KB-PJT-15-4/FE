@@ -19,7 +19,7 @@
             {{ formatFullDateToKorean(new Date(trip.startDate)) }} -
             {{ formatFullDateToKorean(new Date(trip.endDate)) }}
           </TypographyP2>
-          <TypographyP2>{{ trip.locationName }}</TypographyP2>
+          <TypographyP2>{{ convertLocationNameToKorean(trip.locationName) }}</TypographyP2>
         </div>
       </div>
     </Card>
@@ -32,20 +32,16 @@
 </template>
 
 <script setup lang="ts">
+import type { Trip } from '@/entities/record/record.entity'
+import { convertLocationNameToKorean, formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { formatFullDateToKorean } from '@/shared/utils/format'
-import type { Trip } from '@/entities/record/record.entity'
 
 import Card from '@/shared/components/atoms/card/Card.vue'
-import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
-
-import {
-  ITEMS_PER_PAGE,
-  fetchTripsService,
-} from '../services/mapTripCard.service'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
+import { getTripList } from '../services/mapTripCard.service'
 
 const props = withDefaults(
   defineProps<{
@@ -65,17 +61,11 @@ const currentPage = ref<number>(Number(route.query.page) || props.page || 1)
 const totalPage = ref<number>(1)
 
 // API 호출
-async function fetchTrips() {
+async function getTripListFunction() {
   try {
-    const token = localStorage.getItem('accessToken')
-    const { content, totalPages } = await fetchTripsService({
-      token,
-      pageIndex: currentPage.value - 1,
-      pageSize: ITEMS_PER_PAGE,
-      locationName: props.location,
-    })
-    trips.value = content
-    totalPage.value = totalPages
+    const result = await getTripList(currentPage.value - 1, 2, props.location)
+    trips.value = result.content
+    totalPage.value = result.totalPages
   } catch (error) {
     console.error('여행 데이터 가져오기 실패:', error)
   }
@@ -87,7 +77,7 @@ watch(
   async (newPage) => {
     if (!newPage) return
     currentPage.value = Number(newPage)
-    await fetchTrips()
+    await getTripListFunction()
   },
   { immediate: true }
 )
@@ -97,7 +87,7 @@ watch(
   () => props.location,
   async () => {
     currentPage.value = 1
-    await fetchTrips()
+    await getTripListFunction()
   },
   { immediate: true }
 )

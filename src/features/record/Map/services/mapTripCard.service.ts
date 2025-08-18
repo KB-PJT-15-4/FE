@@ -1,30 +1,21 @@
-import type { FetchTripsParams, TripsResponse } from '@/entities/record/record.entity'
-import { API_END_POINT } from '@/shared/utils/fetcher'
+import type { Trip } from '@/entities/record/record.entity'
+import { api } from '@/shared/utils/api'
+import { API_END_POINT, type ApiData, type Paged } from '@/shared/utils/fetcher'
 
-export const ITEMS_PER_PAGE = 3
+/**
+ * 지도 내 여행 목록 조회
+ * @param page 페이지네이션 page
+ * @param size 페이지네이션 size
+ * @param locationName 지역 이름
+ * @returns Trip[]
+ */
+export async function getTripList(
+  page: number,
+  size: number,
+  locationName: string
+): Promise<Paged<Trip>> {
+  const { url, method } = API_END_POINT.map.getTrips(page, size, locationName ?? undefined)
 
-// 여행 목록 API (fetch 사용)
-export async function fetchTripsService(params: FetchTripsParams): Promise<TripsResponse> {
-  const { token, pageIndex, pageSize, locationName } = params
-  if (!token) throw new Error('Access token not found')
-
-  const { url, method } = API_END_POINT.map.getTrips(pageIndex, pageSize, locationName ?? undefined)
-
-  const res = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  })
-
-  if (!res.ok) {
-    const errorBody = await res.json().catch(() => ({}))
-    throw new Error(errorBody?.message ?? 'Failed to fetch trips')
-  }
-
-  const json = await res.json()
-  const { content, totalPages } = json.data
-  return { content, totalPages }
+  const res = await api.request<ApiData<Paged<Trip>>>(url, { method })
+  return res.data
 }
-

@@ -8,27 +8,15 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import {
-  ensureKakaoLoaded,
-  fetchLocationsService,
-  getIconSrcByLocationName,
   createCircleMarker,
   createInfoBalloon,
+  ensureKakaoLoaded,
+  getIconSrcByLocationName,
+  getTripLocations,
 } from '../services/map.service'
 
 const emit = defineEmits(['selectLocation'])
 const locations = ref([])
-
-onMounted(async () => {
-  try {
-    const token = localStorage.getItem('accessToken')
-    locations.value = await fetchLocationsService({ token })
-
-    await ensureKakaoLoaded(import.meta.env.VITE_KAKAOMAP_KEY)
-    initMap()
-  } catch (error) {
-    console.error('지도 초기화 중 오류:', error)
-  }
-})
 
 function initMap() {
   window.kakao.maps.load(() => {
@@ -77,4 +65,15 @@ function initMap() {
     })
   })
 }
+
+onMounted(async () => {
+  try {
+    locations.value = await getTripLocations()
+
+    await ensureKakaoLoaded(import.meta.env.VITE_KAKAOMAP_KEY)
+    initMap()
+  } catch (e) {
+    console.error(e)
+  }
+})
 </script>

@@ -7,7 +7,7 @@ export interface RecordProps {
   } | null
 }
 
-export interface ApiReservationItem {
+export interface ReservationItem {
   name: string
   itemId: number
   imageUrl: string
@@ -16,7 +16,7 @@ export interface ApiReservationItem {
   resKind: string
 }
 
-export interface ApiPaymentRecord {
+export interface PaymentRecord {
   paymentId: number
   paymentName: string
   paymentPrice: number
@@ -51,23 +51,14 @@ export interface MapLocation {
   address?: string | null
 }
 
-// [mapTripCard.service.ts] 타입
-export interface FetchTripsParams {
-  token: string | null
-  pageIndex: number
-  pageSize: number
-  locationName: string
+export interface ExistingImage {
+  url: string
+  fileName: string
 }
 
-export interface TripsResponse {
-  content: Trip[]
-  totalPages: number
-}
-
-export type ApiResponse<T> = {
-  code: string
-  message: string
-  data: T | null
-  errors: unknown
-  timestamp: string
+export interface RecordDetail {
+  title: string
+  recordDate: string
+  content: string
+  images?: ExistingImage[]
 }

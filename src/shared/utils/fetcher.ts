@@ -153,20 +153,19 @@ export function createFetchClient({
 
     if (raw) return res // 타입: Response
 
-    // 파싱은 unknown으로 안전하게
     const text = await res.text()
     let parsed: unknown = null
     if (text) {
       try {
         parsed = JSON.parse(text)
       } catch {
-        parsed = text // 서버가 순수 문자열을 반환할 수도 있음
+        parsed = text
       }
     }
 
     if (!res.ok) {
       if (res.status === 401) onUnauthorized?.()
-      // 에러 메시지 도출: 객체면 message, 문자열이면 그대로
+
       const msg =
         typeof parsed === 'object' &&
         parsed !== null &&
@@ -184,27 +183,7 @@ export function createFetchClient({
     return parsed as T
   }
 
-  // 편의 메서드
-  return {
-    request,
-    get: <T, E = unknown>(url: string, options?: JsonRequestOptions) =>
-      request<T, E>(url, { ...options, method: 'GET' }),
-
-    post: <T, E = unknown>(url: string, data?: unknown, options?: JsonRequestOptions) =>
-      request<T, E>(url, { ...options, method: 'POST', data }),
-
-    put: <T, E = unknown>(url: string, data?: unknown, options?: JsonRequestOptions) =>
-      request<T, E>(url, { ...options, method: 'PUT', data }),
-
-    patch: <T, E = unknown>(url: string, data?: unknown, options?: JsonRequestOptions) =>
-      request<T, E>(url, { ...options, method: 'PATCH', data }),
-
-    delete: <T, E = unknown>(url: string, options?: JsonRequestOptions) =>
-      request<T, E>(url, { ...options, method: 'DELETE' }),
-
-    raw: (url: string, options?: Omit<RequestOptions, 'raw'>) =>
-      request(url, { ...options, raw: true }),
-  }
+  return { request }
 }
 
 export type FetchClient = ReturnType<typeof createFetchClient>

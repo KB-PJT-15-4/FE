@@ -58,21 +58,20 @@ import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-import axios from 'axios'
-
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
 
-import type { ApiPaymentRecord } from '@/entities/record/record.entity'
+import type { PaymentRecord } from '@/entities/record/record.entity'
+import { getPaymentRecords } from '@/features/record/Detail/services/recordDetail.service'
 
 const route = useRoute()
 const router = useRouter()
 
 const tripId = Number(route.params.tripId)
-const paymentRecords = ref<ApiPaymentRecord[]>([])
+const paymentRecords = ref<PaymentRecord[]>([])
 
 // 총 결제 금액 계산
 const totalAmount = computed(() => {
@@ -82,27 +81,9 @@ const totalAmount = computed(() => {
 // 결제 내역 API 호출
 const fetchPaymentRecords = async () => {
   try {
-    const token = localStorage.getItem('accessToken')
-    if (!token) throw new Error('Access token not found')
-
-    const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records/payment-records`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-
-    if (response.data.code === 'S200') {
-      paymentRecords.value = response.data.data || []
-    } else {
-      console.error('API 응답 오류:', response.data.message)
-      paymentRecords.value = []
-    }
-  } catch (error) {
-    console.error('결제 내역 조회 실패:', error)
-    paymentRecords.value = []
+    paymentRecords.value = await getPaymentRecords(tripId)
+  } catch (e) {
+    console.error(e)
   }
 }
 

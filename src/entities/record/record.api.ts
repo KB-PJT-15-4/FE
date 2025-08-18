@@ -15,7 +15,7 @@ export const record = {
     method: Method.GET,
   }),
 
-  // 여행 기록 생성 
+  // 여행 기록 생성
   createRecord: (tripId: number) => ({
     url: `${import.meta.env.VITE_APP_API_URL}/api/trips/${tripId}/records`,
     method: Method.POST,
