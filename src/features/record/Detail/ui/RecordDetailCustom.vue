@@ -101,7 +101,7 @@
       class="text-center py-8 text-moa-gray-text"
     >
       <img
-        src="/src/assets/bear.jpg"
+        src="/src/assets/moa_character_1.png"
         alt="기록 없음"
         class="w-40 h-40 object-contain mx-auto mb-2"
       >

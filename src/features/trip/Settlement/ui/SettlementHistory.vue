@@ -69,7 +69,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import logo from '@/assets/bear.jpg'
+import logo from '@/assets/moa_character_1.png'
 import { SettlementStatus, type UserSettlement } from '@/entities/trip/trip.entity'
 import ButtonSmallMain from '@/shared/components/atoms/button/ButtonSmallMain.vue'
 import ButtonSmallSub from '@/shared/components/atoms/button/ButtonSmallSub.vue'

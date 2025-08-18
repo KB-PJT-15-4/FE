@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@/assets/bear.jpg'
+import logo from '@/assets/moa_character_1.png'
 import type { UserReservationList } from '@/entities/trip/trip.entity'
 import { filterTabOptions } from '@/entities/trip/trip.entity'
 import { getMyReservationList } from '@/features/trip/MyReservationList/services/myReservationList.service'
