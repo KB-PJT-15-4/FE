@@ -1,5 +1,18 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="relative flex flex-col gap-4">
+    <!-- 스피너 오버레이 -->
+    <div
+      v-if="isLoading"
+      class="absolute inset-0 z-10 flex items-center justify-center mt-40"
+      role="status"
+      aria-live="polite"
+    >
+      <span
+        class="inline-block h-8 w-8 animate-spin rounded-full border-2 border-black"
+        style="border-top-color:#87BFFF"
+      />
+    </div>
+
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px] text-sm"
@@ -19,6 +32,7 @@
         <div class="font-bold text-base">
           <TypographyHead3>{{ record.title }}</TypographyHead3>
         </div>
+
         <div class="flex items-center gap-3">
           <TypographyP2 class="text-moa-main-text">
             {{ formatFullDateToKorean(new Date(record.recordDate)) }}
@@ -70,7 +84,9 @@
             :src="imageUrl"
             class="my-3 w-full h-64 object-cover rounded-md"
             :alt="`기록 이미지 ${imgIndex + 1}`"
-            loading="lazy"
+            :loading="isLoading ? 'eager' : 'lazy'"
+            @load="onImageSettled"
+            @error="onImageSettled"
           >
         </div>
       </div>
@@ -82,7 +98,7 @@
 
     <!-- 기록이 없는 경우 -->
     <div
-      v-if="recordList.length === 0"
+      v-if="!isLoading && recordList.length === 0"
       class="text-center py-8 text-moa-gray-text"
     >
       <img
@@ -104,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
 
@@ -133,16 +149,15 @@ const totalRecords = ref(0)
 const currentPage = ref<number>(Number(route.query.page) || 1)
 const openMenuId = ref<number | null>(null)
 
+const isLoading = ref(true)
+const imagesToLoad = ref(0)
+const imagesLoaded = ref(0)
+let loadingTimer: number | undefined
+
+// 메뉴 토글
 function toggleMenu(recordId: number) {
   openMenuId.value = openMenuId.value === recordId ? null : recordId
 }
-// 외부 클릭시 닫기 기능
-function onGlobalClick(e: MouseEvent) {
-  const target = e.target as HTMLElement
-  if (!target.closest('.relative')) openMenuId.value = null
-}
-document.addEventListener('click', onGlobalClick)
-onBeforeUnmount(() => document.removeEventListener('click', onGlobalClick))
 
 // route.page 동기화
 watch(
@@ -161,8 +176,22 @@ watch(currentPage, (newPage) => {
 const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
 const paginatedRecords = computed(() => recordList.value)
 
+// 로딩
+function onImageSettled() {
+  imagesLoaded.value += 1
+  if (imagesLoaded.value >= imagesToLoad.value) {
+    if (loadingTimer) window.clearTimeout(loadingTimer)
+    isLoading.value = false
+  }
+}
+
 async function load() {
   try {
+    isLoading.value = true
+    imagesToLoad.value = 0
+    imagesLoaded.value = 0
+    if (loadingTimer) window.clearTimeout(loadingTimer)
+
     const pageIndex = currentPage.value - 1
     const pageSize = ITEMS_PER_PAGE
     const date = props.selectedDate || new Date().toISOString().split('T')[0]
@@ -175,20 +204,37 @@ async function load() {
     })
 
     recordList.value = res.content ?? []
-    
     totalRecords.value =
       res.totalElements ??
       (Array.isArray(res.content) ? res.content.length : 0)
+
+    imagesToLoad.value = recordList.value.reduce((sum, r) => {
+      const count = Array.isArray(r.imageUrls) ? r.imageUrls.length : 0
+      return sum + count
+    }, 0)
+
+    // 이미지가 하나도 없으면 즉시 로딩 종료
+    if (imagesToLoad.value === 0) {
+      isLoading.value = false
+      return
+    }
+
+    // 로딩 타임아웃
+    loadingTimer = window.setTimeout(() => {
+      isLoading.value = false
+    }, 7000)
   } catch (e) {
     console.error('기록을 불러오는 중 오류:', e)
+    isLoading.value = false
   }
 }
 
 onMounted(load)
 watch([() => props.selectedDate, () => currentPage.value], load)
 
-// RecordCreate.vue 페이지 이동
+// 여행 기록 생성 페이지로 이동
 function goToCreate() {
+  if (isLoading.value) return
   router.push({
     name: 'record_create',
     params: { tripId: props.tripId },
@@ -196,7 +242,7 @@ function goToCreate() {
   })
 }
 
-// 수정 페이지 이동
+// 수정 페이지로 이동
 function editRecord(recordId: number) {
   router.push({
     name: 'record_create',
@@ -212,6 +258,9 @@ function editRecord(recordId: number) {
 async function onDelete(recordId: number) {
   if (!confirm('정말 삭제하시겠습니까?')) return
   try {
+    isLoading.value = true
+    if (loadingTimer) window.clearTimeout(loadingTimer)
+
     await deleteRecord(props.tripId, recordId)
 
     if (recordList.value.length === 1 && currentPage.value > 1) {
@@ -223,6 +272,7 @@ async function onDelete(recordId: number) {
   } catch (e) {
     console.error('기록 삭제 중 오류:', e)
     alert('삭제 중 오류가 발생했습니다.')
+    isLoading.value = false
   }
 }
 

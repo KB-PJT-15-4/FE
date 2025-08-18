@@ -15,7 +15,7 @@
 
     <!-- 선택 전 안내 문구 -->
     <div v-else>
-      <TypographyHead3 class="text-moa-main mt-20 text-center">
+      <TypographyHead3 class="mt-20 text-center">
         여행 지역을 선택해주세요
       </TypographyHead3>
       <TypographyCaption class="text-moa-gray-text mt-2 text-center ">
