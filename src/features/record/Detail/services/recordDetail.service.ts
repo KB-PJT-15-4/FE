@@ -92,6 +92,12 @@ export async function getRecords(
   return res.data
 }
 
+/**
+ * 여행 기록 삭제
+ * @param tripId 여행 id
+ * @param recordId 기록 id
+ * @returns 삭제 성공 여부
+ */
 export async function deleteRecord(tripId: number, recordId: number): Promise<boolean> {
   const { url, method } = API_END_POINT.record.deleteTripRecord(tripId, recordId)
 

@@ -63,3 +63,15 @@ export interface TripsResponse {
   content: Trip[]
   totalPages: number
 }
+
+export interface ExistingImage {
+  url: string
+  fileName: string
+}
+
+export interface RecordDetail {
+  title: string
+  recordDate: string
+  content: string
+  images?: ExistingImage[]
+}
