@@ -90,7 +90,7 @@
         <TypographyHead1>
           {{ (res.details as TransportInfoItem).trainNo }}
         </TypographyHead1>
-        <div class="w-[250px] flex justify-between">
+        <div class="w-[250px] flex justify-between mt-6">
           <TypographyP1>좌석</TypographyP1>
           <TypographyP1>
             {{ (res.details as TransportInfoItem).seatRoomNo }}호차

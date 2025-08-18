@@ -8,6 +8,7 @@
 
       <Input
         v-model="settlementMemo"
+        class="text-[16px]"
         placeholder="정산 제목을 입력해주세요 (예: 숙소비, 교통비 등)"
       />
 
@@ -16,6 +17,7 @@
       </TypographyP2>
       <Input
         v-model="settlementAmount"
+        class="text-[16px]"
         type="number"
       />
 
