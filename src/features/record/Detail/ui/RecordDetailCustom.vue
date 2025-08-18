@@ -3,7 +3,13 @@
     <!-- 추가 버튼 -->
     <ButtonExtraSmallMain
       class="w-[60px] text-sm"
-      @click="goToCreate"
+      @click="
+        router.push({
+          name: 'record_create',
+          params: { tripId: props.tripId },
+          query: { date: props.selectedDate },
+        })
+      "
     >
       추가
     </ButtonExtraSmallMain>
@@ -40,7 +46,16 @@
             >
               <button
                 class="block w-full text-moa-main px-4 py-2"
-                @click="editRecord(record.recordId)"
+                @click="
+                  router.push({
+                    name: 'record_create',
+                    params: { tripId: props.tripId },
+                    query: {
+                      editRecordId: String(record.recordId),
+                      date: props.selectedDate,
+                    },
+                  })
+                "
               >
                 수정
               </button>
@@ -59,7 +74,7 @@
       <div
         v-if="record.imageUrls && record.imageUrls.length > 0"
         class="flex gap-2 overflow-x-auto snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none]"
-        style="-webkit-overflow-scrolling: touch;"
+        style="-webkit-overflow-scrolling: touch"
       >
         <div
           v-for="(imageUrl, imgIndex) in record.imageUrls"
@@ -104,20 +119,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
-import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
 import TypographyP1 from '@/shared/components/atoms/typography/TypographyP1.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
+import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
+import Pagination from '@/shared/components/molecules/tab/Pagination.vue'
 
 import type { Record } from '@/entities/record/record.entity'
-import { deleteRecord, fetchRecords } from '../services/recordDetail.service'
-import type { Paged } from '@/shared/utils/common.types'
+import { deleteRecord, getRecords } from '../services/recordDetail.service'
 
 const props = defineProps<{
   tripId: number
@@ -127,11 +141,13 @@ const props = defineProps<{
 const route = useRoute()
 const router = useRouter()
 
-const ITEMS_PER_PAGE = 2
 const recordList = ref<Record[]>([])
-const totalRecords = ref(0)
+const totalElements = ref(0)
 const currentPage = ref<number>(Number(route.query.page) || 1)
+const totalPage = ref(0)
 const openMenuId = ref<number | null>(null)
+
+const paginatedRecords = computed(() => recordList.value)
 
 function toggleMenu(recordId: number) {
   openMenuId.value = openMenuId.value === recordId ? null : recordId
@@ -144,7 +160,44 @@ function onGlobalClick(e: MouseEvent) {
 document.addEventListener('click', onGlobalClick)
 onBeforeUnmount(() => document.removeEventListener('click', onGlobalClick))
 
-// route.page 동기화
+async function getRecordsFunction() {
+  try {
+    const date = props.selectedDate || new Date().toISOString().split('T')[0]
+
+    const result = await getRecords(props.tripId, currentPage.value - 1, 2, date)
+
+    recordList.value = result.content
+    totalElements.value = result.totalElements
+    totalPage.value = result.totalPages
+  } catch (e) {
+    console.error('기록을 불러오는 중 오류:', e)
+  }
+}
+
+// 기록 삭제
+async function onDelete(recordId: number) {
+  try {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      await deleteRecord(props.tripId, recordId)
+
+      if (recordList.value.length === 1 && currentPage.value > 1) {
+        currentPage.value -= 1
+      } else {
+        await getRecordsFunction()
+      }
+
+      alert('기록이 성공적으로 삭제되었습니다.')
+    }
+  } catch (e) {
+    console.error(e)
+    alert('삭제 중 오류가 발생했습니다.')
+  }
+}
+
+const refreshRecords = () => getRecordsFunction()
+defineExpose({ refreshRecords })
+
+watch([() => props.selectedDate, () => currentPage.value], getRecordsFunction)
 watch(
   () => route.query.page,
   (newVal) => {
@@ -158,74 +211,7 @@ watch(currentPage, (newPage) => {
   router.replace({ query: { ...route.query, page: String(newPage) } })
 })
 
-const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
-const paginatedRecords = computed(() => recordList.value)
-
-async function load() {
-  try {
-    const pageIndex = currentPage.value - 1
-    const pageSize = ITEMS_PER_PAGE
-    const date = props.selectedDate || new Date().toISOString().split('T')[0]
-
-    const res: Paged<Record> = await fetchRecords({
-      tripId: props.tripId,
-      date,
-      pageIndex,
-      pageSize,
-    })
-
-    recordList.value = res.content ?? []
-    
-    totalRecords.value =
-      res.totalElements ??
-      (Array.isArray(res.content) ? res.content.length : 0)
-  } catch (e) {
-    console.error('기록을 불러오는 중 오류:', e)
-  }
-}
-
-onMounted(load)
-watch([() => props.selectedDate, () => currentPage.value], load)
-
-// RecordCreate.vue 페이지 이동
-function goToCreate() {
-  router.push({
-    name: 'record_create',
-    params: { tripId: props.tripId },
-    query: { date: props.selectedDate },
-  })
-}
-
-// 수정 페이지 이동
-function editRecord(recordId: number) {
-  router.push({
-    name: 'record_create',
-    params: { tripId: props.tripId },
-    query: {
-      editRecordId: String(recordId),
-      date: props.selectedDate,
-    },
-  })
-}
-
-// 삭제
-async function onDelete(recordId: number) {
-  if (!confirm('정말 삭제하시겠습니까?')) return
-  try {
-    await deleteRecord(props.tripId, recordId)
-
-    if (recordList.value.length === 1 && currentPage.value > 1) {
-      currentPage.value -= 1
-    } else {
-      await load()
-    }
-    alert('기록이 성공적으로 삭제되었습니다.')
-  } catch (e) {
-    console.error('기록 삭제 중 오류:', e)
-    alert('삭제 중 오류가 발생했습니다.')
-  }
-}
-
-const refreshRecords = () => load()
-defineExpose({ refreshRecords })
+onMounted(() => {
+  getRecordsFunction()
+})
 </script>

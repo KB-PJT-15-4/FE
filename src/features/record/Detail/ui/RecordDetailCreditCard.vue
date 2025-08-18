@@ -30,34 +30,32 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
+import type { PaymentRecord } from '@/entities/record/record.entity'
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import Card from '@/shared/components/atoms/card/Card.vue'
 import TypographyHead2 from '@/shared/components/atoms/typography/TypographyHead2.vue'
 import TypographyP2 from '@/shared/components/atoms/typography/TypographyP2.vue'
 import TypographySubTitle1 from '@/shared/components/atoms/typography/TypographySubTitle1.vue'
-import type { ApiPaymentRecord } from '@/entities/record/record.entity'
-import { fetchPaymentRecords } from '../services/recordDetail.service'
+import { formatCurrency, formatFullDateToKorean } from '@/shared/utils/format'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { getPaymentRecords } from '../services/recordDetail.service'
 
 const { tripId, selectedDate } = defineProps<{ tripId: number; selectedDate?: string }>()
 const router = useRouter()
 const route = useRoute()
 
-const paymentRecords = ref<ApiPaymentRecord[]>([])
+const paymentRecords = ref<PaymentRecord[]>([])
 
 const filteredPaymentRecords = computed(() => {
   if (!selectedDate) return paymentRecords.value
   const target = new Date(selectedDate).toDateString()
-  return paymentRecords.value.filter(
-    (p) => new Date(p.paymentDate).toDateString() === target
-  )
+  return paymentRecords.value.filter((p) => new Date(p.paymentDate).toDateString() === target)
 })
 
 async function load() {
   try {
-    paymentRecords.value = await fetchPaymentRecords(tripId)
+    paymentRecords.value = await getPaymentRecords(tripId)
   } catch (e) {
     console.error('결제 내역 조회 실패:', e)
     paymentRecords.value = []

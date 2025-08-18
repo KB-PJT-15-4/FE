@@ -51,3 +51,12 @@ export const formatNumber = (value: number) =>
 
 // 숫자 포맷에 끝에 '원' 을 추가해서 포맷
 export const formatCurrency = (value: number): string => `${formatNumber(value)}원`
+
+// 유효한 날짜인지 리턴
+export function isValidDateInRange(date: string, startDate: string, endDate: string): boolean {
+  const target = new Date(date)
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+
+  return target >= start && target <= end
+}

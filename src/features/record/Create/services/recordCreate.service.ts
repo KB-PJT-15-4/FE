@@ -1,112 +1,100 @@
-import { API_END_POINT } from '@/shared/utils/fetcher'
+import type { ExistingImage, Record, RecordDetail } from '@/entities/record/record.entity'
+import { api } from '@/shared/utils/api'
+import { API_END_POINT, type ApiData } from '@/shared/utils/fetcher'
 
-// 공통
-function getTokenOrThrow(): string {
-  const token = localStorage.getItem('accessToken')
-  if (!token) throw new Error('Access token not found')
-  return token
-}
-async function ensureOk(res: Response) {
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new Error(body?.message ?? 'Request failed')
-  }
-}
-
-export type ExistingImage = { url: string; fileName: string }
-export type RecordDetailDTO = {
-  title: string
-  recordDate: string
-  content: string
-  images?: ExistingImage[]
-}
-
-// RecordCreate.vue 기능 분리
-export async function fetchRecordDetail(
-  tripId: number,
-  recordId: number
-): Promise<RecordDetailDTO> {
-  const token = getTokenOrThrow()
+/**
+ * 기록 상세 조회
+ * @param tripId 여행 id
+ * @param recordId 기록 id
+ * @returns
+ */
+export async function getRecordDetail(tripId: number, recordId: number): Promise<RecordDetail> {
   const { url, method } = API_END_POINT.record.getRecordDetail(tripId, recordId)
-  const res = await fetch(url, {
-    method,
-    headers: { Authorization: `Bearer ${token}`, 'Accept': 'application/json' },
-  })
-  await ensureOk(res)
-  const json = await res.json()
-  // API 응답이 { code, data } 
-  return json?.data as RecordDetailDTO
+
+  const res = await api.request<ApiData<RecordDetail>>(url, { method })
+  return res.data
 }
 
-// 생성용
-export function buildCreateFormData(params: {
-  title: string
-  recordDate: string
-  content: string
+/**
+ * 기록 생성 시 폼 데이터 생성
+ * @param title 제목
+ * @param recordDate 날짜
+ * @param content 본문
+ * @param imageFiles 이미지 파일: File[]
+ * @returns FormData
+ */
+export function buildCreateFormData(
+  title: string,
+  recordDate: string,
+  content: string,
   imageFiles: File[]
-}): FormData {
-  const { title, recordDate, content, imageFiles } = params
+): FormData {
   const formData = new FormData()
   formData.append('title', title)
   formData.append('recordDate', recordDate)
   formData.append('content', content)
   imageFiles.forEach((f) => formData.append('imageUrls', f))
+
   return formData
 }
-// 수정용
-export function buildUpdateFormData(params: {
-  title: string
-  recordDate: string
-  content: string
-  existingImages: ExistingImage[]
+
+/**
+ * 기록 수정 시 폼 데이터 생성
+ * @param title 제목
+ * @param recordDate 날짜
+ * @param content 본문
+ * @param existingImages 존재하는 이미지 파일 리스트
+ * @param imageFiles 이미지 파일: File[]
+ * @returns FormData
+ */
+export function buildUpdateFormData(
+  title: string,
+  recordDate: string,
+  content: string,
+  existingImages: ExistingImage[],
   imageFiles: File[]
-}): FormData {
-  const { title, recordDate, content, existingImages, imageFiles } = params
+): FormData {
   const formData = new FormData()
+
   formData.append('title', title)
   formData.append('recordDate', recordDate)
   formData.append('content', content)
+
   existingImages.forEach((img) => {
     if (img?.fileName) formData.append('existingImageFileNames', img.fileName)
   })
-  imageFiles.forEach((f) => formData.append('newImages', f)) 
+  imageFiles.forEach((f) => formData.append('newImages', f))
+
   return formData
 }
 
-// 추가
-export async function createRecord(
-  tripId: number,
-  formData: FormData
-): Promise<{ code?: string; data?: unknown }> {
-  const token = getTokenOrThrow()
+/**
+ * 기록 추가
+ * @param tripId 여행 id
+ * @param formData 폼데이터
+ * @returns Record
+ */
+export async function createRecord(tripId: number, formData: FormData): Promise<Record> {
   const { url, method } = API_END_POINT.record.createRecord(tripId)
-  const res = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      // multipart는 Content-Type 지정 금지
-    },
-    body: formData,
-  })
-  await ensureOk(res)
-  return res.json().catch(() => ({}))
+
+  const res = await api.request<ApiData<Record>>(url, { method, data: formData })
+  return res.data
 }
 
-// 수정
+/**
+ * 기록 수정
+ * @param tripId 여행 id
+ * @param recordId 기록 id
+ * @param formData 폼데이터
+ * @returns Record
+ */
 export async function updateRecord(
   tripId: number,
   recordId: number,
   formData: FormData
-): Promise<{ code?: string; data?: unknown }> {
-  const token = getTokenOrThrow()
+): Promise<Record> {
   const { url, method } = API_END_POINT.record.updateRecord(tripId, recordId)
-  const res = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  })
-  await ensureOk(res)
-  return res.json().catch(() => ({}))
+
+  const res = await api.request<ApiData<Record>>(url, { method, data: formData })
+  return res.data
 }
