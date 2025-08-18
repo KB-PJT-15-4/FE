@@ -260,6 +260,7 @@ export enum SettlementStatus {
 // [여행 페이지] 정산내역 리스트
 export interface UserSettlement {
   expenseId: string // 정산 id
+  expenseName: string
   expenseDate: string
   shareAmount: number
   received: boolean

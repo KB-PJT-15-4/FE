@@ -21,7 +21,7 @@
       <Card
         v-for="(settlement, index) in settleList"
         :key="index"
-        class="flex justify-between items-center my-3"
+        class="flex justify-between items-center my-1"
       >
         <div>
           <div class="flex gap-2">
@@ -32,7 +32,7 @@
               {{ formatDateTime(settlement.expenseDate) }}
             </TypographyCaption>
           </div>
-
+          <TypographySubTitle1>{{ settlement.expenseName || 'name' }}</TypographySubTitle1>
           <TypographyHead3>{{ formatNumber(settlement.shareAmount) }}원</TypographyHead3>
         </div>
 

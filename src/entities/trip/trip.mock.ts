@@ -220,6 +220,7 @@ export const reservationItemInfoMockData: ReservationItem = {
 export const userSettlementListMockData: UserSettlement[] = [
   {
     expenseId: '1',
+    expenseName: '',
     expenseDate: '2025-10-30T00:00:00',
     shareAmount: 10000,
     received: false, // 보낸 요청
@@ -227,6 +228,7 @@ export const userSettlementListMockData: UserSettlement[] = [
   },
   {
     expenseId: '2',
+    expenseName: '',
     expenseDate: '2025-10-30T00:00:00',
     shareAmount: 10000,
     received: false, // 보낸 요청
@@ -234,6 +236,7 @@ export const userSettlementListMockData: UserSettlement[] = [
   },
   {
     expenseId: '3',
+    expenseName: '',
     expenseDate: '2025-10-30T00:00:00',
     shareAmount: 10000,
     received: true, // 받은 요청
@@ -241,6 +244,7 @@ export const userSettlementListMockData: UserSettlement[] = [
   },
   {
     expenseId: '4',
+    expenseName: '',
     expenseDate: '2025-10-30T00:00:00',
     shareAmount: 10000,
     received: true, // 받은 요청
@@ -248,6 +252,7 @@ export const userSettlementListMockData: UserSettlement[] = [
   },
   {
     expenseId: '5',
+    expenseName: '',
     expenseDate: '2025-10-30T00:00:00',
     shareAmount: 10000,
     received: true, // 받은 요청
