@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[450px]">
+  <div class="h-[420px]">
     <div
       v-for="(trip, index) in tripList"
       :key="index"
