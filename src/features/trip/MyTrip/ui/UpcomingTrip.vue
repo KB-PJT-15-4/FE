@@ -13,7 +13,7 @@
 
     <div class="absolute top-3 left-3 z-20">
       <span class="px-2 py-1 text-xs font-semibold rounded-full bg-white/90 text-gray-900">
-        D{{ upcomingTrip.dday === 0 ? '-DAY' : '-' + upcomingTrip.dday }}
+        {{ ddayLabel }}
       </span>
     </div>
 
@@ -45,6 +45,14 @@ async function getUpcomingTripFunction() {
 const tripImageUrl = computed(() => {
   if (!upcomingTrip.value) return ''
   return LocationImage[upcomingTrip.value.locationName as keyof typeof LocationImage]
+})
+
+const ddayLabel = computed(() => {
+  const d = upcomingTrip.value?.dday
+  if (d === undefined || d === null) return ''
+  if (d === 0) return 'D-DAY'
+  if (d > 0) return `D-${d}`
+  return `D+${Math.abs(d)}`
 })
 
 onMounted(() => {
