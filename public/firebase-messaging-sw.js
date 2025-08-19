@@ -23,20 +23,20 @@ messaging.onBackgroundMessage((payload) => {
   self.registration.showNotification(title, { body, icon, data })
 })
 
-// 2) data-only 메시지 처리 (서버가 data만 보낼 때)
-self.addEventListener('push', (event) => {
-  if (!event.data) return
-  const payload = event.data.json()
+// // 2) data-only 메시지 처리 (서버가 data만 보낼 때)
+// self.addEventListener('push', (event) => {
+//   if (!event.data) return
+//   const payload = event.data.json()
 
-  const n = payload?.notification || {}
-  const d = payload?.data || {}
+//   const n = payload?.notification || {}
+//   const d = payload?.data || {}
 
-  const title = n.title || d.title || '알림'
-  const body = n.body || d.body || ''
-  const icon = n.icon || d.icon || '/icons/icon-192x192.png'
+//   const title = n.title || d.title || '알림'
+//   const body = n.body || d.body || ''
+//   const icon = n.icon || d.icon || '/icons/icon-192x192.png'
 
-  event.waitUntil(self.registration.showNotification(title, { body, icon, data: d }))
-})
+//   event.waitUntil(self.registration.showNotification(title, { body, icon, data: d }))
+// })
 
 self.addEventListener('notificationclick', (e) => {
   e.notification.close()
