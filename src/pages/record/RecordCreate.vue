@@ -128,7 +128,7 @@ async function saveRecord() {
     router.replace({
       name: 'record_detail',
       params: { tripId },
-      query: { refresh: Date.now().toString() },
+      query: { refresh: Date.now().toString(), date: recordDate.value },
     })
   } catch (e) {
     console.error(e)
