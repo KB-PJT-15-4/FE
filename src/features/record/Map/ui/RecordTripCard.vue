@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="pagedTrips.length > 0"
-    class="mt-4 space-y-3"
+    class="my-4 pb-4 space-y-3"
   >
     <Card
       v-for="trip in pagedTrips"
