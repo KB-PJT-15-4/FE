@@ -62,6 +62,7 @@
       </Card>
 
       <Pagination
+        class="mt-4"
         :total-page="totalPage"
         :active-page="currentPage"
       />

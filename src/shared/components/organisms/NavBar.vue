@@ -1,6 +1,6 @@
 <template>
   <nav class="fixed bottom-0 left-0 w-full bg-white border-t z-50">
-    <div class="flex justify-around items-center h-[60px] max-w-[390px] w-full mx-auto">
+    <div class="flex justify-around items-start pt-4 h-[80px] max-w-[390px] w-full mx-auto">
       <button
         v-for="tab in tabs"
         :key="tab.value"
@@ -17,6 +17,7 @@
             isActive(tab.value) ? 'text-moa-main' : 'text-black',
           ]"
         />
+        <!-- <TypographyP2>{{ tab.label }}</TypographyP2> -->
       </button>
     </div>
   </nav>
@@ -37,9 +38,9 @@ const emit = defineEmits<{
 }>()
 
 const tabs = [
-  { icon: 'bi-airplane', value: 'trip', location: '/trip/trip_list' },
-  { icon: 'bi-house', value: 'home', location: '/main/home' },
-  { icon: 'bi-pin-map', value: 'record', location: '/record/map' },
+  { icon: 'bi-airplane', value: 'trip', label: '여행', location: '/trip/trip_list' },
+  { icon: 'bi-house', value: 'home', label: '홈', location: '/main/home' },
+  { icon: 'bi-pin-map', value: 'record', label: '지도', location: '/record/map' },
 ]
 
 const isActive = (tabValue: string): boolean => {
