@@ -9,7 +9,7 @@
     >
       <span
         class="inline-block h-8 w-8 animate-spin rounded-full border-2 border-black"
-        style="border-top-color:#87BFFF"
+        style="border-top-color: #87bfff"
       />
     </div>
 
@@ -119,9 +119,9 @@
 </template>
 
 <script setup lang="ts">
+import { formatFullDateToKorean } from '@/shared/utils/format'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { formatFullDateToKorean } from '@/shared/utils/format'
 
 import ButtonExtraSmallMain from '@/shared/components/atoms/button/ButtonExtraSmallMain.vue'
 import TypographyHead3 from '@/shared/components/atoms/typography/TypographyHead3.vue'
@@ -151,8 +151,8 @@ const totalPage = computed(() => Math.ceil(totalRecords.value / ITEMS_PER_PAGE))
 const openMenuId = ref<number | null>(null)
 
 // 로딩 제어
-const isLoading = ref(true)      
-const showContent = ref(false)   
+const isLoading = ref(true)
+const showContent = ref(false)
 let loadingTimer: number | undefined
 
 // 메뉴 토글
@@ -160,7 +160,7 @@ function toggleMenu(recordId: number) {
   openMenuId.value = openMenuId.value === recordId ? null : recordId
 }
 
-// route.page 
+// route.page
 watch(
   () => route.query.page,
   (newVal) => {
@@ -177,7 +177,7 @@ watch(currentPage, (newPage) => {
 // 뷰에 노출할 레코드
 const paginatedRecords = computed(() => recordList.value)
 
-// 이미지 미리 랜더링 
+// 이미지 미리 랜더링
 function preloadImages(urls: string[], timeoutMs = 7000): Promise<void> {
   if (!urls || urls.length === 0) return Promise.resolve()
   const loadOne = (url: string) =>
@@ -213,11 +213,9 @@ async function loadRecords() {
 
     recordList.value = Array.isArray(res?.content) ? res.content : []
     totalRecords.value =
-      typeof res?.totalElements === 'number'
-        ? res.totalElements
-        : recordList.value.length
+      typeof res?.totalElements === 'number' ? res.totalElements : recordList.value.length
 
-    const imageUrls = recordList.value.flatMap(r =>
+    const imageUrls = recordList.value.flatMap((r) =>
       Array.isArray(r.imageUrls) ? r.imageUrls : []
     )
     await nextTick()
