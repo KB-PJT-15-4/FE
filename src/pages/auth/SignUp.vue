@@ -49,7 +49,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import logo from '@/assets/moa_logo.jpg'
+import logo from '@/assets/moa_logo.png'
 import { signup } from '@/features/user/Auth/services/auth.service'
 import ButtonMediumMain from '@/shared/components/atoms/button/ButtonMediumMain.vue'
 import ButtonMediumSub from '@/shared/components/atoms/button/ButtonMediumSub.vue'

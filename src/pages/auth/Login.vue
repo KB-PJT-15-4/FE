@@ -3,9 +3,8 @@
     <img
       :src="logo"
       alt="moa logo"
-      class="w-[103px] h-[54.65px] object-contain"
+      class="w-[200px] object-contain"
     >
-
     <TypographyHead3>
       <span class="font-inter">우리의 여행을 </span>
       <span class="text-[#87BFFF] font-inter">MOA</span>
@@ -48,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from '@/assets/moa_logo.jpg'
+import logo from '@/assets/moa_logo.png'
 import { login } from '@/features/user/Auth/services/auth.service'
 import { postFcmToken } from '@/features/user/Notification/services/notification.service'
 import ButtonMain from '@/shared/components/atoms/button/ButtonMain.vue'
